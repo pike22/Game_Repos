@@ -1,0 +1,16 @@
+ID for an Entity refers to the tag of the target Entity.
+
+There will be a group ID to identify groups of entities
+	Ex: ID = #player
+		 ID = #stalfos
+		 ID = #weapon
+This sets of ID's refer to a group of entities.
+ using .find_withtag(tagOrID) can use the above examples to find a spacific entity without looking into every created entity.
+
+
+GitHub token
+!!save_This!!
+
+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 #1
+
+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 #2

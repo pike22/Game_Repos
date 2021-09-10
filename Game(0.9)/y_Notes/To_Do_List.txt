@@ -1,0 +1,39 @@
+TO DO LIST: (4.7.2021) //make new ones once this one is done.
+	1) Put together a physical representation of my inheriting tree.		//1 and 2 can be in any order.
+		---(DONE)(DONE)(DONE)(DONE)---
+
+	1B) Remake shit. Take what you have and "Trash" it, make it anew in a better way
+			ex) make a class to hold data for entities.
+			---(DONE)(DONE)(DONE)(DONE)---
+			
+	2) create working TAGs for entities
+
+	3) Implement weapon with an actual img.		//3 and 4 can be in any order.
+	5) create basic bow and arrow. use similar method to the sword.
+
+	6) determine how I want to handle parameters
+		ex) if I want to set up a base dmg system or a flat dmg system.
+		  	 Also determine if I want to increase dmg by % or flat
+		  	 same for health and other parameter types.
+
+	7) Setting up parameters:
+	 	a) weapon dmg/ (durability if I want it)
+		b) player Health/defense/
+		c) enemy Health/defense
+		d) player EXP / LVL
+
+	8) allow movement for enemies. /create AI for them.
+	9) Enemies/Player disappear when killed
+
+	10) create a way to put sprites together to create a
+		 level within the original size of the TK window.
+
+	11)  create the ability to "move" the camera
+	11B) determine if I want to move the camera to keep player centered,
+	 	  or move in blocks like classic Zelda.
+
+	12) 11 may require actually building Software to work on level design (if this is done, make a new TO.DO list)
+	13) create filler sprites for walls of dungeon.
+
+	14) Create more enemy types
+	15) Create more Weapons
