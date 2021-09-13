@@ -29,7 +29,7 @@ class Collision_Logic2():
 		x1, y1, x2, y2 = self.__Corners[item]
 		collision = self.__Render.find_overlapping(x1, y1, x2, y2)
 			#if item == 1:
-				#print(collision[0],':ID,', item, ':Item')
+				# print(collision[0],':ID,', item, ':Item')
 
 		#this only shows what is colliding.
 		if len(collision) > 1:
@@ -37,7 +37,7 @@ class Collision_Logic2():
 			for item in range(len(collision)):
 				tag = self.__Render.gettags(collision[item])
 				self.__collision.append(tag[0]) #item 0 is the entity spacific ID, 1 == group_ID
-			#print(self.__collision, 'Colliding')
+			# print(self.__collision, 'Colliding')
 
 			self.__IsCollision = True
 			return self.__IsCollision, self.__collision

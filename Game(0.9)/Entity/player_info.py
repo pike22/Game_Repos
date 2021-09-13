@@ -58,9 +58,6 @@ class Player_Info():
 	def get_ID(self):
 		return self.__ID
 
-	def get_Collision_Box(self):
-		return self.__Collision_Box
-
 	def get_attack(self):
 		return self.__base_attack
 

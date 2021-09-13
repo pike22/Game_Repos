@@ -128,9 +128,6 @@ class Player_Main(Game_Entities):
 	def get_ID(self):
 		return self.__info.get_ID()
 
-	def get_Collision_Box(self):
-		return self.__info.get_Collision_Box()
-
 	"""|--------------Setters--------------|#"""
 		#this is where a list of setters will go...
 	def set_Collision_Logic(self, Logic):

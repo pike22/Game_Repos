@@ -118,8 +118,14 @@ class Alpha():
 				Collision_ForT, Wut_Collision = self.__Collision_Logic.Is_Collision(item)
 
 			if Collision_ForT == True:
+				# print(Wut_Collision, 'wut_Collision')
+				for item in range(len(Wut_Collision)):
+					temp_Var = Wut_Collision[item]
+					if temp_Var == self.__Player.get_ID():
+						print("YES", temp_Var)
+					elif temp_Var == self.__Stalfos.get_ID(0):
+						print("NO", temp_Var)
 				pass
-				#print(Wut_Collision, 'wut_Collision')
 			else:
 				pass
 
@@ -131,6 +137,7 @@ class Alpha():
 
 			self.__mainApp.after(int(self.__FPS), loop)
 		loop()
+
 
 
 
