@@ -47,8 +47,8 @@ class Stalfos_Main(Enemy_Main):
 			elif item >= 10 and item < 100:
 				ID = 'S#0'+str(item)
 			group_ID = "#stalfos" #Stalfos Class ID
-			Img_info = self.__Image.Img_Add('z_Pictures/Panther.png')
-			self.__info.Image_Data(Size=Img_info[1], ID=ID, group_ID=group_ID, PIL_img=Img_info[0], TK_img=Img_info[2], file_Location='z_Pictures/Panther.png')
+			Img_info = self.__Image.Img_Add('z_Pictures/RedBoy2.png')
+			self.__info.Image_Data(Size=Img_info[1], ID=ID, group_ID=group_ID, PIL_img=Img_info[0], TK_img=Img_info[2], file_Location='z_Pictures/RedBoy2.png')
 
 			#placing the img
 			self.__x = 0
@@ -86,7 +86,7 @@ class Stalfos_Main(Enemy_Main):
 	def get_ID(self):
 		return self.__info.get_ID2()
 
-	def get_ID(self, item):
+	def get_ID2(self, item):
 		return self.__info.get_ID(item)
 
 	def get_Health(self):

@@ -18,7 +18,18 @@ class Collision_Logic2():
 
 
 	def del_Collision(self, ):
-		pass
+		pass #this may not be needed
+
+
+	def what_Collides(self, collision_list): #only runs when __IsCollision == True
+		#for now I will focus on 1-on-1 collision,
+		#won't worry about multi-hit fucntionality.
+		target_A = collision_list[0]
+		target_B = collision_list[1]
+
+		return (target_A, target_B)
+
+
 
 	#use this: .find_overlapping
 	# only outputs the last assigned var.
@@ -37,13 +48,17 @@ class Collision_Logic2():
 			for item in range(len(collision)):
 				tag = self.__Render.gettags(collision[item])
 				self.__collision.append(tag[0]) #item 0 is the entity spacific ID, 1 == group_ID
-			# print(self.__collision, 'Colliding')
+			print(self.__collision, 'Colliding')
 
 			self.__IsCollision = True
-			return self.__IsCollision, self.__collision
+			ForT = self.what_Collides(self.__collision)
+			return self.__IsCollision, ForT
 		else:
 			self.__IsCollision = False
-			return self.__IsCollision, None
+			# return self.__IsCollision
+			return None, None
+
+
 
 
 	"""|--------------Getters--------------|#"""

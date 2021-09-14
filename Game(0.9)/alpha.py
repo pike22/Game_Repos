@@ -18,7 +18,7 @@ class Alpha():
 		#this will be a growing list of group tags. It is hard set to refer here for spacific groups
 		#enemy based parameters
 		self.__enemyRoster	= ["#stalfos", ]
-		self.__stalfosCount = 1 #create one for each enemy
+		self.__stalfosCount = 2 #create one for each enemy
 		#weapon based Parameters
 		self.__weaponRoster = ["#sword", ]
 
@@ -66,6 +66,16 @@ class Alpha():
 
 		#this is for the start of the game timer.
 		self.__GameTime += 1 #it is the in game clock
+
+	def find_Entity(self,):# tagOrId): #the goal is to associate tags with the correct entity class.
+		"""all_tags = self.__Image.get_Render().find_all()
+		tags = set()
+		tags.add(self.__Image.get_Render().gettags(all_tags[0]))
+		tags.add(self.__Image.get_Render().gettags(all_tags[1]))
+		tags.add(self.__Image.get_Render().gettags(all_tags[2]))
+		print(tags, '2 list-o-tags')
+		print(all_tags, 'list-O-tags')"""
+		pass
 
 	#gameLoop def is for the classes use.
 	def gameLoop(self):
@@ -115,24 +125,16 @@ class Alpha():
 			player = 1
 			#when more enemies exist create more 'enemyName'Count, then add below.
 			for item in range(player + Sword + self.__stalfosCount):
-				Collision_ForT, Wut_Collision = self.__Collision_Logic.Is_Collision(item)
+				Collision_ForT, what_Collides = self.__Collision_Logic.Is_Collision(item)
 
-			if Collision_ForT == True:
-				# print(Wut_Collision, 'wut_Collision')
-				for item in range(len(Wut_Collision)):
-					temp_Var = Wut_Collision[item]
-					if temp_Var == self.__Player.get_ID():
-						print("YES", temp_Var)
-					elif temp_Var == self.__Stalfos.get_ID(0):
-						print("NO", temp_Var)
-				pass
-			else:
-				pass
+				if Collision_ForT != None:
+					A, B = what_Collides
+					print(self.__Image.get_Render().gettags(A), 'tags')
+
 
 
 			#_Combat_#
 			if self.__Sword.get_IsWeapon() == True:
-
 				self.__Sword.Weapon_Active()
 
 			self.__mainApp.after(int(self.__FPS), loop)
@@ -152,7 +154,7 @@ class Alpha():
 	def find_all_Tags(self):
 		myCanvas = self.__Image.get_Render()
 		listOfTags = myCanvas.find_all()
-		print(listOfTags, 'list of tags')
+		# print(listOfTags, 'list of tags')
 		for item in listOfTags:
 			tag = myCanvas.gettags(item)
 			if len(tag) > 0:
@@ -161,6 +163,7 @@ class Alpha():
 	#this is a function call for test prints to make sure things work
 	def Testing_Debug(self):
 		self.find_all_Tags()
+		self.find_Entity()
 
 
 #puts the above class to action
