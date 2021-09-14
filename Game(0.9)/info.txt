@@ -1,0 +1,8 @@
+This upload is the first of manny project saves that will go into Github. 
+The major content compleated before this upload is properly working collision. 
+
+Date: (09/10/2021)
+I will be pushing out a summary of sorts for this every Friday.
+
+Summary:
+	This is 
