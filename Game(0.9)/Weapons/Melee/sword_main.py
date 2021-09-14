@@ -53,7 +53,7 @@ class Sword_Main():
 		#list of prints for start of program(players)
 		print('-----------------------------------')
 		print('Sword Data:')
-		print(self.__info.get_CanvasID(), '\t:Canvas ID') #should be None
+		print(self.__info.get_ID(), '\t:ID') #should be None
 		print(self.__info.get_Attack_Dmg(), '\t:Attck')
 		print('-----------------------------------')
 
@@ -72,6 +72,9 @@ class Sword_Main():
 
 	def get_Corners(self):
 		return self.__info.get_Corners()
+
+	def get_ID(self):
+		return self.__info.get_ID()
 
 
 	"""|--------------Setters--------------|#"""

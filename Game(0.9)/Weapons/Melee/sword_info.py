@@ -41,8 +41,8 @@ class Sword_Info():
 	def get_TKimg(self):
 		return self.__imgTK_ID
 
-	def get_CanvasID(self):
-		return self.__Canvas_ID
+	def get_ID(self):
+		return self.__ID
 
 	def get_Size(self):
 		return self.__img_size

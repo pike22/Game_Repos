@@ -18,7 +18,7 @@ class Alpha():
 		#this will be a growing list of group tags. It is hard set to refer here for spacific groups
 		#enemy based parameters
 		self.__enemyRoster	= ["#stalfos", ]
-		self.__stalfosCount = 2 #create one for each enemy
+		self.__stalfosCount = 1 #create one for each enemy
 		#weapon based Parameters
 		self.__weaponRoster = ["#sword", ]
 
@@ -67,15 +67,21 @@ class Alpha():
 		#this is for the start of the game timer.
 		self.__GameTime += 1 #it is the in game clock
 
-	def find_Entity(self,):# tagOrId): #the goal is to associate tags with the correct entity class.
-		"""all_tags = self.__Image.get_Render().find_all()
-		tags = set()
-		tags.add(self.__Image.get_Render().gettags(all_tags[0]))
-		tags.add(self.__Image.get_Render().gettags(all_tags[1]))
-		tags.add(self.__Image.get_Render().gettags(all_tags[2]))
-		print(tags, '2 list-o-tags')
-		print(all_tags, 'list-O-tags')"""
-		pass
+	def find_Entity(self, tagOrId): #the goal is to associate tags with the correct entity class.
+	#is currently being hard coded. Later imprvements needed.
+		if tagOrId == self.__Player.get_ID():
+			print('player')
+			return_tagOrId = self.__Player
+			return return_tagOrId
+		elif tagOrId == self.__Stalfos.get_ID2(0): #0 for list[0]
+			print('stalfos')
+			return_tagOrId = self.__Stalfos
+			return return_tagOrId
+		# elif tagOrId == self.__Sword.get_ID(): #temporarly turned off
+			# print('sword')
+			# return_tagOrId = self.__Sword
+			# return return_tagOrId
+
 
 	#gameLoop def is for the classes use.
 	def gameLoop(self):
@@ -127,9 +133,14 @@ class Alpha():
 			for item in range(player + Sword + self.__stalfosCount):
 				Collision_ForT, what_Collides = self.__Collision_Logic.Is_Collision(item)
 
+				#this shall continue inside of the collision_node
+				#Collision doesn't need to clutter the main loop.
+				
+				#A, B are the two subjects for what is colliding
 				if Collision_ForT != None:
 					A, B = what_Collides
-					print(self.__Image.get_Render().gettags(A), 'tags')
+					A = self.find_Entity(A)
+					B = self.find_Entity(B)
 
 
 
@@ -163,7 +174,6 @@ class Alpha():
 	#this is a function call for test prints to make sure things work
 	def Testing_Debug(self):
 		self.find_all_Tags()
-		self.find_Entity()
 
 
 #puts the above class to action

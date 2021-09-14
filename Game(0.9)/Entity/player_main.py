@@ -122,6 +122,11 @@ class Player_Main(Game_Entities):
 
 	"""|--------------Getters--------------|#"""
 		#this is where a list of getters will go...
+
+	def get_Params(self):
+		A, B, C = self.__info.get_Params()
+		return A, B, C
+
 	def get_Corners(self):
 		return self.__info.get_Corners()
 

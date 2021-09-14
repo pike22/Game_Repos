@@ -36,6 +36,14 @@ class Stalfos_Info():
 
 
 	"""|--------------Getters--------------|#"""
+		#this is where a list of getters will go...
+
+	def get_Params(self):
+		A = self.__base_defense
+		B = self.__base_attack
+		C = self.__base_health
+		return A, B, C
+
 	def get_TKimg(self, item):
 		return self.__imgTK_ID[item]
 

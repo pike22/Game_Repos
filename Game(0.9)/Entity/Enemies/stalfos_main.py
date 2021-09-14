@@ -71,15 +71,16 @@ class Stalfos_Main(Enemy_Main):
 			#self.__Image.get_Render().create_rectangle(self.__info.get_Corners(item))
 
 			self.Stalfos_Print(item)
-		print(self.__info.get_CanvasID2(), "list of stalfos Canvas_Id's")
-
-
-
-
+		# print(self.__info.get_CanvasID2(), "list of stalfos Canvas_Id's")
 
 
 	"""|--------------Getters--------------|#"""
 		#this is where a list of getters will go...
+
+	def get_Params(self):
+		A, B, C = self.__info.get_Params()
+		return A, B, C
+
 	def get_Corners(self):
 		return self.__info.get_Corners2()
 
