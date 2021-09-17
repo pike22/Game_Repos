@@ -70,6 +70,16 @@ class Player_Main(Game_Entities):
 		if keyboard.is_pressed('l'):
 			self.__Weapon.del_Sword()
 
+	def alive(self):
+		if self.__info.get_health() > 0:
+			# print("Alive")
+			return True
+		elif self.__info.get_health() <= 0:
+			render = self.__Image.get_Render()
+			render.delete(self.__info.get_ID())
+			# print("Not Alive")
+			return False
+
 	def test_Coords(self):
 		if keyboard.is_pressed(self.__key_coords) == True:
 			x, y = self.__info.get_Coords() #current coords
@@ -96,7 +106,7 @@ class Player_Main(Game_Entities):
 		print(Canvas_ID, "CANVAS")
 		Current_Coords = img_coords[Canvas_ID-1]
 		self.__info.set_Canvas_ID(Canvas_ID)
-		self.__info.Player_Data(Cur_Coords=Current_Coords, Speed=7, health=10, defense=5, attack=2) #check player_info for well info.
+		self.__info.Player_Data(Cur_Coords=Current_Coords, Speed=7, health=10, defense=5, attack=0) #check player_info for well info.
 		self.__Kinetics.set_Speed(self.__info.get_Speed())
 		self.__Image.get_Render().addtag_withtag(group_ID, Canvas_ID)
 		self.__info.set_Corners(self.__Image.get_Render().bbox(Canvas_ID))
@@ -139,3 +149,6 @@ class Player_Main(Game_Entities):
 
 	def set_Weapon(self, sWeapon):
 		self.__Weapon = sWeapon
+
+	def set_health(self, health):
+		self.__info.set_health(health)

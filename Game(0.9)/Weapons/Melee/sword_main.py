@@ -61,6 +61,9 @@ class Sword_Main():
 
 	"""|--------------Getters--------------|#"""
 		#this is where a list of getters will go...
+	def get_Attack(self):
+		return self.__info.get_Attack_Dmg()
+
 	def get_Curr_GT(self): #bassed on game created seconds
 		return self.__Curr_GT
 

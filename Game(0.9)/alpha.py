@@ -25,7 +25,7 @@ class Alpha():
 
 		#collision logic v2.
 		self.__Collision_Logic = Collision_Logic2()
-		self.__COllision_Node  = Collision_Node()
+		self.__Collision_Node  = Collision_Node()
 
 		#below is class Calling
 		self.__mainApp		= Tk()
@@ -83,9 +83,11 @@ class Alpha():
 			self.debug_Col_Dict() #workes
 
 			#_player calls_#
-			self.__Player.Movement_Controll()
-			self.__Player.Player_Attack()
-			self.__Player.test_Coords()
+			output = self.__Player.alive()
+			if output == True:
+				self.__Player.Movement_Controll()
+				self.__Player.Player_Attack()
+				self.__Player.test_Coords()
 
 
 			#_Collision Logic functions_#
@@ -94,11 +96,15 @@ class Alpha():
 			#here is where I am setting up the Collision Dictionary.
 			self.__Collision_Logic.add_Col_Dict(self.__Player.get_ID(), self.__Player)
 			for item in range(len(self.__Stalfos.get_ID_ALL())):
-				self.__Collision_Logic.add_Col_Dict(self.__Stalfos.get_ID_ALL()[item], self.__Stalfos)
+				self.__Collision_Logic.add_Col_Dict(self.__Stalfos.get_ID(item), self.__Stalfos)
 
 			self.__Collision_Logic.set_Render(self.__Image.get_Render())
 			c_Player  = self.__Player.get_Corners() #Always item 0
 			c_Stalfos = self.__Stalfos.get_Corners()
+
+			self.__Collision_Logic.set_tag_List(self.__Player.get_ID())
+			for item in range(len(self.__Stalfos.get_ID_ALL())):
+				self.__Collision_Logic.set_tag_List(self.__Stalfos.get_ID(item))
 			#only one c_Player should be here (IGNORE MULTIPLAYER)
 			list1 = []
 			list1 = [c_Player]
@@ -109,6 +115,7 @@ class Alpha():
 			dict = self.__Collision_Logic.get_Col_Dict()
 			if self.__Sword.get_IsWeapon() == True:
 				Sword = 1
+				self.__Collision_Logic.set_tag_List(self.__Sword.get_ID())
 				list1.append(self.__Sword.get_Corners())
 				if self.__Sword.get_ID() not in dict.keys():
 					self.__Collision_Logic.add_Col_Dict(self.__Sword.get_ID(), self.__Sword)
@@ -124,20 +131,21 @@ class Alpha():
 			#when more enemies exist create more 'enemyName'Count, then add below.
 			for item in range(player + Sword + self.__stalfosCount):
 				# Collision_ForT, Collision_List = self.__Collision_Logic.Is_Collision(item)
-				result = self.__Collision_Logic.Is_Collision(item)
+				self.__Collision_Logic.Is_Collision(item)
 
-			if result != None:
-				if len(result) == 2:
-					for item in range(len(result)):
-						self.__Collision_Node.Setting_Params(result[item], item)
-					
-
-				else:
-					pass
+			# if result != None:
+			# 	if len(result) == 2:
+			# 		for item in range(len(result)):
+			# 			self.__Collision_Node.Setting_Params(result[item], item)
+			#
+			#
+			# 	else:
+			# 		pass
 
 			#_Combat_#
 			if self.__Sword.get_IsWeapon() == True:
 				self.__Sword.Weapon_Active()
+
 
 			self.__mainApp.after(int(self.__FPS), loop)
 		loop()

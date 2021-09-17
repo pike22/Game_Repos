@@ -5,8 +5,8 @@ class Collision_Node(Node):
 	def __init__(self):
 		Node.__init__(self)
 		self.__logic = Collision_Logic2()
-		self.__object1 = None
-		self.__object2 = None
+		# self.__object1 = None
+		# self.__object2 = None
 
 
 		#_Idea 1_#
@@ -14,18 +14,18 @@ class Collision_Node(Node):
 	#use the col_obj to gather group ids of everything and use that to compair for ease of use
 
 		#_Idea 2_#
-	#this needs to go into the collision logic to have access to the col_dict 
+	#this needs to go into the collision logic to have access to the col_dict
 
 	#this will code for 1-to-1 Collision, No more
-	def Setting_Params(self, Col_Obj, item):
-		if item == 0:
-			self.__object1 = Col_Obj.get_Params()
-		elif item == 1:
-			self.__object2 = Col_Obj.get_Params()
-
-	def Calc_Params(self):
-		health1, attack1, defense1 = self.__object1
-		health2, attack2, defense2 = self.__object2
+	# def Setting_Params(self, Col_Obj, item):
+	# 	if item == 0:
+	# 		self.__object1 = Col_Obj.get_Params()
+	# 	elif item == 1:
+	# 		self.__object2 = Col_Obj.get_Params()
+	#
+	# def Calc_Params(self):
+	# 	health1, attack1, defense1 = self.__object1
+	# 	health2, attack2, defense2 = self.__object2
 
 
 

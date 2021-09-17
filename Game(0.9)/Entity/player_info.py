@@ -88,3 +88,6 @@ class Player_Info():
 
 	def set_Collision_Box(self, BOX):
 		self.__Collision_Box = BOX
+
+	def set_health(self, health):
+		self.__base_health  = health
