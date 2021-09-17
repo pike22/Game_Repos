@@ -39,10 +39,10 @@ class Stalfos_Info():
 		#this is where a list of getters will go...
 
 	def get_Params(self):
-		A = self.__base_health
-		B = self.__base_attack
-		C = self.__base_defense
-		return A, B, C
+		health = self.__base_health
+		attack = self.__base_attack
+		defense = self.__base_defense
+		return health, attack, defense
 
 	def get_TKimg(self, item):
 		return self.__imgTK_ID[item]
@@ -71,7 +71,7 @@ class Stalfos_Info():
 	def get_ID(self, item):
 		return self.__ID[item]
 
-	def get_ID2(self):
+	def get_ID_ALL(self):
 		return self.__ID
 
 	def get_attack(self):

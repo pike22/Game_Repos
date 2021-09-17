@@ -38,7 +38,6 @@ class Image_Node(Node):
 			#print('3:', image)
 			#print("coords", img_x, img_y)
 			Canvas_ID = self.__Render.create_image((img_x, img_y), image=image)
-			print(tag, "THIS IS THE TAG")
 			if tag != None:
 				self.__Render.addtag_withtag(tag, Canvas_ID)
 			self.__PlaceIMG_List.append(Canvas_ID)
@@ -53,7 +52,6 @@ class Image_Node(Node):
 			#print('3:', image)
 			#print("coords", img_x,',', img_y)
 			Canvas_ID = self.__Render.create_image((img_x, img_y), image=image)
-			print(tag, "THIS IS THE TAG")
 			if tag != None:
 				self.__Render.addtag_withtag(tag, Canvas_ID)
 			self.__PlaceIMG_List.append(Canvas_ID)

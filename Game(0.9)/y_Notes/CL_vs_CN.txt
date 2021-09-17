@@ -1,0 +1,18 @@
+Collision Node:
+	What is it?
+	 - It is a node that has a relation to collision
+	 - No use yet
+	 - apart of a hierarchy
+
+	Idea
+	 - Could use this to manipulate parameters during collision **USE THIS**
+
+Collision Logic:
+	What is it?
+	 - It is the calculations of
+	collision, ex|	Finding overlapping
+			adding/creating known collision
+			returning Col True/False
+	 - Stands alone
+	 - Houses a Col_Dict for assigning tag to object
+	 - Fundamental

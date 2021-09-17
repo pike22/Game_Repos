@@ -40,10 +40,10 @@ class Player_Info():
 		#this is where a list of getters will go...
 
 	def get_Params(self):
-		A = self.__base_health
-		B = self.__base_attack
-		C = self.__base_defense
-		return A, B, C
+		health = self.__base_health
+		attack = self.__base_attack
+		defense = self.__base_defense
+		return health, attack, defense
 
 	def get_TKimg(self):
 		return self.__imgTK_ID

@@ -7,11 +7,11 @@ from Engine.kinetics_node import Kinetics_Node
 import keyboard #temporary
 
 class Stalfos_Main(Enemy_Main):
-	def __init__(self, iNode):
+	def __init__(self, iNode, clNode):
 		Enemy_Main.__init__(self)
 		#iNode == Image_Node
-		#cNode == Collision_Node
-		self.__Collision_Logic = None
+		#clNode == Collision_Node
+		self.__Collision_Logic = clNode
 		self.__Kinetics		= Kinetics_Node(iNode)
 		self.__info	 		= Stalfos_Info()
 		self.__Image	 	= iNode
@@ -78,16 +78,16 @@ class Stalfos_Main(Enemy_Main):
 		#this is where a list of getters will go...
 
 	def get_Params(self):
-		A, B, C = self.__info.get_Params()
-		return A, B, C
+		health, attack, defense = self.__info.get_Params()
+		return health, attack, defense
 
 	def get_Corners(self):
 		return self.__info.get_Corners2()
 
-	def get_ID(self):
-		return self.__info.get_ID2()
+	def get_ID_ALL(self):
+		return self.__info.get_ID_ALL()
 
-	def get_ID2(self, item):
+	def get_ID(self, item):
 		return self.__info.get_ID(item)
 
 	def get_Health(self):

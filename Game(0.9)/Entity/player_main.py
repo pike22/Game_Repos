@@ -8,14 +8,13 @@ from .player_info import Player_Info
 import keyboard
 
 class Player_Main(Game_Entities):
-	def __init__(self, iNode):
+	def __init__(self, iNode, clNode):
 		#iNode == Image_Node
-		#cNode == Collision_Node
-		#Collision_Logic set from bellow
+		#clNode == Collision_Node
 
 		#----Class Calls----#
 		Game_Entities.__init__(self)
-		self.__Collision_Logic = None
+		self.__Collision_Logic = clNode
 		self.__Kinetics		= Kinetics_Node(iNode)
 		self.__info	 		= Player_Info()
 		self.__Image	 	= iNode
@@ -27,8 +26,8 @@ class Player_Main(Game_Entities):
 		self.__key_left		= 'a'
 		self.__key_right	= 'd'
 		self.__key_attack	= 'k'
-		self.__key_test 	= 't'
-		self.__moveing		= False
+		self.__key_coords 	= 'c'
+		self.__moving		= False
 
 
 	def Movement_Controll(self):
@@ -36,31 +35,31 @@ class Player_Main(Game_Entities):
 			new_Coords = self.__Kinetics.y_Kinetics(self.__info.get_Coords(), self.__info.get_CanvasID(), neg=False)
 			self.__info.set_Coords(new_Coords)
 			self.__info.set_Corners(self.__Image.get_Render().bbox(self.__info.get_CanvasID()))
-			self.__moveing = True
+			self.__moving = True
 
 		if keyboard.is_pressed(self.__key_down):
 			new_Coords = self.__Kinetics.y_Kinetics(self.__info.get_Coords(), self.__info.get_CanvasID())
 			self.__info.set_Coords(new_Coords)
 			self.__info.set_Corners(self.__Image.get_Render().bbox(self.__info.get_CanvasID()))
-			self.__moveing = True
+			self.__moving = True
 
 		if keyboard.is_pressed(self.__key_left):
 			new_Coords = self.__Kinetics.x_Kinetics(self.__info.get_Coords(), self.__info.get_CanvasID(), neg=False)
 			self.__info.set_Coords(new_Coords)
 			self.__info.set_Corners(self.__Image.get_Render().bbox(self.__info.get_CanvasID()))
-			self.__moveing = True
+			self.__moving = True
 
 		if keyboard.is_pressed(self.__key_right):
 			new_Coords = self.__Kinetics.x_Kinetics(self.__info.get_Coords(), self.__info.get_CanvasID())
 			self.__info.set_Coords(new_Coords)
 			self.__info.set_Corners(self.__Image.get_Render().bbox(self.__info.get_CanvasID()))
-			self.__moveing = True
+			self.__moving = True
 
 		if keyboard.is_pressed(self.__key_right) == False and keyboard.is_pressed(self.__key_up) == False and keyboard.is_pressed(self.__key_down) == False and keyboard.is_pressed(self.__key_left) == False:
-			self.__moveing = False
-			return self.__moveing
+			self.__moving = False
+			return self.__moving
 		else:
-			return self.__moveing
+			return self.__moving
 
 	def Player_Attack(self):
 		if keyboard.is_pressed(self.__key_attack) == True:
@@ -72,7 +71,7 @@ class Player_Main(Game_Entities):
 			self.__Weapon.del_Sword()
 
 	def test_Coords(self):
-		if keyboard.is_pressed(self.__key_test) == True:
+		if keyboard.is_pressed(self.__key_coords) == True:
 			x, y = self.__info.get_Coords() #current coords
 			print(x, y, 'CURRENT CORDS')
 
@@ -124,8 +123,8 @@ class Player_Main(Game_Entities):
 		#this is where a list of getters will go...
 
 	def get_Params(self):
-		A, B, C = self.__info.get_Params()
-		return A, B, C
+		health, attack, defense = self.__info.get_Params()
+		return health, attack, defense
 
 	def get_Corners(self):
 		return self.__info.get_Corners()

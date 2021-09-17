@@ -4,6 +4,7 @@ from tkinter import *
 from Weapons import *
 from Engine import *
 from Entity import *
+import keyboard #here for testing reasons
 
 class Alpha():
 	def __init__(self):
@@ -13,7 +14,7 @@ class Alpha():
 		self.__numLoop	 = 0
 		self.__FPS		 = 1000 / 30
 		self.__GameTime	 = 0
-		self.__listTags = None
+		self.__listTags  = None
 
 		#this will be a growing list of group tags. It is hard set to refer here for spacific groups
 		#enemy based parameters
@@ -22,18 +23,16 @@ class Alpha():
 		#weapon based Parameters
 		self.__weaponRoster = ["#sword", ]
 
+		#collision logic v2.
+		self.__Collision_Logic = Collision_Logic2()
+		self.__COllision_Node  = Collision_Node()
+
 		#below is class Calling
 		self.__mainApp		= Tk()
 		self.__Image		= Image_Node() #calls to other classes called need self.Img_Node
-		self.__Player		= Player_Main(self.__Image)
-		self.__Stalfos		= Stalfos_Main(self.__Image)
+		self.__Player		= Player_Main(self.__Image, self.__Collision_Logic)
+		self.__Stalfos		= Stalfos_Main(self.__Image, self.__Collision_Logic)
 		self.__Sword		= Sword_Main(self.__Image)
-
-		#the list in Collision Logic will increase as needed
-		#collision logic v2.
-		self.__Collision_Logic = Collision_Logic2()
-		self.__COllision_Node = Collision_Node()
-		self.__list1 = []
 
 		#temp val
 		self.__loopCount = 33
@@ -59,29 +58,8 @@ class Alpha():
 		self.__Sword.Sword_setUP()
 		self.__Sword.Sword_Print()
 
-		#Setting classes into the collision Logic class
-		self.__Player.set_Collision_Logic(self.__Collision_Logic)
-		self.__Stalfos.set_Collision_Logic(self.__Collision_Logic)
-
-
 		#this is for the start of the game timer.
 		self.__GameTime += 1 #it is the in game clock
-
-	def find_Entity(self, tagOrId): #the goal is to associate tags with the correct entity class.
-	#is currently being hard coded. Later imprvements needed.
-		if tagOrId == self.__Player.get_ID():
-			print('player')
-			return_tagOrId = self.__Player
-			return return_tagOrId
-		elif tagOrId == self.__Stalfos.get_ID2(0): #0 for list[0]
-			print('stalfos')
-			return_tagOrId = self.__Stalfos
-			return return_tagOrId
-		# elif tagOrId == self.__Sword.get_ID(): #temporarly turned off
-			# print('sword')
-			# return_tagOrId = self.__Sword
-			# return return_tagOrId
-
 
 	#gameLoop def is for the classes use.
 	def gameLoop(self):
@@ -101,6 +79,9 @@ class Alpha():
 
 			#_calls_#
 
+			#_loop Debug_#
+			self.debug_Col_Dict() #workes
+
 			#_player calls_#
 			self.__Player.Movement_Controll()
 			self.__Player.Player_Attack()
@@ -109,40 +90,50 @@ class Alpha():
 
 			#_Collision Logic functions_#
 			"""!!#_Version 2 of Collision logic_#!!"""
+
+			#here is where I am setting up the Collision Dictionary.
+			self.__Collision_Logic.add_Col_Dict(self.__Player.get_ID(), self.__Player)
+			for item in range(len(self.__Stalfos.get_ID_ALL())):
+				self.__Collision_Logic.add_Col_Dict(self.__Stalfos.get_ID_ALL()[item], self.__Stalfos)
+
 			self.__Collision_Logic.set_Render(self.__Image.get_Render())
-			c2_Player  = self.__Player.get_Corners() #Always item 0
-			c2_Stalfos = self.__Stalfos.get_Corners()
-			#only one should be here (IGNORE MULTIPLAYER)
-			self.__list1 = []
-			self.__list1 = [c2_Player]
-			for item in range(len(c2_Stalfos)):
-				self.__list1.append(c2_Stalfos[item])
+			c_Player  = self.__Player.get_Corners() #Always item 0
+			c_Stalfos = self.__Stalfos.get_Corners()
+			#only one c_Player should be here (IGNORE MULTIPLAYER)
+			list1 = []
+			list1 = [c_Player]
+			for item in range(len(c_Stalfos)):
+				list1.append(c_Stalfos[item])
 
 			#self.__stalfosCount represents stalfos corners
+			dict = self.__Collision_Logic.get_Col_Dict()
 			if self.__Sword.get_IsWeapon() == True:
 				Sword = 1
-				self.__list1.append(self.__Sword.get_Corners())
+				list1.append(self.__Sword.get_Corners())
+				if self.__Sword.get_ID() not in dict.keys():
+					self.__Collision_Logic.add_Col_Dict(self.__Sword.get_ID(), self.__Sword)
 			else:
 				Sword = 0
+				if self.__Sword.get_ID() in dict.keys():
+					self.__Collision_Logic.del_Col_Dict(self.__Sword.get_ID())
 
-			self.__Collision_Logic.add_Collision(self.__list1)
+			self.__Collision_Logic.add_Collision(list1)
 
 			#player represents the players Corners
 			player = 1
 			#when more enemies exist create more 'enemyName'Count, then add below.
 			for item in range(player + Sword + self.__stalfosCount):
-				Collision_ForT, what_Collides = self.__Collision_Logic.Is_Collision(item)
+				# Collision_ForT, Collision_List = self.__Collision_Logic.Is_Collision(item)
+				result = self.__Collision_Logic.Is_Collision(item)
 
-				#this shall continue inside of the collision_node
-				#Collision doesn't need to clutter the main loop.
-				
-				#A, B are the two subjects for what is colliding
-				if Collision_ForT != None:
-					A, B = what_Collides
-					A = self.find_Entity(A)
-					B = self.find_Entity(B)
+			if result != None:
+				if len(result) == 2:
+					for item in range(len(result)):
+						self.__Collision_Node.Setting_Params(result[item], item)
+					
 
-
+				else:
+					pass
 
 			#_Combat_#
 			if self.__Sword.get_IsWeapon() == True:
@@ -170,6 +161,12 @@ class Alpha():
 			tag = myCanvas.gettags(item)
 			if len(tag) > 0:
 				print("Item", item, 'Has tag:', tag)
+
+	def debug_Col_Dict(self):
+		if keyboard.is_pressed('t'):
+			self.__Collision_Logic.print_Col_Dict()
+			self.__Collision_Logic.del_Col_Dict(self.__Player.get_ID())
+			self.__Collision_Logic.print_Col_Dict()
 
 	#this is a function call for test prints to make sure things work
 	def Testing_Debug(self):

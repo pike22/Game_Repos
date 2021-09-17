@@ -1,14 +1,35 @@
-import keyboard
 
 class Collision_Logic2():
 	def __init__(self):
 		self.__collision = []
+		self.__obj_Col	 = []
 		self.__Corners 	 = []
+		self.__Col_Dict  = {}
 		self.__list_len	 = 0
 		self.__Render	 = None
 		self.__IsCollision = False
 
 
+	'''#_COLLISION DICTIONARY FUNCTIONS_#'''
+	#tagOrId == dictionary key
+	#object == The keys related class object
+	def add_Col_Dict(self, tagOrId, object):
+		self.__Col_Dict[tagOrId] = object
+
+	def del_Col_Dict(self, tagOrId):
+		del self.__Col_Dict[tagOrId]
+
+	def use_Col_Dict(self, tagOrId):
+		# if tagOrId in self.__Col_Dict.keys():
+		# print(self.__Col_Dict[tagOrId])
+		output = self.__Col_Dict[tagOrId]
+		return output
+
+	def print_Col_Dict(self):
+		print('Current Collision Dict', self.__Col_Dict)
+
+
+	'''#_COLLISON CALCULATION FUNCTIONS_#'''
 	def add_Collision(self, listofCorners):
 		self.__Corners 	= []
 		self.__list_len = 0
@@ -16,25 +37,11 @@ class Collision_Logic2():
 			self.__Corners.append(listofCorners[item])
 		self.__list_len = len(self.__Corners)
 
-
-	def del_Collision(self, ):
-		pass #this may not be needed
-
-
-	def what_Collides(self, collision_list): #only runs when __IsCollision == True
-		#for now I will focus on 1-on-1 collision,
-		#won't worry about multi-hit fucntionality.
-		target_A = collision_list[0]
-		target_B = collision_list[1]
-
-		return (target_A, target_B)
-
-
-
 	#use this: .find_overlapping
 	# only outputs the last assigned var.
 	def Is_Collision(self, item):
 		self.__collision = []
+		self.__obj_Col	 = []
 		#for item in range(len(self.__Corners)):
 			#print(item, 'item')
 		x1, y1, x2, y2 = self.__Corners[item]
@@ -47,23 +54,32 @@ class Collision_Logic2():
 			#print(collision, 'ID', )
 			for item in range(len(collision)):
 				tag = self.__Render.gettags(collision[item])
-				self.__collision.append(tag[0]) #item 0 is the entity spacific ID, 1 == group_ID
-			print(self.__collision, 'Colliding')
+				self.__collision.append(tag[0]) #item 0 is the entity_ID, 1 == group_ID
+			# print(self.__collision, 'Colliding')
 
 			self.__IsCollision = True
-			ForT = self.what_Collides(self.__collision)
-			return self.__IsCollision, ForT
+			# return self.__IsCollision#, self.__collision
+			for item in range(len(self.__collision)):
+				result = self.use_Col_Dict(self.__collision[item])
+				self.__obj_Col.append(result)
+				
+			return self.__obj_Col
 		else:
 			self.__IsCollision = False
-			# return self.__IsCollision
-			return None, None
+			# return self.__IsCollision#, None
+			return None
+
+		# if self.__IsCollision == True:
+		# 	for item in range(len(self.__collision)):
+		# 		self.use_Col_Dict(self.__collision[item])
 
 
 
 
 	"""|--------------Getters--------------|#"""
 		#this is where a list of getters will go...
-	#def get_...
+	def get_Col_Dict(self):
+		return self.__Col_Dict
 
 
 	"""|--------------Setters--------------|#"""
