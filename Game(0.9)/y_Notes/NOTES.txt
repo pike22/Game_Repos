@@ -7,10 +7,27 @@ There will be a group ID to identify groups of entities
 This sets of ID's refer to a group of entities.
  using .find_withtag(tagOrID) can use the above examples to find a spacific entity without looking into every created entity.
 
+Every Entity needs to have a my_Collision func. This function will have basic uses for Collision. It will take a call from the Colliison_logic class
+and use the information given to decide further what to do.
 
-GitHub token
-!!save_This!!
 
-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 #1
+	Here is some example collision
 
-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 #2
+	# #_EXAMPLE COLLIISON_#
+	# for item in range(len(self.__collision)):
+	# 	if item == 0:
+	# 		tagOrId = self.__collision[item]
+	# 		obj1	= self.__Col_Dict[tagOrId]
+	# 		self.__health1 = obj1.get_health()
+	# 		attack1 = obj1.get_attack()
+	# 		defense1 = obj1.get_defense()
+	# 	elif item == 1:
+	# 		tagOrId = self.__collision[item]
+	# 		obj2	= self.__Col_Dict[tagOrId]
+	# 		self.__health2 = obj2.get_health()
+	# 		attack2 = obj2.get_attack()
+	# 		defense2 = obj2.get_defense()
+	#
+	# self.__health1 -= attack2
+	# print(obj1.get_ID(), 'has', self.__health1, 'health')
+	# obj1.set_health(self.__health1)

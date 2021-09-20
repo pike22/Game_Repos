@@ -20,22 +20,7 @@ class Stalfos_Main(Enemy_Main):
 		self.__y			= 0
 
 
-	#this is to go at the end.
-	def Stalfos_Print(self, item):
-		#list of prints for start of program(players)
-		print('-----------------------------------')
-		print('Stalfos Data:')
-		print(self.__info.get_ID(item), '\t:Entity ID')
-		print(self.__info.get_CanvasID(item), '\t:Canvas ID')
-		print(self.__info.get_Speed(), 	'\t:Speed')
-		print(self.__info.get_health(),	'\t:Health')
-		print(self.__info.get_defense(),	'\t:Defense')
-		print(self.__info.get_attack(),	'\t:Attack')
-		print('\nParameters:')
-		print(self.__info.get_Size(), 	'\t\t:Size')
-		print(self.__info.get_Coords(item), 	'\t\t:Coords')
-		print(self.__info.get_Corners(item), 	'\t:Corners')
-		print('-----------------------------------')
+
 
 	#seting up player bellow
 	def stalfos_initial_setUP(self, Sc_Width, Sc_Height, stalfosCount, priority):
@@ -73,13 +58,39 @@ class Stalfos_Main(Enemy_Main):
 			self.Stalfos_Print(item)
 		# print(self.__info.get_CanvasID2(), "list of stalfos Canvas_Id's")
 
+	#this is to go at the end.
+	def Stalfos_Print(self, item):
+		#list of prints for start of program(players)
+		print('-----------------------------------')
+		print('Stalfos Data:')
+		print(self.__info.get_ID(item), '\t:Entity ID')
+		print(self.__info.get_CanvasID(item), '\t:Canvas ID')
+		print(self.__info.get_Speed(), 	'\t:Speed')
+		print(self.__info.get_health(),	'\t:Health')
+		print(self.__info.get_defense(),	'\t:Defense')
+		print(self.__info.get_attack(),	'\t:Attack')
+		print('\nParameters:')
+		print(self.__info.get_Size(), 	'\t\t:Size')
+		print(self.__info.get_Coords(item), 	'\t\t:Coords')
+		print(self.__info.get_Corners(item), 	'\t:Corners')
+		print('-----------------------------------')
+
+
+	def my_Collision(self):
+		pass
+
 
 	"""|--------------Getters--------------|#"""
 		#this is where a list of getters will go...
 
-	def get_Params(self):
-		health, attack, defense = self.__info.get_Params()
-		return health, attack, defense
+	def get_attack(self):
+		return self.__info.get_attack()
+
+	def get_health(self):
+		return self.__info.get_health()
+
+	def get_defense(self):
+		return self.__info.get_defense()
 
 	def get_Corners(self):
 		return self.__info.get_Corners2()

@@ -57,6 +57,9 @@ class Sword_Main():
 		print(self.__info.get_Attack_Dmg(), '\t:Attck')
 		print('-----------------------------------')
 
+	def my_Collision(self):
+		pass
+
 
 
 	"""|--------------Getters--------------|#"""

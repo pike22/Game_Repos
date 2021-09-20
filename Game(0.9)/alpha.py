@@ -80,7 +80,7 @@ class Alpha():
 			#_calls_#
 
 			#_loop Debug_#
-			self.debug_Col_Dict() #workes
+			# self.debug_Col_Dict() #workes
 
 			#_player calls_#
 			output = self.__Player.alive()
@@ -131,16 +131,15 @@ class Alpha():
 			#when more enemies exist create more 'enemyName'Count, then add below.
 			for item in range(player + Sword + self.__stalfosCount):
 				# Collision_ForT, Collision_List = self.__Collision_Logic.Is_Collision(item)
-				self.__Collision_Logic.Is_Collision(item)
+				result = self.__Collision_Logic.Is_Collision(item)
 
-			# if result != None:
-			# 	if len(result) == 2:
-			# 		for item in range(len(result)):
-			# 			self.__Collision_Node.Setting_Params(result[item], item)
-			#
-			#
-			# 	else:
-			# 		pass
+			if result != None:
+				Col_Dict = self.__Collision_Logic.get_Col_Dict()
+				for item in range(len(result)):
+					
+					pass
+				pass
+
 
 			#_Combat_#
 			if self.__Sword.get_IsWeapon() == True:

@@ -80,6 +80,12 @@ class Player_Main(Game_Entities):
 			# print("Not Alive")
 			return False
 
+	def my_Collision(self):
+		pass
+
+
+	"""|--------------Test Functions--------------|#"""
+
 	def test_Coords(self):
 		if keyboard.is_pressed(self.__key_coords) == True:
 			x, y = self.__info.get_Coords() #current coords
@@ -132,9 +138,15 @@ class Player_Main(Game_Entities):
 	"""|--------------Getters--------------|#"""
 		#this is where a list of getters will go...
 
-	def get_Params(self):
-		health, attack, defense = self.__info.get_Params()
-		return health, attack, defense
+	def get_attack(self):
+		return self.__info.get_attack()
+
+	def get_health(self):
+		return self.__info.get_health()
+
+	def get_defense(self):
+		return self.__info.get_defense()
+
 
 	def get_Corners(self):
 		return self.__info.get_Corners()
