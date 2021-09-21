@@ -58,7 +58,7 @@ class Collision_Logic2():
 			for item in range(len(collision)):
 				tag = self.__Render.gettags(collision[item])
 				self.__collision.append(tag[0]) #item 0 is the entity_ID, 1 == group_ID
-			# print(self.__collision, 'Colliding')
+			print(self.__collision, 'Colliding')
 
 			for item in range(len(self.__collision)):
 				tagOrId = self.__collision[item]

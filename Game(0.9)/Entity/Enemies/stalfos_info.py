@@ -35,6 +35,7 @@ class Stalfos_Info():
 		self.__Cur_Coords.append(Cur_Coords)
 
 
+		#Switch the def get_1 /get_2 to the same format as get_ID
 	"""|--------------Getters--------------|#"""
 		#this is where a list of getters will go...
 
@@ -53,12 +54,6 @@ class Stalfos_Info():
 	def get_Coords(self, item):
 		return self.__Cur_Coords[item]
 
-	def get_CanvasID(self, item):
-		return self.__Canvas_ID[item]
-
-	def get_CanvasID2(self):
-		return self.__Canvas_ID
-
 	def get_Size(self):
 		return self.__img_size
 
@@ -68,11 +63,14 @@ class Stalfos_Info():
 	def get_Corners2(self):
 		return self.__Corners
 
-	def get_ID(self, item):
-		return self.__ID[item]
+	def get_ID(self, item=None, ALL=False):
+		if ALL == False and item != None:
+			return self.__ID[item]
+		elif ALL == True and item == None:
+			return self.__ID
 
-	def get_ID_ALL(self):
-		return self.__ID
+	def get_group_ID(self):
+		return self.__group_ID
 
 	def get_attack(self):
 		return self.__base_attack

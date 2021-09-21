@@ -29,6 +29,11 @@ class Player_Main(Game_Entities):
 		self.__key_coords 	= 'c'
 		self.__moving		= False
 
+		#----Active Parameters----#
+		self.__Cur_Health = 0
+		#latter add the others
+
+
 
 	def Movement_Controll(self):
 		if keyboard.is_pressed(self.__key_up):
@@ -70,30 +75,26 @@ class Player_Main(Game_Entities):
 		if keyboard.is_pressed('l'):
 			self.__Weapon.del_Sword()
 
+
+		#SSC == Second Side Collision, it represents the other object that collided with player
+		#SSI == Second Side Info, represents the other objects needed parameters. Ex. dmg
+	def my_Collision(self, SSC, SSI):
+		if SSC == 'Enemy':
+			self.__Cur_Health -= SSI
+			self.alive()
+		else:
+			pass
+
+
 	def alive(self):
-		if self.__info.get_health() > 0:
+		if self.__Cur_Health > 0:
 			# print("Alive")
 			return True
-		elif self.__info.get_health() <= 0:
+		elif self.__Cur_Health <= 0:
 			render = self.__Image.get_Render()
 			render.delete(self.__info.get_ID())
 			# print("Not Alive")
 			return False
-
-	def my_Collision(self):
-		pass
-
-
-	"""|--------------Test Functions--------------|#"""
-
-	def test_Coords(self):
-		if keyboard.is_pressed(self.__key_coords) == True:
-			x, y = self.__info.get_Coords() #current coords
-			print(x, y, 'CURRENT CORDS')
-
-	#any required getters & setters will be created.
-	#	this is important because the players needed
-	#	info isn't stored in this same class.
 
 
 	#seting up player bellow
@@ -116,6 +117,9 @@ class Player_Main(Game_Entities):
 		self.__Kinetics.set_Speed(self.__info.get_Speed())
 		self.__Image.get_Render().addtag_withtag(group_ID, Canvas_ID)
 		self.__info.set_Corners(self.__Image.get_Render().bbox(Canvas_ID))
+
+		#Active Parameters
+		self.__Cur_Health = self.__info.get_health()
 
 
 	def Player_Print(self):
@@ -147,7 +151,6 @@ class Player_Main(Game_Entities):
 	def get_defense(self):
 		return self.__info.get_defense()
 
-
 	def get_Corners(self):
 		return self.__info.get_Corners()
 
@@ -164,3 +167,15 @@ class Player_Main(Game_Entities):
 
 	def set_health(self, health):
 		self.__info.set_health(health)
+
+
+	"""|--------------Test Functions--------------|#"""
+
+	def test_Coords(self):
+		if keyboard.is_pressed(self.__key_coords) == True:
+			x, y = self.__info.get_Coords() #current coords
+			print(x, y, 'CURRENT CORDS')
+
+	#any required getters & setters will be created.
+	#	this is important because the players needed
+	#	info isn't stored in this same class.

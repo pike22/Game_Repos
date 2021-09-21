@@ -57,6 +57,7 @@ class Sword_Main():
 		print(self.__info.get_Attack_Dmg(), '\t:Attck')
 		print('-----------------------------------')
 
+		#this may not be needed, depends for now.
 	def my_Collision(self):
 		pass
 
@@ -64,7 +65,7 @@ class Sword_Main():
 
 	"""|--------------Getters--------------|#"""
 		#this is where a list of getters will go...
-	def get_Attack(self):
+	def get_attack(self):
 		return self.__info.get_Attack_Dmg()
 
 	def get_Curr_GT(self): #bassed on game created seconds

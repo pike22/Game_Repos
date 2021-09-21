@@ -46,6 +46,10 @@ class Alpha():
 	def set_MainCanvas(self):
 		self.__Image.Create_Canvas(self.__mainApp, self.__Sc_Height, self.__Sc_Width)
 
+	def close_window(self): #putting this on HOLD
+		if keyboard.is_pressed('q') == True:
+			self.__mainApp.destroy()
+
 	def GamesetUP(self):
 		#Bellow is Entity set up
 		#start Priority with 0
@@ -67,6 +71,9 @@ class Alpha():
 		#this loop will call itself again after the alloted amount of time.
 		#therefor creating the game loop
 		def loop():
+			#to kill the window
+			self.close_window()
+
 			#the games inner clock
 			self.__GameTime += 1 #it is the in game clock
 			#print(self.__GameTime)
@@ -95,16 +102,16 @@ class Alpha():
 
 			#here is where I am setting up the Collision Dictionary.
 			self.__Collision_Logic.add_Col_Dict(self.__Player.get_ID(), self.__Player)
-			for item in range(len(self.__Stalfos.get_ID_ALL())):
-				self.__Collision_Logic.add_Col_Dict(self.__Stalfos.get_ID(item), self.__Stalfos)
+			for item in range(len(self.__Stalfos.get_ID(ALL=True))):
+				self.__Collision_Logic.add_Col_Dict(self.__Stalfos.get_ID(item=item), self.__Stalfos)
 
 			self.__Collision_Logic.set_Render(self.__Image.get_Render())
 			c_Player  = self.__Player.get_Corners() #Always item 0
 			c_Stalfos = self.__Stalfos.get_Corners()
 
 			self.__Collision_Logic.set_tag_List(self.__Player.get_ID())
-			for item in range(len(self.__Stalfos.get_ID_ALL())):
-				self.__Collision_Logic.set_tag_List(self.__Stalfos.get_ID(item))
+			for item in range(len(self.__Stalfos.get_ID(ALL=True))):
+				self.__Collision_Logic.set_tag_List(self.__Stalfos.get_ID(item=item))
 			#only one c_Player should be here (IGNORE MULTIPLAYER)
 			list1 = []
 			list1 = [c_Player]
@@ -133,18 +140,34 @@ class Alpha():
 				# Collision_ForT, Collision_List = self.__Collision_Logic.Is_Collision(item)
 				result = self.__Collision_Logic.Is_Collision(item)
 
-			if result != None:
-				Col_Dict = self.__Collision_Logic.get_Col_Dict()
-				for item in range(len(result)):
-					
-					pass
-				pass
-
-
 			#_Combat_#
 			if self.__Sword.get_IsWeapon() == True:
 				self.__Sword.Weapon_Active()
 
+
+			if result != None:
+				Col_Dict = self.__Collision_Logic.get_Col_Dict()
+				for item in range(len(result)):
+					if result[item] == self.__Player: #player is always checked first
+						#currently hard coded for only the first stalfos
+						if result[item+1].get_group_ID() in self.__enemyRoster:
+							self.__Player.my_Collision('Enemy', result[item+1].get_attack())
+						elif result[item+1].get_group_ID() in self.__weaponRoster:
+							self.__Player.my_Collision('Weapon', result[item+1].get_attack())
+						# print('player')
+					elif result[item] == self.__Stalfos:
+						if item == len(result)-1:
+							pass
+						elif item != len(result)-1:
+							if result[item+1].get_group_ID() in self.__weaponRoster:
+								self.__Stalfos.my_Collision('Weapon', result[item+1].get_attack())
+						# print('stalfos')
+					elif result[item] == self.__Sword: #weapon will always be last
+						print('Sword')
+						pass
+
+					pass
+				pass
 
 			self.__mainApp.after(int(self.__FPS), loop)
 		loop()

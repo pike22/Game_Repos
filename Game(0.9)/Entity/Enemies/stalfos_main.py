@@ -19,6 +19,10 @@ class Stalfos_Main(Enemy_Main):
 		self.__x			= 0
 		self.__y			= 0
 
+		#----Active Parameters----#
+		self.__Cur_Health = {}
+		#latter add the others
+
 
 
 
@@ -55,6 +59,8 @@ class Stalfos_Main(Enemy_Main):
 			self.__info.set_Corners(self.__Image.get_Render().bbox(Canvas_ID))
 			#self.__Image.get_Render().create_rectangle(self.__info.get_Corners(item))
 
+			self.__Cur_Health[ID] = self.__info.get_health()
+
 			self.Stalfos_Print(item)
 		# print(self.__info.get_CanvasID2(), "list of stalfos Canvas_Id's")
 
@@ -64,7 +70,6 @@ class Stalfos_Main(Enemy_Main):
 		print('-----------------------------------')
 		print('Stalfos Data:')
 		print(self.__info.get_ID(item), '\t:Entity ID')
-		print(self.__info.get_CanvasID(item), '\t:Canvas ID')
 		print(self.__info.get_Speed(), 	'\t:Speed')
 		print(self.__info.get_health(),	'\t:Health')
 		print(self.__info.get_defense(),	'\t:Defense')
@@ -76,8 +81,24 @@ class Stalfos_Main(Enemy_Main):
 		print('-----------------------------------')
 
 
-	def my_Collision(self):
-		pass
+		#SSC == Second Side Collision, it represents the other object that collided with player
+		#SSI == Second Side Info, represents the other objects needed parameters. Ex. dmg
+		#stal_key == The stalfos that is under collision
+	def my_Collision(self, SSC, SSI, stal_key):
+		health = self.__Cur_Health[stal_key]
+		health -= SSI
+		self.__Cur_Health[stal_key] = health
+		self.alive(stal_key)
+
+	def alive(self, key): #key == S#Numb
+		if self.__Cur_Health[key] > 0:
+			# print("Alive")
+			return True
+		elif self.__Cur_Health[key] <= 0:
+			render = self.__Image.get_Render()
+			render.delete(key)
+			# print("Not Alive")
+			return False
 
 
 	"""|--------------Getters--------------|#"""
@@ -95,14 +116,14 @@ class Stalfos_Main(Enemy_Main):
 	def get_Corners(self):
 		return self.__info.get_Corners2()
 
-	def get_ID_ALL(self):
-		return self.__info.get_ID_ALL()
+	def get_ID(self, item=None, ALL=False):
+		if ALL == False:
+			return self.__info.get_ID(item=item)
+		elif ALL == True:
+			return self.__info.get_ID(ALL=True)
 
-	def get_ID(self, item):
-		return self.__info.get_ID(item)
-
-	def get_Health(self):
-		return self.__info.get_health()
+	def get_group_ID(self):
+		return self.__info.get_group_ID()
 
 
 	"""|--------------Setters--------------|#"""

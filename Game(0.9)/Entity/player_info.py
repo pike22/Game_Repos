@@ -14,7 +14,8 @@ class Player_Info():
 		self.__Corners		= None #(x1, y1, x2, y2) tuple
 		self.__group_ID		= None
 		self.__ID			= None
-		#Game Mechanical Parameters.
+
+		#Game Mechanical Parameters. Totals
 		self.__base_health	= None
 		self.__base_defense	= None
 		self.__base_attack	= None
@@ -88,6 +89,3 @@ class Player_Info():
 
 	def set_Collision_Box(self, BOX):
 		self.__Collision_Box = BOX
-
-	def set_health(self, health):
-		self.__base_health  = health
