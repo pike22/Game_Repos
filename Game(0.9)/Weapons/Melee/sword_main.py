@@ -83,6 +83,9 @@ class Sword_Main():
 	def get_ID(self):
 		return self.__info.get_ID()
 
+	def get_group_ID(self):
+		return self.__info.get_group_ID()
+
 
 	"""|--------------Setters--------------|#"""
 		#this is where a list of setters will go...

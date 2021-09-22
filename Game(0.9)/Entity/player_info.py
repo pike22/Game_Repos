@@ -8,6 +8,7 @@ class Player_Info():
 		#self.__Collision_Box = None #this is no longer needed
 		self.__Cur_Coords 	= None #constantly saves current coords in tuple: (x, y)
 		self.__Canvas_ID	= None
+		self.__group_ID		= 'player'
 		self.__imgPIL_ID	= None
 		self.__imgTK_ID		= None
 		self.__img_size		= None #(x, y)tuple of height, width
@@ -75,6 +76,9 @@ class Player_Info():
 
 	def get_defense(self):
 		return self.__base_defense
+
+	def get_group_ID(self):
+		return self.__group_ID
 
 
 	"""|--------------Setters--------------|#"""

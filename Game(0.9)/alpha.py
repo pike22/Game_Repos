@@ -138,31 +138,33 @@ class Alpha():
 			#when more enemies exist create more 'enemyName'Count, then add below.
 			for item in range(player + Sword + self.__stalfosCount):
 				# Collision_ForT, Collision_List = self.__Collision_Logic.Is_Collision(item)
-				result = self.__Collision_Logic.Is_Collision(item)
+				Col_result, tag_result = self.__Collision_Logic.Is_Collision(item)
 
 			#_Combat_#
 			if self.__Sword.get_IsWeapon() == True:
 				self.__Sword.Weapon_Active()
 
 
-			if result != None:
+			if Col_result != None:
 				Col_Dict = self.__Collision_Logic.get_Col_Dict()
-				for item in range(len(result)):
-					if result[item] == self.__Player: #player is always checked first
+				for item in range(len(Col_result)):
+					if Col_result[item] == self.__Player: #player is always checked first
 						#currently hard coded for only the first stalfos
-						if result[item+1].get_group_ID() in self.__enemyRoster:
+						if Col_result[item+1].get_group_ID() in self.__enemyRoster:
 							self.__Player.my_Collision('Enemy', result[item+1].get_attack())
-						elif result[item+1].get_group_ID() in self.__weaponRoster:
+						elif Col_result[item+1].get_group_ID() in self.__weaponRoster:
 							self.__Player.my_Collision('Weapon', result[item+1].get_attack())
 						# print('player')
-					elif result[item] == self.__Stalfos:
+					elif Col_result[item] == self.__Stalfos:
 						if item == len(result)-1:
 							pass
 						elif item != len(result)-1:
-							if result[item+1].get_group_ID() in self.__weaponRoster:
-								self.__Stalfos.my_Collision('Weapon', result[item+1].get_attack())
+							if Col_result[item+1].get_group_ID() in self.__weaponRoster:
+								self.__Stalfos.my_Collision('Weapon', result[item+1].get_attack(), )
+							elif Col_result[item+1].get_group_ID() == self.__Player.get_group_ID():
+								self.__Stalfos.my_Colliison('Player', None)
 						# print('stalfos')
-					elif result[item] == self.__Sword: #weapon will always be last
+					elif Col_result[item] == self.__Sword: #weapon will always be last
 						print('Sword')
 						pass
 

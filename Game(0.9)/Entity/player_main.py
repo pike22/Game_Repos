@@ -169,6 +169,12 @@ class Player_Main(Game_Entities):
 		self.__info.set_health(health)
 
 
+	"""|--------------Getters--------------|#"""
+		#this is where a list of getters will go...
+	def get_group_ID(self):
+		return self.__info.get_group_ID()
+
+
 	"""|--------------Test Functions--------------|#"""
 
 	def test_Coords(self):

@@ -47,6 +47,9 @@ class Sword_Info():
 	def get_Size(self):
 		return self.__img_size
 
+	def get_group_ID(self):
+		return self.__group_ID
+
 
 	"""|--------------Setters--------------|#"""
 		#this is where a list of setters will go...
