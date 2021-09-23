@@ -17,10 +17,10 @@ class Alpha():
 		self.__listTags  = None
 
 		#this will be a growing list of group tags. It is hard set to refer here for spacific groups
-		#enemy based parameters
+		'''#_Enemy Parameters_#'''
 		self.__enemyRoster	= ["#stalfos", ]
-		self.__stalfosCount = 1 #create one for each enemy
-		#weapon based Parameters
+		self.__stalfosCount = 2 #create one for each enemy
+		'''#_Weapon Parameters_#'''
 		self.__weaponRoster = ["#sword", ]
 
 		#collision logic v2.
@@ -33,6 +33,9 @@ class Alpha():
 		self.__Player		= Player_Main(self.__Image, self.__Collision_Logic)
 		self.__Stalfos		= Stalfos_Main(self.__Image, self.__Collision_Logic)
 		self.__Sword		= Sword_Main(self.__Image)
+
+		'''#_LEO_#''' #List of Enemy Objects
+		self.__LEO = [self.__Stalfos, ]
 
 		#temp val
 		self.__loopCount = 33
@@ -49,6 +52,11 @@ class Alpha():
 	def close_window(self): #putting this on HOLD
 		if keyboard.is_pressed('q') == True:
 			self.__mainApp.destroy()
+
+	def new_Player(self):
+		if keyboard.is_pressed('e') == True:
+			self.__Player.player_initial_setUP(x=2, y=3, priority=0)
+
 
 	def GamesetUP(self):
 		#Bellow is Entity set up
@@ -73,6 +81,7 @@ class Alpha():
 		def loop():
 			#to kill the window
 			self.close_window()
+			# self.new_Player()
 
 			#the games inner clock
 			self.__GameTime += 1 #it is the in game clock
@@ -138,7 +147,7 @@ class Alpha():
 			#when more enemies exist create more 'enemyName'Count, then add below.
 			for item in range(player + Sword + self.__stalfosCount):
 				# Collision_ForT, Collision_List = self.__Collision_Logic.Is_Collision(item)
-				Col_result, tag_result = self.__Collision_Logic.Is_Collision(item)
+				Col_result, tag_result = self.__Collision_Logic.Is_Collision(item, self.__LEO)
 
 			#_Combat_#
 			if self.__Sword.get_IsWeapon() == True:
@@ -147,25 +156,27 @@ class Alpha():
 
 			if Col_result != None:
 				Col_Dict = self.__Collision_Logic.get_Col_Dict()
+				print(Col_Dict)
 				for item in range(len(Col_result)):
+					print('obj', Col_result[item+1])
 					if Col_result[item] == self.__Player: #player is always checked first
 						#currently hard coded for only the first stalfos
+						print(Col_result[item+1].get_group_ID(),'group ID')
 						if Col_result[item+1].get_group_ID() in self.__enemyRoster:
-							self.__Player.my_Collision('Enemy', result[item+1].get_attack())
+							print(Col_result[item+1].get_attack(),'attack')
+							self.__Player.my_Collision('Enemy', Col_result[item+1].get_attack())
 						elif Col_result[item+1].get_group_ID() in self.__weaponRoster:
-							self.__Player.my_Collision('Weapon', result[item+1].get_attack())
+							self.__Player.my_Collision('Weapon', Col_result[item+1].get_attack())
 						# print('player')
-					elif Col_result[item] == self.__Stalfos:
-						if item == len(result)-1:
+					if Col_result[item] == self.__Stalfos:
+						if item == len(Col_result)-1:
 							pass
-						elif item != len(result)-1:
+						elif item != len(Col_result)-1:
 							if Col_result[item+1].get_group_ID() in self.__weaponRoster:
-								self.__Stalfos.my_Collision('Weapon', result[item+1].get_attack(), )
-							elif Col_result[item+1].get_group_ID() == self.__Player.get_group_ID():
-								self.__Stalfos.my_Colliison('Player', None)
+								self.__Stalfos.my_Collision('Weapon', Col_result[item+1].get_attack(), tag_result[0])
 						# print('stalfos')
-					elif Col_result[item] == self.__Sword: #weapon will always be last
-						print('Sword')
+					if Col_result[item] == self.__Sword: #weapon will always be last
+						#print('Sword')
 						pass
 
 					pass

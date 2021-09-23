@@ -5,6 +5,7 @@ class Collision_Logic2():
 		self.__Corners 	 = []
 		self.__tag_list  = []
 		self.__obj_list	 = []
+		self.__key_list	 = []
 		self.__Col_Dict  = {}
 		self.__list_len	 = 0
 		self.__Render	 = None
@@ -63,21 +64,26 @@ class Collision_Logic2():
 
 			for item in range(len(self.__collision)):
 				tagOrId = self.__collision[item]
+				print(tagOrId, 'tag')
 				obj		= self.__Col_Dict[tagOrId]
+				print(obj, 'obj')
 				self.__obj_list.append(obj)
 
+			self.__key_list = []
 			for item in range(len(self.__collision)):
 				tagOrId = self.__collision[item]
 				for item in range(len(LEO)):
 					#this will be a growing list that goes through each enemy in the roster
 					#and find out if the tagOrId is in an enemy then save this for using when needed
+					print(tagOrId,'tag')
 					if tagOrId in LEO[item].get_ID(ALL=True):
-						self.__tag_list.append(tagOrId)
+						self.__key_list.append(tagOrId)
+						print(self.__key_list, 'key list')
 
 
 
 			self.__IsCollision = True
-			return self.__obj_list, self.__tag_list
+			return self.__obj_list, self.__key_list
 			# return self.__IsCollision#, self.__collision
 		else:
 			self.__IsCollision = False
@@ -95,3 +101,6 @@ class Collision_Logic2():
 		#this is where a list of setters will go...
 	def set_Render(self, Render):
 		self.__Render = Render
+
+	def set_tag_List(self, tagOrId):
+		self.__tag_list.append(tagOrId)

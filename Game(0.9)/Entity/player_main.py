@@ -98,7 +98,7 @@ class Player_Main(Game_Entities):
 
 
 	#seting up player bellow
-	def player_initial_setUP(self, x, y, priority):
+	def player_initial_setUP(self, x, y, priority=0):
 		#img setup
 		ID = "P#001"
 		group_ID = "#player"

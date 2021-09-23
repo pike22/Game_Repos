@@ -60,6 +60,7 @@ class Stalfos_Main(Enemy_Main):
 			#self.__Image.get_Render().create_rectangle(self.__info.get_Corners(item))
 
 			self.__Cur_Health[ID] = self.__info.get_health()
+			# print(self.__Cur_Health)
 
 			self.Stalfos_Print(item)
 		# print(self.__info.get_CanvasID2(), "list of stalfos Canvas_Id's")
@@ -88,6 +89,7 @@ class Stalfos_Main(Enemy_Main):
 		health = self.__Cur_Health[stal_key]
 		health -= SSI
 		self.__Cur_Health[stal_key] = health
+		print(self.__Cur_Health,'health stal')
 		self.alive(stal_key)
 
 	def alive(self, key): #key == S#Numb
