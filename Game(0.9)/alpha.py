@@ -147,40 +147,34 @@ class Alpha():
 			#when more enemies exist create more 'enemyName'Count, then add below.
 			for item in range(player + Sword + self.__stalfosCount):
 				# Collision_ForT, Collision_List = self.__Collision_Logic.Is_Collision(item)
-				Col_result, tag_result = self.__Collision_Logic.Is_Collision(item, self.__LEO)
+				Col_result = self.__Collision_Logic.Is_Collision(item)#, self.__LEO)
+
+
+				if Col_result != None:
+					Col_Dict = self.__Collision_Logic.get_Col_Dict() #this may not be needed
+					for item in range(len(Col_result)):
+						# print('obj', Col_result[item+1])
+						if Col_result[item] == self.__Player: #player is always checked first
+							if Col_result[item+1].get_group_ID() in self.__enemyRoster:
+								self.__Player.my_Collision('Enemy', Col_result[item+1].get_attack())
+							elif Col_result[item+1].get_group_ID() in self.__weaponRoster:
+								self.__Player.my_Collision('Weapon', Col_result[item+1].get_attack())
+							# print('player')
+						if Col_result[item] == self.__Stalfos:
+							if item == len(Col_result)-1:
+								pass
+							elif item != len(Col_result)-1:
+								if Col_result[item+1].get_group_ID() in self.__weaponRoster:
+									self.__Stalfos.my_Collision('Weapon', Col_result[item+1].get_attack(), tag_result[0])
+									# print('stalfos')
+						if Col_result[item] == self.__Sword: #weapon will always be last
+							#print('Sword')
+							pass
 
 			#_Combat_#
 			if self.__Sword.get_IsWeapon() == True:
 				self.__Sword.Weapon_Active()
 
-
-			if Col_result != None:
-				Col_Dict = self.__Collision_Logic.get_Col_Dict()
-				print(Col_Dict)
-				for item in range(len(Col_result)):
-					print('obj', Col_result[item+1])
-					if Col_result[item] == self.__Player: #player is always checked first
-						#currently hard coded for only the first stalfos
-						print(Col_result[item+1].get_group_ID(),'group ID')
-						if Col_result[item+1].get_group_ID() in self.__enemyRoster:
-							print(Col_result[item+1].get_attack(),'attack')
-							self.__Player.my_Collision('Enemy', Col_result[item+1].get_attack())
-						elif Col_result[item+1].get_group_ID() in self.__weaponRoster:
-							self.__Player.my_Collision('Weapon', Col_result[item+1].get_attack())
-						# print('player')
-					if Col_result[item] == self.__Stalfos:
-						if item == len(Col_result)-1:
-							pass
-						elif item != len(Col_result)-1:
-							if Col_result[item+1].get_group_ID() in self.__weaponRoster:
-								self.__Stalfos.my_Collision('Weapon', Col_result[item+1].get_attack(), tag_result[0])
-						# print('stalfos')
-					if Col_result[item] == self.__Sword: #weapon will always be last
-						#print('Sword')
-						pass
-
-					pass
-				pass
 
 			self.__mainApp.after(int(self.__FPS), loop)
 		loop()

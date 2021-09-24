@@ -1,21 +1,33 @@
 This upload is the first of many project saves that will go into Github.
-The major content completed before this upload is properly working collision.
+The major content completed before this upload is properly working collision identification.
 
-Date: (09/10/2021)
+
 Every Friday I will be pushing adding a small summary of the last week of this projects progression.
 This first summary is more of a general overview than just the last week being that this is the first of
-many. If you want to run the code run the alpha.py file. 
+many. If you want to run the code run the alpha.py file.
+
 
  -Overall Summary:
 	This is a small High school project that I have decided to dedicate more time than probably necessary to do.
-	Although I am doing this for fun with the benefits from a finished product. The overall goal is to create some
+	Although I am doing this for fun with the benefits from an eventually finished product. The overall goal is to create some
 	form of 2D game that is based around a dungeon crawler. This may change overtime. I have no name or story in mind yet.
 	This is more due to being to early in game development. Daily updates to Github will be normal.
 	- A summary of weekly events will continue to be added bellow as time moves forward.
 
 
- -09/17/2021 Summary of weeks work
+ -09/17/2021 Weeks Summary
  	This weeks work only had some small changes. None of these changes are to be permanent for the most part due to that most
 	was written in attempts to work out how to use the implemented collision. I figured that just shoving ideas into code wasn't
 	going to work so I took some time outside of the code to put together an Idea for what to do. With some help from my teacher
 	we came up with the idea to use Dictionaries. Something I haven't used since when I first reconstructed my classes.
+
+ -09/24/2021 Weeks Summary
+	This week I fully put together my Collision Dictionary(Col_Dict) that I had described in the last summary. After completing that I
+	moved on to using that Dictionary to identify what I have colliding. The problem that I ran into was that this current method worked all
+	fine and well with each class object only having one "entity" to work with. So once I added a second stalfos to the table. I began to run
+	into problems. As I found out that I need more identification for. The biggest problem was that my keys that I used ended up pointing to one
+	spot rather than to the different parts of the system that it should have. Other than this the early implementation that I have works.
+
+		-I might want to consider instead of using lists in my stalfos parameters, I would create a new instance of the entire object with slight changes
+			-Pros:  It may help with my recent problem
+			-Cons:  It will most likely cause more problems that I otherwise wouldn't have, Difficult to manage a potentially large number of instances.
