@@ -31,3 +31,9 @@ and use the information given to decide further what to do.
 	# self.__health1 -= attack2
 	# print(obj1.get_ID(), 'has', self.__health1, 'health')
 	# obj1.set_health(self.__health1)
+
+
+Current branch (__Stalfos_Rework)
+	I am going to basically wipe clean stalfos and restart it. But not fully
+	I am just going to delete every line then re-write what I need and get rid
+	of what I don't need. 

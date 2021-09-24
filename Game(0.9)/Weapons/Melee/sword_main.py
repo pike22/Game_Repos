@@ -13,8 +13,6 @@ class Sword_Main():
 	def Sword_setUP(self):
 		#img setup
 		ID = "W#S001"
-		group_ID = "#sword"
-		self.__info.set_group_ID(group_ID)
 		Img_info = self.__Image.Img_Add('z_Pictures/notasword.png')
 		self.__info.Image_Data(Size=Img_info[1], ID=ID , PIL_img=Img_info[0], TK_img=Img_info[2], file_Location='z_Pictures/notasword.png')
 		self.__info.Sword_Data(2) #check melee_info for well info.

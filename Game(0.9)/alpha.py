@@ -31,11 +31,16 @@ class Alpha():
 		self.__mainApp		= Tk()
 		self.__Image		= Image_Node() #calls to other classes called need self.Img_Node
 		self.__Player		= Player_Main(self.__Image, self.__Collision_Logic)
-		self.__Stalfos		= Stalfos_Main(self.__Image, self.__Collision_Logic)
 		self.__Sword		= Sword_Main(self.__Image)
 
-		'''#_LEO_#''' #List of Enemy Objects
-		self.__LEO = [self.__Stalfos, ]
+		'''Enemy SETUP''' #game setup within the init func
+		self.__Stalfos = Stalfos_Main(self.__Image, self.__Collision_Logic)
+		for item in range(self.__stalfosCount):
+			if item < 10:
+				ID = "S#00" + str(item)
+			elif item >= 10 and item < 100:
+				ID = "S#0" + str(item)
+			self.__Collision_Logic2.add_Col_Dict(tagOrId=ID, obj=Stalfos_Main(self.__Image, self.__Collision_Logic2))
 
 		#temp val
 		self.__loopCount = 33
@@ -64,9 +69,6 @@ class Alpha():
 		self.__Player.player_initial_setUP(x=2, y=3, priority=0)
 		self.__Player.Player_Print()
 		self.__Player.set_Weapon(self.__Sword)
-		#requires max screen size, number of wanted stalfos
-		self.__Stalfos.stalfos_initial_setUP(self.__Sc_Width, self.__Sc_Height, stalfosCount=self.__stalfosCount, priority=1)
-		#self.__Stalfos.Stalfos_Print() this is handled with the stalfos_Main.
 		self.__Sword.Sword_setUP()
 		self.__Sword.Sword_Print()
 

@@ -1,7 +1,7 @@
 #here will be the "Storage" container for player's information.
 
 class Player_Info():
-	def __init__(self):
+	def __init__(self, ID):
 		#engine based Parameters.
 		self.__file_Location = None
 		self.__Player_Speed  = None
@@ -14,7 +14,7 @@ class Player_Info():
 		self.__img_size		= None #(x, y)tuple of height, width
 		self.__Corners		= None #(x1, y1, x2, y2) tuple
 		self.__group_ID		= None
-		self.__ID			= None
+		self.__ID			= ID
 
 		#Game Mechanical Parameters. Totals
 		self.__base_health	= None
@@ -22,13 +22,12 @@ class Player_Info():
 		self.__base_attack	= None
 
 
-	def Image_Data(self, Size, ID, group_ID, PIL_img, TK_img, file_Location):
+	def Image_Data(self, Size, group_ID, PIL_img, TK_img, file_Location):
 		self.__file_Location	= file_Location
 		self.__imgPIL_ID		= PIL_img
 		self.__imgTK_ID			= TK_img
 		self.__img_size			= Size
 		self.__group_ID			= group_ID
-		self.__ID				= ID
 
 	def Player_Data(self, Cur_Coords, Speed, health, defense, attack): #add more here as needed.
 		self.__Player_Speed	= Speed
@@ -40,12 +39,6 @@ class Player_Info():
 
 	"""|--------------Getters--------------|#"""
 		#this is where a list of getters will go...
-
-	def get_Params(self):
-		health = self.__base_health
-		attack = self.__base_attack
-		defense = self.__base_defense
-		return health, attack, defense
 
 	def get_TKimg(self):
 		return self.__imgTK_ID

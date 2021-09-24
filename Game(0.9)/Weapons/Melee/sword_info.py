@@ -5,7 +5,7 @@ class Sword_Info():
 		self.__Canvas_ID	= None
 		self.__imgPIL_ID	= None
 		self.__imgTK_ID		= None
-		self.__group_ID		= None
+		self.__group_ID		= "#sword"
 		self.__img_size		= None #(x, y)tuple of height, width
 		self.__Corners		= None #(x1, y1, x2, y2) tuple
 		self.__ID			= None
@@ -58,6 +58,3 @@ class Sword_Info():
 
 	def set_Corners(self, Corners):
 		self.__Corners = Corners
-
-	def set_group_ID(self, group_ID):
-		self.__group_ID = group_ID

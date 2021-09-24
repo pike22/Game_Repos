@@ -44,8 +44,7 @@ class Collision_Logic2():
 
 	#use this: .find_overlapping
 	# only outputs the last assigned var.
-	# LEO == List of Enemy Objects
-	def Is_Collision(self, item):#, LEO):
+	def Is_Collision(self, item):
 		self.__collision = []
 		self.__obj_list  = []
 		#for item in range(len(self.__Corners)):
@@ -69,19 +68,6 @@ class Collision_Logic2():
 				obj		= self.__Col_Dict[tagOrId]
 				# print(obj, 'obj')
 				self.__obj_list.append(obj)
-
-			# self.__key_list = []
-			# for item in range(len(self.__collision)):
-			# 	tagOrId = self.__collision[item]
-			# 	for item in range(len(LEO)):
-			# 		#this will be a growing list that goes through each enemy in the roster
-			# 		#and find out if the tagOrId is in an enemy then save this for using when needed
-			# 		# print(tagOrId,'tag')
-			# 		if tagOrId in LEO[item].get_ID(ALL=True):
-			# 			self.__key_list.append(tagOrId)
-			# 			# print(self.__key_list, 'key list')
-
-
 
 			self.__IsCollision = True
 			print(self.__obj_list, 'LOOK HERER')

@@ -16,7 +16,7 @@ class Player_Main(Game_Entities):
 		Game_Entities.__init__(self)
 		self.__Collision_Logic = clNode
 		self.__Kinetics		= Kinetics_Node(iNode)
-		self.__info	 		= Player_Info()
+		self.__info	 		= Player_Info("P#001")
 		self.__Image	 	= iNode
 		self.__Weapon 		= None
 
@@ -100,10 +100,9 @@ class Player_Main(Game_Entities):
 	#seting up player bellow
 	def player_initial_setUP(self, x, y, priority=0):
 		#img setup
-		ID = "P#001"
 		group_ID = "#player"
 		Img_info = self.__Image.Img_Add('z_Pictures/purpuloniousthefirst.png')
-		self.__info.Image_Data(Size=Img_info[1], ID=ID , group_ID=group_ID, PIL_img=Img_info[0], TK_img=Img_info[2], file_Location='z_Pictures/purpuloniousthefirst.png')
+		self.__info.Image_Data(Size=Img_info[1], group_ID=group_ID, PIL_img=Img_info[0], TK_img=Img_info[2], file_Location='z_Pictures/purpuloniousthefirst.png')
 
 		#placing the img
 		img_list, img_coords = self.__Image.Img_Place(x, y, self.__info.get_TKimg(), tag=ID)
