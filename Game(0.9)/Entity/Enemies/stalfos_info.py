@@ -52,9 +52,6 @@ class Stalfos_Info():
 	def get_Corners(self):
 		return self.__Corners
 
-	def get_Corners2(self):
-		return self.__Corners
-
 	def get_ID(self):
 		return self.__ID
 
@@ -73,10 +70,10 @@ class Stalfos_Info():
 
 	"""|--------------Setters--------------|#"""
 	def set_Coords(self, Coords):
-		self.__Cur_Coords.append(Coords)
+		self.__Cur_Coords = Coords
 
 	def set_Canvas_ID(self, Canvas_ID):
-		self.__Canvas_ID.append(Canvas_ID)
+		self.__Canvas_ID = Canvas_ID
 
 	def set_Corners(self, bbox):
-		self.__Corners.append(bbox)
+		self.__Corners = bbox

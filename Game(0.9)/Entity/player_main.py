@@ -100,6 +100,7 @@ class Player_Main(Game_Entities):
 	#seting up player bellow
 	def player_initial_setUP(self, x, y, priority=0):
 		#img setup
+		ID = self.__info.get_ID()
 		group_ID = "#player"
 		Img_info = self.__Image.Img_Add('z_Pictures/purpuloniousthefirst.png')
 		self.__info.Image_Data(Size=Img_info[1], group_ID=group_ID, PIL_img=Img_info[0], TK_img=Img_info[2], file_Location='z_Pictures/purpuloniousthefirst.png')
@@ -109,7 +110,6 @@ class Player_Main(Game_Entities):
 
 		#final set of information save to player
 		Canvas_ID = self.__Image.get_Render().find_withtag(ID)[0] #finds my canvas ID numb.
-		print(Canvas_ID, "CANVAS")
 		Current_Coords = img_coords[Canvas_ID-1]
 		self.__info.set_Canvas_ID(Canvas_ID)
 		self.__info.Player_Data(Cur_Coords=Current_Coords, Speed=7, health=10, defense=5, attack=0) #check player_info for well info.
@@ -136,6 +136,7 @@ class Player_Main(Game_Entities):
 		print(self.__info.get_Coords(), 	'\t\t:Coords')
 		print(self.__info.get_Corners(), 	'\t:Corners')
 		print('-----------------------------------')
+		print('')
 
 
 	"""|--------------Getters--------------|#"""

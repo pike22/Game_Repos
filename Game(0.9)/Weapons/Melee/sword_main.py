@@ -54,6 +54,7 @@ class Sword_Main():
 		print(self.__info.get_ID(), '\t:ID') #should be None
 		print(self.__info.get_Attack_Dmg(), '\t:Attck')
 		print('-----------------------------------')
+		print('')
 
 		#this may not be needed, depends for now.
 	def my_Collision(self):

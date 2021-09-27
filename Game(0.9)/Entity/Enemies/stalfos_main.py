@@ -30,6 +30,7 @@ class Stalfos_Main(Enemy_Main):
 	def stalfos_initial_setUP(self):
 		#img setup
 		"""!!ITEM IS NOT STATIC!! **REFER HERE FOR FUTURE PROBLEMS CAUSED**"""
+		ID = self.__info.get_ID()
 		Img_info = self.__Image.Img_Add('z_Pictures/RedBoy2.png')
 		self.__info.Image_Data(Size=Img_info[1], PIL_img=Img_info[0], TK_img=Img_info[2], file_Location='z_Pictures/RedBoy2.png')
 
@@ -37,7 +38,9 @@ class Stalfos_Main(Enemy_Main):
 		self.__x = 0
 		self.__y = 0
 		x, y = self.__info.get_Size()
-		img_list, img_coords = self.__Image.Img_Place(self.__x, self.__y, self.__info.get_TKimg(item), Grid='no', tag=ID)
+		self.__x = self.__rand.randint((25+x), Sc_Width-(25+x))
+		self.__y = self.__rand.randint((25+y), Sc_Height-(25+y))
+		img_list, img_coords = self.__Image.Img_Place(self.__x, self.__y, self.__info.get_TKimg(), Grid='no', tag=ID())
 
 		#final set of information save to stalfos
 		Canvas_ID = self.__Image.get_Render().find_withtag(ID)[0] #finds my canvas ID numb.
@@ -64,6 +67,7 @@ class Stalfos_Main(Enemy_Main):
 		print(self.__info.get_Coords(item), 	'\t\t:Coords')
 		print(self.__info.get_Corners(item), 	'\t:Corners')
 		print('-----------------------------------')
+		print('')
 
 
 		#SSC == Second Side Collision, it represents the other object that collided with player
@@ -100,7 +104,7 @@ class Stalfos_Main(Enemy_Main):
 		return self.__info.get_defense()
 
 	def get_Corners(self):
-		return self.__info.get_Corners2()
+		return self.__info.get_Corners()
 
 	def get_ID(self):
 		return self.__info.get_ID()

@@ -17,14 +17,17 @@ class Alpha():
 		self.__listTags  = None
 
 		#this will be a growing list of group tags. It is hard set to refer here for spacific groups
-		'''#_Enemy Parameters_#'''
+		'''#_Enemy Parameters_#''' #include a list of tags for each enemy
 		self.__enemyRoster	= ["#stalfos", ]
-		self.__stalfosCount = 2 #create one for each enemy
+
+			#_Stalfos_#
+		self.__Stal_Roster	= []
+		self.__stalfosCount = 2
 		'''#_Weapon Parameters_#'''
 		self.__weaponRoster = ["#sword", ]
 
 		#collision logic v2.
-		self.__Collision_Logic = Collision_Logic2()
+		self.__Collision_Logic = Collision_Logic()
 		self.__Collision_Node  = Collision_Node()
 
 		#below is class Calling
@@ -33,14 +36,21 @@ class Alpha():
 		self.__Player		= Player_Main(self.__Image, self.__Collision_Logic)
 		self.__Sword		= Sword_Main(self.__Image)
 
+
+		'''Collision SETUP'''
+		self.__Collision_Logic.set_Render(self.__Image.get_Render())
+		self.__Collision_Logic.add_Col_Dict(self.__Player.get_ID(), self.__Player)
+
+
 		'''Enemy SETUP''' #game setup within the init func
-		self.__Stalfos = Stalfos_Main(self.__Image, self.__Collision_Logic)
+		# self.__Stalfos = Stalfos_Main(self.__Image, self.__Collision_Logic)
 		for item in range(self.__stalfosCount):
 			if item < 10:
 				ID = "S#00" + str(item)
 			elif item >= 10 and item < 100:
 				ID = "S#0" + str(item)
-			self.__Collision_Logic2.add_Col_Dict(tagOrId=ID, obj=Stalfos_Main(self.__Image, self.__Collision_Logic2))
+			self.__Stal_Roster.append(ID)
+			self.__Collision_Logic.add_Col_Dict(tagOrId=ID, obj=Stalfos_Main(self.__Image, self.__Collision_Logic, ID=ID))
 
 		#temp val
 		self.__loopCount = 33
@@ -70,7 +80,7 @@ class Alpha():
 		self.__Player.Player_Print()
 		self.__Player.set_Weapon(self.__Sword)
 		self.__Sword.Sword_setUP()
-		self.__Sword.Sword_Print()
+		# self.__Sword.Sword_Print()
 
 		#this is for the start of the game timer.
 		self.__GameTime += 1 #it is the in game clock
@@ -110,26 +120,21 @@ class Alpha():
 
 			#_Collision Logic functions_#
 			"""!!#_Version 2 of Collision logic_#!!"""
+			#_COL_Dict is set up inside the alpha.__init__()
 
-			#here is where I am setting up the Collision Dictionary.
-			self.__Collision_Logic.add_Col_Dict(self.__Player.get_ID(), self.__Player)
-			for item in range(len(self.__Stalfos.get_ID(ALL=True))):
-				self.__Collision_Logic.add_Col_Dict(self.__Stalfos.get_ID(item=item), self.__Stalfos)
-
-			self.__Collision_Logic.set_Render(self.__Image.get_Render())
 			c_Player  = self.__Player.get_Corners() #Always item 0
-			c_Stalfos = self.__Stalfos.get_Corners()
 
-			self.__Collision_Logic.set_tag_List(self.__Player.get_ID())
-			for item in range(len(self.__Stalfos.get_ID(ALL=True))):
-				self.__Collision_Logic.set_tag_List(self.__Stalfos.get_ID(item=item))
 			#only one c_Player should be here (IGNORE MULTIPLAYER)
 			list1 = []
 			list1 = [c_Player]
-			for item in range(len(c_Stalfos)):
-				list1.append(c_Stalfos[item])
+			for item in range(len(self.__Stal_Roster)):
+				print(self.__Stal_Roster[item], 'stal tag')
+				c_Stal = self.__Collision_Logic.tag_to_obj(self.__Stal_Roster[item]) #c_Stal == stalfos obj
+				print(c_Stal.get_Corners(), 'stal corners')
+				print(c_Stal,'stal obj')
+				list1.append(c_Stal.get_Corners())
 
-			#self.__stalfosCount represents stalfos corners
+			#self.__stalfosCount represents number of stalfo's and their corners
 			dict = self.__Collision_Logic.get_Col_Dict()
 			if self.__Sword.get_IsWeapon() == True:
 				Sword = 1
@@ -142,14 +147,14 @@ class Alpha():
 				if self.__Sword.get_ID() in dict.keys():
 					self.__Collision_Logic.del_Col_Dict(self.__Sword.get_ID())
 
+			print(list1,'LIST!')
 			self.__Collision_Logic.add_Collision(list1)
 
 			#player represents the players Corners
 			player = 1
 			#when more enemies exist create more 'enemyName'Count, then add below.
 			for item in range(player + Sword + self.__stalfosCount):
-				# Collision_ForT, Collision_List = self.__Collision_Logic.Is_Collision(item)
-				Col_result = self.__Collision_Logic.Is_Collision(item)#, self.__LEO)
+				Col_result = self.__Collision_Logic.Is_Collision(item)
 
 
 				if Col_result != None:
@@ -214,6 +219,7 @@ class Alpha():
 
 #puts the above class to action
 Game = Alpha()
+print('') #to make it easier to read in the command promt
 Game.set_MainCanvas()
 Game.tk_windowSETUP()
 Game.GamesetUP()

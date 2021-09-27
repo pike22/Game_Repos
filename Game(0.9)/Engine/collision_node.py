@@ -1,12 +1,12 @@
 #still haven't decided if I want to use this or not
 
 from .node import Node
-from .collision_logic2 import Collision_Logic2
+from .collision_logic import Collision_Logic
 
 class Collision_Node(Node):
 	def __init__(self):
 		Node.__init__(self)
-		self.__logic = Collision_Logic2()
+		self.__logic = Collision_Logic()
 		# self.__object1 = None
 		# self.__object2 = None
 

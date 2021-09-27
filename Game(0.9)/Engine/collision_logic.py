@@ -1,5 +1,5 @@
 
-class Collision_Logic2():
+class Collision_Logic():
 	def __init__(self):
 		self.__collision = []
 		self.__Corners 	 = []
@@ -7,7 +7,6 @@ class Collision_Logic2():
 		self.__obj_list	 = []
 		self.__key_list	 = []
 		self.__Col_Dict  = {}
-		self.__list_len	 = 0
 		self.__Render	 = None
 		self.__IsCollision = False
 
@@ -19,17 +18,20 @@ class Collision_Logic2():
 	'''#_COLLISION DICTIONARY FUNCTIONS_#'''
 	#tagOrId == dictionary key
 	#object == The keys related class object
-	def add_Col_Dict(self, tagOrId, object):
-		self.__Col_Dict[tagOrId] = object
+	def add_Col_Dict(self, tagOrId, obj):
+		self.__Col_Dict[tagOrId] = obj
 
 	def del_Col_Dict(self, tagOrId):
 		del self.__Col_Dict[tagOrId]
 
-	def use_Col_Dict(self, tagOrId):
+	def tag_to_obj(self, tagOrId):
 		# if tagOrId in self.__Col_Dict.keys():
-		# print(self.__Col_Dict[tagOrId])
+		print(self.__Col_Dict[tagOrId], 'OBJ')
 		output = self.__Col_Dict[tagOrId]
 		return output
+
+	def obj_to_tag(self, obj):
+		pass
 
 	def print_Col_Dict(self):
 		print('Current Collision Dict', self.__Col_Dict)
@@ -37,10 +39,8 @@ class Collision_Logic2():
 	'''#_COLLISON CALCULATION FUNCTIONS_#'''
 	def add_Collision(self, listofCorners):
 		self.__Corners 	= []
-		self.__list_len = 0
 		for item in range(len(listofCorners)):
 			self.__Corners.append(listofCorners[item])
-		self.__list_len = len(self.__Corners)
 
 	#use this: .find_overlapping
 	# only outputs the last assigned var.
@@ -64,13 +64,12 @@ class Collision_Logic2():
 
 			for item in range(len(self.__collision)):
 				tagOrId = self.__collision[item]
-				# print(tagOrId, 'tag')
 				obj		= self.__Col_Dict[tagOrId]
+				# print(tagOrId, 'tag')
 				# print(obj, 'obj')
 				self.__obj_list.append(obj)
 
 			self.__IsCollision = True
-			print(self.__obj_list, 'LOOK HERER')
 			return self.__obj_list#, self.__key_list
 			# return self.__IsCollision#, self.__collision
 		else:

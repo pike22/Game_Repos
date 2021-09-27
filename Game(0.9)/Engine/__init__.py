@@ -1,4 +1,4 @@
-from .collision_logic2 import Collision_Logic2
+from .collision_logic import Collision_Logic
 from .collision_node import Collision_Node
 from .kinetics_node import Kinetics_Node
 from .image_node import Image_Node
