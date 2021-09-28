@@ -23,6 +23,7 @@ class Alpha():
 			#_Stalfos_#
 		self.__Stal_Roster	= []
 		self.__stalfosCount = 2
+
 		'''#_Weapon Parameters_#'''
 		self.__weaponRoster = ["#sword", ]
 
@@ -63,6 +64,7 @@ class Alpha():
 
 	def set_MainCanvas(self):
 		self.__Image.Create_Canvas(self.__mainApp, self.__Sc_Height, self.__Sc_Width)
+		self.__Collision_Logic.set_Render(self.__Image.get_Render())
 
 	def close_window(self): #putting this on HOLD
 		if keyboard.is_pressed('q') == True:
@@ -81,6 +83,14 @@ class Alpha():
 		self.__Player.set_Weapon(self.__Sword)
 		self.__Sword.Sword_setUP()
 		# self.__Sword.Sword_Print()
+
+		#__ENEMY Setup__#
+		COLDICT = self.__Collision_Logic.get_Col_Dict()
+		for item in range(len(self.__Stal_Roster)):
+			if self.__Stal_Roster[item] in COLDICT.keys():
+				r_Stal = COLDICT[self.__Stal_Roster[item]]
+				r_Stal.stalfos_initial_setUP(self.__Sc_Width, self.__Sc_Height)
+				r_Stal.Stalfos_Print()
 
 		#this is for the start of the game timer.
 		self.__GameTime += 1 #it is the in game clock
@@ -128,10 +138,7 @@ class Alpha():
 			list1 = []
 			list1 = [c_Player]
 			for item in range(len(self.__Stal_Roster)):
-				print(self.__Stal_Roster[item], 'stal tag')
 				c_Stal = self.__Collision_Logic.tag_to_obj(self.__Stal_Roster[item]) #c_Stal == stalfos obj
-				print(c_Stal.get_Corners(), 'stal corners')
-				print(c_Stal,'stal obj')
 				list1.append(c_Stal.get_Corners())
 
 			#self.__stalfosCount represents number of stalfo's and their corners
@@ -147,7 +154,6 @@ class Alpha():
 				if self.__Sword.get_ID() in dict.keys():
 					self.__Collision_Logic.del_Col_Dict(self.__Sword.get_ID())
 
-			print(list1,'LIST!')
 			self.__Collision_Logic.add_Collision(list1)
 
 			#player represents the players Corners
@@ -156,7 +162,7 @@ class Alpha():
 			for item in range(player + Sword + self.__stalfosCount):
 				Col_result = self.__Collision_Logic.Is_Collision(item)
 
-
+				print(Col_result)
 				if Col_result != None:
 					Col_Dict = self.__Collision_Logic.get_Col_Dict() #this may not be needed
 					for item in range(len(Col_result)):

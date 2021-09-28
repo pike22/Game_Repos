@@ -27,9 +27,8 @@ class Stalfos_Main(Enemy_Main):
 
 
 	#seting up player bellow
-	def stalfos_initial_setUP(self):
+	def stalfos_initial_setUP(self, Sc_Width, Sc_Height):
 		#img setup
-		"""!!ITEM IS NOT STATIC!! **REFER HERE FOR FUTURE PROBLEMS CAUSED**"""
 		ID = self.__info.get_ID()
 		Img_info = self.__Image.Img_Add('z_Pictures/RedBoy2.png')
 		self.__info.Image_Data(Size=Img_info[1], PIL_img=Img_info[0], TK_img=Img_info[2], file_Location='z_Pictures/RedBoy2.png')
@@ -38,9 +37,9 @@ class Stalfos_Main(Enemy_Main):
 		self.__x = 0
 		self.__y = 0
 		x, y = self.__info.get_Size()
-		self.__x = self.__rand.randint((25+x), Sc_Width-(25+x))
-		self.__y = self.__rand.randint((25+y), Sc_Height-(25+y))
-		img_list, img_coords = self.__Image.Img_Place(self.__x, self.__y, self.__info.get_TKimg(), Grid='no', tag=ID())
+		self.__x = int(self.__rand.randint((25+x), Sc_Width-(25+x)))
+		self.__y = int(self.__rand.randint((25+y), Sc_Height-(25+y)))
+		img_list, img_coords = self.__Image.Img_Place(x=self.__x, y=self.__y, image=self.__info.get_TKimg(), Grid='no', tag=ID)
 
 		#final set of information save to stalfos
 		Canvas_ID = self.__Image.get_Render().find_withtag(ID)[0] #finds my canvas ID numb.
@@ -48,24 +47,24 @@ class Stalfos_Main(Enemy_Main):
 		self.__info.set_Canvas_ID(Canvas_ID)
 		self.__info.Stalfos_Data(Cur_Coords=Coords, Speed=7, health=10, defense=5, attack=2) #check stalfos_info for, well info.
 		self.__Kinetics.set_Speed(self.__info.get_Speed())
-		self.__Image.get_Render().addtag_withtag(group_ID, Canvas_ID)
+		self.__Image.get_Render().addtag_withtag(self.__info.get_group_ID(), Canvas_ID)
 		self.__info.set_Corners(self.__Image.get_Render().bbox(Canvas_ID))
 
 
 	#this is to go at the end.
-	def Stalfos_Print(self, item):
+	def Stalfos_Print(self):
 		#list of prints for start of program(players)
 		print('-----------------------------------')
 		print('Stalfos Data:')
-		print(self.__info.get_ID(item), '\t:Entity ID')
+		print(self.__info.get_ID(), '\t:Entity ID')
 		print(self.__info.get_Speed(), 	'\t:Speed')
 		print(self.__info.get_health(),	'\t:Health')
 		print(self.__info.get_defense(),	'\t:Defense')
 		print(self.__info.get_attack(),	'\t:Attack')
 		print('\nParameters:')
 		print(self.__info.get_Size(), 	'\t\t:Size')
-		print(self.__info.get_Coords(item), 	'\t\t:Coords')
-		print(self.__info.get_Corners(item), 	'\t:Corners')
+		print(self.__info.get_Coords(), 	'\t\t:Coords')
+		print(self.__info.get_Corners(), 	'\t:Corners')
 		print('-----------------------------------')
 		print('')
 

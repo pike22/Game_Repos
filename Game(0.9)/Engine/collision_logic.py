@@ -26,7 +26,6 @@ class Collision_Logic():
 
 	def tag_to_obj(self, tagOrId):
 		# if tagOrId in self.__Col_Dict.keys():
-		print(self.__Col_Dict[tagOrId], 'OBJ')
 		output = self.__Col_Dict[tagOrId]
 		return output
 
@@ -47,8 +46,7 @@ class Collision_Logic():
 	def Is_Collision(self, item):
 		self.__collision = []
 		self.__obj_list  = []
-		#for item in range(len(self.__Corners)):
-			#print(item, 'item')
+		
 		x1, y1, x2, y2 = self.__Corners[item]
 		collision = self.__Render.find_overlapping(x1, y1, x2, y2)
 			#if item == 1:
