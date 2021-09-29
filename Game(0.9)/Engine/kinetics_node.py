@@ -7,10 +7,11 @@ class Kinetics_Node(Node):
 		Node.__init__(self)
 		self.__Speed = None
 		self.__Image = iNode
+		self.__Render = None
 
 
-	def x_Kinetics(self, current_coords, img_ID, neg=True):
-		x, y = current_coords
+	def x_Kinetics(self, Cur_Coords, img_ID, neg=True):
+		x, y = Cur_Coords
 		#print(x, y, 'old: (x, y)')
 		if neg == True:
 			x += 1 * self.__Speed
@@ -18,14 +19,13 @@ class Kinetics_Node(Node):
 			x -= 1 * self.__Speed
 		#print(x, y, 'new: (x, y)')
 		#print('-----------------')
-		Render = self.__Image.get_Render()
-		Render.coords(img_ID, x, y)
+		self.__Render.coords(img_ID, x, y)
 		return (x, y)
 		#here will be how I move an object/entity
 		#on the x axis.
 
-	def y_Kinetics(self, current_coords, img_ID, neg=True):
-		x, y = current_coords
+	def y_Kinetics(self, Cur_Coords, img_ID, neg=True):
+		x, y = Cur_Coords
 		#print(x, y, 'old: (x, y)')
 		if neg == True:
 			y += 1 * self.__Speed
@@ -33,11 +33,16 @@ class Kinetics_Node(Node):
 			y -= 1 * self.__Speed
 		#print(x, y, 'new: (x, y)')
 		#print('-----------------')
-		Render = self.__Image.get_Render()
-		Render.coords(img_ID, x, y)
+		self.__Render.coords(img_ID, x, y)
 		return (x, y)
 		#here will be how I move an object/entity
 		#on the y axis.
+
+	def Knock_Back(self, Cur_Coords, img_ID):#eventually impliment directional based knock back
+		x, y = Cur_Coords
+		x -= 50
+		y -= 50
+
 
 	#special types of movement may be implimented later
 	"""|--------------Getters--------------|#"""
@@ -52,3 +57,6 @@ class Kinetics_Node(Node):
 		#go...
 	def set_Speed(self, Speed):
 		self.__Speed = Speed
+
+	def set_Render(self, render):
+		self.__Render = render

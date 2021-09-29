@@ -7,12 +7,12 @@ from Engine.kinetics_node import Kinetics_Node
 import keyboard #temporary
 
 class Stalfos_Main(Enemy_Main):
-	def __init__(self, iNode, clNode, ID):
+	def __init__(self, iNode, clNode, kNode, ID):
 		Enemy_Main.__init__(self)
 		#iNode == Image_Node
 		#clNode == Collision_Node
 		self.__Collision_Logic = clNode
-		self.__Kinetics		= Kinetics_Node(iNode)
+		self.__Kinetics		= kNode
 		self.__info	 		= Stalfos_Info(ID)
 		self.__Image	 	= iNode
 		self.__rand 		= random
@@ -72,7 +72,7 @@ class Stalfos_Main(Enemy_Main):
 		#SSC == Second Side Collision, it represents the other object that collided with player
 		#SSI == Second Side Info, represents the other objects needed parameters. Ex. dmg
 		#stal_key == The stalfos that is under collision
-	def my_Collision(self, SSC, SSI, stal_key):
+	def my_Collision(self, SSC, SSI):
 		health = self.__Cur_Health
 		health -= SSI
 		self.__Cur_Health = health

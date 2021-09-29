@@ -8,14 +8,14 @@ from .player_info import Player_Info
 import keyboard
 
 class Player_Main(Game_Entities):
-	def __init__(self, iNode, clNode):
+	def __init__(self, iNode, clNode, kNode):
 		#iNode == Image_Node
 		#clNode == Collision_Node
 
 		#----Class Calls----#
 		Game_Entities.__init__(self)
 		self.__Collision_Logic = clNode
-		self.__Kinetics		= Kinetics_Node(iNode)
+		self.__Kinetics		= kNode
 		self.__info	 		= Player_Info("P#001")
 		self.__Image	 	= iNode
 		self.__Weapon 		= None
@@ -30,8 +30,13 @@ class Player_Main(Game_Entities):
 		self.__moving		= False
 
 		#----Active Parameters----#
+		self.__GameTime	  = 0
 		self.__Cur_Health = 0
+		self.__recent_hit = False
 		#latter add the others
+
+		#----Random Var----#
+		self.__Render = None
 
 
 
@@ -39,25 +44,25 @@ class Player_Main(Game_Entities):
 		if keyboard.is_pressed(self.__key_up):
 			new_Coords = self.__Kinetics.y_Kinetics(self.__info.get_Coords(), self.__info.get_CanvasID(), neg=False)
 			self.__info.set_Coords(new_Coords)
-			self.__info.set_Corners(self.__Image.get_Render().bbox(self.__info.get_CanvasID()))
+			self.__info.set_Corners(self.__Render.bbox(self.__info.get_CanvasID()))
 			self.__moving = True
 
 		if keyboard.is_pressed(self.__key_down):
 			new_Coords = self.__Kinetics.y_Kinetics(self.__info.get_Coords(), self.__info.get_CanvasID())
 			self.__info.set_Coords(new_Coords)
-			self.__info.set_Corners(self.__Image.get_Render().bbox(self.__info.get_CanvasID()))
+			self.__info.set_Corners(self.__Render.bbox(self.__info.get_CanvasID()))
 			self.__moving = True
 
 		if keyboard.is_pressed(self.__key_left):
 			new_Coords = self.__Kinetics.x_Kinetics(self.__info.get_Coords(), self.__info.get_CanvasID(), neg=False)
 			self.__info.set_Coords(new_Coords)
-			self.__info.set_Corners(self.__Image.get_Render().bbox(self.__info.get_CanvasID()))
+			self.__info.set_Corners(self.__Render.bbox(self.__info.get_CanvasID()))
 			self.__moving = True
 
 		if keyboard.is_pressed(self.__key_right):
 			new_Coords = self.__Kinetics.x_Kinetics(self.__info.get_Coords(), self.__info.get_CanvasID())
 			self.__info.set_Coords(new_Coords)
-			self.__info.set_Corners(self.__Image.get_Render().bbox(self.__info.get_CanvasID()))
+			self.__info.set_Corners(self.__Render.bbox(self.__info.get_CanvasID()))
 			self.__moving = True
 
 		if keyboard.is_pressed(self.__key_right) == False and keyboard.is_pressed(self.__key_up) == False and keyboard.is_pressed(self.__key_down) == False and keyboard.is_pressed(self.__key_left) == False:
@@ -80,22 +85,32 @@ class Player_Main(Game_Entities):
 		#SSI == Second Side Info, represents the other objects needed parameters. Ex. dmg
 	def my_Collision(self, SSC, SSI):
 		if SSC == 'Enemy':
+			self.__recent_hit = True
 			self.__Cur_Health -= SSI
+			new_Coords = self.__Kinetics.x_Kinetics(self.__info.get_Coords(), self.__info.get_CanvasID(), neg=False)
+			self.__info.set_Coords(new_Coords)
+			self.__info.set_Corners(self.__Render.bbox(self.__info.get_CanvasID()))
 			self.alive()
+		elif SSC == 'Weapon':
+			pass
+			# print('self hit, oops')
 		else:
 			pass
+		return self.__recent_hit
 
 
 	def alive(self):
-		if self.__Cur_Health > 0:
-			# print("Alive")
-			return True
-		elif self.__Cur_Health <= 0:
-			render = self.__Image.get_Render()
-			render.delete(self.__info.get_ID())
-			# print("Not Alive")
-			return False
-
+		if self.__recent_hit == False:
+			if self.__Cur_Health > 0:
+				# print("Alive")
+				return True
+			elif self.__Cur_Health <= 0:
+				render = self.__Image.get_Render()
+				render.delete(self.__info.get_ID())
+				# print("Not Alive")
+				return False
+		elif self.__recent_hit == True:
+			pass
 
 	#seting up player bellow
 	def player_initial_setUP(self, x, y, priority=0):
@@ -157,6 +172,10 @@ class Player_Main(Game_Entities):
 	def get_ID(self):
 		return self.__info.get_ID()
 
+	def get_group_ID(self):
+		return self.__info.get_group_ID()
+
+
 	"""|--------------Setters--------------|#"""
 		#this is where a list of setters will go...
 	def set_Collision_Logic(self, Logic):
@@ -168,11 +187,11 @@ class Player_Main(Game_Entities):
 	def set_health(self, health):
 		self.__info.set_health(health)
 
+	def save_GT(self, GameTime):
+		self.__GameTime = GameTime
 
-	"""|--------------Getters--------------|#"""
-		#this is where a list of getters will go...
-	def get_group_ID(self):
-		return self.__info.get_group_ID()
+	def set_Render(self, Render):
+		self.__Render = Render
 
 
 	"""|--------------Test Functions--------------|#"""

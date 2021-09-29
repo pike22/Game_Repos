@@ -34,7 +34,8 @@ class Alpha():
 		#below is class Calling
 		self.__mainApp		= Tk()
 		self.__Image		= Image_Node() #calls to other classes called need self.Img_Node
-		self.__Player		= Player_Main(self.__Image, self.__Collision_Logic)
+		self.__kinetics		= Kinetics_Node(self.__Image)
+		self.__Player		= Player_Main(self.__Image, self.__Collision_Logic, self.__kinetics)
 		self.__Sword		= Sword_Main(self.__Image)
 
 
@@ -51,7 +52,7 @@ class Alpha():
 			elif item >= 10 and item < 100:
 				ID = "S#0" + str(item)
 			self.__Stal_Roster.append(ID)
-			self.__Collision_Logic.add_Col_Dict(tagOrId=ID, obj=Stalfos_Main(self.__Image, self.__Collision_Logic, ID=ID))
+			self.__Collision_Logic.add_Col_Dict(tagOrId=ID, obj=Stalfos_Main(self.__Image, self.__Collision_Logic, self.__kinetics, ID=ID))
 
 		#temp val
 		self.__loopCount = 33
@@ -62,9 +63,13 @@ class Alpha():
 		self.__mainApp.title(self.__version)
 		self.__mainApp.geometry(str(self.__Sc_Width) + 'x' + str(self.__Sc_Height))
 
-	def set_MainCanvas(self):
+	def set_MainCanvas(self): #Set Renders HERE
 		self.__Image.Create_Canvas(self.__mainApp, self.__Sc_Height, self.__Sc_Width)
+
+		#mass set_Render()
 		self.__Collision_Logic.set_Render(self.__Image.get_Render())
+		self.__kinetics.set_Render(self.__Image.get_Render())
+		self.__Player.set_Render(self.__Image.get_Render())
 
 	def close_window(self): #putting this on HOLD
 		if keyboard.is_pressed('q') == True:
@@ -111,7 +116,7 @@ class Alpha():
 			#this feeds the sword code the current game loop time
 			if self.__GameTime == self.__loopCount:
 				self.__Seconds += 1
-				self.__Sword.set_GameTime(self.__Seconds)
+				self.give_gameTime(self.__Seconds)
 				print(str(self.__Seconds), 'SECOND')
 				self.__loopCount += 33
 
@@ -162,23 +167,25 @@ class Alpha():
 			for item in range(player + Sword + self.__stalfosCount):
 				Col_result = self.__Collision_Logic.Is_Collision(item)
 
-				print(Col_result)
+
 				if Col_result != None:
 					Col_Dict = self.__Collision_Logic.get_Col_Dict() #this may not be needed
 					for item in range(len(Col_result)):
 						# print('obj', Col_result[item+1])
 						if Col_result[item] == self.__Player: #player is always checked first
 							if Col_result[item+1].get_group_ID() in self.__enemyRoster:
-								self.__Player.my_Collision('Enemy', Col_result[item+1].get_attack())
+								var = self.__Player.my_Collision('Enemy', Col_result[item+1].get_attack())
+								# if var == True:
+								# 	pass
 							elif Col_result[item+1].get_group_ID() in self.__weaponRoster:
 								self.__Player.my_Collision('Weapon', Col_result[item+1].get_attack())
 							# print('player')
-						if Col_result[item] == self.__Stalfos:
+						if Col_result[item].get_ID() in self.__Stal_Roster:
 							if item == len(Col_result)-1:
 								pass
 							elif item != len(Col_result)-1:
 								if Col_result[item+1].get_group_ID() in self.__weaponRoster:
-									self.__Stalfos.my_Collision('Weapon', Col_result[item+1].get_attack(), tag_result[0])
+									Col_result[item].my_Collision('Weapon', Col_result[item+1].get_attack())
 									# print('stalfos')
 						if Col_result[item] == self.__Sword: #weapon will always be last
 							#print('Sword')
@@ -217,6 +224,10 @@ class Alpha():
 			self.__Collision_Logic.print_Col_Dict()
 			self.__Collision_Logic.del_Col_Dict(self.__Player.get_ID())
 			self.__Collision_Logic.print_Col_Dict()
+
+	def give_gameTime(self, GameTime):
+		self.__Player.save_GT(GameTime)
+		self.__Sword.set_GameTime(GameTime)
 
 	#this is a function call for test prints to make sure things work
 	def Testing_Debug(self):

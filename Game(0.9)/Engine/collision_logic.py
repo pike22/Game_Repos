@@ -46,7 +46,7 @@ class Collision_Logic():
 	def Is_Collision(self, item):
 		self.__collision = []
 		self.__obj_list  = []
-		
+
 		x1, y1, x2, y2 = self.__Corners[item]
 		collision = self.__Render.find_overlapping(x1, y1, x2, y2)
 			#if item == 1:
