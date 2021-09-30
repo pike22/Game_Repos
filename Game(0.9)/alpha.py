@@ -126,12 +126,13 @@ class Alpha():
 			# self.debug_Col_Dict() #workes
 
 			#_player calls_#
-			output = self.__Player.alive()
+			output = self.__Player.get_isAlive()
 			if output == True:
 				self.__Player.Movement_Controll()
 				self.__Player.Player_Attack()
 				self.__Player.test_Coords()
-
+			else:
+				print("dead?")
 
 			#_Collision Logic functions_#
 			"""!!#_Version 2 of Collision logic_#!!"""

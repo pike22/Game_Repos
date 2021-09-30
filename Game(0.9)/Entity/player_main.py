@@ -33,6 +33,7 @@ class Player_Main(Game_Entities):
 		self.__GameTime	  = 0
 		self.__Cur_Health = 0
 		self.__recent_hit = False
+		self.__isAlive	  = True
 		#latter add the others
 
 		#----Random Var----#
@@ -85,12 +86,13 @@ class Player_Main(Game_Entities):
 		#SSI == Second Side Info, represents the other objects needed parameters. Ex. dmg
 	def my_Collision(self, SSC, SSI):
 		if SSC == 'Enemy':
-			self.__recent_hit = True
-			self.__Cur_Health -= SSI
-			new_Coords = self.__Kinetics.x_Kinetics(self.__info.get_Coords(), self.__info.get_CanvasID(), neg=False)
-			self.__info.set_Coords(new_Coords)
-			self.__info.set_Corners(self.__Render.bbox(self.__info.get_CanvasID()))
-			self.alive()
+			if self.__recent_hit == False:
+				self.__recent_hit = True
+				self.__Cur_Health -= SSI
+				new_Coords = self.__Kinetics.Knock_Back(self.__info.get_Coords(), self.__info.get_CanvasID())#, neg=False)
+				self.__info.set_Coords(new_Coords)
+				self.__info.set_Corners(self.__Render.bbox(self.__info.get_CanvasID()))
+				self.__isAlive = self.alive()
 		elif SSC == 'Weapon':
 			pass
 			# print('self hit, oops')
@@ -100,7 +102,7 @@ class Player_Main(Game_Entities):
 
 
 	def alive(self):
-		if self.__recent_hit == False:
+		if self.__recent_hit == True:
 			if self.__Cur_Health > 0:
 				# print("Alive")
 				return True
@@ -109,8 +111,8 @@ class Player_Main(Game_Entities):
 				render.delete(self.__info.get_ID())
 				# print("Not Alive")
 				return False
-		elif self.__recent_hit == True:
-			pass
+		elif self.__recent_hit == False:
+			print('oh no')
 
 	#seting up player bellow
 	def player_initial_setUP(self, x, y, priority=0):
@@ -174,6 +176,9 @@ class Player_Main(Game_Entities):
 
 	def get_group_ID(self):
 		return self.__info.get_group_ID()
+
+	def get_isAlive(self):
+		return self.__isAlive
 
 
 	"""|--------------Setters--------------|#"""
