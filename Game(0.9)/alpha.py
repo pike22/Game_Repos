@@ -35,8 +35,8 @@ class Alpha():
 		self.__mainApp		= Tk()
 		self.__Node 		= Node()
 		self.__Image		= Image_Node() #calls to other classes called need self.Img_Node
-		self.__kinetics		= Kinetics_Node(self.__Image)
-		self.__Player		= Player_Main(self.__Image, self.__Collision_Logic, self.__kinetics)
+		self.__Kinetics		= Kinetics_Node(self.__Image)
+		self.__Player		= Player_Main(self.__Image, self.__Collision_Logic, self.__Kinetics)
 		self.__Sword		= Sword_Main(self.__Image)
 
 
@@ -50,7 +50,7 @@ class Alpha():
 			elif item >= 10 and item < 100:
 				ID = "S#0" + str(item)
 			self.__Stal_Roster.append(ID)
-			self.__Collision_Logic.add_Col_Dict(tagOrId=ID, obj=Stalfos_Main(self.__Image, self.__Collision_Logic, self.__kinetics, ID=ID))
+			self.__Collision_Logic.add_Col_Dict(tagOrId=ID, obj=Stalfos_Main(self.__Image, self.__Collision_Logic, self.__Kinetics, ID=ID))
 
 		#temp val
 		self.__loopCount = 33
@@ -67,7 +67,7 @@ class Alpha():
 		#mass set_Render()
 		#leave enemies out of this for now
 		self.__Collision_Logic.set_Render(self.__Image.get_Render())
-		self.__kinetics.set_Render(self.__Image.get_Render())
+		self.__Kinetics.set_Render(self.__Image.get_Render())
 		self.__Player.set_Render(self.__Image.get_Render())
 		self.__Sword.set_Render(self.__Image.get_Render())
 
@@ -78,6 +78,7 @@ class Alpha():
 	def new_Player(self):
 		if keyboard.is_pressed('e') == True:
 			self.__Player.player_initial_setUP(x=2, y=3, priority=0)
+			self.__Player.set_isAlive(True)
 
 
 	def GamesetUP(self):
@@ -100,6 +101,13 @@ class Alpha():
 		#this is for the start of the game timer.
 		self.__GameTime += 1 #it is the in game clock
 
+	def GameClock(self):
+		self.__Node.GameClock()
+		self.give_gameTime(self.__Node.get_Seconds())
+
+		self.__mainApp.after(int(self.__FPS), self.GameClock)
+
+
 	#gameLoop def is for the classes use.
 	def gameLoop(self):
 
@@ -110,22 +118,13 @@ class Alpha():
 			self.close_window()
 			# self.new_Player()
 
-			#the games inner clock
-			self.__GameTime += 1 #it is the in game clock
-			#print(self.__GameTime)
-			#this feeds the sword code the current game loop time
-			if self.__GameTime == self.__loopCount:
-				self.__Seconds += 1
-				self.give_gameTime(self.__Seconds)
-				print(str(self.__Seconds), 'SECOND')
-				self.__loopCount += 33
+			"""#_calls_#"""
+			#Pass
 
-			#_calls_#
-
-			#_loop Debug_#
+			"""#_loop Debug_#"""
 			# self.debug_Col_Dict() #workes
 
-			#_player calls_#
+			"""#_player calls_#"""
 			output = self.__Player.get_isAlive()
 			if output == True:
 				self.__Player.Movement_Controll()
@@ -240,5 +239,6 @@ Game.set_MainCanvas()
 Game.tk_windowSETUP()
 Game.GamesetUP()
 Game.Testing_Debug()
+Game.GameClock()
 Game.gameLoop()
 Game.get_mainAPP().mainloop()

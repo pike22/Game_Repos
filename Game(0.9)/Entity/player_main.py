@@ -196,6 +196,9 @@ class Player_Main(Game_Entities):
 	def set_Render(self, Render):
 		self.__Render = Render
 
+	def set_isAlive(self, isAlive):
+		self.__isAlive = isAlive
+
 
 	"""|--------------Test Functions--------------|#"""
 

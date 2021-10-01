@@ -31,3 +31,12 @@ many. If you want to run the code run the alpha.py file.
 		-I might want to consider instead of using lists in my stalfos parameters, I would create a new instance of the entire object with slight changes
 			-Pros:  It may help with my recent problem
 			-Cons:  It will most likely cause more problems that I otherwise wouldn't have, Difficult to manage a potentially large number of instances.
+
+
+ -10/01/2021 Week Summary
+   This week I looked over my previous code of stalfos_main and decided to use a different method to identify the
+	different stalfos that I would have at once. So now instead of having one instance of the Stalfos_Main class
+	full of lists to have the parameters. I now will call a new instance of the Stalfos_main class every
+	time I need to have a new stalfos present. I am going to archive the previous main branch of this project then
+	this branch will be the new main.
+	(THIS IS THE LAST INSTANCE OF STALFOS_REWORK)
