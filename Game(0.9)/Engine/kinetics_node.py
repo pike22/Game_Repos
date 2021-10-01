@@ -40,8 +40,9 @@ class Kinetics_Node(Node):
 
 	def Knock_Back(self, Cur_Coords, img_ID):#eventually impliment directional based knock back
 		x, y = Cur_Coords
-		x -= 50
-		y -= 50
+		x -= 100
+		y -= 100
+		return (x, y)
 
 
 	#special types of movement may be implimented later

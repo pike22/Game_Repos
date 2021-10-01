@@ -19,6 +19,7 @@ class Stalfos_Main(Enemy_Main):
 
 		#----Active Parameters----#
 		self.__Cur_Health = 0
+		self.__recent_hit = False
 		#latter add the others
 
 		#----Temp Var----#
@@ -73,20 +74,22 @@ class Stalfos_Main(Enemy_Main):
 		#SSI == Second Side Info, represents the other objects needed parameters. Ex. dmg
 		#stal_key == The stalfos that is under collision
 	def my_Collision(self, SSC, SSI):
-		health = self.__Cur_Health
-		health -= SSI
-		self.__Cur_Health = health
-		print(self.__Cur_Health,'health stal')
-		self.alive(self.__info.get_ID())
+		if self.__recent_hit == False:
+			self.__recent_hit = True
+			health = self.__Cur_Health
+			health -= SSI
+			self.__Cur_Health = health
+			self.alive()
+			print(self.__Cur_Health, self.get_ID() + "'s health")
 
-	def alive(self, key):
+	def alive(self):
 		if self.__Cur_Health > 0:
-			# print("Alive")
+			print("Alive")
 			return True
 		elif self.__Cur_Health <= 0:
 			render = self.__Image.get_Render()
-			render.delete(key)
-			# print("Not Alive")
+			render.delete(self.__info.get_ID())
+			print("Not Alive")
 			return False
 
 

@@ -17,7 +17,7 @@ class Alpha():
 		self.__listTags  = None
 
 		#this will be a growing list of group tags. It is hard set to refer here for spacific groups
-		'''#_Enemy Parameters_#''' #include a list of tags for each enemy
+		'''#_Enemy Variables_#''' #include a list of tags for each enemy
 		self.__enemyRoster	= ["#stalfos", ]
 
 			#_Stalfos_#
@@ -33,6 +33,7 @@ class Alpha():
 
 		#below is class Calling
 		self.__mainApp		= Tk()
+		self.__Node 		= Node()
 		self.__Image		= Image_Node() #calls to other classes called need self.Img_Node
 		self.__kinetics		= Kinetics_Node(self.__Image)
 		self.__Player		= Player_Main(self.__Image, self.__Collision_Logic, self.__kinetics)
@@ -40,11 +41,8 @@ class Alpha():
 
 
 		'''Collision SETUP'''
-		self.__Collision_Logic.set_Render(self.__Image.get_Render())
 		self.__Collision_Logic.add_Col_Dict(self.__Player.get_ID(), self.__Player)
 
-
-		'''Enemy SETUP''' #game setup within the init func
 		# self.__Stalfos = Stalfos_Main(self.__Image, self.__Collision_Logic)
 		for item in range(self.__stalfosCount):
 			if item < 10:
@@ -67,9 +65,11 @@ class Alpha():
 		self.__Image.Create_Canvas(self.__mainApp, self.__Sc_Height, self.__Sc_Width)
 
 		#mass set_Render()
+		#leave enemies out of this for now
 		self.__Collision_Logic.set_Render(self.__Image.get_Render())
 		self.__kinetics.set_Render(self.__Image.get_Render())
 		self.__Player.set_Render(self.__Image.get_Render())
+		self.__Sword.set_Render(self.__Image.get_Render())
 
 	def close_window(self): #putting this on HOLD
 		if keyboard.is_pressed('q') == True:
@@ -138,11 +138,9 @@ class Alpha():
 			"""!!#_Version 2 of Collision logic_#!!"""
 			#_COL_Dict is set up inside the alpha.__init__()
 
-			c_Player  = self.__Player.get_Corners() #Always item 0
-
-			#only one c_Player should be here (IGNORE MULTIPLAYER)
+			#only one Player should be here (IGNORE MULTIPLAYER)
 			list1 = []
-			list1 = [c_Player]
+			list1 = [self.__Player.get_Corners()]
 			for item in range(len(self.__Stal_Roster)):
 				c_Stal = self.__Collision_Logic.tag_to_obj(self.__Stal_Roster[item]) #c_Stal == stalfos obj
 				list1.append(c_Stal.get_Corners())
@@ -228,7 +226,7 @@ class Alpha():
 
 	def give_gameTime(self, GameTime):
 		self.__Player.save_GT(GameTime)
-		self.__Sword.set_GameTime(GameTime)
+		self.__Sword.save_GT(GameTime)
 
 	#this is a function call for test prints to make sure things work
 	def Testing_Debug(self):

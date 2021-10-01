@@ -5,3 +5,6 @@ class Node():
 	#for now this is here for inheritance reasons
 	#eventually I will use this to access the child classes
 		#of this one
+
+	def Timer(self):
+		pass

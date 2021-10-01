@@ -26,7 +26,6 @@ class Player_Main(Game_Entities):
 		self.__key_left		= 'a'
 		self.__key_right	= 'd'
 		self.__key_attack	= 'k'
-		self.__key_coords 	= 'c'
 		self.__moving		= False
 
 		#----Active Parameters----#
@@ -107,8 +106,7 @@ class Player_Main(Game_Entities):
 				# print("Alive")
 				return True
 			elif self.__Cur_Health <= 0:
-				render = self.__Image.get_Render()
-				render.delete(self.__info.get_ID())
+				self.__Render.delete(self.__info.get_ID())
 				# print("Not Alive")
 				return False
 		elif self.__recent_hit == False:
@@ -202,7 +200,7 @@ class Player_Main(Game_Entities):
 	"""|--------------Test Functions--------------|#"""
 
 	def test_Coords(self):
-		if keyboard.is_pressed(self.__key_coords) == True:
+		if keyboard.is_pressed('c') == True:
 			x, y = self.__info.get_Coords() #current coords
 			print(x, y, 'CURRENT CORDS')
 
