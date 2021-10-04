@@ -1,7 +1,7 @@
 #here will be the "Storage" container for player's information.
 
 class Player_Info():
-	def __init__(self, ID):
+	def __init__(self):
 		#engine based Parameters.
 		self.__file_Location = None
 		self.__Player_Speed  = None
@@ -9,12 +9,12 @@ class Player_Info():
 		self.__Cur_Coords 	= None #constantly saves current coords in tuple: (x, y)
 		self.__Canvas_ID	= None
 		self.__group_ID		= 'player'
+		self.__ID			= 'P#001'
 		self.__imgPIL_ID	= None
 		self.__imgTK_ID		= None
 		self.__img_size		= None #(x, y)tuple of height, width
 		self.__Corners		= None #(x1, y1, x2, y2) tuple
 		self.__group_ID		= None
-		self.__ID			= ID
 
 		#Game Mechanical Parameters. Totals
 		self.__base_health	= None

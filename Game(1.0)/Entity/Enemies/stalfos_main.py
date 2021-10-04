@@ -1,20 +1,21 @@
 #here will be the Stalfos's controller
-import random
 from .enemy_main import Enemy_Main
 from .stalfos_info import Stalfos_Info
-from Engine.kinetics_node import Kinetics_Node
+from Engine import *
 
 import keyboard #temporary
+import random
 
 class Stalfos_Main(Enemy_Main):
-	def __init__(self, iNode, clNode, kNode, ID):
+	def __init__(self, iNode, clNode, kNode, tNode, ID):
 		Enemy_Main.__init__(self)
 		#iNode == Image_Node
 		#clNode == Collision_Node
 		self.__Collision_Logic = clNode
 		self.__Kinetics		= kNode
-		self.__info	 		= Stalfos_Info(ID)
 		self.__Image	 	= iNode
+		self.__Timer		= tNode
+		self.__info	 		= Stalfos_Info(ID)
 		self.__rand 		= random
 
 		#----Active Parameters----#

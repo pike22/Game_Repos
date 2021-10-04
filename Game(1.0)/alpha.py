@@ -13,7 +13,6 @@ class Alpha():
 		self.__version	 = "(Stab Simulator) BETAv.0.9"
 		self.__numLoop	 = 0
 		self.__FPS		 = 1000 / 30
-		self.__GameTime	 = 0
 		self.__listTags  = None
 
 		#this will be a growing list of group tags. It is hard set to refer here for spacific groups
@@ -34,9 +33,11 @@ class Alpha():
 		#below is class Calling
 		self.__mainApp		= Tk()
 		self.__Node 		= Node()
+		self.__Timer		= Timer_Node(self.__mainApp)
 		self.__Image		= Image_Node() #calls to other classes called need self.Img_Node
 		self.__Kinetics		= Kinetics_Node(self.__Image)
-		self.__Player		= Player_Main(self.__Image, self.__Collision_Logic, self.__Kinetics)
+		self.__Entities		= All_Entities(self.__mainApp)
+		self.__Player		= Player_Main(self.__Image, self.__Collision_Logic, self.__Kinetics, self.__Timer)
 		self.__Sword		= Sword_Main(self.__Image)
 
 
@@ -50,7 +51,7 @@ class Alpha():
 			elif item >= 10 and item < 100:
 				ID = "S#0" + str(item)
 			self.__Stal_Roster.append(ID)
-			self.__Collision_Logic.add_Col_Dict(tagOrId=ID, obj=Stalfos_Main(self.__Image, self.__Collision_Logic, self.__Kinetics, ID=ID))
+			self.__Collision_Logic.add_Col_Dict(tagOrId=ID, obj=Stalfos_Main(self.__Image, self.__Collision_Logic, self.__Kinetics, self.__Timer, ID=ID))
 
 		#temp val
 		self.__loopCount = 33
@@ -98,104 +99,94 @@ class Alpha():
 				r_Stal.stalfos_initial_setUP(self.__Sc_Width, self.__Sc_Height)
 				r_Stal.Stalfos_Print()
 
-		#this is for the start of the game timer.
-		self.__GameTime += 1 #it is the in game clock
-
-	def GameClock(self):
-		self.__Node.GameClock()
-		self.give_gameTime(self.__Node.get_Seconds())
-
-		self.__mainApp.after(int(self.__FPS), self.GameClock)
-
 
 	#gameLoop def is for the classes use.
 	def gameLoop(self):
 
 		#this loop will call itself again after the alloted amount of time.
 		#therefor creating the game loop
-		def loop():
-			#to kill the window
-			self.close_window()
-			# self.new_Player()
+		#to kill the window
+		self.close_window()
+		# self.new_Player()
 
-			"""#_calls_#"""
-			#Pass
+		"""#_calls_#"""
+		self.give_gameTime(self.__Timer.get_Seconds())
+		#Pass
 
-			"""#_loop Debug_#"""
-			# self.debug_Col_Dict() #workes
+		"""#_loop Debug_#"""
+		# self.debug_Col_Dict() #workes
 
-			"""#_player calls_#"""
-			output = self.__Player.get_isAlive()
-			if output == True:
-				self.__Player.Movement_Controll()
-				self.__Player.Player_Attack()
-				self.__Player.test_Coords()
-			else:
-				print("dead?")
+		"""#_player calls_#"""
+		output = self.__Player.get_isAlive()
+		if output == True:
+			self.__Player.Movement_Controll()
+			self.__Player.Player_Attack()
+			self.__Player.test_Coords()
+		else:
+			print("dead?")
 
-			#_Collision Logic functions_#
-			"""!!#_Version 2 of Collision logic_#!!"""
-			#_COL_Dict is set up inside the alpha.__init__()
+		#_Collision Logic functions_#
+		"""!!#_Version 2 of Collision logic_#!!"""
+		#_COL_Dict is set up inside the alpha.__init__()
 
-			#only one Player should be here (IGNORE MULTIPLAYER)
-			list1 = []
-			list1 = [self.__Player.get_Corners()]
-			for item in range(len(self.__Stal_Roster)):
-				c_Stal = self.__Collision_Logic.tag_to_obj(self.__Stal_Roster[item]) #c_Stal == stalfos obj
-				list1.append(c_Stal.get_Corners())
+		#only one Player should be here (IGNORE MULTIPLAYER)
+		list1 = []
+		list1 = [self.__Player.get_Corners()]
+		for item in range(len(self.__Stal_Roster)):
+			c_Stal = self.__Collision_Logic.tag_to_obj(self.__Stal_Roster[item]) #c_Stal == stalfos obj
+			list1.append(c_Stal.get_Corners())
 
-			#self.__stalfosCount represents number of stalfo's and their corners
-			dict = self.__Collision_Logic.get_Col_Dict()
-			if self.__Sword.get_IsWeapon() == True:
-				Sword = 1
-				self.__Collision_Logic.set_tag_List(self.__Sword.get_ID())
-				list1.append(self.__Sword.get_Corners())
-				if self.__Sword.get_ID() not in dict.keys():
-					self.__Collision_Logic.add_Col_Dict(self.__Sword.get_ID(), self.__Sword)
-			else:
-				Sword = 0
-				if self.__Sword.get_ID() in dict.keys():
-					self.__Collision_Logic.del_Col_Dict(self.__Sword.get_ID())
+		#self.__stalfosCount represents number of stalfo's and their corners
+		dict = self.__Collision_Logic.get_Col_Dict()
+		if self.__Sword.get_IsWeapon() == True:
+			Sword = 1
+			self.__Collision_Logic.set_tag_List(self.__Sword.get_ID())
+			list1.append(self.__Sword.get_Corners())
+			if self.__Sword.get_ID() not in dict.keys():
+				self.__Collision_Logic.add_Col_Dict(self.__Sword.get_ID(), self.__Sword)
+		else:
+			Sword = 0
+			if self.__Sword.get_ID() in dict.keys():
+				self.__Collision_Logic.del_Col_Dict(self.__Sword.get_ID())
 
-			self.__Collision_Logic.add_Collision(list1)
+		self.__Collision_Logic.add_Collision(list1)
 
-			#player represents the players Corners
-			player = 1
-			#when more enemies exist create more 'enemyName'Count, then add below.
-			for item in range(player + Sword + self.__stalfosCount):
-				Col_result = self.__Collision_Logic.Is_Collision(item)
+		#player represents the players Corners
+		player = 1
+		#when more enemies exist create more 'enemyName'Count, then add below.
+		for item in range(player + Sword + self.__stalfosCount):
+			Col_result = self.__Collision_Logic.Is_Collision(item)
 
 
-				if Col_result != None:
-					Col_Dict = self.__Collision_Logic.get_Col_Dict() #this may not be needed
-					for item in range(len(Col_result)):
-						# print('obj', Col_result[item+1])
-						if Col_result[item] == self.__Player: #player is always checked first
-							if Col_result[item+1].get_group_ID() in self.__enemyRoster:
-								var = self.__Player.my_Collision('Enemy', Col_result[item+1].get_attack())
-								# if var == True:
-								# 	pass
-							elif Col_result[item+1].get_group_ID() in self.__weaponRoster:
-								self.__Player.my_Collision('Weapon', Col_result[item+1].get_attack())
-							# print('player')
-						if Col_result[item].get_ID() in self.__Stal_Roster:
-							if item == len(Col_result)-1:
-								pass
-							elif item != len(Col_result)-1:
-								if Col_result[item+1].get_group_ID() in self.__weaponRoster:
-									Col_result[item].my_Collision('Weapon', Col_result[item+1].get_attack())
-									# print('stalfos')
-						if Col_result[item] == self.__Sword: #weapon will always be last
-							#print('Sword')
+			if Col_result != None:
+				Col_Dict = self.__Collision_Logic.get_Col_Dict() #this may not be needed
+				for item in range(len(Col_result)):
+					# print('obj', Col_result[item+1])
+					if Col_result[item] == self.__Player: #player is always checked first
+						if Col_result[item+1].get_group_ID() in self.__enemyRoster:
+							var = self.__Player.my_Collision('Enemy', Col_result[item+1].get_attack())
+							# if var == True:
+							# 	pass
+						elif Col_result[item+1].get_group_ID() in self.__weaponRoster:
+							self.__Player.my_Collision('Weapon', Col_result[item+1].get_attack())
+						# print('player')
+					if Col_result[item].get_ID() in self.__Stal_Roster:
+						if item == len(Col_result)-1:
 							pass
+						elif item != len(Col_result)-1:
+							if Col_result[item+1].get_group_ID() in self.__weaponRoster:
+								Col_result[item].my_Collision('Weapon', Col_result[item+1].get_attack())
+								# print('stalfos')
+					if Col_result[item] == self.__Sword: #weapon will always be last
+						#print('Sword')
+						pass
 
-			#_Combat_#
-			if self.__Sword.get_IsWeapon() == True:
-				self.__Sword.Weapon_Active()
+		#_Combat_#
+		if self.__Sword.get_IsWeapon() == True:
+			self.__Sword.Weapon_Active()
 
 
-			self.__mainApp.after(int(self.__FPS), loop)
-		loop()
+		self.__mainApp.after(int(self.__FPS), self.gameLoop)
 
 
 

@@ -2,22 +2,24 @@
 #target entity to be controlled by the user.
 #this will be used to set up and and save data.
 
-from Engine.kinetics_node import Kinetics_Node
-from .game_entities import Game_Entities
+from .all_entities import All_Entities
 from .player_info import Player_Info
+from Engine import *
+
 import keyboard
 
 class Player_Main(Game_Entities):
-	def __init__(self, iNode, clNode, kNode):
+	def __init__(self, iNode, clNode, kNode, tNode):
 		#iNode == Image_Node
 		#clNode == Collision_Node
 
 		#----Class Calls----#
-		Game_Entities.__init__(self)
+		All_Entities.__init__(self)
 		self.__Collision_Logic = clNode
 		self.__Kinetics		= kNode
-		self.__info	 		= Player_Info("P#001")
 		self.__Image	 	= iNode
+		self.__Timer 		= tNode
+		self.__info	 		= Player_Info()
 		self.__Weapon 		= None
 
 		#----Keyboard inputs----#
@@ -31,8 +33,8 @@ class Player_Main(Game_Entities):
 		#----Active Parameters----#
 		self.__GameTime	  = 0
 		self.__Cur_Health = 0
-		self.__recent_hit = False
 		self.__isAlive	  = True
+		self.__isHit	  = False
 		#latter add the others
 
 		#----Random Var----#
@@ -84,24 +86,35 @@ class Player_Main(Game_Entities):
 		#SSC == Second Side Collision, it represents the other object that collided with player
 		#SSI == Second Side Info, represents the other objects needed parameters. Ex. dmg
 	def my_Collision(self, SSC, SSI):
+		saveTime = self.__Timer.get_Seconds()
+		saveTime += 2
+		print(saveTime,':D')
+		print(self.__Timer.get_Seconds(),'D:')
 		if SSC == 'Enemy':
-			if self.__recent_hit == False:
-				self.__recent_hit = True
+			if self.__isHit == False:
+				self.__isHit = True
 				self.__Cur_Health -= SSI
 				new_Coords = self.__Kinetics.Knock_Back(self.__info.get_Coords(), self.__info.get_CanvasID())#, neg=False)
 				self.__info.set_Coords(new_Coords)
 				self.__info.set_Corners(self.__Render.bbox(self.__info.get_CanvasID()))
 				self.__isAlive = self.alive()
+				def needTime():
+					if self.__Timer.get_Seconds() == saveTime:
+						print('can hit?')
+					else:
+						print('no hit :(')
+						self.All_Entities.get_mainApp().after(int(saveTime), needTime)
+
 		elif SSC == 'Weapon':
 			pass
 			# print('self hit, oops')
 		else:
 			pass
-		return self.__recent_hit
+		return self.__isHit
 
 
 	def alive(self):
-		if self.__recent_hit == True:
+		if self.__isHit == True:
 			if self.__Cur_Health > 0:
 				# print("Alive")
 				return True
@@ -109,7 +122,7 @@ class Player_Main(Game_Entities):
 				self.__Render.delete(self.__info.get_ID())
 				# print("Not Alive")
 				return False
-		elif self.__recent_hit == False:
+		elif self.__isHit == False:
 			print('oh no')
 
 	#seting up player bellow
