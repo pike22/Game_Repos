@@ -19,9 +19,11 @@ class Stalfos_Main(Enemy_Main):
 		self.__rand 		= random
 
 		#----Active Parameters----#
+		self.__GameTime	  = 0
+		self.__saveTime	  = 0
 		self.__Cur_Health = 0
-		self.__recent_hit = False
-		#latter add the others
+		self.__isAlive	  = True
+		self.__isHit	  = False
 
 		#----Temp Var----#
 		self.__x			= 0
@@ -52,6 +54,9 @@ class Stalfos_Main(Enemy_Main):
 		self.__Image.get_Render().addtag_withtag(self.__info.get_group_ID(), Canvas_ID)
 		self.__info.set_Corners(self.__Image.get_Render().bbox(Canvas_ID))
 
+		#Active Parameters
+		self.__Cur_Health = self.__info.get_health()
+
 
 	#this is to go at the end.
 	def Stalfos_Print(self):
@@ -75,23 +80,35 @@ class Stalfos_Main(Enemy_Main):
 		#SSI == Second Side Info, represents the other objects needed parameters. Ex. dmg
 		#stal_key == The stalfos that is under collision
 	def my_Collision(self, SSC, SSI):
-		if self.__recent_hit == False:
-			self.__recent_hit = True
-			health = self.__Cur_Health
-			health -= SSI
-			self.__Cur_Health = health
-			self.alive()
-			print(self.__Cur_Health, self.get_ID() + "'s health")
+		if self.__isHit == False:
+			'''#_Actuall MATH_#'''
+			self.__Cur_Health -= SSI
+			print(self.__Cur_Health, 'health')
 
-	def alive(self):
-		if self.__Cur_Health > 0:
-			print("Alive")
-			return True
-		elif self.__Cur_Health <= 0:
-			render = self.__Image.get_Render()
-			render.delete(self.__info.get_ID())
-			print("Not Alive")
-			return False
+			'''#_Logic_#'''
+			self.__isHit 	= True
+			self.__isAlive  = self.isAlive()
+			self.__saveTime = Enemy_Main.get_GameTime()
+			print(self.__saveTime)
+			print(self.__GameTime)
+
+	def reset_hit(self):
+		if self.__GameTime == self.__saveTime+33:
+			self.__isHit = False
+			print('Stalfos Can Get Hit')
+
+	def isAlive(self):
+		if self.__isHit == True:
+			if self.__Cur_Health > 0:
+				print("Alive")
+				return True
+			elif self.__Cur_Health <= 0:
+				render = self.__Image.get_Render()
+				render.delete(self.__info.get_ID())
+				print("Not Alive")
+				return False
+		else:
+			print('ERROR: S#105', '\tself.__isHit = False')
 
 
 	"""|--------------Getters--------------|#"""

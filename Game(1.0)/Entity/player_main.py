@@ -32,14 +32,13 @@ class Player_Main(All_Entities):
 
 		#----Active Parameters----#
 		self.__GameTime	  = 0
+		self.__saveTime	  = 0
 		self.__Cur_Health = 0
 		self.__isAlive	  = True
 		self.__isHit	  = False
-		#latter add the others
 
 		#----Random Var----#
 		self.__Render = None
-		self.__timeSave = 0
 
 
 
@@ -94,38 +93,34 @@ class Player_Main(All_Entities):
 				new_Coords = self.__Kinetics.Knock_Back(self.__info.get_Coords(), self.__info.get_CanvasID())#, neg=False)
 				self.__info.set_Coords(new_Coords)
 				self.__info.set_Corners(self.__Render.bbox(self.__info.get_CanvasID()))
-				self.__isAlive = self.alive()
 
 				'''#_Logic_#'''
+				self.__isHit 	= True
+				self.__isAlive  = self.isAlive()
 				self.__saveTime = self.__GameTime
-				print(self.__saveTime, ':)')
-				self.__isHit = True
 
 		elif SSC == 'Weapon':
 			pass
-			# print('self hit, oops')
 		else:
-			print('Error: #108')
-		return self.__isHit
+			print('Error: P#108')
 
+	def reset_hit(self):
+		if self.__GameTime == self.__saveTime+33:
+			self.__isHit = False
+			print('Player Can Get Hit')
 
-	def alive(self):
+	def isAlive(self):
 		if self.__isHit == True:
 			if self.__Cur_Health > 0:
-				print("Alive")
+				# print("Alive")
 				return True
 			elif self.__Cur_Health <= 0:
 				self.__Render.delete(self.__info.get_ID())
-				print("Not Alive")
+				# print("Not Alive")
 				return False
 		elif self.__isHit == False:
-			print('ERROR: #122')
+			print('ERROR: #122','\tself.__isHit = False' )
 
-	def reset_hit(self):
-		print(self.__timeSave, 'hit')
-		print(self.__timeSave+66, 'truly hit')
-		if self.__GameTime == self.__timeSave+66:
-			self.__isHit = False
 
 	#seting up player bellow
 	def player_initial_setUP(self, x, y, priority=0):
@@ -197,7 +192,7 @@ class Player_Main(All_Entities):
 		return self.__isHit
 
 	def get_timeSave(self):
-		return self.__timeSave
+		return self.__saveTime
 
 
 	"""|--------------Setters--------------|#"""

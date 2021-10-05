@@ -5,4 +5,5 @@ class Enemy_Main(All_Entities):
 	def __init__(self):
 		All_Entities.__init__(self)
 
-	#def
+	def get_GameTime(self):
+		return All_Entities.get_GameTime()

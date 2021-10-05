@@ -1,5 +1,6 @@
 from PIL import ImageTk, Image
 from z_Pictures import *
+from colored import fg
 from tkinter import *
 from Weapons import *
 from Engine import *
@@ -10,7 +11,7 @@ class Alpha():
 	def __init__(self):
 		self.__Sc_Width	 = 992
 		self.__Sc_Height = 608
-		self.__version	 = "(Stab Simulator) BETAv.0.9"
+		self.__version	 = "(Stab Simulator) BETAv.1.0"
 		self.__listTags  = None
 
 		#this will be a growing list of group tags. It is hard set to refer here for spacific groups
@@ -86,7 +87,7 @@ class Alpha():
 		#Bellow is Entity set up
 		#start Priority with 0
 		self.__Player.player_initial_setUP(x=2, y=3, priority=0)
-		self.__Player.Player_Print()
+		# self.__Player.Player_Print() #temp turn off
 		self.__Player.set_Weapon(self.__Sword)
 		self.__Sword.Sword_setUP()
 		# self.__Sword.Sword_Print()
@@ -97,7 +98,7 @@ class Alpha():
 			if self.__Stal_Roster[item] in COLDICT.keys():
 				r_Stal = COLDICT[self.__Stal_Roster[item]]
 				r_Stal.stalfos_initial_setUP(self.__Sc_Width, self.__Sc_Height)
-				r_Stal.Stalfos_Print()
+				# r_Stal.Stalfos_Print() #temp Turn off
 
 	def Clock(self):
 		self.__Timer.GameClock()
@@ -126,7 +127,7 @@ class Alpha():
 			self.__Player.Player_Attack()
 			self.__Player.test_Coords()
 		else:
-			print("dead?")
+			print("dead? A#129")
 
 		#_Collision Logic functions_#
 		"""!!#_Version 2 of Collision logic_#!!"""
@@ -167,9 +168,7 @@ class Alpha():
 					# print('obj', Col_result[item+1])
 					if Col_result[item] == self.__Player: #player is always checked first
 						if Col_result[item+1].get_group_ID() in self.__enemyRoster:
-							var = self.__Player.my_Collision('Enemy', Col_result[item+1].get_attack())
-							# if var == True:
-							# 	pass
+							self.__Player.my_Collision('Enemy', Col_result[item+1].get_attack())
 						elif Col_result[item+1].get_group_ID() in self.__weaponRoster:
 							self.__Player.my_Collision('Weapon', Col_result[item+1].get_attack())
 						# print('player')
@@ -212,7 +211,8 @@ class Alpha():
 		for item in listOfTags:
 			tag = myCanvas.gettags(item)
 			if len(tag) > 0:
-				print("Item", item, 'Has tag:', tag)
+				color = fg('light_cyan')
+				print(color + "Item", item, 'Has tag:', tag)
 
 	def debug_Col_Dict(self):
 		if keyboard.is_pressed('t'):
@@ -221,6 +221,7 @@ class Alpha():
 			self.__Collision_Logic.print_Col_Dict()
 
 	def give_gameTime(self, GameTime):
+		self.__Entities.save_GT(GameTime)
 		self.__Player.save_GT(GameTime)
 		self.__Sword.save_GT(GameTime)
 
@@ -237,5 +238,6 @@ Game.tk_windowSETUP()
 Game.GamesetUP()
 Game.Testing_Debug()
 Game.Clock()
+print('----------------------------')
 Game.gameLoop()
 Game.get_mainAPP().mainloop()

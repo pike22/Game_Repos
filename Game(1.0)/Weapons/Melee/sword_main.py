@@ -5,8 +5,8 @@ class Sword_Main():
 		self.__Image	= iNode
 		self.__info		= Sword_Info()
 
-		self.__timeSave	 = 0
-		self.__GameTime   = 0
+		self.__GameTime  = 0
+		self.__saveTime	 = 0
 		self.__active	 = False
 		self.__Render	 = None
 
@@ -30,11 +30,11 @@ class Sword_Main():
 			self.__info.set_Canvas_ID(Canvas_ID)
 			self.__Render.addtag_withtag(group_ID, Canvas_ID)
 			self.__info.set_Corners(self.__Image.get_Render().bbox(Canvas_ID))
-			self.__timeSave = self.__GameTime
+			self.__saveTime = self.__GameTime
 			self.__active = True
 
 	def Weapon_Active(self):
-		if self.__GameTime == (self.__timeSave+33):
+		if self.__GameTime == (self.__saveTime+9):
 			self.__Render.delete(self.__info.get_ID())
 			self.__active = False
 
