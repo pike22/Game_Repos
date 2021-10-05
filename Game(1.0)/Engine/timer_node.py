@@ -4,8 +4,12 @@ class Timer_Node():
 		self.__mainApp		  = mainApp
 		self.__Seconds		  = 0
 		self.__MSeconds 	  = 0
+		self.__FPS			  = 1000 / 30
 		self.__Frame_Count 	  = 33
 		self.__Cur_FrameCount = 0
+
+		'''Temp Var'''
+		self.__targTime = 0
 
 
 	def GameClock(self):
@@ -17,10 +21,6 @@ class Timer_Node():
 
 		self.__mainApp.after(int(self.__FPS), self.GameClock)
 
-	def create_After(self, Time, DEF):
-
-		self.__mainApp.after(int(Time), DEF)
-
 
 	"""|--------------Getters--------------|#"""
 		#this is where a list of getters will go...
@@ -29,6 +29,9 @@ class Timer_Node():
 
 	def get_GameTime(self):
 		return self.__MSeconds
+
+	def get_FPS(self):
+		return self.__FPS
 
 
 	"""|--------------Setters--------------|#"""

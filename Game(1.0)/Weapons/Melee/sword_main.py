@@ -6,7 +6,7 @@ class Sword_Main():
 		self.__info		= Sword_Info()
 
 		self.__timeSave	 = 0
-		self.__Curr_GT   = 0
+		self.__GameTime   = 0
 		self.__active	 = False
 		self.__Render	 = None
 
@@ -30,12 +30,11 @@ class Sword_Main():
 			self.__info.set_Canvas_ID(Canvas_ID)
 			self.__Render.addtag_withtag(group_ID, Canvas_ID)
 			self.__info.set_Corners(self.__Image.get_Render().bbox(Canvas_ID))
-			self.__timeSave = self.__Curr_GT
+			self.__timeSave = self.__GameTime
 			self.__active = True
 
 	def Weapon_Active(self):
-		if self.__Curr_GT == (self.__timeSave+1):
-			#print("work?") #answer: YES
+		if self.__GameTime == (self.__timeSave+33):
 			self.__Render.delete(self.__info.get_ID())
 			self.__active = False
 
@@ -66,12 +65,12 @@ class Sword_Main():
 		return self.__info.get_Attack_Dmg()
 
 	def get_Curr_GT(self): #bassed on game created seconds
-		return self.__Curr_GT
+		return self.__GameTime
 
 	def get_Size(self):
 		return self.__info.get_Size()
 
-	def get_IsWeapon(self):
+	def get_isWeapon(self):
 		return self.__active
 
 	def get_Corners(self):
@@ -87,7 +86,7 @@ class Sword_Main():
 	"""|--------------Setters--------------|#"""
 		#this is where a list of setters will go...
 	def save_GT(self, Curr_GT):
-		self.__Curr_GT = Curr_GT
+		self.__GameTime = Curr_GT
 
 	def set_IsWeapon(self, Fort):
 		self.__active = Fort

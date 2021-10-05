@@ -8,7 +8,7 @@ from Engine import *
 
 import keyboard
 
-class Player_Main(Game_Entities):
+class Player_Main(All_Entities):
 	def __init__(self, iNode, clNode, kNode, tNode):
 		#iNode == Image_Node
 		#clNode == Collision_Node
@@ -39,6 +39,7 @@ class Player_Main(Game_Entities):
 
 		#----Random Var----#
 		self.__Render = None
+		self.__timeSave = 0
 
 
 
@@ -86,44 +87,45 @@ class Player_Main(Game_Entities):
 		#SSC == Second Side Collision, it represents the other object that collided with player
 		#SSI == Second Side Info, represents the other objects needed parameters. Ex. dmg
 	def my_Collision(self, SSC, SSI):
-		saveTime = self.__Timer.get_Seconds()
-		saveTime += 2
-		print(saveTime,':D')
-		print(self.__Timer.get_Seconds(),'D:')
 		if SSC == 'Enemy':
 			if self.__isHit == False:
-				self.__isHit = True
+				'''#_Actuall MATH_#'''
 				self.__Cur_Health -= SSI
 				new_Coords = self.__Kinetics.Knock_Back(self.__info.get_Coords(), self.__info.get_CanvasID())#, neg=False)
 				self.__info.set_Coords(new_Coords)
 				self.__info.set_Corners(self.__Render.bbox(self.__info.get_CanvasID()))
 				self.__isAlive = self.alive()
-				def needTime():
-					if self.__Timer.get_Seconds() == saveTime:
-						print('can hit?')
-					else:
-						print('no hit :(')
-						self.All_Entities.get_mainApp().after(int(saveTime), needTime)
+
+				'''#_Logic_#'''
+				self.__saveTime = self.__GameTime
+				print(self.__saveTime, ':)')
+				self.__isHit = True
 
 		elif SSC == 'Weapon':
 			pass
 			# print('self hit, oops')
 		else:
-			pass
+			print('Error: #108')
 		return self.__isHit
 
 
 	def alive(self):
 		if self.__isHit == True:
 			if self.__Cur_Health > 0:
-				# print("Alive")
+				print("Alive")
 				return True
 			elif self.__Cur_Health <= 0:
 				self.__Render.delete(self.__info.get_ID())
-				# print("Not Alive")
+				print("Not Alive")
 				return False
 		elif self.__isHit == False:
-			print('oh no')
+			print('ERROR: #122')
+
+	def reset_hit(self):
+		print(self.__timeSave, 'hit')
+		print(self.__timeSave+66, 'truly hit')
+		if self.__GameTime == self.__timeSave+66:
+			self.__isHit = False
 
 	#seting up player bellow
 	def player_initial_setUP(self, x, y, priority=0):
@@ -191,6 +193,12 @@ class Player_Main(Game_Entities):
 	def get_isAlive(self):
 		return self.__isAlive
 
+	def get_isHit(self):
+		return self.__isHit
+
+	def get_timeSave(self):
+		return self.__timeSave
+
 
 	"""|--------------Setters--------------|#"""
 		#this is where a list of setters will go...
@@ -203,7 +211,7 @@ class Player_Main(Game_Entities):
 	def set_health(self, health):
 		self.__info.set_health(health)
 
-	def save_GT(self, GameTime):
+	def save_GT(self, GameTime): #mSeconds
 		self.__GameTime = GameTime
 
 	def set_Render(self, Render):

@@ -1,8 +1,8 @@
 #this will be the parrent class for everything in the Entity folder
 
 class All_Entities():
-	def __init__(self, mainApp):
-		self.__mainApp = mainApp
+	def __init__(self):
+		self.__mainApp = None
 
 
 	"""|--------------Getters--------------|#"""
@@ -13,4 +13,5 @@ class All_Entities():
 
 	"""|--------------Setters--------------|#"""
 		#this is where a list of setters will go...
-	#def set_...
+	def set_mainApp(self, mainApp):
+		self.__mainApp = mainApp

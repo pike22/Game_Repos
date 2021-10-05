@@ -11,8 +11,6 @@ class Alpha():
 		self.__Sc_Width	 = 992
 		self.__Sc_Height = 608
 		self.__version	 = "(Stab Simulator) BETAv.0.9"
-		self.__numLoop	 = 0
-		self.__FPS		 = 1000 / 30
 		self.__listTags  = None
 
 		#this will be a growing list of group tags. It is hard set to refer here for spacific groups
@@ -36,10 +34,12 @@ class Alpha():
 		self.__Timer		= Timer_Node(self.__mainApp)
 		self.__Image		= Image_Node() #calls to other classes called need self.Img_Node
 		self.__Kinetics		= Kinetics_Node(self.__Image)
-		self.__Entities		= All_Entities(self.__mainApp)
+		self.__Entities		= All_Entities()
 		self.__Player		= Player_Main(self.__Image, self.__Collision_Logic, self.__Kinetics, self.__Timer)
 		self.__Sword		= Sword_Main(self.__Image)
 
+		#yes
+		self.__Entities.set_mainApp(self.__mainApp)
 
 		'''Collision SETUP'''
 		self.__Collision_Logic.add_Col_Dict(self.__Player.get_ID(), self.__Player)
@@ -99,6 +99,9 @@ class Alpha():
 				r_Stal.stalfos_initial_setUP(self.__Sc_Width, self.__Sc_Height)
 				r_Stal.Stalfos_Print()
 
+	def Clock(self):
+		self.__Timer.GameClock()
+
 
 	#gameLoop def is for the classes use.
 	def gameLoop(self):
@@ -110,7 +113,7 @@ class Alpha():
 		# self.new_Player()
 
 		"""#_calls_#"""
-		self.give_gameTime(self.__Timer.get_Seconds())
+		self.give_gameTime(self.__Timer.get_GameTime())
 		#Pass
 
 		"""#_loop Debug_#"""
@@ -138,7 +141,7 @@ class Alpha():
 
 		#self.__stalfosCount represents number of stalfo's and their corners
 		dict = self.__Collision_Logic.get_Col_Dict()
-		if self.__Sword.get_IsWeapon() == True:
+		if self.__Sword.get_isWeapon() == True:
 			Sword = 1
 			self.__Collision_Logic.set_tag_List(self.__Sword.get_ID())
 			list1.append(self.__Sword.get_Corners())
@@ -182,11 +185,14 @@ class Alpha():
 						pass
 
 		#_Combat_#
-		if self.__Sword.get_IsWeapon() == True:
+		if self.__Sword.get_isWeapon() == True:
 			self.__Sword.Weapon_Active()
 
+		if self.__Player.get_isHit() == True:
+			self.__Player.reset_hit()
 
-		self.__mainApp.after(int(self.__FPS), self.gameLoop)
+
+		self.__mainApp.after(int(self.__Timer.get_FPS()), self.gameLoop)
 
 
 
@@ -230,6 +236,6 @@ Game.set_MainCanvas()
 Game.tk_windowSETUP()
 Game.GamesetUP()
 Game.Testing_Debug()
-Game.GameClock()
+Game.Clock()
 Game.gameLoop()
 Game.get_mainAPP().mainloop()
