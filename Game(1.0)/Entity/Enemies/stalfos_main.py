@@ -14,7 +14,6 @@ class Stalfos_Main(Enemy_Main):
 		self.__Collision_Logic = clNode
 		self.__Kinetics		= kNode
 		self.__Image	 	= iNode
-		self.__Timer		= tNode
 		self.__info	 		= Stalfos_Info(ID)
 		self.__rand 		= random
 
@@ -26,8 +25,9 @@ class Stalfos_Main(Enemy_Main):
 		self.__isHit	  = False
 
 		#----Temp Var----#
-		self.__x			= 0
-		self.__y			= 0
+		self.__x	= 0
+		self.__y	= 0
+		self.__Var	= 99
 
 
 	#seting up player bellow
@@ -60,7 +60,7 @@ class Stalfos_Main(Enemy_Main):
 
 	#this is to go at the end.
 	def Stalfos_Print(self):
-		#list of prints for start of program(players)
+		#list of prints for start of program(stalfos)
 		print('-----------------------------------')
 		print('Stalfos Data:')
 		print(self.__info.get_ID(), '\t:Entity ID')
@@ -72,9 +72,20 @@ class Stalfos_Main(Enemy_Main):
 		print(self.__info.get_Size(), 	'\t\t:Size')
 		print(self.__info.get_Coords(), 	'\t\t:Coords')
 		print(self.__info.get_Corners(), 	'\t:Corners')
-		print('-----------------------------------')
-		print('')
+		print('-----------------------------------\n')
 
+	def Movement_Controll(self):
+		if Timer_Node.GameTime <= self.__var:
+			new_Coords = self.__Kinetics.x_Kinetics(self.__info.get_Coords(), self.__info.get_ID())
+			self.__info.set_Coords(new_Coords)
+			self.__info.set_Corners(self.__Render.bbox(self.__info.get_ID()))
+		else:
+			pass
+
+		pass
+
+	def Stal_Attack(self):
+		pass
 
 		#SSC == Second Side Collision, it represents the other object that collided with player
 		#SSI == Second Side Info, represents the other objects needed parameters. Ex. dmg
@@ -83,29 +94,27 @@ class Stalfos_Main(Enemy_Main):
 		if self.__isHit == False:
 			'''#_Actuall MATH_#'''
 			self.__Cur_Health -= SSI
-			print(self.__Cur_Health, 'health')
+			# print(self.__Cur_Health, 'health')
 
 			'''#_Logic_#'''
 			self.__isHit 	= True
 			self.__isAlive  = self.isAlive()
-			self.__saveTime = Enemy_Main.get_GameTime()
-			print(self.__saveTime)
-			print(self.__GameTime)
+			self.__saveTime = Timer_Node.GameTime
 
 	def reset_hit(self):
-		if self.__GameTime == self.__saveTime+33:
+		if Timer_Node.GameTime == self.__saveTime+5:
 			self.__isHit = False
 			print('Stalfos Can Get Hit')
 
 	def isAlive(self):
 		if self.__isHit == True:
 			if self.__Cur_Health > 0:
-				print("Alive")
+				# print("Alive")
 				return True
 			elif self.__Cur_Health <= 0:
 				render = self.__Image.get_Render()
 				render.delete(self.__info.get_ID())
-				print("Not Alive")
+				# print("Not Alive")
 				return False
 		else:
 			print('ERROR: S#105', '\tself.__isHit = False')
@@ -131,6 +140,12 @@ class Stalfos_Main(Enemy_Main):
 
 	def get_group_ID(self):
 		return self.__info.get_group_ID()
+
+	def get_isHit(self):
+		return self.__isHit
+
+	def get_isAlive(self):
+		return self.__isAlive
 
 
 	"""|--------------Setters--------------|#"""

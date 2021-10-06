@@ -41,21 +41,18 @@ class Kinetics_Node(Node):
 	def Knock_Back(self, Cur_Coords, img_ID):#eventually impliment directional based knock back
 		x, y = Cur_Coords
 		x -= 100
-		y -= 100
 		return (x, y)
 
 
 	#special types of movement may be implimented later
 	"""|--------------Getters--------------|#"""
-		#this is where a list of getters will
-		#go...
+		#this is where a list of getters will go...
 	def get_Speed(self):
 		return self.__Speed
 
 
 	"""|--------------Setters--------------|#"""
-		#this is where a list of setters will
-		#go...
+		#this is where a list of setters will go...
 	def set_Speed(self, Speed):
 		self.__Speed = Speed
 

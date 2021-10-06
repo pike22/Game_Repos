@@ -92,6 +92,9 @@ class Alpha():
 		self.__Sword.Sword_setUP()
 		# self.__Sword.Sword_Print()
 
+		#_CLOCK SETUP_#
+		self.__Timer.GameClock()
+
 		#__ENEMY Setup__#
 		COLDICT = self.__Collision_Logic.get_Col_Dict()
 		for item in range(len(self.__Stal_Roster)):
@@ -99,10 +102,6 @@ class Alpha():
 				r_Stal = COLDICT[self.__Stal_Roster[item]]
 				r_Stal.stalfos_initial_setUP(self.__Sc_Width, self.__Sc_Height)
 				# r_Stal.Stalfos_Print() #temp Turn off
-
-	def Clock(self):
-		self.__Timer.GameClock()
-
 
 	#gameLoop def is for the classes use.
 	def gameLoop(self):
@@ -114,20 +113,32 @@ class Alpha():
 		# self.new_Player()
 
 		"""#_calls_#"""
-		self.give_gameTime(self.__Timer.get_GameTime())
 		#Pass
 
 		"""#_loop Debug_#"""
 		# self.debug_Col_Dict() #workes
 
-		"""#_player calls_#"""
-		output = self.__Player.get_isAlive()
-		if output == True:
+		"""#_Entity Loop Calls_#"""
+			#_PLAYER_#
+		player = self.__Player.get_isAlive()
+		if player == True:
 			self.__Player.Movement_Controll()
 			self.__Player.Player_Attack()
 			self.__Player.test_Coords()
 		else:
-			print("dead? A#129")
+			# print("dead? A#129")
+			pass
+
+			#_STALFOS_#
+		Col_Dict = self.__Collision_Logic.get_Col_Dict()
+		for item in range(len(self.__Stal_Roster)):
+			stalfos = Col_Dict[self.__Stal_Roster[item]]
+			if stalfos.get_isAlive() == True:
+				stalfos.Movement_Controll()
+				stalfos.Stal_Attack()
+			else:
+				# print('dead? A#140')
+				pass
 
 		#_Collision Logic functions_#
 		"""!!#_Version 2 of Collision logic_#!!"""
@@ -190,6 +201,12 @@ class Alpha():
 		if self.__Player.get_isHit() == True:
 			self.__Player.reset_hit()
 
+		Col_Dict = self.__Collision_Logic.get_Col_Dict()
+		for item in range(len(self.__Stal_Roster)):
+			result = Col_Dict[self.__Stal_Roster[item]]
+			if result.get_isHit() == True:
+				result.reset_hit()
+
 
 		self.__mainApp.after(int(self.__Timer.get_FPS()), self.gameLoop)
 
@@ -220,24 +237,19 @@ class Alpha():
 			self.__Collision_Logic.del_Col_Dict(self.__Player.get_ID())
 			self.__Collision_Logic.print_Col_Dict()
 
-	def give_gameTime(self, GameTime):
-		self.__Entities.save_GT(GameTime)
-		self.__Player.save_GT(GameTime)
-		self.__Sword.save_GT(GameTime)
-
 	#this is a function call for test prints to make sure things work
 	def Testing_Debug(self):
 		self.find_all_Tags()
+		# self.debug_Col_Dict()
 
 
 #puts the above class to action
 Game = Alpha()
-print('') #to make it easier to read in the command promt
+print('----------------------------\n') #to make it easier to read in the command promt
 Game.set_MainCanvas()
 Game.tk_windowSETUP()
 Game.GamesetUP()
 Game.Testing_Debug()
-Game.Clock()
 print('----------------------------')
 Game.gameLoop()
 Game.get_mainAPP().mainloop()

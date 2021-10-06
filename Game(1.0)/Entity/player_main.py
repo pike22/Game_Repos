@@ -18,7 +18,6 @@ class Player_Main(All_Entities):
 		self.__Collision_Logic = clNode
 		self.__Kinetics		= kNode
 		self.__Image	 	= iNode
-		self.__Timer 		= tNode
 		self.__info	 		= Player_Info()
 		self.__Weapon 		= None
 
@@ -31,7 +30,6 @@ class Player_Main(All_Entities):
 		self.__moving		= False
 
 		#----Active Parameters----#
-		self.__GameTime	  = 0
 		self.__saveTime	  = 0
 		self.__Cur_Health = 0
 		self.__isAlive	  = True
@@ -39,87 +37,6 @@ class Player_Main(All_Entities):
 
 		#----Random Var----#
 		self.__Render = None
-
-
-
-	def Movement_Controll(self):
-		if keyboard.is_pressed(self.__key_up):
-			new_Coords = self.__Kinetics.y_Kinetics(self.__info.get_Coords(), self.__info.get_CanvasID(), neg=False)
-			self.__info.set_Coords(new_Coords)
-			self.__info.set_Corners(self.__Render.bbox(self.__info.get_CanvasID()))
-			self.__moving = True
-
-		if keyboard.is_pressed(self.__key_down):
-			new_Coords = self.__Kinetics.y_Kinetics(self.__info.get_Coords(), self.__info.get_CanvasID())
-			self.__info.set_Coords(new_Coords)
-			self.__info.set_Corners(self.__Render.bbox(self.__info.get_CanvasID()))
-			self.__moving = True
-
-		if keyboard.is_pressed(self.__key_left):
-			new_Coords = self.__Kinetics.x_Kinetics(self.__info.get_Coords(), self.__info.get_CanvasID(), neg=False)
-			self.__info.set_Coords(new_Coords)
-			self.__info.set_Corners(self.__Render.bbox(self.__info.get_CanvasID()))
-			self.__moving = True
-
-		if keyboard.is_pressed(self.__key_right):
-			new_Coords = self.__Kinetics.x_Kinetics(self.__info.get_Coords(), self.__info.get_CanvasID())
-			self.__info.set_Coords(new_Coords)
-			self.__info.set_Corners(self.__Render.bbox(self.__info.get_CanvasID()))
-			self.__moving = True
-
-		if keyboard.is_pressed(self.__key_right) == False and keyboard.is_pressed(self.__key_up) == False and keyboard.is_pressed(self.__key_down) == False and keyboard.is_pressed(self.__key_left) == False:
-			self.__moving = False
-			return self.__moving
-		else:
-			return self.__moving
-
-	def Player_Attack(self):
-		if keyboard.is_pressed(self.__key_attack) == True:
-			x, y = self.__info.get_Coords() #current coords
-			a, b = self.__Weapon.get_Size()
-			self.__Weapon.use_Sword(x+a, y)
-
-		if keyboard.is_pressed('l'):
-			self.__Weapon.del_Sword()
-
-
-		#SSC == Second Side Collision, it represents the other object that collided with player
-		#SSI == Second Side Info, represents the other objects needed parameters. Ex. dmg
-	def my_Collision(self, SSC, SSI):
-		if SSC == 'Enemy':
-			if self.__isHit == False:
-				'''#_Actuall MATH_#'''
-				self.__Cur_Health -= SSI
-				new_Coords = self.__Kinetics.Knock_Back(self.__info.get_Coords(), self.__info.get_CanvasID())#, neg=False)
-				self.__info.set_Coords(new_Coords)
-				self.__info.set_Corners(self.__Render.bbox(self.__info.get_CanvasID()))
-
-				'''#_Logic_#'''
-				self.__isHit 	= True
-				self.__isAlive  = self.isAlive()
-				self.__saveTime = self.__GameTime
-
-		elif SSC == 'Weapon':
-			pass
-		else:
-			print('Error: P#108')
-
-	def reset_hit(self):
-		if self.__GameTime == self.__saveTime+33:
-			self.__isHit = False
-			print('Player Can Get Hit')
-
-	def isAlive(self):
-		if self.__isHit == True:
-			if self.__Cur_Health > 0:
-				# print("Alive")
-				return True
-			elif self.__Cur_Health <= 0:
-				self.__Render.delete(self.__info.get_ID())
-				# print("Not Alive")
-				return False
-		elif self.__isHit == False:
-			print('ERROR: #122','\tself.__isHit = False' )
 
 
 	#seting up player bellow
@@ -145,13 +62,11 @@ class Player_Main(All_Entities):
 		#Active Parameters
 		self.__Cur_Health = self.__info.get_health()
 
-
 	def Player_Print(self):
 		#list of prints for start of program(players)
 		print('-----------------------------------')
 		print('Player Data:')
 		print(self.__info.get_ID(), '\t:Entity ID')
-		print(self.__info.get_CanvasID(), '\t:Canvas ID')
 		print(self.__info.get_Speed(), 	'\t:Speed')
 		print(self.__info.get_health(),	'\t:Health')
 		print(self.__info.get_defense(),'\t:Defense')
@@ -160,8 +75,89 @@ class Player_Main(All_Entities):
 		print(self.__info.get_Size(), 	'\t\t:Size')
 		print(self.__info.get_Coords(), 	'\t\t:Coords')
 		print(self.__info.get_Corners(), 	'\t:Corners')
-		print('-----------------------------------')
-		print('')
+		print('-----------------------------------\n')
+
+	def Movement_Controll(self):
+		if keyboard.is_pressed(self.__key_up):
+			new_Coords = self.__Kinetics.y_Kinetics(self.__info.get_Coords(), self.__info.get_ID(), neg=False)
+			self.__info.set_Coords(new_Coords)
+			self.__info.set_Corners(self.__Render.bbox(self.__info.get_ID()))
+			self.__moving = True
+
+		if keyboard.is_pressed(self.__key_down):
+			new_Coords = self.__Kinetics.y_Kinetics(self.__info.get_Coords(), self.__info.get_ID())
+			self.__info.set_Coords(new_Coords)
+			self.__info.set_Corners(self.__Render.bbox(self.__info.get_ID()))
+			self.__moving = True
+
+		if keyboard.is_pressed(self.__key_left):
+			new_Coords = self.__Kinetics.x_Kinetics(self.__info.get_Coords(), self.__info.get_ID(), neg=False)
+			self.__info.set_Coords(new_Coords)
+			self.__info.set_Corners(self.__Render.bbox(self.__info.get_ID()))
+			self.__moving = True
+
+		if keyboard.is_pressed(self.__key_right):
+			new_Coords = self.__Kinetics.x_Kinetics(self.__info.get_Coords(), self.__info.get_ID())
+			self.__info.set_Coords(new_Coords)
+			self.__info.set_Corners(self.__Render.bbox(self.__info.get_ID()))
+			self.__moving = True
+
+		if keyboard.is_pressed(self.__key_right) == False and keyboard.is_pressed(self.__key_up) == False and keyboard.is_pressed(self.__key_down) == False and keyboard.is_pressed(self.__key_left) == False:
+			self.__moving = False
+			return self.__moving
+		else:
+			return self.__moving
+
+	def Player_Attack(self):
+		if keyboard.is_pressed(self.__key_attack) == True:
+			x, y = self.__info.get_Coords() #current coords
+			a, b = self.__Weapon.get_Size()
+			self.__Weapon.use_Sword(x+a, y)
+
+		if keyboard.is_pressed('l'):
+			self.__Weapon.del_Sword()
+
+
+		#SSC == Second Side Collision, it represents the other object that collided with player
+		#SSI == Second Side Info, represents the other objects needed parameters. Ex. dmg
+	def my_Collision(self, SSC, SSI):
+		if SSC == 'Enemy':
+			if self.__isHit == False:
+				'''#_Actuall MATH_#'''
+				self.__Cur_Health -= SSI
+				new_Coords = self.__Kinetics.Knock_Back(self.__info.get_Coords(), self.__info.get_ID())#, neg=False)
+				self.__info.set_Coords(new_Coords)
+				self.__info.set_Corners(self.__Render.bbox(self.__info.get_ID()))
+
+				'''#_Logic_#'''
+				self.__isHit 	= True
+				self.__isAlive  = self.isAlive()
+				self.__saveTime = Timer_Node.GameTime
+
+		elif SSC == 'Weapon':
+			pass
+		else:
+			print('Error: P#108')
+			pass
+
+	def reset_hit(self):
+		if Timer_Node.GameTime == self.__saveTime+5:
+			self.__isHit = False
+			print('Player Can Get Hit')
+
+	def isAlive(self):
+		if self.__isHit == True:
+			if self.__Cur_Health > 0:
+				# print("Alive")
+				return True
+			elif self.__Cur_Health <= 0:
+				self.__Render.delete(self.__info.get_ID())
+				# print("Not Alive")
+				return False
+		elif self.__isHit == False:
+			print('ERROR: #122','\tself.__isHit = False' )
+
+
 
 
 	"""|--------------Getters--------------|#"""
@@ -191,9 +187,6 @@ class Player_Main(All_Entities):
 	def get_isHit(self):
 		return self.__isHit
 
-	def get_timeSave(self):
-		return self.__saveTime
-
 
 	"""|--------------Setters--------------|#"""
 		#this is where a list of setters will go...
@@ -205,9 +198,6 @@ class Player_Main(All_Entities):
 
 	def set_health(self, health):
 		self.__info.set_health(health)
-
-	def save_GT(self, GameTime): #mSeconds
-		self.__GameTime = GameTime
 
 	def set_Render(self, Render):
 		self.__Render = Render

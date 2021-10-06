@@ -1,11 +1,11 @@
 from .sword_info import Sword_Info
+from Engine import Timer_Node
 
 class Sword_Main():
 	def __init__(self, iNode):
 		self.__Image	= iNode
 		self.__info		= Sword_Info()
 
-		self.__GameTime  = 0
 		self.__saveTime	 = 0
 		self.__active	 = False
 		self.__Render	 = None
@@ -30,11 +30,11 @@ class Sword_Main():
 			self.__info.set_Canvas_ID(Canvas_ID)
 			self.__Render.addtag_withtag(group_ID, Canvas_ID)
 			self.__info.set_Corners(self.__Image.get_Render().bbox(Canvas_ID))
-			self.__saveTime = self.__GameTime
+			self.__saveTime = Timer_Node.GameTime
 			self.__active = True
 
 	def Weapon_Active(self):
-		if self.__GameTime == (self.__saveTime+9):
+		if Timer_Node.GameTime == (self.__saveTime+9):
 			self.__Render.delete(self.__info.get_ID())
 			self.__active = False
 
@@ -64,9 +64,6 @@ class Sword_Main():
 	def get_attack(self):
 		return self.__info.get_Attack_Dmg()
 
-	def get_Curr_GT(self): #bassed on game created seconds
-		return self.__GameTime
-
 	def get_Size(self):
 		return self.__info.get_Size()
 
@@ -85,9 +82,6 @@ class Sword_Main():
 
 	"""|--------------Setters--------------|#"""
 		#this is where a list of setters will go...
-	def save_GT(self, Curr_GT):
-		self.__GameTime = Curr_GT
-
 	def set_IsWeapon(self, Fort):
 		self.__active = Fort
 

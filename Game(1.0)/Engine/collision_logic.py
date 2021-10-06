@@ -8,12 +8,8 @@ class Collision_Logic():
 		self.__key_list	 = []
 		self.__Col_Dict  = {}
 		self.__Render	 = None
+		self.__Direcntion = None
 		self.__IsCollision = False
-
-		'''#_Parameter Math Var_#'''
-		self.__health1 = 0
-		self.__health2 = 0
-
 
 	'''#_COLLISION DICTIONARY FUNCTIONS_#'''
 	#tagOrId == dictionary key
@@ -25,7 +21,6 @@ class Collision_Logic():
 		del self.__Col_Dict[tagOrId]
 
 	def tag_to_obj(self, tagOrId):
-		# if tagOrId in self.__Col_Dict.keys():
 		output = self.__Col_Dict[tagOrId]
 		return output
 
@@ -49,12 +44,9 @@ class Collision_Logic():
 
 		x1, y1, x2, y2 = self.__Corners[item]
 		collision = self.__Render.find_overlapping(x1, y1, x2, y2)
-			#if item == 1:
-				# print(collision[0],':ID,', item, ':Item')
 
 		#this only shows what is colliding.
 		if len(collision) > 1:
-			#print(collision, 'ID', )
 			for item in range(len(collision)):
 				tag = self.__Render.gettags(collision[item])
 				self.__collision.append(tag[0]) #item 0 is the entity_ID, 1 == group_ID
@@ -68,13 +60,10 @@ class Collision_Logic():
 				self.__obj_list.append(obj)
 
 			self.__IsCollision = True
-			return self.__obj_list#, self.__key_list
-			# return self.__IsCollision#, self.__collision
+			return self.__obj_list
 		else:
 			self.__IsCollision = False
-			return None#, None
-			# return self.__IsCollision#, None
-
+			return None
 
 	"""|--------------Getters--------------|#"""
 		#this is where a list of getters will go...

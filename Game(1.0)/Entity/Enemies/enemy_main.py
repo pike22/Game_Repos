@@ -4,6 +4,3 @@ from ..all_entities import All_Entities
 class Enemy_Main(All_Entities):
 	def __init__(self):
 		All_Entities.__init__(self)
-
-	def get_GameTime(self):
-		return All_Entities.get_GameTime()
