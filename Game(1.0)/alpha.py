@@ -87,7 +87,7 @@ class Alpha():
 		#Bellow is Entity set up
 		#start Priority with 0
 		self.__Player.player_initial_setUP(x=2, y=3, priority=0)
-		# self.__Player.Player_Print() #temp turn off
+		self.__Player.Player_Print() #temp turn off
 		self.__Player.set_Weapon(self.__Sword)
 		self.__Sword.Sword_setUP()
 		# self.__Sword.Sword_Print()
@@ -101,7 +101,7 @@ class Alpha():
 			if self.__Stal_Roster[item] in COLDICT.keys():
 				r_Stal = COLDICT[self.__Stal_Roster[item]]
 				r_Stal.stalfos_initial_setUP(self.__Sc_Width, self.__Sc_Height)
-				# r_Stal.Stalfos_Print() #temp Turn off
+				r_Stal.Stalfos_Print() #temp Turn off
 
 	#gameLoop def is for the classes use.
 	def gameLoop(self):
@@ -120,8 +120,7 @@ class Alpha():
 
 		"""#_Entity Loop Calls_#"""
 			#_PLAYER_#
-		player = self.__Player.get_isAlive()
-		if player == True:
+		if self.__Player.get_isAlive() == True:
 			self.__Player.Movement_Controll()
 			self.__Player.Player_Attack()
 			self.__Player.test_Coords()
@@ -134,7 +133,7 @@ class Alpha():
 		for item in range(len(self.__Stal_Roster)):
 			stalfos = Col_Dict[self.__Stal_Roster[item]]
 			if stalfos.get_isAlive() == True:
-				stalfos.Movement_Controll()
+				# stalfos.Movement_Controll()
 				stalfos.Stal_Attack()
 			else:
 				# print('dead? A#140')
@@ -176,20 +175,22 @@ class Alpha():
 			if Col_result != None:
 				Col_Dict = self.__Collision_Logic.get_Col_Dict() #this may not be needed
 				for item in range(len(Col_result)):
-					# print('obj', Col_result[item+1])
+					# print('obj', Col_result[item])
 					if Col_result[item] == self.__Player: #player is always checked first
 						if Col_result[item+1].get_group_ID() in self.__enemyRoster:
-							self.__Player.my_Collision('Enemy', Col_result[item+1].get_attack())
+							direction = self.__Collision_Logic.Dir_Calc()
+							print('direction:', direction)
+							self.__Player.my_Collision('Enemy', Col_result[item+1].get_attack(), direction)
 						elif Col_result[item+1].get_group_ID() in self.__weaponRoster:
 							self.__Player.my_Collision('Weapon', Col_result[item+1].get_attack())
-						# print('player')
+
 					if Col_result[item].get_ID() in self.__Stal_Roster:
 						if item == len(Col_result)-1:
 							pass
 						elif item != len(Col_result)-1:
 							if Col_result[item+1].get_group_ID() in self.__weaponRoster:
 								Col_result[item].my_Collision('Weapon', Col_result[item+1].get_attack())
-								# print('stalfos')
+
 					if Col_result[item] == self.__Sword: #weapon will always be last
 						#print('Sword')
 						pass

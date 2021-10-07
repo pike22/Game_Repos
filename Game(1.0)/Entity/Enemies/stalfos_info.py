@@ -58,6 +58,7 @@ class Stalfos_Info():
 	def get_group_ID(self):
 		return self.__group_ID
 
+		#_attack, health, defense_#
 	def get_attack(self):
 		return self.__base_attack
 

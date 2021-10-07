@@ -10,37 +10,26 @@ class Kinetics_Node(Node):
 		self.__Render = None
 
 
-	def x_Kinetics(self, Cur_Coords, img_ID, neg=True):
+	def kinetics(self, Cur_Coords, img_ID, direction):
 		x, y = Cur_Coords
-		#print(x, y, 'old: (x, y)')
-		if neg == True:
-			x += 1 * self.__Speed
-		else:
+		if direction == 'left':
 			x -= 1 * self.__Speed
-		#print(x, y, 'new: (x, y)')
-		#print('-----------------')
-		self.__Render.coords(img_ID, x, y)
-		return (x, y)
-		#here will be how I move an object/entity
-		#on the x axis.
-
-	def y_Kinetics(self, Cur_Coords, img_ID, neg=True):
-		x, y = Cur_Coords
-		#print(x, y, 'old: (x, y)')
-		if neg == True:
-			y += 1 * self.__Speed
-		else:
+		if direction == 'right':
+			x += 1 * self.__Speed
+		if direction == 'up':
 			y -= 1 * self.__Speed
-		#print(x, y, 'new: (x, y)')
-		#print('-----------------')
+		if direction == 'down':
+			y += 1 * self.__Speed
+
 		self.__Render.coords(img_ID, x, y)
 		return (x, y)
-		#here will be how I move an object/entity
-		#on the y axis.
 
-	def Knock_Back(self, Cur_Coords, img_ID):#eventually impliment directional based knock back
+	def Knock_Back(self, Cur_Coords, img_ID, direction):#eventually impliment directional based knock back
 		x, y = Cur_Coords
-		x -= 100
+		if direction == 'left':
+			x -= 100
+		if direction == None:
+			x += 100
 		return (x, y)
 
 

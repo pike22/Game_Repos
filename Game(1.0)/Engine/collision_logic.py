@@ -65,6 +65,33 @@ class Collision_Logic():
 			self.__IsCollision = False
 			return None
 
+	def Dir_Calc(self):
+		objA  = None
+		NameA = None
+		objB  = None
+		NameB = None
+		for item in range(len(self.__obj_list)):
+			if item == 0:
+				objA = self.__obj_list[item]
+				NameA = objA.get_ID()
+			elif item == 1:
+				objB = self.__obj_list[item]
+				NameB = objB.get_ID()
+			else:
+				print("ERROR: CL#77")
+		a1, a2 = objA.get_Coords()
+		b1, b2 = objB.get_Coords()
+
+		x_Dist = a1 - b1
+		y_Dist = a2 - b2
+
+		if x_Dist >= 28 and x_Dist <= 50:
+			direction = 'left'
+			return direction
+		else:
+			return None
+
+
 	"""|--------------Getters--------------|#"""
 		#this is where a list of getters will go...
 	def get_Col_Dict(self):

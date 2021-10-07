@@ -27,13 +27,13 @@ class Player_Main(All_Entities):
 		self.__key_left		= 'a'
 		self.__key_right	= 'd'
 		self.__key_attack	= 'k'
-		self.__moving		= False
 
 		#----Active Parameters----#
 		self.__saveTime	  = 0
 		self.__Cur_Health = 0
 		self.__isAlive	  = True
 		self.__isHit	  = False
+		self.__isMoving   = False
 
 		#----Random Var----#
 		self.__Render = None
@@ -79,25 +79,29 @@ class Player_Main(All_Entities):
 
 	def Movement_Controll(self):
 		if keyboard.is_pressed(self.__key_up):
-			new_Coords = self.__Kinetics.y_Kinetics(self.__info.get_Coords(), self.__info.get_ID(), neg=False)
+			direction = 'up'
+			new_Coords = self.__Kinetics.kinetics(self.__info.get_Coords(), self.__info.get_ID(), direction)#, neg=False)
 			self.__info.set_Coords(new_Coords)
 			self.__info.set_Corners(self.__Render.bbox(self.__info.get_ID()))
 			self.__moving = True
 
 		if keyboard.is_pressed(self.__key_down):
-			new_Coords = self.__Kinetics.y_Kinetics(self.__info.get_Coords(), self.__info.get_ID())
+			direction = 'down'
+			new_Coords = self.__Kinetics.kinetics(self.__info.get_Coords(), self.__info.get_ID(), direction)
 			self.__info.set_Coords(new_Coords)
 			self.__info.set_Corners(self.__Render.bbox(self.__info.get_ID()))
 			self.__moving = True
 
 		if keyboard.is_pressed(self.__key_left):
-			new_Coords = self.__Kinetics.x_Kinetics(self.__info.get_Coords(), self.__info.get_ID(), neg=False)
+			direction = 'left'
+			new_Coords = self.__Kinetics.kinetics(self.__info.get_Coords(), self.__info.get_ID(), direction)
 			self.__info.set_Coords(new_Coords)
 			self.__info.set_Corners(self.__Render.bbox(self.__info.get_ID()))
 			self.__moving = True
 
 		if keyboard.is_pressed(self.__key_right):
-			new_Coords = self.__Kinetics.x_Kinetics(self.__info.get_Coords(), self.__info.get_ID())
+			direction = 'right'
+			new_Coords = self.__Kinetics.kinetics(self.__info.get_Coords(), self.__info.get_ID(), direction)
 			self.__info.set_Coords(new_Coords)
 			self.__info.set_Corners(self.__Render.bbox(self.__info.get_ID()))
 			self.__moving = True
@@ -120,12 +124,12 @@ class Player_Main(All_Entities):
 
 		#SSC == Second Side Collision, it represents the other object that collided with player
 		#SSI == Second Side Info, represents the other objects needed parameters. Ex. dmg
-	def my_Collision(self, SSC, SSI):
+	def my_Collision(self, SSC, SSI, direction):
 		if SSC == 'Enemy':
 			if self.__isHit == False:
 				'''#_Actuall MATH_#'''
 				self.__Cur_Health -= SSI
-				new_Coords = self.__Kinetics.Knock_Back(self.__info.get_Coords(), self.__info.get_ID())#, neg=False)
+				new_Coords = self.__Kinetics.Knock_Back(self.__info.get_Coords(), self.__info.get_ID(), direction)
 				self.__info.set_Coords(new_Coords)
 				self.__info.set_Corners(self.__Render.bbox(self.__info.get_ID()))
 
@@ -162,18 +166,11 @@ class Player_Main(All_Entities):
 
 	"""|--------------Getters--------------|#"""
 		#this is where a list of getters will go...
-
-	def get_attack(self):
-		return self.__info.get_attack()
-
-	def get_health(self):
-		return self.__info.get_health()
-
-	def get_defense(self):
-		return self.__info.get_defense()
-
 	def get_Corners(self):
 		return self.__info.get_Corners()
+
+	def get_Coords(self):
+		return self.__info.get_Coords()
 
 	def get_ID(self):
 		return self.__info.get_ID()
@@ -186,6 +183,19 @@ class Player_Main(All_Entities):
 
 	def get_isHit(self):
 		return self.__isHit
+
+	def get_isMoving(self):
+		return self.__isMoving
+
+		#_attack, health, defense_#
+	def get_attack(self):
+		return self.__info.get_attack()
+
+	def get_health(self):
+		return self.__info.get_health()
+
+	def get_defense(self):
+		return self.__info.get_defense()
 
 
 	"""|--------------Setters--------------|#"""

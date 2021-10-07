@@ -27,7 +27,7 @@ class Stalfos_Main(Enemy_Main):
 		#----Temp Var----#
 		self.__x	= 0
 		self.__y	= 0
-		self.__Var	= 99
+		self.__var	= 66
 
 
 	#seting up player bellow
@@ -75,12 +75,16 @@ class Stalfos_Main(Enemy_Main):
 		print('-----------------------------------\n')
 
 	def Movement_Controll(self):
+		render = self.__Image.get_Render()
 		if Timer_Node.GameTime <= self.__var:
-			new_Coords = self.__Kinetics.x_Kinetics(self.__info.get_Coords(), self.__info.get_ID())
+			new_Coords = self.__Kinetics.kinetics(self.__info.get_Coords(), self.__info.get_ID(), 'rights')
 			self.__info.set_Coords(new_Coords)
-			self.__info.set_Corners(self.__Render.bbox(self.__info.get_ID()))
-		else:
-			pass
+			self.__info.set_Corners(render.bbox(self.__info.get_ID()))
+			# self.__var += 66
+		elif Timer_Node.GameTime >= self.__var:
+			new_Coords = self.__Kinetics.kinetics(self.__info.get_Coords(), self.__info.get_ID(), 'left')
+			self.__info.set_Coords(new_Coords)
+			self.__info.set_Corners(render.bbox(self.__info.get_ID()))
 
 		pass
 
@@ -122,18 +126,11 @@ class Stalfos_Main(Enemy_Main):
 
 	"""|--------------Getters--------------|#"""
 		#this is where a list of getters will go...
-
-	def get_attack(self):
-		return self.__info.get_attack()
-
-	def get_health(self):
-		return self.__info.get_health()
-
-	def get_defense(self):
-		return self.__info.get_defense()
-
 	def get_Corners(self):
 		return self.__info.get_Corners()
+
+	def get_Coords(self):
+		return self.__info.get_Coords()
 
 	def get_ID(self):
 		return self.__info.get_ID()
@@ -146,6 +143,16 @@ class Stalfos_Main(Enemy_Main):
 
 	def get_isAlive(self):
 		return self.__isAlive
+
+		#_attack, health, defense_#
+	def get_attack(self):
+		return self.__info.get_attack()
+
+	def get_health(self):
+		return self.__info.get_health()
+
+	def get_defense(self):
+		return self.__info.get_defense()
 
 
 	"""|--------------Setters--------------|#"""

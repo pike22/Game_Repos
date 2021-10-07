@@ -49,9 +49,6 @@ class Player_Info():
 	def get_Coords(self):
 		return self.__Cur_Coords
 
-	def get_CanvasID(self):
-		return self.__Canvas_ID
-
 	def get_Size(self):
 		return self.__img_size
 
@@ -61,6 +58,10 @@ class Player_Info():
 	def get_ID(self):
 		return self.__ID
 
+	def get_group_ID(self):
+		return self.__group_ID
+
+		#_attack, health, defense_#
 	def get_attack(self):
 		return self.__base_attack
 
@@ -69,9 +70,6 @@ class Player_Info():
 
 	def get_defense(self):
 		return self.__base_defense
-
-	def get_group_ID(self):
-		return self.__group_ID
 
 
 	"""|--------------Setters--------------|#"""
