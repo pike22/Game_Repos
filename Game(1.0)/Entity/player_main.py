@@ -54,7 +54,7 @@ class Player_Main(All_Entities):
 		Canvas_ID = self.__Image.get_Render().find_withtag(ID)[0] #finds my canvas ID numb.
 		Current_Coords = img_coords[Canvas_ID-1]
 		self.__info.set_Canvas_ID(Canvas_ID)
-		self.__info.Player_Data(Cur_Coords=Current_Coords, Speed=7, health=10, defense=5, attack=0) #check player_info for well info.
+		self.__info.Player_Data(Cur_Coords=Current_Coords, Speed=7, health=100, defense=5, attack=0) #check player_info for well info.
 		self.__Kinetics.set_Speed(self.__info.get_Speed())
 		self.__Image.get_Render().addtag_withtag(group_ID, Canvas_ID)
 		self.__info.set_Corners(self.__Image.get_Render().bbox(Canvas_ID))

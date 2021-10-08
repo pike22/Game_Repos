@@ -74,22 +74,28 @@ class Collision_Logic():
 			if item == 0:
 				objA = self.__obj_list[item]
 				NameA = objA.get_ID()
+				print(NameA, 'NameA')
 			elif item == 1:
 				objB = self.__obj_list[item]
 				NameB = objB.get_ID()
+				print(NameB, 'NameB')
 			else:
-				print("ERROR: CL#77")
-		a1, a2 = objA.get_Coords()
-		b1, b2 = objB.get_Coords()
+				print("ERROR: CL#81")
+		xA, yA = objA.get_Coords()
+		xB, yB = objB.get_Coords()
 
-		x_Dist = a1 - b1
-		y_Dist = a2 - b2
+		x_Dist = xA - xB
+		print(x_Dist,'Distance')
+		y_Dist = yA - yB
+		# print(y_Dist,'Distance')
 
-		if x_Dist >= 28 and x_Dist <= 50:
-			direction = 'left'
-			return direction
-		else:
-			return None
+		# if y_Dist = 
+		if x_Dist <= 0:
+			print('left\t\t\t\t\t\tleft')
+			return 'left'
+		elif x_Dist >= 0:
+			print('right\t\t\t\t\t\tright')
+			return 'right'
 
 
 	"""|--------------Getters--------------|#"""

@@ -27,8 +27,10 @@ class Kinetics_Node(Node):
 	def Knock_Back(self, Cur_Coords, img_ID, direction):#eventually impliment directional based knock back
 		x, y = Cur_Coords
 		if direction == 'left':
-			x -= 100
-		if direction == None:
+			x -= 50
+		elif direction == 'right':
+			x += 50
+		else:
 			x += 100
 		return (x, y)
 
