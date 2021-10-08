@@ -81,21 +81,40 @@ class Collision_Logic():
 				print(NameB, 'NameB')
 			else:
 				print("ERROR: CL#81")
+		"""Object A's coords/size"""
 		xA, yA = objA.get_Coords()
+		height_A, width_A = objA.get_Size()
+
+		"""Object B's coords/size"""
 		xB, yB = objB.get_Coords()
+		height_B, width_B = objB.get_Size()
+
 
 		x_Dist = xA - xB
 		print(x_Dist,'Distance')
 		y_Dist = yA - yB
-		# print(y_Dist,'Distance')
+		print(y_Dist,'Distance')
 
-		# if y_Dist = 
-		if x_Dist <= 0:
-			print('left\t\t\t\t\t\tleft')
-			return 'left'
-		elif x_Dist >= 0:
-			print('right\t\t\t\t\t\tright')
-			return 'right'
+		# if y_Dist <= 0:
+		# 	print('Pos')
+		# 	Conn = 'Pos'
+		# elif y_Dist >= 0:
+		# 	print('Neg')
+		# 	Conn = 'Neg'
+		# else:
+		# 	print("NOTHING")
+
+		if y_Dist >='down\t\t\t\t\t\t\tdown'  :
+			part = height_B / 4
+			if yA >= (yB - part):
+				print('down\t\t\t\t\t\t\tdown')
+				return 'down'
+
+		elif y_Dist <= 0:
+			part = height_A / 4
+			if yB >= (yA - part):
+				print('up\t\t\t\t\t\t\tup')
+				return 'up'
 
 
 	"""|--------------Getters--------------|#"""

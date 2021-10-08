@@ -40,3 +40,11 @@ many. If you want to run the code run the alpha.py file.
 	time I need to have a new stalfos present. I am going to archive the previous main branch of this project then
 	this branch will be the new main.
 	(THIS IS THE LAST INSTANCE OF STALFOS_REWORK)
+
+
+ -10/08/21 Week Summary
+ 	This week I finished working on separating the game time from the alpha.py file to its own file. I also began
+	working on enhancing my knockback by creating a new function that uses math on the grid plane to determine
+	where the objects that are colliding are at. This allows me to then when using the knockback function have them
+	be knocked back in the opposite direction they were hit from. This is still being worked on in the next week and
+	will be talked about again next entry.   

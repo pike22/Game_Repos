@@ -126,6 +126,9 @@ class Stalfos_Main(Enemy_Main):
 
 	"""|--------------Getters--------------|#"""
 		#this is where a list of getters will go...
+	def get_Size(self):
+		return self.__info.get_Size()
+		
 	def get_Corners(self):
 		return self.__info.get_Corners()
 
