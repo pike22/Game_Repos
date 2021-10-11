@@ -31,6 +31,7 @@ class Player_Main(All_Entities):
 		#----Active Parameters----#
 		self.__saveTime	  = 0
 		self.__Cur_Health = 0
+		self.__Direction  = None
 		self.__isAlive	  = True
 		self.__isHit	  = False
 		self.__isMoving   = False
@@ -79,44 +80,50 @@ class Player_Main(All_Entities):
 
 	def Movement_Controll(self):
 		if keyboard.is_pressed(self.__key_up):
-			direction = 'up'
-			new_Coords = self.__Kinetics.kinetics(self.__info.get_Coords(), self.__info.get_ID(), direction)#, neg=False)
+			self.__Direction = 'up'
+			new_Coords = self.__Kinetics.kinetics(self.__info.get_Coords(), self.__info.get_ID(), self.__Direction)#, neg=False)
 			self.__info.set_Coords(new_Coords)
 			self.__info.set_Corners(self.__Render.bbox(self.__info.get_ID()))
-			self.__moving = True
+			self.__isMoving = True
 
 		if keyboard.is_pressed(self.__key_down):
-			direction = 'down'
-			new_Coords = self.__Kinetics.kinetics(self.__info.get_Coords(), self.__info.get_ID(), direction)
+			self.__Direction = 'down'
+			new_Coords = self.__Kinetics.kinetics(self.__info.get_Coords(), self.__info.get_ID(), self.__Direction)
 			self.__info.set_Coords(new_Coords)
 			self.__info.set_Corners(self.__Render.bbox(self.__info.get_ID()))
-			self.__moving = True
+			self.__isMoving = True
 
 		if keyboard.is_pressed(self.__key_left):
-			direction = 'left'
-			new_Coords = self.__Kinetics.kinetics(self.__info.get_Coords(), self.__info.get_ID(), direction)
+			self.__Direction = 'left'
+			new_Coords = self.__Kinetics.kinetics(self.__info.get_Coords(), self.__info.get_ID(), self.__Direction)
 			self.__info.set_Coords(new_Coords)
 			self.__info.set_Corners(self.__Render.bbox(self.__info.get_ID()))
-			self.__moving = True
+			self.__isMoving = True
 
 		if keyboard.is_pressed(self.__key_right):
-			direction = 'right'
-			new_Coords = self.__Kinetics.kinetics(self.__info.get_Coords(), self.__info.get_ID(), direction)
+			self.__Direction = 'right'
+			new_Coords = self.__Kinetics.kinetics(self.__info.get_Coords(), self.__info.get_ID(), self.__Direction)
 			self.__info.set_Coords(new_Coords)
 			self.__info.set_Corners(self.__Render.bbox(self.__info.get_ID()))
-			self.__moving = True
+			self.__isMoving = True
 
-		if keyboard.is_pressed(self.__key_right) == False and keyboard.is_pressed(self.__key_up) == False and keyboard.is_pressed(self.__key_down) == False and keyboard.is_pressed(self.__key_left) == False:
-			self.__moving = False
-			return self.__moving
-		else:
-			return self.__moving
+		self.__isMoving = False
+		return self.__isMoving
 
 	def Player_Attack(self):
 		if keyboard.is_pressed(self.__key_attack) == True:
 			x, y = self.__info.get_Coords() #current coords
 			a, b = self.__Weapon.get_Size()
-			self.__Weapon.use_Sword(x+a, y)
+			if self.__Direction == 'up':
+				self.__Weapon.use_Sword(x, y-b)
+			elif self.__Direction == 'down':
+				self.__Weapon.use_Sword(x, y+b)
+			elif self.__Direction == 'left':
+				self.__Weapon.use_Sword(x-a, y)
+			elif self.__Direction == 'right':
+				self.__Weapon.use_Sword(x+a, y)
+
+
 
 		if keyboard.is_pressed('l'):
 			self.__Weapon.del_Sword()

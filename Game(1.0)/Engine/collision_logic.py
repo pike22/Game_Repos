@@ -74,11 +74,9 @@ class Collision_Logic():
 			if item == 0:
 				objA = self.__obj_list[item]
 				NameA = objA.get_ID()
-				print(NameA, 'NameA')
 			elif item == 1:
 				objB = self.__obj_list[item]
 				NameB = objB.get_ID()
-				print(NameB, 'NameB')
 			else:
 				print("ERROR: CL#81")
 		"""Object A's coords/size"""
@@ -89,32 +87,21 @@ class Collision_Logic():
 		xB, yB = objB.get_Coords()
 		height_B, width_B = objB.get_Size()
 
-
-		x_Dist = xA - xB
-		print(x_Dist,'Distance')
-		y_Dist = yA - yB
-		print(y_Dist,'Distance')
-
-		# if y_Dist <= 0:
-		# 	print('Pos')
-		# 	Conn = 'Pos'
-		# elif y_Dist >= 0:
-		# 	print('Neg')
-		# 	Conn = 'Neg'
-		# else:
-		# 	print("NOTHING")
-
-		if y_Dist >='down\t\t\t\t\t\t\tdown'  :
-			part = height_B / 4
-			if yA >= (yB - part):
-				print('down\t\t\t\t\t\t\tdown')
-				return 'down'
-
-		elif y_Dist <= 0:
-			part = height_A / 4
-			if yB >= (yA - part):
-				print('up\t\t\t\t\t\t\tup')
-				return 'up'
+		varA = (3/4) * height_A
+		varB = (3/4) * height_B
+		if (yA+varA) < yB:
+			# print('top')
+			return 'top'
+		elif (yB+varB) < yA:
+			# print('bottom')
+			return 'bottom'
+		else:
+			if xA > xB:
+				# print('right')
+				return 'right'
+			elif xA < xB:
+				# print('left')
+				return 'left'
 
 
 	"""|--------------Getters--------------|#"""

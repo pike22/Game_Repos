@@ -30,13 +30,12 @@ class Kinetics_Node(Node):
 			x -= 50
 		elif direction == 'right':
 			x += 50
-		elif direction == 'up':
+		elif direction == 'top':
 			y -= 50
-		elif direction == 'down':
+		elif direction == 'bottom':
 			y += 50
 		else:
-			x += 100
-			y += 100
+			print('NO DIRECTIONS')
 		return (x, y)
 
 
