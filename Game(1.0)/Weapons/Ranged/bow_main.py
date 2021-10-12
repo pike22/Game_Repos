@@ -1,25 +1,25 @@
-from .sword_info import Sword_Info
+from .bow_info import Bow_Info
 from Engine import Timer_Node
 
-class Sword_Main():
+class Bow_Main():
 	def __init__(self, iNode):
 		self.__Image	= iNode
-		self.__info		= Sword_Info()
+		self.__info		= Bow_Info()
 
-		self.__saveTime	 = 0
-		self.__isActive	 = False
-		self.__Render	 = None
+		self.__saveTime = 0
+		self.__isActive = False
+		self.__Render	= None
 
 
-	def Sword_setUP(self):
+	def Bow_setUP(self):
 		#img setup
-		Img_info = self.__Image.Img_Add('z_Pictures/notasword.png')
-		self.__info.Image_Data(Size=Img_info[1], PIL_img=Img_info[0], TK_img=Img_info[2], file_Location='z_Pictures/notasword.png')
-		self.__info.Sword_Data(2) #check melee_info for well info.
+		Img_info = self.__Image.Img_Add('z_Pictures/red_bow.png')
+		self.__info.Image_Data(Size=Img_info[1], PIL_img=Img_info[0], TK_img=Img_info[2], file_Location='z_Pictures/red_bow.png')
+		self.__info.Bow_Data(2) #check melee_info for well info.
 
 		#self.output = self.Image.
 
-	def use_Sword(self, x, y):
+	def use_Bow(self, x, y):
 		ID = self.__info.get_ID()
 		group_ID = self.__info.get_group_ID()
 		if self.__isActive == False:
@@ -46,7 +46,7 @@ class Sword_Main():
 	def Sword_Print(self):
 		#list of prints for start of program(players)
 		print('-----------------------------------')
-		print('Sword Data:')
+		print('Bow Data:')
 		print(self.__info.get_ID(), '\t:ID') #should be None
 		print(self.__info.get_Attack_Dmg(), '\t:Attck')
 		print('-----------------------------------')

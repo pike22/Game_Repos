@@ -19,7 +19,7 @@ class Player_Main(All_Entities):
 		self.__Kinetics		= kNode
 		self.__Image	 	= iNode
 		self.__info	 		= Player_Info()
-		self.__Weapon 		= None
+		self.__Sword 		= None
 
 		#----Keyboard inputs----#
 		self.__key_up		= 'w'
@@ -29,12 +29,13 @@ class Player_Main(All_Entities):
 		self.__key_attack	= 'k'
 
 		#----Active Parameters----#
-		self.__saveTime	  = 0
 		self.__Cur_Health = 0
+		self.__saveTime	  = 0
 		self.__Direction  = None
+		self.__isAttack	  = False
+		self.__isMoving   = False
 		self.__isAlive	  = True
 		self.__isHit	  = False
-		self.__isMoving   = False
 
 		#----Random Var----#
 		self.__Render = None
@@ -113,20 +114,21 @@ class Player_Main(All_Entities):
 	def Player_Attack(self):
 		if keyboard.is_pressed(self.__key_attack) == True:
 			x, y = self.__info.get_Coords() #current coords
-			a, b = self.__Weapon.get_Size()
+			a, b = self.__Sword.get_Size()
 			if self.__Direction == 'up':
-				self.__Weapon.use_Sword(x, y-b)
+				self.__Sword.use_Sword(x, y-b)
 			elif self.__Direction == 'down':
-				self.__Weapon.use_Sword(x, y+b)
+				self.__Sword.use_Sword(x, y+b)
 			elif self.__Direction == 'left':
-				self.__Weapon.use_Sword(x-a, y)
+				self.__Sword.use_Sword(x-a, y)
 			elif self.__Direction == 'right':
-				self.__Weapon.use_Sword(x+a, y)
-
-
+				self.__Sword.use_Sword(x+a, y)
+			self.__isAttack = True
+		elif self.__Sword.get_isActive() == False:
+			self.__isAttack = False
 
 		if keyboard.is_pressed('l'):
-			self.__Weapon.del_Sword()
+			self.__Sword.del_Sword()
 
 
 		#SSC == Second Side Collision, it represents the other object that collided with player
@@ -197,6 +199,9 @@ class Player_Main(All_Entities):
 	def get_isMoving(self):
 		return self.__isMoving
 
+	def get_isAttack(self):
+		return self.__isAttack
+
 		#_attack, health, defense_#
 	def get_attack(self):
 		return self.__info.get_attack()
@@ -214,7 +219,7 @@ class Player_Main(All_Entities):
 		self.__Collision_Logic = Logic
 
 	def set_Weapon(self, sWeapon):
-		self.__Weapon = sWeapon
+		self.__Sword = sWeapon
 
 	def set_health(self, health):
 		self.__info.set_health(health)

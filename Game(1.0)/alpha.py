@@ -121,8 +121,9 @@ class Alpha():
 		"""#_Entity Loop Calls_#"""
 			#_PLAYER_#
 		if self.__Player.get_isAlive() == True:
-			self.__Player.Movement_Controll()
 			self.__Player.Player_Attack()
+			if self.__Player.get_isAttack() == False:
+				self.__Player.Movement_Controll()
 			self.__Player.test_Coords()
 		else:
 			# print("dead? A#129")
@@ -152,7 +153,7 @@ class Alpha():
 
 		#self.__stalfosCount represents number of stalfo's and their corners
 		dict = self.__Collision_Logic.get_Col_Dict()
-		if self.__Sword.get_isWeapon() == True:
+		if self.__Sword.get_isActive() == True:
 			Sword = 1
 			self.__Collision_Logic.set_tag_List(self.__Sword.get_ID())
 			list1.append(self.__Sword.get_Corners())
@@ -196,7 +197,7 @@ class Alpha():
 						pass
 
 		#_Combat_#
-		if self.__Sword.get_isWeapon() == True:
+		if self.__Sword.get_isActive() == True:
 			self.__Sword.Weapon_Active()
 
 		if self.__Player.get_isHit() == True:

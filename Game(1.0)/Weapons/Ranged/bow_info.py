@@ -1,25 +1,25 @@
 
-class Sword_Info():
+class Bow_Info():
 	def __init__(self):
 		self.__file_Location = None
 		self.__Canvas_ID	= None
 		self.__imgPIL_ID	= None
 		self.__imgTK_ID		= None
-		self.__group_ID		= "#sword"
-		self.__ID			= "W#S001"
+		self.__group_ID		= '#bow'
+		self.__ID 			= 'W#B001'
 		self.__img_size		= None #(x, y)tuple of height, width
-		self.__Corners		= None #(x1, y1, x2, y2) tuple
+		self.__Corners		= None #(x1, y1, x2, y2)tuple
 		#Parameters
 		self.__attack_damage = None
 
 
 	def Image_Data(self, Size, PIL_img, TK_img, file_Location):
-		self.__file_Location	= file_Location
+		self.__file_Location 	= file_Location
 		self.__imgPIL_ID		= PIL_img
 		self.__imgTK_ID			= TK_img
 		self.__img_size			= Size
 
-	def Sword_Data(self, attack): #add more here as needed.
+	def Bow_Data(self, attack): #add more here as needed.
 		self.__attack_damage = attack
 
 
