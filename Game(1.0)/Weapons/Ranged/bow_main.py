@@ -1,5 +1,6 @@
+from Engine.timer_node import Timer_Node
+from Engine.image_node import Image_Node
 from .bow_info import Bow_Info
-from Engine import Timer_Node
 
 class Bow_Main():
 	def __init__(self, iNode):
@@ -24,23 +25,21 @@ class Bow_Main():
 		if self.__isActive == False:
 			img_list, img_coords = self.__Image.Img_Place(x, y, self.__info.get_TKimg(), Grid='No', tag=ID)
 
-			Canvas_ID = self.__Image.get_Render().find_withtag(ID)[0] #finds my canvas ID numb.
-			print('bow canvasid', self.__Image.get_Render().find_withtag(ID))
-			print('yes', Canvas_ID)
+			Canvas_ID = Image_Node.Render.find_withtag(ID)[0] #finds my canvas ID numb.
 			self.__info.set_Canvas_ID(Canvas_ID)
 			Image_Node.Render.addtag_withtag(group_ID, Canvas_ID)
-			self.__info.set_Corners(self.__Image.get_Render().bbox(Canvas_ID))
+			self.__info.set_Corners(Image_Node.Render.bbox(Canvas_ID))
 			self.__saveTime = Timer_Node.GameTime
 			self.__isActive = True
 
 	def Weapon_Active(self):
 		if Timer_Node.GameTime == (self.__saveTime+9):
-			Image_Node.Render.delete(self.__info.get_ID())
 			self.__isActive = False
+			Image_Node.Render.delete(self.__info.get_ID())
 
 	def del_Bow(self):
-		Image_Node.Render.delete(self.__info.get_ID())
 		self.__isActive = False
+		Image_Node.Render.delete(self.__info.get_ID())
 
 
 

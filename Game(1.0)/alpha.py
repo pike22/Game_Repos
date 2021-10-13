@@ -67,12 +67,12 @@ class Alpha():
 	def set_MainCanvas(self): #Set Renders HERE
 		self.__Image.Create_Canvas(self.__mainApp, self.__Sc_Height, self.__Sc_Width)
 
-		#mass set_Render()
+		#mass set_Render() Render was made Static Var
 		#leave enemies out of this for now
-		self.__Collision_Logic.set_Render(self.__Image.get_Render())
-		self.__Kinetics.set_Render(self.__Image.get_Render())
-		self.__Player.set_Render(self.__Image.get_Render())
-		self.__Sword.set_Render(self.__Image.get_Render())
+		# self.__Collision_Logic.set_Render(self.__Image.get_Render())
+		# self.__Kinetics.set_Render(self.__Image.get_Render())
+		# self.__Player.set_Render(self.__Image.get_Render())
+		# self.__Sword.set_Render(self.__Image.get_Render())
 
 	def close_window(self): #putting this on HOLD
 		if keyboard.is_pressed('q') == True:
@@ -124,9 +124,12 @@ class Alpha():
 		"""#_Entity Loop Calls_#"""
 			#_PLAYER_#
 		if self.__Player.get_isAlive() == True:
-			self.__Player.Player_Attack()
-			if self.__Player.get_isAttack() == False:
+			self.__Player.Player_MAttack()
+			self.__Player.Player_RAttack()
+			if self.__Player.Player_MAttack() == False and self.__Player.Player_RAttack() == False:
 				self.__Player.Movement_Controll()
+			else:
+				print('ERROR: A#133')
 			self.__Player.test_Coords()
 		else:
 			# print("dead? A#129")
@@ -181,12 +184,12 @@ class Alpha():
 				for item in range(len(Col_result)):
 					# print('obj', Col_result[item])
 					if Col_result[item] == self.__Player: #player is always checked first
+						direction = self.__Collision_Logic.Dir_Calc()
 						if Col_result[item+1].get_group_ID() in self.__enemyRoster:
-							direction = self.__Collision_Logic.Dir_Calc()
 							# print('direction:', direction)
 							self.__Player.my_Collision('Enemy', Col_result[item+1].get_attack(), direction)
-						elif Col_result[item+1].get_group_ID() in self.__weaponRoster:
-							self.__Player.my_Collision('Weapon', Col_result[item+1].get_attack())
+						# elif Col_result[item+1].get_group_ID() in self.__weaponRoster:
+						# 	self.__Player.my_Collision('Weapon', Col_result[item+1].get_attack(), direction, DB='')
 
 					if Col_result[item].get_ID() in self.__Stal_Roster:
 						if item == len(Col_result)-1:
@@ -202,6 +205,9 @@ class Alpha():
 		#_Combat_#
 		if self.__Sword.get_isActive() == True:
 			self.__Sword.Weapon_Active()
+
+		if self.__Bow.get_isActive() == True:
+			self.__Bow.Weapon_Active()
 
 		if self.__Player.get_isHit() == True:
 			self.__Player.reset_hit()
@@ -227,11 +233,10 @@ class Alpha():
 	"""|--------------Extra Functions--------------|#"""
 
 	def find_all_Tags(self):
-		myCanvas = self.__Image.get_Render()
-		listOfTags = myCanvas.find_all()
+		listOfTags = Image_Node.Render.find_all()
 		# print(listOfTags, 'list of tags')
 		for item in listOfTags:
-			tag = myCanvas.gettags(item)
+			tag = Image_Node.Render.gettags(item)
 			if len(tag) > 0:
 				color = fg('light_cyan')
 				print(color + "Item", item, 'Has tag:', tag)
@@ -246,6 +251,7 @@ class Alpha():
 	def Testing_Debug(self):
 		self.find_all_Tags()
 		# self.debug_Col_Dict()
+		# print(Image_Node.Render, 'Render')
 
 
 #puts the above class to action

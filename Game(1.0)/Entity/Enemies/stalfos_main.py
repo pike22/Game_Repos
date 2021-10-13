@@ -46,13 +46,13 @@ class Stalfos_Main(Enemy_Main):
 		img_list, img_coords = self.__Image.Img_Place(x=self.__x, y=self.__y, image=self.__info.get_TKimg(), Grid='no', tag=ID)
 
 		#final set of information save to stalfos
-		Canvas_ID = self.__Image.get_Render().find_withtag(ID)[0] #finds my canvas ID numb.
+		Canvas_ID = Image_Node.Render.find_withtag(ID)[0] #finds my canvas ID numb.
 		Coords = img_coords[Canvas_ID-1]
 		self.__info.set_Canvas_ID(Canvas_ID)
 		self.__info.Stalfos_Data(Cur_Coords=Coords, Speed=7, health=10, defense=5, attack=2) #check stalfos_info for, well info.
 		self.__Kinetics.set_Speed(self.__info.get_Speed())
-		self.__Image.get_Render().addtag_withtag(self.__info.get_group_ID(), Canvas_ID)
-		self.__info.set_Corners(self.__Image.get_Render().bbox(Canvas_ID))
+		Image_Node.Render.addtag_withtag(self.__info.get_group_ID(), Canvas_ID)
+		self.__info.set_Corners(Image_Node.Render.bbox(Canvas_ID))
 
 		#Active Parameters
 		self.__Cur_Health = self.__info.get_health()

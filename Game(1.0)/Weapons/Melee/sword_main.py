@@ -1,5 +1,6 @@
+from Engine.timer_node import Timer_Node
+from Engine.image_node import Image_Node
 from .sword_info import Sword_Info
-from Engine import Timer_Node
 
 class Sword_Main():
 	def __init__(self, iNode):
@@ -24,11 +25,10 @@ class Sword_Main():
 		if self.__isActive == False:
 			img_list, img_coords = self.__Image.Img_Place(x, y, self.__info.get_TKimg(), Grid='No', tag=ID)
 
-			Canvas_ID = self.__Image.get_Render().find_withtag(ID)[0] #finds my canvas ID numb.
-			print("sword canvasid", self.__Image.get_Render().find_withtag(ID))
+			Canvas_ID = Image_Node.Render.find_withtag(ID)[0] #finds my canvas ID numb.
 			self.__info.set_Canvas_ID(Canvas_ID)
 			Image_Node.Render.addtag_withtag(group_ID, Canvas_ID)
-			self.__info.set_Corners(self.__Image.get_Render().bbox(Canvas_ID))
+			self.__info.set_Corners(Image_Node.Render.bbox(Canvas_ID))
 			self.__saveTime = Timer_Node.GameTime
 			self.__isActive = True
 

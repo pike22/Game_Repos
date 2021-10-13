@@ -1,6 +1,7 @@
 #This class is to allow for movement to a given object/entity.
 
 from .node import Node
+from .image_node import Image_Node
 
 class Kinetics_Node(Node):
 	def __init__(self, iNode):

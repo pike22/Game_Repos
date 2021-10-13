@@ -24,10 +24,10 @@ class itemName_Main():
 		if self.__isActive == False:
 			img_list, img_coords = self.__Image.Img_Place(x, y, self.__info.get_TKimg(), Grid='No', tag=ID)
 
-			Canvas_ID = self.__Image.get_Render().find_withtag(ID)[0] #finds my canvas ID numb.
+			Canvas_ID = Image_Node.Render.find_withtag(ID)[0] #finds my canvas ID numb.
 			self.__info.set_Canvas_ID(Canvas_ID)
 			Image_Node.Render.addtag_withtag(group_ID, Canvas_ID)
-			self.__info.set_Corners(self.__Image.get_Render().bbox(Canvas_ID))
+			self.__info.set_Corners(Image_Node.Render.bbox(Canvas_ID))
 			self.__saveTime = Timer_Node.GameTime
 			self.__isActive = True
 

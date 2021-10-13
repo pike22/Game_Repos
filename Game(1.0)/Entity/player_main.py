@@ -53,13 +53,13 @@ class Player_Main(All_Entities):
 		img_list, img_coords = self.__Image.Img_Place(x, y, self.__info.get_TKimg(), tag=ID)
 
 		#final set of information save to player
-		Canvas_ID = self.__Image.get_Render().find_withtag(ID)[0] #finds my canvas ID numb.
+		Canvas_ID = Image_Node.Render.find_withtag(ID)[0] #finds my canvas ID numb.
 		Current_Coords = img_coords[Canvas_ID-1]
 		self.__info.set_Canvas_ID(Canvas_ID)
 		self.__info.Player_Data(Cur_Coords=Current_Coords, Speed=7, health=100, defense=5, attack=0) #check player_info for well info.
 		self.__Kinetics.set_Speed(self.__info.get_Speed())
-		self.__Image.get_Render().addtag_withtag(group_ID, Canvas_ID)
-		self.__info.set_Corners(self.__Image.get_Render().bbox(Canvas_ID))
+		Image_Node.Render.addtag_withtag(group_ID, Canvas_ID)
+		self.__info.set_Corners(Image_Node.Render.bbox(Canvas_ID))
 
 		#Active Parameters
 		self.__Cur_Health = self.__info.get_health()
@@ -111,10 +111,9 @@ class Player_Main(All_Entities):
 		self.__isMoving = False
 		return self.__isMoving
 
-	def Player_Attack(self):
+	def Player_MAttack(self):#melee Attack
 		if keyboard.is_pressed(self.__melee) == True:
 			x, y = self.__info.get_Coords() #current coords
-			print(self.__Sword.get_Size(), 'sword size')
 			a, b = self.__Sword.get_Size()
 			if self.__Direction == 'up':
 				self.__Sword.use_Sword(x, y-b)
@@ -125,12 +124,15 @@ class Player_Main(All_Entities):
 			elif self.__Direction == 'right':
 				self.__Sword.use_Sword(x+a, y)
 			self.__isAttack = True
+			return self.__isAttack
+
 		elif self.__Sword.get_isActive() == False:
 			self.__isAttack = False
+			return self.__isAttack
 
+	def Player_RAttack(self):#ranged attack
 		if keyboard.is_pressed(self.__ranged) == True:
 			x, y = self.__info.get_Coords() #current coords
-			print(self.__Bow.get_Size(), 'bow Size')
 			a, b = self.__Bow.get_Size()
 			if self.__Direction == 'up':
 				self.__Bow.use_Bow(x, y-b)
@@ -141,31 +143,40 @@ class Player_Main(All_Entities):
 			elif self.__Direction == 'right':
 				self.__Bow.use_Bow(x+a, y)
 			self.__isAttack = True
+			# print(self.__isAttack)
+			return self.__isAttack
+
 		elif self.__Bow.get_isActive() == False:
 			self.__isAttack = False
+			# print(self.__isAttack)
+			return self.__isAttack
 
 
 		#SSC == Second Side Collision, it represents the other object that collided with player
 		#SSI == Second Side Info, represents the other objects needed parameters. Ex. dmg
-	def my_Collision(self, SSC, SSI, direction):
-		if SSC == 'Enemy':
-			if self.__isHit == False:
-				'''#_Actuall MATH_#'''
-				self.__Cur_Health -= SSI
-				new_Coords = self.__Kinetics.Knock_Back(self.__info.get_Coords(), self.__info.get_ID(), direction)
-				self.__info.set_Coords(new_Coords)
-				self.__info.set_Corners(Image_Node.Render.bbox(self.__info.get_ID()))
+	def my_Collision(self, SSC, SSI, direction, DB=None):
+		if DB == None:
+			if SSC == 'Enemy':
+				if self.__isHit == False:
+					'''#_Actuall MATH_#'''
+					self.__Cur_Health -= SSI
+					new_Coords = self.__Kinetics.Knock_Back(self.__info.get_Coords(), self.__info.get_ID(), direction)
+					self.__info.set_Coords(new_Coords)
+					self.__info.set_Corners(Image_Node.Render.bbox(self.__info.get_ID()))
 
-				'''#_Logic_#'''
-				self.__isHit 	= True
-				self.__isAlive  = self.isAlive()
-				self.__saveTime = Timer_Node.GameTime
+					'''#_Logic_#'''
+					self.__isHit 	= True
+					self.__isAlive  = self.isAlive()
+					self.__saveTime = Timer_Node.GameTime
 
-		elif SSC == 'Weapon':
-			pass
+			elif SSC == 'Weapon':
+				pass
+			else:
+				print('Error: P#108')
+				pass
 		else:
-			print('Error: P#108')
 			pass
+
 
 	def reset_hit(self):
 		if Timer_Node.GameTime == self.__saveTime+5:
@@ -238,7 +249,7 @@ class Player_Main(All_Entities):
 
 	def set_health(self, health):
 		self.__info.set_health(health)
-		
+
 	def set_isAlive(self, isAlive):
 		self.__isAlive = isAlive
 
