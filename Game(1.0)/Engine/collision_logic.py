@@ -7,7 +7,6 @@ class Collision_Logic():
 		self.__obj_list	 = []
 		self.__key_list	 = []
 		self.__Col_Dict  = {}
-		self.__Render	 = None
 		self.__Direcntion = None
 		self.__IsCollision = False
 
@@ -43,12 +42,12 @@ class Collision_Logic():
 		self.__obj_list  = []
 
 		x1, y1, x2, y2 = self.__Corners[item]
-		collision = self.__Render.find_overlapping(x1, y1, x2, y2)
+		collision = Image_Node.Render.find_overlapping(x1, y1, x2, y2)
 
 		#this only shows what is colliding.
 		if len(collision) > 1:
 			for item in range(len(collision)):
-				tag = self.__Render.gettags(collision[item])
+				tag = Image_Node.Render.gettags(collision[item])
 				self.__collision.append(tag[0]) #item 0 is the entity_ID, 1 == group_ID
 			# print(self.__collision, 'Colliding')
 
@@ -112,8 +111,5 @@ class Collision_Logic():
 
 	"""|--------------Setters--------------|#"""
 		#this is where a list of setters will go...
-	def set_Render(self, Render):
-		self.__Render = Render
-
 	def set_tag_List(self, tagOrId):
 		self.__tag_list.append(tagOrId)

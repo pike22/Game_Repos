@@ -1,52 +1,36 @@
-from .sword_info import Sword_Info
-from Engine import Timer_Node
+from .all_projectile import Projectile
 
-class Sword_Main():
-	def __init__(self, iNode):
-		self.__Image	= iNode
-		self.__info		= Sword_Info()
-
-		self.__saveTime	 = 0
-		self.__isActive	 = False
+class Arrow_Main(Projectile):
+	def __init__(self):
+		Projectile.__init__(self)
+		pass
 
 
-	def Sword_setUP(self):
+	def Arrow_setUP(self):
 		#img setup
-		Img_info = self.__Image.Img_Add('z_Pictures/notasword.png')
-		self.__info.Image_Data(Size=Img_info[1], PIL_img=Img_info[0], TK_img=Img_info[2], file_Location='z_Pictures/notasword.png')
-		self.__info.Sword_Data(2) #check melee_info for well info.
+		Img_info = self.__Image.Img_Add('z_Pictures/arrowmaybe.png')
+		self.__info.Image_Data(Size=Img_info[1], PIL_img=Img_info[0], TK_img=Img_info[2], file_Location='z_Pictures/arrowmaybe.png')
+		self.__info.Arrow_Data(2) #check melee_info for well info.
 
-		#self.output = self.Image.
-
-	def use_Sword(self, x, y):
+	def Use_Arrow(self, x, y):
 		ID = self.__info.get_ID()
 		group_ID = self.__info.get_group_ID()
 		if self.__isActive == False:
 			img_list, img_coords = self.__Image.Img_Place(x, y, self.__info.get_TKimg(), Grid='No', tag=ID)
 
 			Canvas_ID = self.__Image.get_Render().find_withtag(ID)[0] #finds my canvas ID numb.
-			print("sword canvasid", self.__Image.get_Render().find_withtag(ID))
+			print('canvas_ID', self.__Image.get_Render().find_withtag(ID)[0])
 			self.__info.set_Canvas_ID(Canvas_ID)
 			Image_Node.Render.addtag_withtag(group_ID, Canvas_ID)
 			self.__info.set_Corners(self.__Image.get_Render().bbox(Canvas_ID))
 			self.__saveTime = Timer_Node.GameTime
 			self.__isActive = True
 
-	def Weapon_Active(self):
-		if Timer_Node.GameTime == (self.__saveTime+9):
-			Image_Node.Render.delete(self.__info.get_ID())
-			self.__isActive = False
 
-	def del_Sword(self):
-		Image_Node.Render.delete(self.__info.get_ID())
-		self.__isActive = False
-
-
-
-	def Sword_Print(self):
+	def Arrow_Print(self):
 		#list of prints for start of program(players)
 		print('-----------------------------------')
-		print('Sword Data:')
+		print('Arrow Data:')
 		print(self.__info.get_ID(), '\t:ID') #should be None
 		print(self.__info.get_Attack_Dmg(), '\t:Attck')
 		print('-----------------------------------')
@@ -83,3 +67,6 @@ class Sword_Main():
 		#this is where a list of setters will go...
 	def set_IsWeapon(self, Fort):
 		self.__isActive = Fort
+
+	def set_Render(self, render):
+		Image_Node.Render = render

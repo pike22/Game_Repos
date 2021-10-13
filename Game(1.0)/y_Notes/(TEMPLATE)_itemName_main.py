@@ -1,31 +1,30 @@
-from .sword_info import Sword_Info
+from .itemName_info import itemName_Info
 from Engine import Timer_Node
 
-class Sword_Main():
+class itemName_Main():
 	def __init__(self, iNode):
 		self.__Image	= iNode
-		self.__info		= Sword_Info()
+		self.__info		= itemName_Info()
 
 		self.__saveTime	 = 0
 		self.__isActive	 = False
 
 
-	def Sword_setUP(self):
+	def itemName_setUP(self):
 		#img setup
-		Img_info = self.__Image.Img_Add('z_Pictures/notasword.png')
-		self.__info.Image_Data(Size=Img_info[1], PIL_img=Img_info[0], TK_img=Img_info[2], file_Location='z_Pictures/notasword.png')
-		self.__info.Sword_Data(2) #check melee_info for well info.
+		Img_info = self.__Image.Img_Add('z_Pictures/itemLocation.png')
+		self.__info.Image_Data(Size=Img_info[1], PIL_img=Img_info[0], TK_img=Img_info[2], file_Location='z_Pictures/itemLocation.png')
+		self.__info.itemName_Data(2) #check melee_info for well info.
 
 		#self.output = self.Image.
 
-	def use_Sword(self, x, y):
+	def use_itemName(self, x, y):
 		ID = self.__info.get_ID()
 		group_ID = self.__info.get_group_ID()
 		if self.__isActive == False:
 			img_list, img_coords = self.__Image.Img_Place(x, y, self.__info.get_TKimg(), Grid='No', tag=ID)
 
 			Canvas_ID = self.__Image.get_Render().find_withtag(ID)[0] #finds my canvas ID numb.
-			print("sword canvasid", self.__Image.get_Render().find_withtag(ID))
 			self.__info.set_Canvas_ID(Canvas_ID)
 			Image_Node.Render.addtag_withtag(group_ID, Canvas_ID)
 			self.__info.set_Corners(self.__Image.get_Render().bbox(Canvas_ID))
@@ -37,16 +36,16 @@ class Sword_Main():
 			Image_Node.Render.delete(self.__info.get_ID())
 			self.__isActive = False
 
-	def del_Sword(self):
+	def del_itemName(self):
 		Image_Node.Render.delete(self.__info.get_ID())
 		self.__isActive = False
 
 
 
-	def Sword_Print(self):
+	def itemName_Print(self):
 		#list of prints for start of program(players)
 		print('-----------------------------------')
-		print('Sword Data:')
+		print('itemName Data:')
 		print(self.__info.get_ID(), '\t:ID') #should be None
 		print(self.__info.get_Attack_Dmg(), '\t:Attck')
 		print('-----------------------------------')

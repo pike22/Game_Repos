@@ -31,7 +31,7 @@ class Stalfos_Main(Enemy_Main):
 
 
 	#seting up player bellow
-	def stalfos_initial_setUP(self, Sc_Width, Sc_Height):
+	def stalfos_setUP(self, Sc_Width, Sc_Height):
 		#img setup
 		ID = self.__info.get_ID()
 		Img_info = self.__Image.Img_Add('z_Pictures/RedBoy2.png')
@@ -116,8 +116,7 @@ class Stalfos_Main(Enemy_Main):
 				# print("Alive")
 				return True
 			elif self.__Cur_Health <= 0:
-				render = self.__Image.get_Render()
-				render.delete(self.__info.get_ID())
+				Image_Node.Render.delete(self.__info.get_ID())
 				# print("Not Alive")
 				return False
 		else:
@@ -128,7 +127,7 @@ class Stalfos_Main(Enemy_Main):
 		#this is where a list of getters will go...
 	def get_Size(self):
 		return self.__info.get_Size()
-		
+
 	def get_Corners(self):
 		return self.__info.get_Corners()
 

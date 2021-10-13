@@ -38,6 +38,7 @@ class Alpha():
 		self.__Entities		= All_Entities()
 		self.__Player		= Player_Main(self.__Image, self.__Collision_Logic, self.__Kinetics, self.__Timer)
 		self.__Sword		= Sword_Main(self.__Image)
+		self.__Bow			= Bow_Main(self.__Image)
 
 		#yes
 		self.__Entities.set_mainApp(self.__mainApp)
@@ -79,18 +80,20 @@ class Alpha():
 
 	def new_Player(self):
 		if keyboard.is_pressed('e') == True:
-			self.__Player.player_initial_setUP(x=2, y=3, priority=0)
+			self.__Player.player_setUP(x=2, y=3, priority=0)
 			self.__Player.set_isAlive(True)
 
 
 	def GamesetUP(self):
 		#Bellow is Entity set up
 		#start Priority with 0
-		self.__Player.player_initial_setUP(x=2, y=3, priority=0)
+		self.__Player.player_setUP(x=2, y=3, priority=0)
 		self.__Player.Player_Print() #temp turn off
-		self.__Player.set_Weapon(self.__Sword)
+		self.__Player.set_Weapons(self.__Sword, self.__Bow)
 		self.__Sword.Sword_setUP()
-		# self.__Sword.Sword_Print()
+		self.__Sword.Sword_Print()
+		self.__Bow.Bow_setUP()
+		self.__Bow.Bow_Print()
 
 		#_CLOCK SETUP_#
 		self.__Timer.GameClock()
@@ -100,7 +103,7 @@ class Alpha():
 		for item in range(len(self.__Stal_Roster)):
 			if self.__Stal_Roster[item] in COLDICT.keys():
 				r_Stal = COLDICT[self.__Stal_Roster[item]]
-				r_Stal.stalfos_initial_setUP(self.__Sc_Width, self.__Sc_Height)
+				r_Stal.stalfos_setUP(self.__Sc_Width, self.__Sc_Height)
 				r_Stal.Stalfos_Print() #temp Turn off
 
 	#gameLoop def is for the classes use.
@@ -180,7 +183,7 @@ class Alpha():
 					if Col_result[item] == self.__Player: #player is always checked first
 						if Col_result[item+1].get_group_ID() in self.__enemyRoster:
 							direction = self.__Collision_Logic.Dir_Calc()
-							print('direction:', direction)
+							# print('direction:', direction)
 							self.__Player.my_Collision('Enemy', Col_result[item+1].get_attack(), direction)
 						elif Col_result[item+1].get_group_ID() in self.__weaponRoster:
 							self.__Player.my_Collision('Weapon', Col_result[item+1].get_attack())

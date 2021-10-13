@@ -4,6 +4,7 @@
 
 from .all_entities import All_Entities
 from .player_info import Player_Info
+from Weapons import *
 from Engine import *
 
 import keyboard
@@ -20,13 +21,15 @@ class Player_Main(All_Entities):
 		self.__Image	 	= iNode
 		self.__info	 		= Player_Info()
 		self.__Sword 		= None
+		self.__Bow			= None
 
 		#----Keyboard inputs----#
 		self.__key_up		= 'w'
 		self.__key_down		= 's'
 		self.__key_left		= 'a'
 		self.__key_right	= 'd'
-		self.__key_attack	= 'k'
+		self.__melee		= 'k'
+		self.__ranged		= 'l'
 
 		#----Active Parameters----#
 		self.__Cur_Health = 0
@@ -37,12 +40,9 @@ class Player_Main(All_Entities):
 		self.__isAlive	  = True
 		self.__isHit	  = False
 
-		#----Random Var----#
-		self.__Render = None
-
 
 	#seting up player bellow
-	def player_initial_setUP(self, x, y, priority=0):
+	def player_setUP(self, x, y, priority=0):
 		#img setup
 		ID = self.__info.get_ID()
 		group_ID = "#player"
@@ -84,36 +84,37 @@ class Player_Main(All_Entities):
 			self.__Direction = 'up'
 			new_Coords = self.__Kinetics.kinetics(self.__info.get_Coords(), self.__info.get_ID(), self.__Direction)#, neg=False)
 			self.__info.set_Coords(new_Coords)
-			self.__info.set_Corners(self.__Render.bbox(self.__info.get_ID()))
+			self.__info.set_Corners(Image_Node.Render.bbox(self.__info.get_ID()))
 			self.__isMoving = True
 
 		if keyboard.is_pressed(self.__key_down):
 			self.__Direction = 'down'
 			new_Coords = self.__Kinetics.kinetics(self.__info.get_Coords(), self.__info.get_ID(), self.__Direction)
 			self.__info.set_Coords(new_Coords)
-			self.__info.set_Corners(self.__Render.bbox(self.__info.get_ID()))
+			self.__info.set_Corners(Image_Node.Render.bbox(self.__info.get_ID()))
 			self.__isMoving = True
 
 		if keyboard.is_pressed(self.__key_left):
 			self.__Direction = 'left'
 			new_Coords = self.__Kinetics.kinetics(self.__info.get_Coords(), self.__info.get_ID(), self.__Direction)
 			self.__info.set_Coords(new_Coords)
-			self.__info.set_Corners(self.__Render.bbox(self.__info.get_ID()))
+			self.__info.set_Corners(Image_Node.Render.bbox(self.__info.get_ID()))
 			self.__isMoving = True
 
 		if keyboard.is_pressed(self.__key_right):
 			self.__Direction = 'right'
 			new_Coords = self.__Kinetics.kinetics(self.__info.get_Coords(), self.__info.get_ID(), self.__Direction)
 			self.__info.set_Coords(new_Coords)
-			self.__info.set_Corners(self.__Render.bbox(self.__info.get_ID()))
+			self.__info.set_Corners(Image_Node.Render.bbox(self.__info.get_ID()))
 			self.__isMoving = True
 
 		self.__isMoving = False
 		return self.__isMoving
 
 	def Player_Attack(self):
-		if keyboard.is_pressed(self.__key_attack) == True:
+		if keyboard.is_pressed(self.__melee) == True:
 			x, y = self.__info.get_Coords() #current coords
+			print(self.__Sword.get_Size(), 'sword size')
 			a, b = self.__Sword.get_Size()
 			if self.__Direction == 'up':
 				self.__Sword.use_Sword(x, y-b)
@@ -127,8 +128,21 @@ class Player_Main(All_Entities):
 		elif self.__Sword.get_isActive() == False:
 			self.__isAttack = False
 
-		if keyboard.is_pressed('l'):
-			self.__Sword.del_Sword()
+		if keyboard.is_pressed(self.__ranged) == True:
+			x, y = self.__info.get_Coords() #current coords
+			print(self.__Bow.get_Size(), 'bow Size')
+			a, b = self.__Bow.get_Size()
+			if self.__Direction == 'up':
+				self.__Bow.use_Bow(x, y-b)
+			elif self.__Direction == 'down':
+				self.__Bow.use_Bow(x, y+b)
+			elif self.__Direction == 'left':
+				self.__Bow.use_Bow(x-a, y)
+			elif self.__Direction == 'right':
+				self.__Bow.use_Bow(x+a, y)
+			self.__isAttack = True
+		elif self.__Bow.get_isActive() == False:
+			self.__isAttack = False
 
 
 		#SSC == Second Side Collision, it represents the other object that collided with player
@@ -140,7 +154,7 @@ class Player_Main(All_Entities):
 				self.__Cur_Health -= SSI
 				new_Coords = self.__Kinetics.Knock_Back(self.__info.get_Coords(), self.__info.get_ID(), direction)
 				self.__info.set_Coords(new_Coords)
-				self.__info.set_Corners(self.__Render.bbox(self.__info.get_ID()))
+				self.__info.set_Corners(Image_Node.Render.bbox(self.__info.get_ID()))
 
 				'''#_Logic_#'''
 				self.__isHit 	= True
@@ -164,7 +178,7 @@ class Player_Main(All_Entities):
 				# print("Alive")
 				return True
 			elif self.__Cur_Health <= 0:
-				self.__Render.delete(self.__info.get_ID())
+				Image_Node.Render.delete(self.__info.get_ID())
 				# print("Not Alive")
 				return False
 		elif self.__isHit == False:
@@ -218,15 +232,13 @@ class Player_Main(All_Entities):
 	def set_Collision_Logic(self, Logic):
 		self.__Collision_Logic = Logic
 
-	def set_Weapon(self, sWeapon):
-		self.__Sword = sWeapon
+	def set_Weapons(self, sword, bow):
+		self.__Sword = sword
+		self.__Bow	 = bow
 
 	def set_health(self, health):
 		self.__info.set_health(health)
-
-	def set_Render(self, Render):
-		self.__Render = Render
-
+		
 	def set_isAlive(self, isAlive):
 		self.__isAlive = isAlive
 

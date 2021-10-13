@@ -7,7 +7,6 @@ class Kinetics_Node(Node):
 		Node.__init__(self)
 		self.__Speed = None
 		self.__Image = iNode
-		self.__Render = None
 
 
 	def kinetics(self, Cur_Coords, img_ID, direction):
@@ -21,7 +20,7 @@ class Kinetics_Node(Node):
 		if direction == 'down':
 			y += 1 * self.__Speed
 
-		self.__Render.coords(img_ID, x, y)
+		Image_Node.Render.coords(img_ID, x, y)
 		return (x, y)
 
 	def Knock_Back(self, Cur_Coords, img_ID, direction):#eventually impliment directional based knock back
@@ -50,6 +49,3 @@ class Kinetics_Node(Node):
 		#this is where a list of setters will go...
 	def set_Speed(self, Speed):
 		self.__Speed = Speed
-
-	def set_Render(self, render):
-		self.__Render = render

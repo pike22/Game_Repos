@@ -8,7 +8,6 @@ class Bow_Main():
 
 		self.__saveTime = 0
 		self.__isActive = False
-		self.__Render	= None
 
 
 	def Bow_setUP(self):
@@ -26,24 +25,26 @@ class Bow_Main():
 			img_list, img_coords = self.__Image.Img_Place(x, y, self.__info.get_TKimg(), Grid='No', tag=ID)
 
 			Canvas_ID = self.__Image.get_Render().find_withtag(ID)[0] #finds my canvas ID numb.
+			print('bow canvasid', self.__Image.get_Render().find_withtag(ID))
+			print('yes', Canvas_ID)
 			self.__info.set_Canvas_ID(Canvas_ID)
-			self.__Render.addtag_withtag(group_ID, Canvas_ID)
+			Image_Node.Render.addtag_withtag(group_ID, Canvas_ID)
 			self.__info.set_Corners(self.__Image.get_Render().bbox(Canvas_ID))
 			self.__saveTime = Timer_Node.GameTime
 			self.__isActive = True
 
 	def Weapon_Active(self):
 		if Timer_Node.GameTime == (self.__saveTime+9):
-			self.__Render.delete(self.__info.get_ID())
+			Image_Node.Render.delete(self.__info.get_ID())
 			self.__isActive = False
 
-	def del_Sword(self):
-		self.__Render.delete(self.__info.get_ID())
+	def del_Bow(self):
+		Image_Node.Render.delete(self.__info.get_ID())
 		self.__isActive = False
 
 
 
-	def Sword_Print(self):
+	def Bow_Print(self):
 		#list of prints for start of program(players)
 		print('-----------------------------------')
 		print('Bow Data:')
@@ -83,6 +84,3 @@ class Bow_Main():
 		#this is where a list of setters will go...
 	def set_IsWeapon(self, Fort):
 		self.__isActive = Fort
-
-	def set_Render(self, render):
-		self.__Render = render

@@ -4,9 +4,9 @@ from .node import Node
 
 #__Render == Canvas
 class Image_Node(Node):
+	Render = None
 	def __init__(self):
 		Node.__init__(self)
-		self.__Render = None
 		self.__gridSizeX = 64
 		self.__gridSizeY = 64
 		self.__Img_list  = [] #0 = PIL_img | #1 = size | #2 = TK_img
@@ -37,9 +37,9 @@ class Image_Node(Node):
 
 			#print('3:', image)
 			#print("coords", img_x, img_y)
-			Canvas_ID = self.__Render.create_image((img_x, img_y), image=image)
+			Canvas_ID = Image_Node.Render.create_image((img_x, img_y), image=image)
 			if tag != None:
-				self.__Render.addtag_withtag(tag, Canvas_ID)
+				Image_Node.Render.addtag_withtag(tag, Canvas_ID)
 			self.__PlaceIMG_List.append(Canvas_ID)
 			self.__PlaceCOR_List.append((img_x, img_y))
 			Var_tuple = (self.__PlaceIMG_List, self.__PlaceCOR_List)
@@ -51,18 +51,18 @@ class Image_Node(Node):
 
 			#print('3:', image)
 			#print("coords", img_x,',', img_y)
-			Canvas_ID = self.__Render.create_image((img_x, img_y), image=image)
+			Canvas_ID = Image_Node.Render.create_image((img_x, img_y), image=image)
 			if tag != None:
-				self.__Render.addtag_withtag(tag, Canvas_ID)
+				Image_Node.Render.addtag_withtag(tag, Canvas_ID)
 			self.__PlaceIMG_List.append(Canvas_ID)
 			self.__PlaceCOR_List.append((img_x, img_y))
 			Var_tuple = (self.__PlaceIMG_List, self.__PlaceCOR_List)
 			return Var_tuple
 
 	def Create_Canvas(self, mainApp, height, width):
-		self.__Render = Canvas(mainApp, height=height, width=width, bg="Blue")
-		self.__Render.grid(row=0, column=0)
-		self.__Render.grid_propagate(0)
+		Image_Node.Render = Canvas(mainApp, height=height, width=width, bg="Blue")
+		Image_Node.Render.grid(row=0, column=0)
+		Image_Node.Render.grid_propagate(0)
 
 	#def Img_Render(self):
 		#this is to render the img for the first time.
@@ -71,8 +71,7 @@ class Image_Node(Node):
 
 
 	"""|--------------Getters--------------|#"""
-	def get_Render(self):
-		return self.__Render
+
 
 
 	"""|--------------Setters--------------|#"""
