@@ -10,17 +10,17 @@ from Engine import *
 import keyboard
 
 class Player_Main(All_Entities):
-	def __init__(self, iNode, clNode, kNode, tNode):
+	def __init__(self, iNode, kNode):
 		#iNode == Image_Node
 		#clNode == Collision_Node
 
 		#----Class Calls----#
 		All_Entities.__init__(self)
-		self.__Collision_Logic = clNode
 		self.__Kinetics		= kNode
 		self.__Image	 	= iNode
 		self.__info	 		= Player_Info()
 		self.__Sword 		= None
+		self.__Arrow		= None
 		self.__Bow			= None
 
 		#----Keyboard inputs----#
@@ -133,15 +133,20 @@ class Player_Main(All_Entities):
 	def Player_RAttack(self):#ranged attack
 		if keyboard.is_pressed(self.__ranged) == True:
 			x, y = self.__info.get_Coords() #current coords
-			a, b = self.__Bow.get_Size()
+			a, b = self.__Arrow.get_Size()
+			c, d = self.__Bow.get_Size()
 			if self.__Direction == 'up':
-				self.__Bow.use_Bow(x, y-b)
+				self.__Bow.use_Bow(x, y-d)
+				self.__Arrow.use_Arrow(x, y-d-b)
 			elif self.__Direction == 'down':
-				self.__Bow.use_Bow(x, y+b)
+				self.__Bow.use_Bow(x, y+d)
+				self.__Arrow.use_Arrow(x, y+d+b)
 			elif self.__Direction == 'left':
-				self.__Bow.use_Bow(x-a, y)
+				self.__Bow.use_Bow(x-c, y)
+				self.__Arrow.use_Arrow(x-c-a, y)
 			elif self.__Direction == 'right':
-				self.__Bow.use_Bow(x+a, y)
+				self.__Arrow.use_Arrow(x+c+a, y)
+				self.__Bow.use_Bow(x+c, y)
 			self.__isAttack = True
 			# print(self.__isAttack)
 			return self.__isAttack
@@ -154,27 +159,24 @@ class Player_Main(All_Entities):
 
 		#SSC == Second Side Collision, it represents the other object that collided with player
 		#SSI == Second Side Info, represents the other objects needed parameters. Ex. dmg
-	def my_Collision(self, SSC, SSI, direction, DB=None):
-		if DB == None:
-			if SSC == 'Enemy':
-				if self.__isHit == False:
-					'''#_Actuall MATH_#'''
-					self.__Cur_Health -= SSI
-					new_Coords = self.__Kinetics.Knock_Back(self.__info.get_Coords(), self.__info.get_ID(), direction)
-					self.__info.set_Coords(new_Coords)
-					self.__info.set_Corners(Image_Node.Render.bbox(self.__info.get_ID()))
+	def my_Collision(self, SSC, SSI, direction):
+		if SSC == 'Enemy':
+			if self.__isHit == False:
+				'''#_Actuall MATH_#'''
+				self.__Cur_Health -= SSI
+				new_Coords = self.__Kinetics.Knock_Back(self.__info.get_Coords(), self.__info.get_ID(), direction)
+				self.__info.set_Coords(new_Coords)
+				self.__info.set_Corners(Image_Node.Render.bbox(self.__info.get_ID()))
 
-					'''#_Logic_#'''
-					self.__isHit 	= True
-					self.__isAlive  = self.isAlive()
-					self.__saveTime = Timer_Node.GameTime
+				'''#_Logic_#'''
+				self.__isHit 	= True
+				self.__isAlive  = self.isAlive()
+				self.__saveTime = Timer_Node.GameTime
 
-			elif SSC == 'Weapon':
-				pass
-			else:
-				print('Error: P#108')
-				pass
+		elif SSC == 'Weapon':
+			pass
 		else:
+			print('Error: P#108')
 			pass
 
 
@@ -193,7 +195,7 @@ class Player_Main(All_Entities):
 				# print("Not Alive")
 				return False
 		elif self.__isHit == False:
-			print('ERROR: #122','\tself.__isHit = False' )
+			print('ERROR: #193','\n\tself.__isHit = False' )
 
 
 
@@ -240,12 +242,13 @@ class Player_Main(All_Entities):
 
 	"""|--------------Setters--------------|#"""
 		#this is where a list of setters will go...
-	def set_Collision_Logic(self, Logic):
-		self.__Collision_Logic = Logic
-
-	def set_Weapons(self, sword, bow):
+	def set_Weapons(self, sword, arrow, bow):
 		self.__Sword = sword
+		self.__Arrow = arrow
 		self.__Bow	 = bow
+		print(arrow, 'herer')
+		print(arrow.get_Size(), 'ofcourse')
+
 
 	def set_health(self, health):
 		self.__info.set_health(health)

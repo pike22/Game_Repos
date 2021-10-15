@@ -1,8 +1,15 @@
 from .all_projectile import Projectile
+from .arrow_info import Arrow_Info
+from Engine import *
 
 class Arrow_Main(Projectile):
-	def __init__(self):
+	def __init__(self, iNode, kNode):
 		Projectile.__init__(self)
+		self.__Image	= iNode
+		self.__Kinetics	= kNode
+		self.__info		= Arrow_Info()
+
+		self.__isActive = False
 		pass
 
 
@@ -12,16 +19,16 @@ class Arrow_Main(Projectile):
 		self.__info.Image_Data(Size=Img_info[1], PIL_img=Img_info[0], TK_img=Img_info[2], file_Location='z_Pictures/arrowmaybe.png')
 		self.__info.Arrow_Data(2) #check melee_info for well info.
 
-	def Use_Arrow(self, x, y):
+	def use_Arrow(self, x, y):
 		ID = self.__info.get_ID()
 		group_ID = self.__info.get_group_ID()
 		if self.__isActive == False:
 			img_list, img_coords = self.__Image.Img_Place(x, y, self.__info.get_TKimg(), Grid='No', tag=ID)
 
-			Canvas_ID = self.__Image.get_Render().find_withtag(ID)[0] #finds my canvas ID numb.
+			Canvas_ID = Image_Node.Render.find_withtag(ID)[0] #finds my canvas ID numb.
 			self.__info.set_Canvas_ID(Canvas_ID)
 			Image_Node.Render.addtag_withtag(group_ID, Canvas_ID)
-			self.__info.set_Corners(self.__Image.get_Render().bbox(Canvas_ID))
+			self.__info.set_Corners(Image_Node.Render.bbox(Canvas_ID))
 			self.__saveTime = Timer_Node.GameTime
 			self.__isActive = True
 
@@ -66,6 +73,3 @@ class Arrow_Main(Projectile):
 		#this is where a list of setters will go...
 	def set_IsWeapon(self, Fort):
 		self.__isActive = Fort
-
-	def set_Render(self, render):
-		Image_Node.Render = render

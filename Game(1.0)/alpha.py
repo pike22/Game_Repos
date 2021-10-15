@@ -36,7 +36,8 @@ class Alpha():
 		self.__Image		= Image_Node() #calls to other classes called need self.Img_Node
 		self.__Kinetics		= Kinetics_Node(self.__Image)
 		self.__Entities		= All_Entities()
-		self.__Player		= Player_Main(self.__Image, self.__Collision_Logic, self.__Kinetics, self.__Timer)
+		self.__Player		= Player_Main(self.__Image, self.__Kinetics)
+		self.__Arrow 		= Arrow_Main(self.__Image, self.__Kinetics)
 		self.__Sword		= Sword_Main(self.__Image)
 		self.__Bow			= Bow_Main(self.__Image)
 
@@ -89,11 +90,12 @@ class Alpha():
 		#start Priority with 0
 		self.__Player.player_setUP(x=2, y=3, priority=0)
 		self.__Player.Player_Print() #temp turn off
-		self.__Player.set_Weapons(self.__Sword, self.__Bow)
 		self.__Sword.Sword_setUP()
 		self.__Sword.Sword_Print()
+		self.__Arrow.Arrow_setUP()
 		self.__Bow.Bow_setUP()
 		self.__Bow.Bow_Print()
+		self.__Player.set_Weapons(sword=self.__Sword, bow=self.__Bow, arrow=self.__Arrow)
 
 		#_CLOCK SETUP_#
 		self.__Timer.GameClock()
@@ -129,7 +131,8 @@ class Alpha():
 			if self.__Player.Player_MAttack() == False and self.__Player.Player_RAttack() == False:
 				self.__Player.Movement_Controll()
 			else:
-				print('ERROR: A#133')
+				# print('Player_Attack = False, A#132')
+				pass
 			self.__Player.test_Coords()
 		else:
 			# print("dead? A#129")
@@ -158,6 +161,8 @@ class Alpha():
 			list1.append(c_Stal.get_Corners())
 
 		#self.__stalfosCount represents number of stalfo's and their corners
+		Sword = 0
+		Bow	  = 0
 		dict = self.__Collision_Logic.get_Col_Dict()
 		if self.__Sword.get_isActive() == True:
 			Sword = 1
@@ -165,17 +170,26 @@ class Alpha():
 			list1.append(self.__Sword.get_Corners())
 			if self.__Sword.get_ID() not in dict.keys():
 				self.__Collision_Logic.add_Col_Dict(self.__Sword.get_ID(), self.__Sword)
+		elif self.__Bow.get_isActive() == True:
+			Bow = 1
+			self.__Collision_Logic.set_tag_List(self.__Bow.get_ID())
+			list1.append(self.__Bow.get_Corners())
+			if self.__Bow.get_ID() not in dict.keys():
+				self.__Collision_Logic.add_Col_Dict(self.__Bow.get_ID(), self.__Bow)
 		else:
 			Sword = 0
 			if self.__Sword.get_ID() in dict.keys():
 				self.__Collision_Logic.del_Col_Dict(self.__Sword.get_ID())
+			Bow = 0
+			if self.__Bow.get_ID() in dict.keys():
+				self.__Collision_Logic.del_Col_Dict(self.__Bow.get_ID())
 
 		self.__Collision_Logic.add_Collision(list1)
 
 		#player represents the players Corners
 		player = 1
 		#when more enemies exist create more 'enemyName'Count, then add below.
-		for item in range(player + Sword + self.__stalfosCount):
+		for item in range(player + Sword + Bow + self.__stalfosCount):
 			Col_result = self.__Collision_Logic.Is_Collision(item)
 
 
@@ -189,7 +203,7 @@ class Alpha():
 							# print('direction:', direction)
 							self.__Player.my_Collision('Enemy', Col_result[item+1].get_attack(), direction)
 						# elif Col_result[item+1].get_group_ID() in self.__weaponRoster:
-						# 	self.__Player.my_Collision('Weapon', Col_result[item+1].get_attack(), direction, DB='')
+						# 	pass
 
 					if Col_result[item].get_ID() in self.__Stal_Roster:
 						if item == len(Col_result)-1:

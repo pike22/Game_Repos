@@ -1,6 +1,7 @@
 from Engine.timer_node import Timer_Node
 from Engine.image_node import Image_Node
 from .bow_info import Bow_Info
+from .Projectiles import *
 
 class Bow_Main():
 	def __init__(self, iNode):
@@ -14,6 +15,7 @@ class Bow_Main():
 	def Bow_setUP(self):
 		#img setup
 		Img_info = self.__Image.Img_Add('z_Pictures/red_bow.png')
+		print(Img_info[1], 'size')
 		self.__info.Image_Data(Size=Img_info[1], PIL_img=Img_info[0], TK_img=Img_info[2], file_Location='z_Pictures/red_bow.png')
 		self.__info.Bow_Data(2) #check melee_info for well info.
 
