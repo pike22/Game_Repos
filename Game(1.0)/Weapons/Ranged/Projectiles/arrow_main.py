@@ -1,75 +1,24 @@
-from .all_projectile import Projectile
+from Engine.image_node import Image_Node
+from .all_projectile import Projectiles
 from .arrow_info import Arrow_Info
-from Engine import *
 
-class Arrow_Main(Projectile):
-	def __init__(self, iNode, kNode):
-		Projectile.__init__(self)
-		self.__Image	= iNode
-		self.__Kinetics	= kNode
-		self.__info		= Arrow_Info()
-
-		self.__isActive = False
-		pass
-
+class Arrow_Main(Projectiles):
+	def __init__(self):
+		self.__info = Arrow_Info()
 
 	def Arrow_setUP(self):
 		#img setup
-		Img_info = self.__Image.Img_Add('z_Pictures/arrowmaybe.png')
-		self.__info.Image_Data(Size=Img_info[1], PIL_img=Img_info[0], TK_img=Img_info[2], file_Location='z_Pictures/arrowmaybe.png')
-		self.__info.Arrow_Data(2) #check melee_info for well info.
-
-	def use_Arrow(self, x, y):
 		ID = self.__info.get_ID()
 		group_ID = self.__info.get_group_ID()
-		if self.__isActive == False:
-			img_list, img_coords = self.__Image.Img_Place(x, y, self.__info.get_TKimg(), Grid='No', tag=ID)
+		Img_info = self.__Image.Img_Add('z_Pictures/arrowmaybe.png')
+		self.__info.Image_Data(Size=Img_info[1], PIL_img=Img_info[0], TK_img=Img_info[2], file_Location='z_Pictures/arrowmaybe.png')
 
-			Canvas_ID = Image_Node.Render.find_withtag(ID)[0] #finds my canvas ID numb.
-			self.__info.set_Canvas_ID(Canvas_ID)
-			Image_Node.Render.addtag_withtag(group_ID, Canvas_ID)
-			self.__info.set_Corners(Image_Node.Render.bbox(Canvas_ID))
-			self.__saveTime = Timer_Node.GameTime
-			self.__isActive = True
+		#final set of information save
+		Canvas_ID = Image_Node.Render.find_withtag(ID)[0] #finds my canvas ID numb.
+		Current_Coords = img_coords[Canvas_ID-1]
+		self.__info.set_Canvas_ID(Canvas_ID)
+		self.__info.Arrow_Data(attack=2) #check player_info for well info.
+		Image_Node.Render.addtag_withtag(group_ID, Canvas_ID)
 
-
-	def Arrow_Print(self):
-		#list of prints for start of program(players)
-		print('-----------------------------------')
-		print('Arrow Data:')
-		print(self.__info.get_ID(), '\t:ID') #should be None
-		print(self.__info.get_Attack_Dmg(), '\t:Attck')
-		print('-----------------------------------')
-		print('')
-
-		#this may not be needed, depends for now.
-	def my_Collision(self):
+	def use_Arrow(self):
 		pass
-
-
-
-	"""|--------------Getters--------------|#"""
-		#this is where a list of getters will go...
-	def get_attack(self):
-		return self.__info.get_Attack_Dmg()
-
-	def get_Size(self):
-		return self.__info.get_Size()
-
-	def get_isActive(self):
-		return self.__isActive
-
-	def get_Corners(self):
-		return self.__info.get_Corners()
-
-	def get_ID(self):
-		return self.__info.get_ID()
-
-	def get_group_ID(self):
-		return self.__info.get_group_ID()
-
-
-	"""|--------------Setters--------------|#"""
-		#this is where a list of setters will go...
-	def set_IsWeapon(self, Fort):
-		self.__isActive = Fort

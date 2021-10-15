@@ -22,8 +22,10 @@ class Alpha():
 		self.__Stal_Roster	= []
 		self.__stalfosCount = 2
 
+
 		'''#_Weapon Parameters_#'''
-		self.__weaponRoster = ["#sword", ]
+		self.__weaponRoster 	= ["#sword", "#bow", ]
+		self.__projectileRoster = ['#arrow', ]
 
 		#collision logic v2.
 		self.__Collision_Logic = Collision_Logic()
@@ -36,8 +38,8 @@ class Alpha():
 		self.__Image		= Image_Node() #calls to other classes called need self.Img_Node
 		self.__Kinetics		= Kinetics_Node(self.__Image)
 		self.__Entities		= All_Entities()
+		# self.__Projectiles  = Projectiles(self.__Image, self.__Kinetics)
 		self.__Player		= Player_Main(self.__Image, self.__Kinetics)
-		self.__Arrow 		= Arrow_Main(self.__Image, self.__Kinetics)
 		self.__Sword		= Sword_Main(self.__Image)
 		self.__Bow			= Bow_Main(self.__Image)
 
@@ -68,7 +70,7 @@ class Alpha():
 	def set_MainCanvas(self): #Set Renders HERE
 		self.__Image.Create_Canvas(self.__mainApp, self.__Sc_Height, self.__Sc_Width)
 
-		#mass set_Render() Render was made Static Var
+		#mass set_Render() !!!Render was made Static Var!!!
 		#leave enemies out of this for now
 		# self.__Collision_Logic.set_Render(self.__Image.get_Render())
 		# self.__Kinetics.set_Render(self.__Image.get_Render())
@@ -92,10 +94,9 @@ class Alpha():
 		self.__Player.Player_Print() #temp turn off
 		self.__Sword.Sword_setUP()
 		self.__Sword.Sword_Print()
-		self.__Arrow.Arrow_setUP()
 		self.__Bow.Bow_setUP()
 		self.__Bow.Bow_Print()
-		self.__Player.set_Weapons(sword=self.__Sword, bow=self.__Bow, arrow=self.__Arrow)
+		self.__Player.set_Weapons(sword=self.__Sword, bow=self.__Bow, )
 
 		#_CLOCK SETUP_#
 		self.__Timer.GameClock()

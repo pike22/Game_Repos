@@ -25,7 +25,7 @@ class Bow_Main():
 		ID = self.__info.get_ID()
 		group_ID = self.__info.get_group_ID()
 		if self.__isActive == False:
-			img_list, img_coords = self.__Image.Img_Place(x, y, self.__info.get_TKimg(), Grid='No', tag=ID)
+			self.__Image.Img_Place(x, y, self.__info.get_TKimg(), Grid='No', tag=ID)
 
 			Canvas_ID = Image_Node.Render.find_withtag(ID)[0] #finds my canvas ID numb.
 			self.__info.set_Canvas_ID(Canvas_ID)

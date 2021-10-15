@@ -45,9 +45,9 @@ class Player_Main(All_Entities):
 	def player_setUP(self, x, y, priority=0):
 		#img setup
 		ID = self.__info.get_ID()
-		group_ID = "#player"
+		group_ID = self.__info.get_group_ID()
 		Img_info = self.__Image.Img_Add('z_Pictures/purpuloniousthefirst.png')
-		self.__info.Image_Data(Size=Img_info[1], group_ID=group_ID, PIL_img=Img_info[0], TK_img=Img_info[2], file_Location='z_Pictures/purpuloniousthefirst.png')
+		self.__info.Image_Data(Size=Img_info[1], PIL_img=Img_info[0], TK_img=Img_info[2], file_Location='z_Pictures/purpuloniousthefirst.png')
 
 		#placing the img
 		img_list, img_coords = self.__Image.Img_Place(x, y, self.__info.get_TKimg(), tag=ID)
@@ -133,20 +133,15 @@ class Player_Main(All_Entities):
 	def Player_RAttack(self):#ranged attack
 		if keyboard.is_pressed(self.__ranged) == True:
 			x, y = self.__info.get_Coords() #current coords
-			a, b = self.__Arrow.get_Size()
-			c, d = self.__Bow.get_Size()
+			a, b = self.__Bow.get_Size()
 			if self.__Direction == 'up':
-				self.__Bow.use_Bow(x, y-d)
-				self.__Arrow.use_Arrow(x, y-d-b)
+				self.__Bow.use_Bow(x, y-b)
 			elif self.__Direction == 'down':
-				self.__Bow.use_Bow(x, y+d)
-				self.__Arrow.use_Arrow(x, y+d+b)
+				self.__Bow.use_Bow(x, y+b)
 			elif self.__Direction == 'left':
-				self.__Bow.use_Bow(x-c, y)
-				self.__Arrow.use_Arrow(x-c-a, y)
+				self.__Bow.use_Bow(x-a, y)
 			elif self.__Direction == 'right':
-				self.__Arrow.use_Arrow(x+c+a, y)
-				self.__Bow.use_Bow(x+c, y)
+				self.__Bow.use_Bow(x+a, y)
 			self.__isAttack = True
 			# print(self.__isAttack)
 			return self.__isAttack
@@ -242,12 +237,9 @@ class Player_Main(All_Entities):
 
 	"""|--------------Setters--------------|#"""
 		#this is where a list of setters will go...
-	def set_Weapons(self, sword, arrow, bow):
+	def set_Weapons(self, sword, bow):
 		self.__Sword = sword
-		self.__Arrow = arrow
 		self.__Bow	 = bow
-		print(arrow, 'herer')
-		print(arrow.get_Size(), 'ofcourse')
 
 
 	def set_health(self, health):

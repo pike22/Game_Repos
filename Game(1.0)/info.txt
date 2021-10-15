@@ -22,11 +22,13 @@ many. If you want to run the code run the alpha.py file.
 	we came up with the idea to use Dictionaries. Something I haven't used since when I first reconstructed my classes.
 
  -09/24/2021 Weeks Summary
-	This week I fully put together my Collision Dictionary(Col_Dict) that I had described in the last summary. After completing that I
-	moved on to using that Dictionary to identify what I have colliding. The problem that I ran into was that this current method worked all
-	fine and well with each class object only having one "entity" to work with. So once I added a second stalfos to the table. I began to run
-	into problems. As I found out that I need more identification for. The biggest problem was that my keys that I used ended up pointing to one
-	spot rather than to the different parts of the system that it should have. Other than this the early implementation that I have works.
+	This week I fully put together my Collision Dictionary(Col_Dict) that I had described in the last summary.
+	After completing that I moved on to using that Dictionary to identify what I have colliding.
+	The problem that I ran into was that this current method worked all fine and well with each class object only having one
+	"entity" to work with. So once I added a second stalfos to the table. I began to run into problems. As I found out that I
+	need more identification for. The biggest problem was that my keys that I used ended up pointing to one spot rather
+	than to the different parts of the system that it should have. Other than this the early implementation that I
+	have works.
 
 		-I might want to consider instead of using lists in my stalfos parameters, I would create a new instance of the entire object with slight changes
 			-Pros:  It may help with my recent problem
@@ -47,4 +49,14 @@ many. If you want to run the code run the alpha.py file.
 	working on enhancing my knockback by creating a new function that uses math on the grid plane to determine
 	where the objects that are colliding are at. This allows me to then when using the knockback function have them
 	be knocked back in the opposite direction they were hit from. This is still being worked on in the next week and
-	will be talked about again next entry.   
+	will be talked about again next entry.
+
+
+ -10/15/21 Week Summary
+ 	This Week I quickly put together saving the last direction my player moved. This allowed me to change which direction
+	my sword rendered to, I was also able to create the basic direction for knockback. So if player comes in from the top
+	the knockback sends the player back the same way. The same for the other 3 directions. As of Wednesday I began work on
+	creating a bow & arrow. I was able to implement the bow itself with no problem. It was practically a strait copy past of
+	the swords logic. Some will need to be edited but for now it works. The hard part right now is the arrow. I began by trying
+	to use some of the sword logic again but that has caused some problems. So I just hit ctrl-A and then the del key. To
+	attempt to write it again. The other thing to do is to use inheritance to help. That will also help for future projectiles.

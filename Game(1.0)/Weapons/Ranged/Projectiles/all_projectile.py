@@ -1,5 +1,4 @@
 
-class Projectile():
-	def __inif__(self, iNode):
-		self.__Image = iNode
+class Projectiles():
+	def __init(self):
 		pass

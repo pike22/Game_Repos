@@ -8,13 +8,12 @@ class Player_Info():
 		#self.__Collision_Box = None #this is no longer needed
 		self.__Cur_Coords 	= None #constantly saves current coords in tuple: (x, y)
 		self.__Canvas_ID	= None
-		self.__group_ID		= 'player'
+		self.__group_ID		= '#player'
 		self.__ID			= 'P#001'
 		self.__imgPIL_ID	= None
 		self.__imgTK_ID		= None
 		self.__img_size		= None #(x, y)tuple of height, width
 		self.__Corners		= None #(x1, y1, x2, y2) tuple
-		self.__group_ID		= None
 
 		#Game Mechanical Parameters. Totals
 		self.__base_health	= None
@@ -22,12 +21,11 @@ class Player_Info():
 		self.__base_attack	= None
 
 
-	def Image_Data(self, Size, group_ID, PIL_img, TK_img, file_Location):
+	def Image_Data(self, Size, PIL_img, TK_img, file_Location):
 		self.__file_Location	= file_Location
 		self.__imgPIL_ID		= PIL_img
 		self.__imgTK_ID			= TK_img
 		self.__img_size			= Size
-		self.__group_ID			= group_ID
 
 	def Player_Data(self, Cur_Coords, Speed, health, defense, attack): #add more here as needed.
 		self.__Player_Speed	= Speed
