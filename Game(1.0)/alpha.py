@@ -26,6 +26,7 @@ class Alpha():
 		'''#_Weapon Parameters_#'''
 		self.__weaponRoster 	= ["#sword", "#bow", ]
 		self.__projectileRoster = ['#arrow', ]
+		self.__projectileDict	= {}
 
 		#collision logic v2.
 		self.__Collision_Logic = Collision_Logic()
@@ -38,13 +39,14 @@ class Alpha():
 		self.__Image		= Image_Node() #calls to other classes called need self.Img_Node
 		self.__Kinetics		= Kinetics_Node(self.__Image)
 		self.__Entities		= All_Entities()
-		# self.__Projectiles  = Projectiles(self.__Image, self.__Kinetics)
+		self.__Projectiles  = Projectiles()
 		self.__Player		= Player_Main(self.__Image, self.__Kinetics)
 		self.__Sword		= Sword_Main(self.__Image)
 		self.__Bow			= Bow_Main(self.__Image)
 
 		#yes
 		self.__Entities.set_mainApp(self.__mainApp)
+		self.__Projectiles.set_Nodes(self.__Image, self.__Kinetics)
 
 		'''Collision SETUP'''
 		self.__Collision_Logic.add_Col_Dict(self.__Player.get_ID(), self.__Player)
@@ -83,23 +85,19 @@ class Alpha():
 
 	def new_Player(self):
 		if keyboard.is_pressed('e') == True:
-			self.__Player.player_setUP(x=2, y=3, priority=0)
+			self.__Player.player_setUP(x=2, y=3)
 			self.__Player.set_isAlive(True)
 
 
 	def GamesetUP(self):
 		#Bellow is Entity set up
-		#start Priority with 0
-		self.__Player.player_setUP(x=2, y=3, priority=0)
-		self.__Player.Player_Print() #temp turn off
+		self.__Player.player_setUP(x=2, y=3)
+		# self.__Player.Player_Print()
 		self.__Sword.Sword_setUP()
-		self.__Sword.Sword_Print()
+		# self.__Sword.Sword_Print()
 		self.__Bow.Bow_setUP()
-		self.__Bow.Bow_Print()
+		# self.__Bow.Bow_Print()
 		self.__Player.set_Weapons(sword=self.__Sword, bow=self.__Bow, )
-
-		#_CLOCK SETUP_#
-		self.__Timer.GameClock()
 
 		#__ENEMY Setup__#
 		COLDICT = self.__Collision_Logic.get_Col_Dict()
@@ -107,18 +105,26 @@ class Alpha():
 			if self.__Stal_Roster[item] in COLDICT.keys():
 				r_Stal = COLDICT[self.__Stal_Roster[item]]
 				r_Stal.stalfos_setUP(self.__Sc_Width, self.__Sc_Height)
-				r_Stal.Stalfos_Print() #temp Turn off
+				# r_Stal.Stalfos_Print()
+
+		#_Weapon SETUP_#
+		self.__projectileDict['#arrow'] = Arrow_Main()
+		self.__Bow.set_ammo(self.__projectileDict['#arrow'])
+
+		#_CLOCK SETUP_#
+		self.__Timer.GameClock()
+
 
 	#gameLoop def is for the classes use.
 	def gameLoop(self):
 
-		#this loop will call itself again after the alloted amount of time.
-		#therefor creating the game loop
 		#to kill the window
 		self.close_window()
 		# self.new_Player()
 
 		"""#_calls_#"""
+		if keyboard.is_pressed('b'):
+			self.__Bow.del_Bow()
 		#Pass
 
 		"""#_loop Debug_#"""

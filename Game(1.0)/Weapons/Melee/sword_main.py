@@ -17,7 +17,7 @@ class Sword_Main():
 		self.__info.Image_Data(Size=Img_info[1], PIL_img=Img_info[0], TK_img=Img_info[2], file_Location='z_Pictures/notasword.png')
 		self.__info.Sword_Data(2) #check melee_info for well info.
 
-		#self.output = self.Image.
+
 
 	def use_Sword(self, x, y):
 		ID = self.__info.get_ID()

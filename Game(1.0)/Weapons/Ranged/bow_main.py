@@ -7,6 +7,7 @@ class Bow_Main():
 	def __init__(self, iNode):
 		self.__Image	= iNode
 		self.__info		= Bow_Info()
+		self.__ammo		= None
 
 		self.__saveTime = 0
 		self.__isActive = False
@@ -24,8 +25,10 @@ class Bow_Main():
 	def use_Bow(self, x, y):
 		ID = self.__info.get_ID()
 		group_ID = self.__info.get_group_ID()
+		height, width = self.__info.get_Size()
 		if self.__isActive == False:
 			self.__Image.Img_Place(x, y, self.__info.get_TKimg(), Grid='No', tag=ID)
+			self.__ammo.use_Arrow((x+height), (y+width))
 
 			Canvas_ID = Image_Node.Render.find_withtag(ID)[0] #finds my canvas ID numb.
 			self.__info.set_Canvas_ID(Canvas_ID)
@@ -42,6 +45,7 @@ class Bow_Main():
 	def del_Bow(self):
 		self.__isActive = False
 		Image_Node.Render.delete(self.__info.get_ID())
+		self.__ammo.del_Arrow()
 
 
 
@@ -85,3 +89,6 @@ class Bow_Main():
 		#this is where a list of setters will go...
 	def set_IsWeapon(self, Fort):
 		self.__isActive = Fort
+
+	def set_ammo(self, ammo):
+		self.__ammo = ammo

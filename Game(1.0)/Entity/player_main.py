@@ -42,7 +42,7 @@ class Player_Main(All_Entities):
 
 
 	#seting up player bellow
-	def player_setUP(self, x, y, priority=0):
+	def player_setUP(self, x, y):
 		#img setup
 		ID = self.__info.get_ID()
 		group_ID = self.__info.get_group_ID()
