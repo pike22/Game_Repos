@@ -11,6 +11,7 @@ class Bow_Main():
 
 		self.__saveTime = 0
 		self.__isActive = False
+		self.__projActive = False
 
 
 	def Bow_setUP(self):
@@ -22,13 +23,21 @@ class Bow_Main():
 
 		#self.output = self.Image.
 
-	def use_Bow(self, x, y):
+	def use_Bow(self, x, y, direction):
 		ID = self.__info.get_ID()
 		group_ID = self.__info.get_group_ID()
 		height, width = self.__info.get_Size()
 		if self.__isActive == False:
 			self.__Image.Img_Place(x, y, self.__info.get_TKimg(), Grid='No', tag=ID)
-			self.__ammo.use_Arrow((x+height), (y+width))
+			if direction == 'up':
+				self.__ammo.use_Arrow(x, (y-width), 'up')
+			elif direction == 'down':
+				self.__ammo.use_Arrow(x, (y+width), 'down')
+			elif direction == 'right':
+				self.__ammo.use_Arrow((x+height), y, 'right')
+			elif direction == 'left':
+				self.__ammo.use_Arrow((x-height), y, 'left')
+
 
 			Canvas_ID = Image_Node.Render.find_withtag(ID)[0] #finds my canvas ID numb.
 			self.__info.set_Canvas_ID(Canvas_ID)
@@ -36,11 +45,17 @@ class Bow_Main():
 			self.__info.set_Corners(Image_Node.Render.bbox(Canvas_ID))
 			self.__saveTime = Timer_Node.GameTime
 			self.__isActive = True
+			self.__projActive = True
+
 
 	def Weapon_Active(self):
 		if Timer_Node.GameTime == (self.__saveTime+9):
 			self.__isActive = False
 			Image_Node.Render.delete(self.__info.get_ID())
+
+	def proj_Active(self):
+		if self.__projActive == True:
+			self.__ammo.isActive()
 
 	def del_Bow(self):
 		self.__isActive = False
@@ -74,6 +89,9 @@ class Bow_Main():
 
 	def get_isActive(self):
 		return self.__isActive
+
+	def get_projActive(self):
+		return self.__projActive
 
 	def get_Corners(self):
 		return self.__info.get_Corners()

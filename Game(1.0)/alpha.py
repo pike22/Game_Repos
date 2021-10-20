@@ -109,6 +109,7 @@ class Alpha():
 
 		#_Weapon SETUP_#
 		self.__projectileDict['#arrow'] = Arrow_Main()
+		self.__projectileDict['#arrow'].copy_Node(self.__Projectiles)
 		self.__Bow.set_ammo(self.__projectileDict['#arrow'])
 
 		#_CLOCK SETUP_#
@@ -229,6 +230,9 @@ class Alpha():
 
 		if self.__Bow.get_isActive() == True:
 			self.__Bow.Weapon_Active()
+
+		if self.__Bow.get_projActive() == True:
+			self.__Bow.proj_Active()
 
 		if self.__Player.get_isHit() == True:
 			self.__Player.reset_hit()

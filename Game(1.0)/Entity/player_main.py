@@ -135,13 +135,13 @@ class Player_Main(All_Entities):
 			x, y = self.__info.get_Coords() #current coords
 			a, b = self.__Bow.get_Size()
 			if self.__Direction == 'up':
-				self.__Bow.use_Bow(x, y-b)
+				self.__Bow.use_Bow(x, (y-b), 'up')
 			elif self.__Direction == 'down':
-				self.__Bow.use_Bow(x, y+b)
+				self.__Bow.use_Bow(x, (y+b), 'down')
 			elif self.__Direction == 'left':
-				self.__Bow.use_Bow(x-a, y)
+				self.__Bow.use_Bow((x-a), y, 'left')
 			elif self.__Direction == 'right':
-				self.__Bow.use_Bow(x+a, y)
+				self.__Bow.use_Bow((x+a), y, 'right')
 			self.__isAttack = True
 			# print(self.__isAttack)
 			return self.__isAttack

@@ -31,7 +31,7 @@ many. If you want to run the code run the alpha.py file.
 	have works.
 
 		-I might want to consider instead of using lists in my stalfos parameters, I would create a new instance of the entire object with slight changes
-			-Pros:  It may help with my recent problem
+			-Pros:  It may help with my recent problem (Having to constantly find and pass which stalfos in the list I wanted)
 			-Cons:  It will most likely cause more problems that I otherwise wouldn't have, Difficult to manage a potentially large number of instances.
 
 

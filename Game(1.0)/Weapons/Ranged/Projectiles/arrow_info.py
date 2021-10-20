@@ -9,6 +9,7 @@ class Arrow_Info():
 		self.__ID			= "P#A001"
 		self.__img_size		= None #(x, y)tuple of height, width
 		self.__Corners		= None #(x1, y1, x2, y2) tuple
+		self.__Coords		= None #(x, y) location
 		#Parameters
 		self.__attack_damage = None
 
@@ -19,8 +20,9 @@ class Arrow_Info():
 		self.__imgTK_ID			= TK_img
 		self.__img_size			= Size
 
-	def Arrow_Data(self, attack): #add more here as needed.
+	def Arrow_Data(self, attack, Coords): #add more here as needed.
 		self.__attack_damage = attack
+		self.__Coords = Coords
 
 
 	"""|--------------Getters--------------|#"""
@@ -36,6 +38,9 @@ class Arrow_Info():
 
 	def get_Corners(self):
 		return self.__Corners
+
+	def get_Coords(self):
+		return self.__Coords
 
 	def get_TKimg(self):
 		return self.__imgTK_ID
@@ -57,3 +62,6 @@ class Arrow_Info():
 
 	def set_Corners(self, Corners):
 		self.__Corners = Corners
+
+	def set_Coords(self, Coords):
+		self.__Coords = Coords
