@@ -27,7 +27,7 @@ class Arrow_Info():
 
 	"""|--------------Getters--------------|#"""
 		#this is where a list of getters will go...
-	def get_Attack_Dmg(self):
+	def get_attack(self):
 		return self.__attack_damage
 
 	def get_ID(self):
@@ -35,6 +35,9 @@ class Arrow_Info():
 
 	def get_group_ID(self):
 		return self.__group_ID
+
+	def get_canvasID(self):
+		return self.__Canvas_ID
 
 	def get_Corners(self):
 		return self.__Corners

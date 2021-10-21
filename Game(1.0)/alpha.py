@@ -25,8 +25,8 @@ class Alpha():
 
 		'''#_Weapon Parameters_#'''
 		self.__weaponRoster 	= ["#sword", "#bow", ]
-		self.__projectileRoster = ['#arrow', ]
-		self.__projectileDict	= {}
+		self.__projRoster = ['#arrow', ]
+		self.__projDict	= {}
 
 		#collision logic v2.
 		self.__Collision_Logic = Collision_Logic()
@@ -41,12 +41,12 @@ class Alpha():
 		self.__Entities		= All_Entities()
 		self.__Projectiles  = Projectiles()
 		self.__Player		= Player_Main(self.__Image, self.__Kinetics)
-		self.__Sword		= Sword_Main(self.__Image)
-		self.__Bow			= Bow_Main(self.__Image)
+		self.__Sword		= Sword_Main(self.__Image, self.__Collision_Logic)
+		self.__Bow			= Bow_Main(self.__Image, self.__Collision_Logic)
 
 		#yes
 		self.__Entities.set_mainApp(self.__mainApp)
-		self.__Projectiles.set_Nodes(self.__Image, self.__Kinetics)
+		self.__Projectiles.set_Nodes(self.__Image, self.__Kinetics, self.__Collision_Logic)
 
 		'''Collision SETUP'''
 		self.__Collision_Logic.add_Col_Dict(self.__Player.get_ID(), self.__Player)
@@ -108,9 +108,9 @@ class Alpha():
 				# r_Stal.Stalfos_Print()
 
 		#_Weapon SETUP_#
-		self.__projectileDict['#arrow'] = Arrow_Main()
-		self.__projectileDict['#arrow'].copy_Node(self.__Projectiles)
-		self.__Bow.set_ammo(self.__projectileDict['#arrow'])
+		self.__projDict['#arrow'] = Arrow_Main()
+		self.__projDict['#arrow'].copy_Node(self.__Projectiles)
+		self.__Bow.set_ammo(self.__projDict['#arrow'])
 
 		#_CLOCK SETUP_#
 		self.__Timer.GameClock()
@@ -168,36 +168,29 @@ class Alpha():
 			c_Stal = self.__Collision_Logic.tag_to_obj(self.__Stal_Roster[item]) #c_Stal == stalfos obj
 			list1.append(c_Stal.get_Corners())
 
-		#self.__stalfosCount represents number of stalfo's and their corners
-		Sword = 0
-		Bow	  = 0
-		dict = self.__Collision_Logic.get_Col_Dict()
+
+		self.__Collision_Logic.add_Col_Dict(self.__Sword.get_ID(), self.__Sword)
+		self.__Collision_Logic.add_Col_Dict(self.__Bow.get_ID(), self.__Bow)
+		self.__Collision_Logic.add_Col_Dict(self.__projDict['#arrow'].get_ID(), self.__projDict['#arrow'])
+
 		if self.__Sword.get_isActive() == True:
-			Sword = 1
-			self.__Collision_Logic.set_tag_List(self.__Sword.get_ID())
 			list1.append(self.__Sword.get_Corners())
-			if self.__Sword.get_ID() not in dict.keys():
-				self.__Collision_Logic.add_Col_Dict(self.__Sword.get_ID(), self.__Sword)
-		elif self.__Bow.get_isActive() == True:
-			Bow = 1
-			self.__Collision_Logic.set_tag_List(self.__Bow.get_ID())
+		if self.__Bow.get_isActive() == True:
 			list1.append(self.__Bow.get_Corners())
-			if self.__Bow.get_ID() not in dict.keys():
-				self.__Collision_Logic.add_Col_Dict(self.__Bow.get_ID(), self.__Bow)
-		else:
-			Sword = 0
-			if self.__Sword.get_ID() in dict.keys():
-				self.__Collision_Logic.del_Col_Dict(self.__Sword.get_ID())
-			Bow = 0
-			if self.__Bow.get_ID() in dict.keys():
-				self.__Collision_Logic.del_Col_Dict(self.__Bow.get_ID())
+		if self.__projDict['#arrow'].get_isActive() == True:
+			list1.append(self.__projDict['#arrow'].get_Corners())
+
 
 		self.__Collision_Logic.add_Collision(list1)
 
-		#player represents the players Corners
-		player = 1
+		#Below are representation of object corners
+		player 	= 1
+		sword 	= self.__Sword.get_itemCount()
+		bow		= self.__Bow.get_itemCount()
+		proj 	= self.__projDict['#arrow'].get_itemCount()
+		#self.__stalfosCount represents number of stalfo's and their corners
 		#when more enemies exist create more 'enemyName'Count, then add below.
-		for item in range(player + Sword + Bow + self.__stalfosCount):
+		for item in range(player + sword + bow + proj + self.__stalfosCount):
 			Col_result = self.__Collision_Logic.Is_Collision(item)
 
 
@@ -218,7 +211,10 @@ class Alpha():
 							pass
 						elif item != len(Col_result)-1:
 							if Col_result[item+1].get_group_ID() in self.__weaponRoster:
-								Col_result[item].my_Collision('Weapon', Col_result[item+1].get_attack())
+								Col_result[item].my_Collision(str(Col_result[item+1].get_ID()), Col_result[item+1].get_attack())
+							elif Col_result[item+1].get_group_ID() in self.__projRoster:
+								Col_result[item].my_Collision(str(Col_result[item+1].get_ID()), Col_result[item+1].get_attack())
+								Col_result[item+1].del_Arrow()
 
 					if Col_result[item] == self.__Sword: #weapon will always be last
 						#print('Sword')

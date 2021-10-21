@@ -4,13 +4,15 @@ from .bow_info import Bow_Info
 from .Projectiles import *
 
 class Bow_Main():
-	def __init__(self, iNode):
-		self.__Image	= iNode
-		self.__info		= Bow_Info()
-		self.__ammo		= None
+	def __init__(self, iNode, cNode):
+		self.__Image	 = iNode
+		self.__Collision = cNode
+		self.__info		 = Bow_Info()
+		self.__ammo		 = None
 
-		self.__saveTime = 0
-		self.__isActive = False
+		self.__itemCount  = 0
+		self.__saveTime   = 0
+		self.__isActive   = False
 		self.__projActive = False
 
 
@@ -29,14 +31,16 @@ class Bow_Main():
 		height, width = self.__info.get_Size()
 		if self.__isActive == False:
 			self.__Image.Img_Place(x, y, self.__info.get_TKimg(), Grid='No', tag=ID)
+			self.__Collision.add_Col_Dict(self.__ammo.get_ID(), self.__ammo)
+
 			if direction == 'up':
-				self.__ammo.use_Arrow(x, (y-width), 'up')
+				self.__ammo.use_Arrow(x, (y-width), 'up', dmgMod=self.__info.get_attack())
 			elif direction == 'down':
-				self.__ammo.use_Arrow(x, (y+width), 'down')
+				self.__ammo.use_Arrow(x, (y+width), 'down', dmgMod=self.__info.get_attack())
 			elif direction == 'right':
-				self.__ammo.use_Arrow((x+height), y, 'right')
+				self.__ammo.use_Arrow((x+height), y, 'right', dmgMod=self.__info.get_attack())
 			elif direction == 'left':
-				self.__ammo.use_Arrow((x-height), y, 'left')
+				self.__ammo.use_Arrow((x-height), y, 'left', dmgMod=self.__info.get_attack())
 
 
 			Canvas_ID = Image_Node.Render.find_withtag(ID)[0] #finds my canvas ID numb.
@@ -46,20 +50,23 @@ class Bow_Main():
 			self.__saveTime = Timer_Node.GameTime
 			self.__isActive = True
 			self.__projActive = True
+			self.__itemCount += 1
 
 
 	def Weapon_Active(self):
 		if Timer_Node.GameTime == (self.__saveTime+9):
-			self.__isActive = False
 			Image_Node.Render.delete(self.__info.get_ID())
+			self.__isActive = False
+			self.__itemCount -= 1
 
 	def proj_Active(self):
 		if self.__projActive == True:
 			self.__ammo.isActive()
 
 	def del_Bow(self):
-		self.__isActive = False
 		Image_Node.Render.delete(self.__info.get_ID())
+		self.__isActive = False
+		self.__Collision.del_Col_Dict(self.__ammo.get_ID())
 		self.__ammo.del_Arrow()
 
 
@@ -93,6 +100,9 @@ class Bow_Main():
 	def get_projActive(self):
 		return self.__projActive
 
+	def get_projCorners(self):
+		return self.__ammo.get_Corners()
+
 	def get_Corners(self):
 		return self.__info.get_Corners()
 
@@ -101,6 +111,12 @@ class Bow_Main():
 
 	def get_group_ID(self):
 		return self.__info.get_group_ID()
+
+	def get_itemCount(self):
+		return self.__itemCount
+
+	def get_ammoCount(self):
+		return self.__ammoCount
 
 
 	"""|--------------Setters--------------|#"""

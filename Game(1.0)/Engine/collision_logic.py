@@ -50,7 +50,7 @@ class Collision_Logic():
 			for item in range(len(collision)):
 				tag = Image_Node.Render.gettags(collision[item])
 				self.__collision.append(tag[0]) #item 0 is the entity_ID, 1 == group_ID
-			# print(self.__collision, 'Colliding') #print Tags of Entity Colliding
+			print(self.__collision, 'Colliding') #print Tags of Entity Colliding
 
 			for item in range(len(self.__collision)):
 				tagOrId = self.__collision[item]

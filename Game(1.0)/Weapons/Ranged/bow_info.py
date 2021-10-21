@@ -25,7 +25,7 @@ class Bow_Info():
 
 	"""|--------------Getters--------------|#"""
 		#this is where a list of getters will go...
-	def get_Attack_Dmg(self):
+	def get_attack(self):
 		return self.__attack_damage
 
 	def get_ID(self):

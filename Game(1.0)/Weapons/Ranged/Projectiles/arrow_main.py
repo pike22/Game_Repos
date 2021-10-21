@@ -10,7 +10,8 @@ class Arrow_Main(Projectiles):
 		self.__group_ID = self.__info.get_group_ID()
 		self.__Direction = None
 
-		self.__isActive = False
+		self.__itemCount = 0
+		self.__isActive  = False
 
 	def Arrow_setUP(self):
 		#img setup
@@ -18,7 +19,7 @@ class Arrow_Main(Projectiles):
 		self.__info.Image_Data(Size=Img_info[1], PIL_img=Img_info[0], TK_img=Img_info[2], file_Location='z_Pictures/arrowmaybe.png')
 
 
-	def use_Arrow(self, x, y, direction):
+	def use_Arrow(self, x, y, direction, dmgMod):
 		self.Arrow_setUP()
 		if self.__isActive == False:
 			self.get_iNode().Img_Place(x, y, self.__info.get_TKimg(), Grid='No', tag=self.__ID)
@@ -28,13 +29,13 @@ class Arrow_Main(Projectiles):
 			Canvas_ID = Image_Node.Render.find_withtag(self.__ID)[0] #finds my canvas ID numb.
 
 			self.__info.set_Canvas_ID(Canvas_ID)
-			self.__info.Arrow_Data(attack=2, Coords=(x, y)) #check player_info for well info.
+			self.__info.Arrow_Data(attack=2+dmgMod, Coords=(x, y)) #check arrow_info for well info.
+			self.__info.set_Corners(Image_Node.Render.bbox(Canvas_ID))
 			Image_Node.Render.addtag_withtag(self.__group_ID, Canvas_ID)
 
 			#arrow move
-			print(direction, 'direction')
 			self.__Direction = direction
-			self.isActive()
+			self.__itemCount += 1
 
 	def isActive(self):
 		# print('hello"')
@@ -56,5 +57,32 @@ class Arrow_Main(Projectiles):
 			self.__info.set_Corners(Image_Node.Render.bbox(self.__info.get_ID()))
 
 	def del_Arrow(self):
+		Image_Node.Render.delete(self.__info.get_canvasID())
 		self.__isActive = False
-		Image_Node.Render.delete(self.__info.get_ID())
+		self.__itemCount -= 1
+
+
+	"""|--------------Getters--------------|#"""
+		#this is where a list of getters will go...
+	def get_Corners(self):
+		return self.__info.get_Corners()
+
+	def get_ID(self):
+		return self.__info.get_ID()
+
+	def get_group_ID(self):
+		return self.__info.get_group_ID()
+
+	def get_itemCount(self):
+		return self.__itemCount
+
+	def get_isActive(self):
+		return self.__isActive
+
+	def get_attack(self):
+		return self.__info.get_attack()
+
+
+	"""|--------------Setters--------------|#"""
+		#this is where a list of setters will go...
+	#def set_...

@@ -109,6 +109,7 @@ class Stalfos_Main(Enemy_Main):
 		if Timer_Node.GameTime == self.__saveTime+5:
 			self.__isHit = False
 			print('Stalfos Can Get Hit')
+			print(self.__Cur_Health, ':Stalfos Health')
 
 	def isAlive(self):
 		if self.__isHit == True:

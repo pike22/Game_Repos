@@ -179,6 +179,7 @@ class Player_Main(All_Entities):
 		if Timer_Node.GameTime == self.__saveTime+5:
 			self.__isHit = False
 			print('Player Can Get Hit')
+			print(self.__Cur_Health, ':Player Health')
 
 	def isAlive(self):
 		if self.__isHit == True:

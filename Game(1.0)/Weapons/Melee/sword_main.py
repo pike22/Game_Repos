@@ -3,10 +3,12 @@ from Engine.image_node import Image_Node
 from .sword_info import Sword_Info
 
 class Sword_Main():
-	def __init__(self, iNode):
-		self.__Image	= iNode
-		self.__info		= Sword_Info()
+	def __init__(self, iNode, cNode):
+		self.__Image	 = iNode
+		self.__Collision = cNode
+		self.__info		 = Sword_Info()
 
+		self.__itemCount = 0
 		self.__saveTime	 = 0
 		self.__isActive	 = False
 
@@ -30,12 +32,15 @@ class Sword_Main():
 			Image_Node.Render.addtag_withtag(group_ID, Canvas_ID)
 			self.__info.set_Corners(Image_Node.Render.bbox(Canvas_ID))
 			self.__saveTime = Timer_Node.GameTime
+
 			self.__isActive = True
+			self.__itemCount += 1
 
 	def Weapon_Active(self):
 		if Timer_Node.GameTime == (self.__saveTime+9):
 			Image_Node.Render.delete(self.__info.get_ID())
 			self.__isActive = False
+			self.__itemCount -= 1
 
 	def del_Sword(self):
 		Image_Node.Render.delete(self.__info.get_ID())
@@ -77,6 +82,9 @@ class Sword_Main():
 
 	def get_group_ID(self):
 		return self.__info.get_group_ID()
+
+	def get_itemCount(self):
+		return self.__itemCount
 
 
 	"""|--------------Setters--------------|#"""
