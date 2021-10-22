@@ -50,13 +50,14 @@ class Player_Main(All_Entities):
 		self.__info.Image_Data(Size=Img_info[1], PIL_img=Img_info[0], TK_img=Img_info[2], file_Location='z_Pictures/purpuloniousthefirst.png')
 
 		#placing the img
-		img_list, img_coords = self.__Image.Img_Place(x, y, self.__info.get_TKimg(), tag=ID)
+		img_coords = self.__Image.Img_Place(x, y, self.__info.get_TKimg(), tag=ID)
 
 		#final set of information save to player
 		Canvas_ID = Image_Node.Render.find_withtag(ID)[0] #finds my canvas ID numb.
-		Current_Coords = img_coords[Canvas_ID-1]
+		Coords = img_coords[Canvas_ID-1]
+		print(Coords)
 		self.__info.set_Canvas_ID(Canvas_ID)
-		self.__info.Player_Data(Cur_Coords=Current_Coords, Speed=7, health=100, defense=5, attack=0) #check player_info for well info.
+		self.__info.Player_Data(Coords=Coords, Speed=7, health=100, defense=5, attack=0) #check player_info for well info.
 		self.__Kinetics.set_Speed(self.__info.get_Speed())
 		Image_Node.Render.addtag_withtag(group_ID, Canvas_ID)
 		self.__info.set_Corners(Image_Node.Render.bbox(Canvas_ID))

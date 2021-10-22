@@ -42,8 +42,7 @@ class Image_Node(Node):
 				Image_Node.Render.addtag_withtag(tag, Canvas_ID)
 			self.__PlaceIMG_List.append(Canvas_ID)
 			self.__PlaceCOR_List.append((img_x, img_y))
-			Var_tuple = (self.__PlaceIMG_List, self.__PlaceCOR_List)
-			return Var_tuple
+			return self.__PlaceCOR_List
 			#this will place the img in the tkinter window.
 		else: #this is if I want to use spacific coords for placement.
 			img_x = x
@@ -56,8 +55,7 @@ class Image_Node(Node):
 				Image_Node.Render.addtag_withtag(tag, Canvas_ID)
 			self.__PlaceIMG_List.append(Canvas_ID)
 			self.__PlaceCOR_List.append((img_x, img_y))
-			Var_tuple = (self.__PlaceIMG_List, self.__PlaceCOR_List)
-			return Var_tuple
+			return self.__PlaceCOR_List
 
 	def Create_Canvas(self, mainApp, height, width):
 		Image_Node.Render = Canvas(mainApp, height=height, width=width, bg="Blue")

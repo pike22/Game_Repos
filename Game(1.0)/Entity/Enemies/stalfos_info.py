@@ -5,32 +5,32 @@ class Stalfos_Info():
 		#engine based Parameters.
 		self.__file_Location = None #holds the images file location
 		self.__img_size		 = None #(x, y)tuple of height, width
-		self.__Stalfos_Speed = None
 		self.__group_ID		 = "#stalfos"
-		self.__Cur_Coords	 = None #constantly saves current coords in tuple: (x, y), list of tuple
 		self.__Canvas_ID	 = None
 		self.__imgPIL_ID	 = None
 		self.__imgTK_ID		 = None
 		self.__Corners		 = None #(x1, y1, x2, y2) tuple
+		self.__Coords	 	 = None #constantly saves current coords in tuple: (x, y), list of tuple
 		self.__ID			 = ID
+		self.__Speed 		 = None
 		#Game Mechanical Parameters.
 		self.__base_health	= None
 		self.__base_defense	= None
 		self.__base_attack	= None
 
 
-	def Image_Data(self, Size, PIL_img, TK_img, file_Location):
+	def Image_Data(self, Size=None, PIL_img=None, TK_img=None, file_Location=None):
 		self.__file_Location	= file_Location
 		self.__imgPIL_ID		= PIL_img
 		self.__imgTK_ID			= TK_img
 		self.__img_size			= Size
 
-	def Stalfos_Data(self, Cur_Coords, Speed, health, defense, attack): #add more here as needed.
-		self.__Stalfos_Speed = Speed
-		self.__base_health	 = health
-		self.__base_defense	 = defense
-		self.__base_attack	 = attack
-		self.__Cur_Coords	 = Cur_Coords
+	def Stalfos_Data(self, Coords=None, Speed=None, health=None, defense=None, attack=None): #add more here as needed.
+		self.__base_health	= health
+		self.__base_defense	= defense
+		self.__base_attack	= attack
+		self.__Coords		= Coords
+		self.__Speed 		= Speed
 
 
 		#Switch the def get_1 /get_2 to the same format as get_ID
@@ -41,10 +41,10 @@ class Stalfos_Info():
 		return self.__imgTK_ID
 
 	def get_Speed(self):
-		return self.__Stalfos_Speed
+		return self.__Speed
 
 	def get_Coords(self):
-		return self.__Cur_Coords
+		return self.__Coords
 
 	def get_Size(self):
 		return self.__img_size
@@ -71,7 +71,7 @@ class Stalfos_Info():
 
 	"""|--------------Setters--------------|#"""
 	def set_Coords(self, Coords):
-		self.__Cur_Coords = Coords
+		self.__Coords = Coords
 
 	def set_Canvas_ID(self, Canvas_ID):
 		self.__Canvas_ID = Canvas_ID

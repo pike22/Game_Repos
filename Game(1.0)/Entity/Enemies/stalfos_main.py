@@ -7,7 +7,7 @@ import keyboard #temporary
 import random
 
 class Stalfos_Main(Enemy_Main):
-	def __init__(self, iNode, clNode, kNode, tNode, ID):
+	def __init__(self, iNode, clNode, kNode, ID):
 		Enemy_Main.__init__(self)
 		#iNode == Image_Node
 		#clNode == Collision_Node
@@ -43,13 +43,13 @@ class Stalfos_Main(Enemy_Main):
 		x, y = self.__info.get_Size()
 		self.__x = int(self.__rand.randint((25+x), Sc_Width-(25+x)))
 		self.__y = int(self.__rand.randint((25+y), Sc_Height-(25+y)))
-		img_list, img_coords = self.__Image.Img_Place(x=self.__x, y=self.__y, image=self.__info.get_TKimg(), Grid='no', tag=ID)
+		img_coords = self.__Image.Img_Place(x=self.__x, y=self.__y, image=self.__info.get_TKimg(), Grid='no', tag=ID)
 
 		#final set of information save to stalfos
 		Canvas_ID = Image_Node.Render.find_withtag(ID)[0] #finds my canvas ID numb.
 		Coords = img_coords[Canvas_ID-1]
 		self.__info.set_Canvas_ID(Canvas_ID)
-		self.__info.Stalfos_Data(Cur_Coords=Coords, Speed=7, health=10, defense=5, attack=2) #check stalfos_info for, well info.
+		self.__info.Stalfos_Data(Coords=Coords, Speed=7, health=10, defense=5, attack=2) #check stalfos_info for, well info.
 		self.__Kinetics.set_Speed(self.__info.get_Speed())
 		Image_Node.Render.addtag_withtag(self.__info.get_group_ID(), Canvas_ID)
 		self.__info.set_Corners(Image_Node.Render.bbox(Canvas_ID))

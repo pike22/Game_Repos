@@ -6,7 +6,7 @@ class itemName_Info():
 		self.__imgPIL_ID	= None
 		self.__imgTK_ID		= None
 		self.__group_ID		= "#itemName"
-		self.__ID			= "W#S001"
+		self.__ID			= ""
 		self.__img_size		= None #(x, y)tuple of height, width
 		self.__Corners		= None #(x1, y1, x2, y2) tuple
 		#Parameters
@@ -40,14 +40,8 @@ class itemName_Info():
 	def get_TKimg(self):
 		return self.__imgTK_ID
 
-	def get_ID(self):
-		return self.__ID
-
 	def get_Size(self):
 		return self.__img_size
-
-	def get_group_ID(self):
-		return self.__group_ID
 
 
 	"""|--------------Setters--------------|#"""

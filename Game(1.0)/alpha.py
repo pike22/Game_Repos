@@ -49,9 +49,13 @@ class Alpha():
 		self.__Projectiles.set_Nodes(self.__Image, self.__Kinetics, self.__Collision_Logic)
 
 		'''Collision SETUP'''
+		#-------------------#
+		"""Entities"""
 		self.__Collision_Logic.add_Col_Dict(self.__Player.get_ID(), self.__Player)
-
-		# self.__Stalfos = Stalfos_Main(self.__Image, self.__Collision_Logic)
+		#Static Entities
+		self.__Wall = Wall_Main(self.__Image, self.__Collision_Logic)
+		
+		#Stalfos collision setup
 		for item in range(self.__stalfosCount):
 			if item < 10:
 				ID = "S#00" + str(item)
@@ -59,6 +63,14 @@ class Alpha():
 				ID = "S#0" + str(item)
 			self.__Stal_Roster.append(ID)
 			self.__Collision_Logic.add_Col_Dict(tagOrId=ID, obj=Stalfos_Main(self.__Image, self.__Collision_Logic, self.__Kinetics, self.__Timer, ID=ID))
+
+		"""Items"""
+		self.__Collision_Logic.add_Col_Dict(self.__Sword.get_ID(), self.__Sword)
+		self.__Collision_Logic.add_Col_Dict(self.__Bow.get_ID(), self.__Bow)
+
+		"""Projectiles"""
+		self.__Collision_Logic.add_Col_Dict(self.__projDict['#arrow'].get_ID(), self.__projDict['#arrow'])
+
 
 		#temp val
 		self.__loopCount = 33
@@ -83,12 +95,6 @@ class Alpha():
 		if keyboard.is_pressed('q') == True:
 			self.__mainApp.destroy()
 
-	def new_Player(self):
-		if keyboard.is_pressed('e') == True:
-			self.__Player.player_setUP(x=2, y=3)
-			self.__Player.set_isAlive(True)
-
-
 	def GamesetUP(self):
 		#Bellow is Entity set up
 		self.__Player.player_setUP(x=2, y=3)
@@ -107,6 +113,16 @@ class Alpha():
 				r_Stal.stalfos_setUP(self.__Sc_Width, self.__Sc_Height)
 				# r_Stal.Stalfos_Print()
 
+		#__Border Walls__#
+		#for now wall is substituted with Sword2.png
+		wall_Height, wall_Width = self.__Wall.get_Size()
+		width = self.__Sc_Width / wall_Width
+		height = self.__Sc_Height / wall_Height
+		for item in range(width):
+			self.__Wall.Wall_setUP(wall_Width*(item+1), 0)
+
+
+
 		#_Weapon SETUP_#
 		self.__projDict['#arrow'] = Arrow_Main()
 		self.__projDict['#arrow'].copy_Node(self.__Projectiles)
@@ -124,9 +140,6 @@ class Alpha():
 		# self.new_Player()
 
 		"""#_calls_#"""
-		if keyboard.is_pressed('b'):
-			self.__Bow.del_Bow()
-		#Pass
 
 		"""#_loop Debug_#"""
 		# self.debug_Col_Dict() #workes
@@ -167,11 +180,6 @@ class Alpha():
 		for item in range(len(self.__Stal_Roster)):
 			c_Stal = self.__Collision_Logic.tag_to_obj(self.__Stal_Roster[item]) #c_Stal == stalfos obj
 			list1.append(c_Stal.get_Corners())
-
-
-		self.__Collision_Logic.add_Col_Dict(self.__Sword.get_ID(), self.__Sword)
-		self.__Collision_Logic.add_Col_Dict(self.__Bow.get_ID(), self.__Bow)
-		self.__Collision_Logic.add_Col_Dict(self.__projDict['#arrow'].get_ID(), self.__projDict['#arrow'])
 
 		if self.__Sword.get_isActive() == True:
 			list1.append(self.__Sword.get_Corners())

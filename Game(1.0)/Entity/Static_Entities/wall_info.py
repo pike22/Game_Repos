@@ -1,19 +1,18 @@
-#here will be the "Storage" container for player's information.
+#here will be the "Storage" container for Wall's information.
 
-class Player_Info():
+class Wall_Info():
 	def __init__(self):
 		#engine based Parameters.
 		self.__file_Location = None
-		self.__Player_Speed  = None
-		#self.__Collision_Box = None #this is no longer needed
-		self.__Cur_Coords 	= None #constantly saves current coords in tuple: (x, y)
+		self.__Speed 		 = None
 		self.__Canvas_ID	= None
-		self.__group_ID		= '#player'
-		self.__ID			= 'P#001'
+		self.__group_ID		= '#Wall'
+		self.__ID			= None
 		self.__imgPIL_ID	= None
 		self.__imgTK_ID		= None
 		self.__img_size		= None #(x, y)tuple of height, width
 		self.__Corners		= None #(x1, y1, x2, y2) tuple
+		self.__Coords 		= None
 
 		#Game Mechanical Parameters. Totals
 		self.__base_health	= None
@@ -21,18 +20,18 @@ class Player_Info():
 		self.__base_attack	= None
 
 
-	def Image_Data(self, Size, PIL_img, TK_img, file_Location):
+	def Image_Data(self, Size=None, PIL_img=None, TK_img=None, file_Location=None):
 		self.__file_Location	= file_Location
 		self.__imgPIL_ID		= PIL_img
 		self.__imgTK_ID			= TK_img
 		self.__img_size			= Size
 
-	def Player_Data(self, Coords, Speed, health, defense, attack): #add more here as needed.
-		self.__Player_Speed	= Speed
+	def Wall_Data(self, Coords=None, Speed=None, health=None, defense=None, attack=None): #add more here as needed.
 		self.__base_defense	= defense
 		self.__base_health	= health
 		self.__base_attack	= attack
-		self.__Cur_Coords	= Coords
+		self.__Coords		= Coords
+		self.__Speed		= Speed
 
 
 	"""|--------------Getters--------------|#"""
@@ -42,10 +41,10 @@ class Player_Info():
 		return self.__imgTK_ID
 
 	def get_Speed(self):
-		return self.__Player_Speed
+		return self.__Wall_Speed
 
 	def get_Coords(self):
-		return self.__Cur_Coords
+		return self.__Coords
 
 	def get_Size(self):
 		return self.__img_size
@@ -72,13 +71,13 @@ class Player_Info():
 
 	"""|--------------Setters--------------|#"""
 	def set_Coords(self, Coords):
-		self.__Cur_Coords = Coords
+		self.__Coords = Coords
 
 	def set_Canvas_ID(self, Canvas_ID):
 		self.__Canvas_ID = Canvas_ID
 
+	def set_ID(self, ID):
+		self.__ID = ID
+
 	def set_Corners(self, bbox):
 		self.__Corners = bbox
-
-	def set_Collision_Box(self, BOX):
-		self.__Collision_Box = BOX
