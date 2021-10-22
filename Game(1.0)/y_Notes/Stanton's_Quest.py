@@ -28,14 +28,14 @@
 		#Then you don't need that long if statement at the bottom. Might want to add a facing to this
 		# to make you able to attack in any direction.
 
-7) 'Later' #If you add facing you can really improve player attack for 4 direction attacking
+7) None #If you add facing you can really improve player attack for 4 direction attacking
 
 
 Big picture work:
 
-1)  #Really get melee weapons working well before moving on.  If you add facing that will help.
+1) None #Really get melee weapons working well before moving on.  If you add facing that will help.
 
-2)  #I'd work on enemy motion next.  Have the bad guy moving around (without worrying about walls).
+2) 'Later' #I'd work on enemy motion next.  Have the bad guy moving around (without worrying about walls).
 	#Test out some basic patrols (random motion okay) and maybe a controlled chase (pointing at the player).
 	#That gets you early zelda style enemy logic.
 

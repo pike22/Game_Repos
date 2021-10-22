@@ -60,3 +60,15 @@ many. If you want to run the code run the alpha.py file.
 	the swords logic. Some will need to be edited but for now it works. The hard part right now is the arrow. I began by trying
 	to use some of the sword logic again but that has caused some problems. So I just hit ctrl-A and then the del key. To
 	attempt to write it again. The other thing to do is to use inheritance to help. That will also help for future projectiles.
+
+
+ -10/22/21 Week Summary
+ 	This week I worked more on the bow & arrow. With this I was able to now not just create the bow but also create
+	an arrow that would also not only just be a stagnant image. I was able to add movement to the arrow with relative ease.
+	The problems that I faced was because I went through the bow originally to create the arrow and use its movement.
+	When doing this it meant that the arrow would be very closely related to the bow. Which wouldn't be a problem I thought.
+	Only for that to cause the arrow to disappear after the timer on the bow ran out rather than the arrow staying around
+	until it hit something. That wasn't that bad of a change to make. I also was reminded of the difference between super()
+	versus just calling the parent class's __init__.py. My next goal for this project is to create walls and basic stalfos
+	movement. The next major project will most likely be animation. Although most implementation of that won't be common.
+	I plan to get the basics of it down before I look into how I want to do my camera.
