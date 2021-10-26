@@ -23,11 +23,13 @@ class Stalfos_Main(Enemy_Main):
 		self.__Cur_Health = 0
 		self.__isAlive	  = True
 		self.__isHit	  = False
+		self.__isMoving	  = False
 
 		#----Temp Var----#
 		self.__x	= 0
 		self.__y	= 0
-		self.__var	= 66
+		self.__var	= 1
+		self.__randNum = None
 
 
 	#seting up player bellow
@@ -40,7 +42,7 @@ class Stalfos_Main(Enemy_Main):
 		#placing the img
 		self.__x = 0
 		self.__y = 0
-		x, y = self.__info.get_Size()
+		x, y = self.__info.get_size()
 		self.__x = int(self.__rand.randint((25+x), Sc_Width-(25+x)))
 		self.__y = int(self.__rand.randint((25+y), Sc_Height-(25+y)))
 		img_coords = self.__Image.Img_Place(x=self.__x, y=self.__y, image=self.__info.get_TKimg(), Grid='no', tag=ID)
@@ -49,7 +51,7 @@ class Stalfos_Main(Enemy_Main):
 		Canvas_ID = Image_Node.Render.find_withtag(ID)[0] #finds my canvas ID numb.
 		Coords = img_coords[Canvas_ID-1]
 		self.__info.set_Canvas_ID(Canvas_ID)
-		self.__info.Stalfos_Data(Coords=Coords, Speed=7, health=10, defense=5, attack=2) #check stalfos_info for, well info.
+		self.__info.Stalfos_Data(Coords=Coords, Speed=5, health=10, defense=5, attack=2) #check stalfos_info for, well info.
 		self.__Kinetics.set_Speed(self.__info.get_Speed())
 		Image_Node.Render.addtag_withtag(self.__info.get_group_ID(), Canvas_ID)
 		self.__info.set_Corners(Image_Node.Render.bbox(Canvas_ID))
@@ -69,24 +71,42 @@ class Stalfos_Main(Enemy_Main):
 		print(self.__info.get_defense(),	'\t:Defense')
 		print(self.__info.get_attack(),	'\t:Attack')
 		print('\nParameters:')
-		print(self.__info.get_Size(), 	'\t\t:Size')
+		print(self.__info.get_size(), 	'\t\t:Size')
 		print(self.__info.get_Coords(), 	'\t\t:Coords')
 		print(self.__info.get_Corners(), 	'\t:Corners')
 		print('-----------------------------------\n')
 
 	def Movement_Controll(self):
-		render = self.__Image.get_Render()
-		if Timer_Node.GameTime <= self.__var:
-			new_Coords = self.__Kinetics.kinetics(self.__info.get_Coords(), self.__info.get_ID(), 'rights')
-			self.__info.set_Coords(new_Coords)
-			self.__info.set_Corners(render.bbox(self.__info.get_ID()))
-			# self.__var += 66
-		elif Timer_Node.GameTime >= self.__var:
-			new_Coords = self.__Kinetics.kinetics(self.__info.get_Coords(), self.__info.get_ID(), 'left')
-			self.__info.set_Coords(new_Coords)
-			self.__info.set_Corners(render.bbox(self.__info.get_ID()))
+		if Timer_Node.GameTime == self.__var:
+			self.__randNum = int(self.__rand.randint(0, 3))
+			print(self.__var)
+			self.__var += 11
 
-		pass
+
+		if self.__randNum == 0:
+			direction = "up"
+			new_Coords = self.__Kinetics.kinetics(self.__info.get_Coords(), self.__info.get_ID(), direction)#, neg=False)
+			self.__info.set_Coords(new_Coords)
+			self.__info.set_Corners(Image_Node.Render.bbox(self.__info.get_ID()))
+			self.__isMoving = True
+		elif self.__randNum == 1:
+			direction = "right"
+			new_Coords = self.__Kinetics.kinetics(self.__info.get_Coords(), self.__info.get_ID(), direction)#, neg=False)
+			self.__info.set_Coords(new_Coords)
+			self.__info.set_Corners(Image_Node.Render.bbox(self.__info.get_ID()))
+			self.__isMoving = True
+		elif self.__randNum == 2:
+			direction = "down"
+			new_Coords = self.__Kinetics.kinetics(self.__info.get_Coords(), self.__info.get_ID(), direction)#, neg=False)
+			self.__info.set_Coords(new_Coords)
+			self.__info.set_Corners(Image_Node.Render.bbox(self.__info.get_ID()))
+			self.__isMoving = True
+		elif self.__randNum == 3:
+			direction = "left"
+			new_Coords = self.__Kinetics.kinetics(self.__info.get_Coords(), self.__info.get_ID(), direction)#, neg=False)
+			self.__info.set_Coords(new_Coords)
+			self.__info.set_Corners(Image_Node.Render.bbox(self.__info.get_ID()))
+			self.__isMoving = True
 
 	def Stal_Attack(self):
 		pass
@@ -126,8 +146,8 @@ class Stalfos_Main(Enemy_Main):
 
 	"""|--------------Getters--------------|#"""
 		#this is where a list of getters will go...
-	def get_Size(self):
-		return self.__info.get_Size()
+	def get_size(self):
+		return self.__info.get_size()
 
 	def get_Corners(self):
 		return self.__info.get_Corners()
@@ -146,6 +166,9 @@ class Stalfos_Main(Enemy_Main):
 
 	def get_isAlive(self):
 		return self.__isAlive
+
+	def get_isMoving(self):
+		return self.__isMoving
 
 		#_attack, health, defense_#
 	def get_attack(self):

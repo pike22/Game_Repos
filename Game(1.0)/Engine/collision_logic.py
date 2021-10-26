@@ -81,11 +81,11 @@ class Collision_Logic():
 				print("ERROR: CL#81")
 		"""Object A's coords/size"""
 		xA, yA = objA.get_Coords()
-		height_A, width_A = objA.get_Size()
+		height_A, width_A = objA.get_size()
 
 		"""Object B's coords/size"""
 		xB, yB = objB.get_Coords()
-		height_B, width_B = objB.get_Size()
+		height_B, width_B = objB.get_size()
 
 		varA = (3/4) * height_A
 		varB = (3/4) * height_B

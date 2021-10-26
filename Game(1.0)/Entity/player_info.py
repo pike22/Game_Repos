@@ -47,7 +47,7 @@ class Player_Info():
 	def get_Coords(self):
 		return self.__Cur_Coords
 
-	def get_Size(self):
+	def get_size(self):
 		return self.__img_size
 
 	def get_Corners(self):

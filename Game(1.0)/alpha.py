@@ -42,6 +42,7 @@ class Alpha():
 		self.__Projectiles  = Projectiles()
 		self.__Player		= Player_Main(self.__Image, self.__Kinetics)
 		self.__Sword		= Sword_Main(self.__Image, self.__Collision_Logic)
+		self.__Wall 		= Wall_Main(self.__Image, self.__Collision_Logic)
 		self.__Bow			= Bow_Main(self.__Image, self.__Collision_Logic)
 
 		#yes
@@ -53,8 +54,8 @@ class Alpha():
 		"""Entities"""
 		self.__Collision_Logic.add_Col_Dict(self.__Player.get_ID(), self.__Player)
 		#Static Entities
-		self.__Wall = Wall_Main(self.__Image, self.__Collision_Logic)
-		
+		self.__Collision_Logic.add_Col_Dict(tagOrId=self.__Wall.get_ID(), obj=self.__Wall)
+
 		#Stalfos collision setup
 		for item in range(self.__stalfosCount):
 			if item < 10:
@@ -62,14 +63,14 @@ class Alpha():
 			elif item >= 10 and item < 100:
 				ID = "S#0" + str(item)
 			self.__Stal_Roster.append(ID)
-			self.__Collision_Logic.add_Col_Dict(tagOrId=ID, obj=Stalfos_Main(self.__Image, self.__Collision_Logic, self.__Kinetics, self.__Timer, ID=ID))
+			self.__Collision_Logic.add_Col_Dict(tagOrId=ID, obj=Stalfos_Main(self.__Image, self.__Collision_Logic, self.__Kinetics, ID=ID))
 
 		"""Items"""
 		self.__Collision_Logic.add_Col_Dict(self.__Sword.get_ID(), self.__Sword)
 		self.__Collision_Logic.add_Col_Dict(self.__Bow.get_ID(), self.__Bow)
 
 		"""Projectiles"""
-		self.__Collision_Logic.add_Col_Dict(self.__projDict['#arrow'].get_ID(), self.__projDict['#arrow'])
+		# self.__Collision_Logic.add_Col_Dict(self.__projDict['#arrow'].get_ID(), self.__projDict['#arrow'])
 
 
 		#temp val
@@ -99,9 +100,9 @@ class Alpha():
 		#Bellow is Entity set up
 		self.__Player.player_setUP(x=2, y=3)
 		# self.__Player.Player_Print()
-		self.__Sword.Sword_setUP()
+		self.__Sword.sword_setUP()
 		# self.__Sword.Sword_Print()
-		self.__Bow.Bow_setUP()
+		self.__Bow.bow_setUP()
 		# self.__Bow.Bow_Print()
 		self.__Player.set_Weapons(sword=self.__Sword, bow=self.__Bow, )
 
@@ -114,12 +115,8 @@ class Alpha():
 				# r_Stal.Stalfos_Print()
 
 		#__Border Walls__#
-		#for now wall is substituted with Sword2.png
-		wall_Height, wall_Width = self.__Wall.get_Size()
-		width = self.__Sc_Width / wall_Width
-		height = self.__Sc_Height / wall_Height
-		for item in range(width):
-			self.__Wall.Wall_setUP(wall_Width*(item+1), 0)
+		# for now wall is substituted with Sword2.png
+		self.__Wall.wall_setUP(x=5, y=5)
 
 
 
@@ -164,7 +161,7 @@ class Alpha():
 		for item in range(len(self.__Stal_Roster)):
 			stalfos = Col_Dict[self.__Stal_Roster[item]]
 			if stalfos.get_isAlive() == True:
-				# stalfos.Movement_Controll()
+				stalfos.Movement_Controll()
 				stalfos.Stal_Attack()
 			else:
 				# print('dead? A#140')
@@ -176,7 +173,7 @@ class Alpha():
 
 		#only one Player should be here (IGNORE MULTIPLAYER)
 		list1 = []
-		list1 = [self.__Player.get_Corners()]
+		list1 = [self.__Wall.get_Corners(), self.__Player.get_Corners()]
 		for item in range(len(self.__Stal_Roster)):
 			c_Stal = self.__Collision_Logic.tag_to_obj(self.__Stal_Roster[item]) #c_Stal == stalfos obj
 			list1.append(c_Stal.get_Corners())
@@ -192,13 +189,14 @@ class Alpha():
 		self.__Collision_Logic.add_Collision(list1)
 
 		#Below are representation of object corners
+		wall	= 1
 		player 	= 1
 		sword 	= self.__Sword.get_itemCount()
 		bow		= self.__Bow.get_itemCount()
 		proj 	= self.__projDict['#arrow'].get_itemCount()
 		#self.__stalfosCount represents number of stalfo's and their corners
 		#when more enemies exist create more 'enemyName'Count, then add below.
-		for item in range(player + sword + bow + proj + self.__stalfosCount):
+		for item in range(wall, player + sword + bow + proj + self.__stalfosCount):
 			Col_result = self.__Collision_Logic.Is_Collision(item)
 
 
@@ -211,8 +209,8 @@ class Alpha():
 						if Col_result[item+1].get_group_ID() in self.__enemyRoster:
 							# print('direction:', direction)
 							self.__Player.my_Collision('Enemy', Col_result[item+1].get_attack(), direction)
-						# elif Col_result[item+1].get_group_ID() in self.__weaponRoster:
-						# 	pass
+						elif Col_result[item+1].get_group_ID() in self.__weaponRoster:
+							Col_result[item+1].del_item()
 
 					if Col_result[item].get_ID() in self.__Stal_Roster:
 						if item == len(Col_result)-1:
@@ -227,6 +225,10 @@ class Alpha():
 					if Col_result[item] == self.__Sword: #weapon will always be last
 						#print('Sword')
 						pass
+
+					if Col_result[item] == self.__Wall:
+						print('wall')
+
 
 		#_Combat_#
 		if self.__Sword.get_isActive() == True:

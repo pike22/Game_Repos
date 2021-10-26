@@ -7,7 +7,7 @@ class Wall_Info():
 		self.__Speed 		 = None
 		self.__Canvas_ID	= None
 		self.__group_ID		= '#Wall'
-		self.__ID			= None
+		self.__ID			= 'W#001'
 		self.__imgPIL_ID	= None
 		self.__imgTK_ID		= None
 		self.__img_size		= None #(x, y)tuple of height, width
@@ -46,7 +46,7 @@ class Wall_Info():
 	def get_Coords(self):
 		return self.__Coords
 
-	def get_Size(self):
+	def get_size(self):
 		return self.__img_size
 
 	def get_Corners(self):

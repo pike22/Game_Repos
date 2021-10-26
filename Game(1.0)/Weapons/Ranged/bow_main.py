@@ -10,13 +10,14 @@ class Bow_Main():
 		self.__info		 = Bow_Info()
 		self.__ammo		 = None
 
+		self.__attack	  = 0
 		self.__itemCount  = 0
 		self.__saveTime   = 0
 		self.__isActive   = False
 		self.__projActive = False
 
 
-	def Bow_setUP(self):
+	def bow_setUP(self):
 		#img setup
 		Img_info = self.__Image.Img_Add('z_Pictures/red_bow.png')
 		print(Img_info[1], 'size')
@@ -28,19 +29,19 @@ class Bow_Main():
 	def use_Bow(self, x, y, direction):
 		ID = self.__info.get_ID()
 		group_ID = self.__info.get_group_ID()
-		height, width = self.__info.get_Size()
+		height, width = self.__info.get_size()
 		if self.__isActive == False:
 			self.__Image.Img_Place(x, y, self.__info.get_TKimg(), Grid='No', tag=ID)
 			self.__Collision.add_Col_Dict(self.__ammo.get_ID(), self.__ammo)
 
 			if direction == 'up':
-				self.__ammo.use_Arrow(x, (y-width), 'up', dmgMod=self.__info.get_attack())
+				self.__ammo.use_Arrow(x, (y-width), 'up', dmgMod=self.__info.get_attackMOD())
 			elif direction == 'down':
-				self.__ammo.use_Arrow(x, (y+width), 'down', dmgMod=self.__info.get_attack())
+				self.__ammo.use_Arrow(x, (y+width), 'down', dmgMod=self.__info.get_attackMOD())
 			elif direction == 'right':
-				self.__ammo.use_Arrow((x+height), y, 'right', dmgMod=self.__info.get_attack())
+				self.__ammo.use_Arrow((x+height), y, 'right', dmgMod=self.__info.get_attackMOD())
 			elif direction == 'left':
-				self.__ammo.use_Arrow((x-height), y, 'left', dmgMod=self.__info.get_attack())
+				self.__ammo.use_Arrow((x-height), y, 'left', dmgMod=self.__info.get_attackMOD())
 
 
 			Canvas_ID = Image_Node.Render.find_withtag(ID)[0] #finds my canvas ID numb.
@@ -63,7 +64,7 @@ class Bow_Main():
 		if self.__projActive == True:
 			self.__ammo.isActive()
 
-	def del_Bow(self):
+	def del_item(self):
 		Image_Node.Render.delete(self.__info.get_ID())
 		self.__isActive = False
 		self.__Collision.del_Col_Dict(self.__ammo.get_ID())
@@ -88,11 +89,14 @@ class Bow_Main():
 
 	"""|--------------Getters--------------|#"""
 		#this is where a list of getters will go...
-	def get_attack(self):
-		return self.__info.get_Attack_Dmg()
+	def get_attackMOD(self):
+		return self.__info.get_AttackMOD()
 
-	def get_Size(self):
-		return self.__info.get_Size()
+	def get_attack(self):
+		return self.__attack
+
+	def get_size(self):
+		return self.__info.get_size()
 
 	def get_isActive(self):
 		return self.__isActive

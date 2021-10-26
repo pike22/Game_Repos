@@ -75,7 +75,7 @@ class Player_Main(All_Entities):
 		print(self.__info.get_defense(),'\t:Defense')
 		print(self.__info.get_attack(),	'\t:Attack')
 		print('\nParameters:')
-		print(self.__info.get_Size(), 	'\t\t:Size')
+		print(self.__info.get_size(), 	'\t\t:Size')
 		print(self.__info.get_Coords(), 	'\t\t:Coords')
 		print(self.__info.get_Corners(), 	'\t:Corners')
 		print('-----------------------------------\n')
@@ -115,7 +115,7 @@ class Player_Main(All_Entities):
 	def Player_MAttack(self):#melee Attack
 		if keyboard.is_pressed(self.__melee) == True:
 			x, y = self.__info.get_Coords() #current coords
-			a, b = self.__Sword.get_Size()
+			a, b = self.__Sword.get_size()
 			if self.__Direction == 'up':
 				self.__Sword.use_Sword(x, y-b)
 			elif self.__Direction == 'down':
@@ -134,7 +134,7 @@ class Player_Main(All_Entities):
 	def Player_RAttack(self):#ranged attack
 		if keyboard.is_pressed(self.__ranged) == True:
 			x, y = self.__info.get_Coords() #current coords
-			a, b = self.__Bow.get_Size()
+			a, b = self.__Bow.get_size()
 			if self.__Direction == 'up':
 				self.__Bow.use_Bow(x, (y-b), 'up')
 			elif self.__Direction == 'down':
@@ -153,13 +153,13 @@ class Player_Main(All_Entities):
 			return self.__isAttack
 
 
-		#SSC == Second Side Collision, it represents the other object that collided with player
-		#SSI == Second Side Info, represents the other objects needed parameters. Ex. dmg
-	def my_Collision(self, SSC, SSI, direction):
-		if SSC == 'Enemy':
+		#OSC == Other Side of Collision, it represents the other object that collided with player
+		#OSI == Other Side of Info, represents the other objects needed parameters. Ex. dmg
+	def my_Collision(self, OSC, OSI, direction):
+		if OSC == 'Enemy':
 			if self.__isHit == False:
 				'''#_Actuall MATH_#'''
-				self.__Cur_Health -= SSI
+				self.__Cur_Health -= OSI
 				new_Coords = self.__Kinetics.Knock_Back(self.__info.get_Coords(), self.__info.get_ID(), direction)
 				self.__info.set_Coords(new_Coords)
 				self.__info.set_Corners(Image_Node.Render.bbox(self.__info.get_ID()))
@@ -169,7 +169,7 @@ class Player_Main(All_Entities):
 				self.__isAlive  = self.isAlive()
 				self.__saveTime = Timer_Node.GameTime
 
-		elif SSC == 'Weapon':
+		elif OSC == 'Weapon':
 			pass
 		else:
 			print('Error: P#108')
@@ -199,8 +199,8 @@ class Player_Main(All_Entities):
 
 	"""|--------------Getters--------------|#"""
 		#this is where a list of getters will go...
-	def get_Size(self):
-		return self.__info.get_Size()
+	def get_size(self):
+		return self.__info.get_size()
 
 	def get_Corners(self):
 		return self.__info.get_Corners()

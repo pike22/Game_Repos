@@ -13,7 +13,7 @@ class Sword_Main():
 		self.__isActive	 = False
 
 
-	def Sword_setUP(self):
+	def sword_setUP(self):
 		#img setup
 		Img_info = self.__Image.Img_Add('z_Pictures/notasword.png')
 		self.__info.Image_Data(Size=Img_info[1], PIL_img=Img_info[0], TK_img=Img_info[2], file_Location='z_Pictures/notasword.png')
@@ -26,6 +26,7 @@ class Sword_Main():
 		group_ID = self.__info.get_group_ID()
 		if self.__isActive == False:
 			self.__Image.Img_Place(x, y, self.__info.get_TKimg(), Grid='No', tag=ID)
+			self.__info.set_Coords(Coords=(x, y))
 
 			Canvas_ID = Image_Node.Render.find_withtag(ID)[0] #finds my canvas ID numb.
 			self.__info.set_Canvas_ID(Canvas_ID)
@@ -42,7 +43,7 @@ class Sword_Main():
 			self.__isActive = False
 			self.__itemCount -= 1
 
-	def del_Sword(self):
+	def del_item(self):
 		Image_Node.Render.delete(self.__info.get_ID())
 		self.__isActive = False
 
@@ -68,11 +69,14 @@ class Sword_Main():
 	def get_attack(self):
 		return self.__info.get_Attack_Dmg()
 
-	def get_Size(self):
-		return self.__info.get_Size()
+	def get_size(self):
+		return self.__info.get_size()
 
 	def get_isActive(self):
 		return self.__isActive
+
+	def get_Coords(self):
+		return self.__info.get_Coords()
 
 	def get_Corners(self):
 		return self.__info.get_Corners()

@@ -9,6 +9,7 @@ class Sword_Info():
 		self.__ID			= "W#S001"
 		self.__img_size		= None #(x, y)tuple of height, width
 		self.__Corners		= None #(x1, y1, x2, y2) tuple
+		self.__Coords 		= None #(x, y) posistion
 		#Parameters
 		self.__attack_damage = None
 
@@ -34,6 +35,9 @@ class Sword_Info():
 	def get_group_ID(self):
 		return self.__group_ID
 
+	def get_Coords(self):
+		return self.__Coords
+
 	def get_Corners(self):
 		return self.__Corners
 
@@ -43,7 +47,7 @@ class Sword_Info():
 	def get_ID(self):
 		return self.__ID
 
-	def get_Size(self):
+	def get_size(self):
 		return self.__img_size
 
 	def get_group_ID(self):
@@ -57,3 +61,6 @@ class Sword_Info():
 
 	def set_Corners(self, Corners):
 		self.__Corners = Corners
+
+	def set_Coords(self, Coords):
+		self.__Coords = Coords

@@ -10,7 +10,7 @@ class Bow_Info():
 		self.__img_size		= None #(x, y)tuple of height, width
 		self.__Corners		= None #(x1, y1, x2, y2)tuple
 		#Parameters
-		self.__attack_damage = None
+		self.__attack_damageMOD = None
 
 
 	def Image_Data(self, Size, PIL_img, TK_img, file_Location):
@@ -20,13 +20,13 @@ class Bow_Info():
 		self.__img_size			= Size
 
 	def Bow_Data(self, attack): #add more here as needed.
-		self.__attack_damage = attack
+		self.__attack_damageMOD = attack
 
 
 	"""|--------------Getters--------------|#"""
 		#this is where a list of getters will go...
-	def get_attack(self):
-		return self.__attack_damage
+	def get_attackMOD(self):
+		return self.__attack_damageMOD
 
 	def get_ID(self):
 		return self.__ID
@@ -43,7 +43,7 @@ class Bow_Info():
 	def get_ID(self):
 		return self.__ID
 
-	def get_Size(self):
+	def get_size(self):
 		return self.__img_size
 
 	def get_group_ID(self):
