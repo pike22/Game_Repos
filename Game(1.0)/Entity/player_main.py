@@ -25,9 +25,13 @@ class Player_Main(All_Entities):
 
 		#----Keyboard inputs----#
 		self.__key_up		= 'w'
+		self.__upOFF		= False
 		self.__key_down		= 's'
+		self.__downOFF		= False
 		self.__key_left		= 'a'
+		self.__leftOFF		= False
 		self.__key_right	= 'd'
+		self.__rightOFF		= False
 		self.__melee		= 'k'
 		self.__ranged		= 'l'
 
@@ -81,28 +85,28 @@ class Player_Main(All_Entities):
 		print('-----------------------------------\n')
 
 	def Movement_Controll(self):
-		if keyboard.is_pressed(self.__key_up):
+		if keyboard.is_pressed(self.__key_up) and self.__upOFF == False:
 			self.__Direction = 'up'
 			new_Coords = self.__Kinetics.kinetics(self.__info.get_Coords(), self.__info.get_ID(), self.__Direction)#, neg=False)
 			self.__info.set_Coords(new_Coords)
 			self.__info.set_Corners(Image_Node.Render.bbox(self.__info.get_ID()))
 			self.__isMoving = True
 
-		if keyboard.is_pressed(self.__key_down):
+		if keyboard.is_pressed(self.__key_down) and self.__downOFF == False:
 			self.__Direction = 'down'
 			new_Coords = self.__Kinetics.kinetics(self.__info.get_Coords(), self.__info.get_ID(), self.__Direction)
 			self.__info.set_Coords(new_Coords)
 			self.__info.set_Corners(Image_Node.Render.bbox(self.__info.get_ID()))
 			self.__isMoving = True
 
-		if keyboard.is_pressed(self.__key_left):
+		if keyboard.is_pressed(self.__key_left) and self.__leftOFF == False:
 			self.__Direction = 'left'
 			new_Coords = self.__Kinetics.kinetics(self.__info.get_Coords(), self.__info.get_ID(), self.__Direction)
 			self.__info.set_Coords(new_Coords)
 			self.__info.set_Corners(Image_Node.Render.bbox(self.__info.get_ID()))
 			self.__isMoving = True
 
-		if keyboard.is_pressed(self.__key_right):
+		if keyboard.is_pressed(self.__key_right) and self.__rightOFF == False:
 			self.__Direction = 'right'
 			new_Coords = self.__Kinetics.kinetics(self.__info.get_Coords(), self.__info.get_ID(), self.__Direction)
 			self.__info.set_Coords(new_Coords)
@@ -154,13 +158,13 @@ class Player_Main(All_Entities):
 
 
 		#OSC == Other Side of Collision, it represents the other object that collided with player
-		#OSI == Other Side of Info, represents the other objects needed parameters. Ex. dmg
-	def my_Collision(self, OSC, OSI, direction):
+		#OSA == Other Side's Attack, represents the other objects needed parameters. Ex. dmg
+	def my_Collision(self, OSC=None, OSA=None, DIR=None):
 		if OSC == 'Enemy':
 			if self.__isHit == False:
 				'''#_Actuall MATH_#'''
-				self.__Cur_Health -= OSI
-				new_Coords = self.__Kinetics.Knock_Back(self.__info.get_Coords(), self.__info.get_ID(), direction)
+				self.__Cur_Health -= OSA
+				new_Coords = self.__Kinetics.Knock_Back(self.__info.get_Coords(), self.__info.get_ID(), DIR)
 				self.__info.set_Coords(new_Coords)
 				self.__info.set_Corners(Image_Node.Render.bbox(self.__info.get_ID()))
 
@@ -171,9 +175,24 @@ class Player_Main(All_Entities):
 
 		elif OSC == 'Weapon':
 			pass
+
+		elif OSC == 'Static':
+			if DIR == 'up':
+				self.__downOFF = True
+			elif DIR == 'down':
+				self.__upOFF = True
+			elif DIR == 'left':
+				self.__rightOFF = True
+			elif DIR == 'right':
+				self.__leftOFF = True
+		elif OSC != 'Static':
+			self.OnOff_Move()
+
 		else:
 			print('Error: P#108')
 			pass
+
+
 
 
 	def reset_hit(self):
@@ -249,6 +268,12 @@ class Player_Main(All_Entities):
 
 	def set_isAlive(self, isAlive):
 		self.__isAlive = isAlive
+
+	def OnOff_Move(self):
+		self.__upOFF	= False
+		self.__downOFF	= False
+		self.__leftOFF	= False
+		self.__rightOFF	= False
 
 
 	"""|--------------Test Functions--------------|#"""

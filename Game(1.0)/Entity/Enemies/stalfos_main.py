@@ -79,7 +79,7 @@ class Stalfos_Main(Enemy_Main):
 	def Movement_Controll(self):
 		if Timer_Node.GameTime == self.__var:
 			self.__randNum = int(self.__rand.randint(0, 3))
-			print(self.__var)
+			# print(self.__var, S#82)
 			self.__var += 11
 
 
@@ -111,19 +111,20 @@ class Stalfos_Main(Enemy_Main):
 	def Stal_Attack(self):
 		pass
 
-		#SSC == Second Side Collision, it represents the other object that collided with player
-		#SSI == Second Side Info, represents the other objects needed parameters. Ex. dmg
+		#OSC == Other Side of Collision, it represents the other object that collided with player
+		#OSA == Other Side's Attack, represents the other objects needed parameters. Ex. dmg
 		#stal_key == The stalfos that is under collision
-	def my_Collision(self, SSC, SSI):
+	def my_Collision(self, OSC=None, OSA=None, DIR=None):
 		if self.__isHit == False:
-			'''#_Actuall MATH_#'''
-			self.__Cur_Health -= SSI
-			# print(self.__Cur_Health, 'health')
+			if OSC == 'Weapon':
+				'''#_Actuall MATH_#'''
+				self.__Cur_Health -= OSA
+				# print(self.__Cur_Health, 'health')
 
-			'''#_Logic_#'''
-			self.__isHit 	= True
-			self.__isAlive  = self.isAlive()
-			self.__saveTime = Timer_Node.GameTime
+				'''#_Logic_#'''
+				self.__isHit 	= True
+				self.__saveTime = Timer_Node.GameTime
+				self.__isAlive  = self.isAlive()
 
 	def reset_hit(self):
 		if Timer_Node.GameTime == self.__saveTime+5:

@@ -24,9 +24,12 @@ class Alpha():
 
 
 		'''#_Weapon Parameters_#'''
-		self.__weaponRoster 	= ["#sword", "#bow", ]
-		self.__projRoster = ['#arrow', ]
-		self.__projDict	= {}
+		self.__weaponRoster = ["#sword", "#bow", ]
+		self.__projRoster 	= ['#arrow', ]
+		self.__projDict		= {}
+
+		'''#_Static Parameters_#'''
+		self.__staticRoster = ['#Wall']
 
 		#collision logic v2.
 		self.__Collision_Logic = Collision_Logic()
@@ -188,6 +191,9 @@ class Alpha():
 
 		self.__Collision_Logic.add_Collision(list1)
 
+		#a reset to the non wall collision
+		self.__Player.my_Collision()
+
 		#Below are representation of object corners
 		wall	= 1
 		player 	= 1
@@ -207,19 +213,21 @@ class Alpha():
 					if Col_result[item] == self.__Player: #player is always checked first
 						direction = self.__Collision_Logic.Dir_Calc()
 						if Col_result[item+1].get_group_ID() in self.__enemyRoster:
-							# print('direction:', direction)
-							self.__Player.my_Collision('Enemy', Col_result[item+1].get_attack(), direction)
+							print('direction:', direction)
+							self.__Player.my_Collision(OSC='Enemy', OSA=Col_result[item+1].get_attack(), DIR=direction)
 						elif Col_result[item+1].get_group_ID() in self.__weaponRoster:
 							Col_result[item+1].del_item()
+						elif Col_result[item+1].get_group_ID() in self.__staticRoster:
+							self.__Player.my_Collision(OSC='Static', DIR=direction)
 
 					if Col_result[item].get_ID() in self.__Stal_Roster:
 						if item == len(Col_result)-1:
 							pass
 						elif item != len(Col_result)-1:
 							if Col_result[item+1].get_group_ID() in self.__weaponRoster:
-								Col_result[item].my_Collision(str(Col_result[item+1].get_ID()), Col_result[item+1].get_attack())
+								Col_result[item].my_Collision(OSC=str(Col_result[item+1].get_ID()), OSA=Col_result[item+1].get_attack())
 							elif Col_result[item+1].get_group_ID() in self.__projRoster:
-								Col_result[item].my_Collision(str(Col_result[item+1].get_ID()), Col_result[item+1].get_attack())
+								Col_result[item].my_Collision(OSC=str(Col_result[item+1].get_ID()), OSA=Col_result[item+1].get_attack())
 								Col_result[item+1].del_Arrow()
 
 					if Col_result[item] == self.__Sword: #weapon will always be last
@@ -227,7 +235,8 @@ class Alpha():
 						pass
 
 					if Col_result[item] == self.__Wall:
-						print('wall')
+						# print('wall')
+						pass
 
 
 		#_Combat_#

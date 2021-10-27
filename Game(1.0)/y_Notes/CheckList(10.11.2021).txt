@@ -1,17 +1,15 @@
 Created (10.11.2021)
-Updated (10.22.2021)
+Updated (10.27.2021)
 Check List:
-	1. Collision identification [DONE]
-	2. Parameter Functionality [Done]
-	3. Time rework/implementation [Done]
-	4. Basic knock back functionality [Done]
-	5.	multi-direction attacks [DONE]
+	1. Collision identification 					[DONE]
+	2. Parameter Functionality 					[Done]
+	3. Time rework/implementation 				[Done]
+	4. Basic knock back functionality 			[Done]
+	5.	multi-direction attacks 					[DONE]
 	6.	implement a ranged weapon(Bow & Arrow) [DONE]
-	7.	WALLS (!!Don't Forget!!)
-	8.	Stalfos Basic Movement
-	9.	basic animation
-	10. Add Camera/Camera functionality
+	7.	WALLS (!!Don't Forget!!) 					[DONE]
+	8.	Stalfos Basic Movement  					[DONE]
+	9.	basic animation							[LATER]
+	10. Add Camera/Camera functionality		[LATER]
 			(Logic Map in 2D Array )
-
-Can Be Done in Any order:
-	[#9 & #10]
+	11. Create a level editor

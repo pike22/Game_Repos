@@ -90,11 +90,11 @@ class Collision_Logic():
 		varA = (3/4) * height_A
 		varB = (3/4) * height_B
 		if (yA+varA) < yB:
-			# print('top')
-			return 'top'
-		elif (yB+varB) < yA:
-			# print('bottom')
-			return 'bottom'
+			# print('up')
+			return 'up'
+		elif (yB+varB) <= yA:
+			print('down')
+			return 'down'
 		else:
 			if xA > xB:
 				# print('right')
