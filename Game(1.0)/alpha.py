@@ -149,6 +149,7 @@ class Alpha():
 		if self.__Player.get_isAlive() == True:
 			self.__Player.Player_MAttack()
 			self.__Player.Player_RAttack()
+			self.__Player.my_Collision() #reset of self.__directionOFF variables
 			if self.__Player.Player_MAttack() == False and self.__Player.Player_RAttack() == False:
 				self.__Player.Movement_Controll()
 			else:
@@ -191,8 +192,6 @@ class Alpha():
 
 		self.__Collision_Logic.add_Collision(list1)
 
-		#a reset to the non wall collision
-		self.__Player.my_Collision()
 
 		#Below are representation of object corners
 		wall	= 1

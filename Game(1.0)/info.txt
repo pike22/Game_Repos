@@ -13,6 +13,7 @@ many. If you want to run the code run the alpha.py file.
 	form of 2D game that is based around a dungeon crawler. This may change overtime. I have no name or story in mind yet.
 	This is more due to being to early in game development. Daily updates to Github will be normal.
 	- A summary of weekly events will continue to be added bellow as time moves forward.
+	- A 'Title' of sorts will be added next to the week to give a main idea of what was worked on for that week. 
 
 
  -09/17/2021 Weeks Summary
@@ -21,7 +22,7 @@ many. If you want to run the code run the alpha.py file.
 	going to work so I took some time outside of the code to put together an Idea for what to do. With some help from my teacher
 	we came up with the idea to use Dictionaries. Something I haven't used since when I first reconstructed my classes.
 
- -09/24/2021 Weeks Summary
+ -09/24/2021 Weeks Summary (Collision Dictionary, problems/solutions)
 	This week I fully put together my Collision Dictionary(Col_Dict) that I had described in the last summary.
 	After completing that I moved on to using that Dictionary to identify what I have colliding.
 	The problem that I ran into was that this current method worked all fine and well with each class object only having one
@@ -35,7 +36,7 @@ many. If you want to run the code run the alpha.py file.
 			-Cons:  It will most likely cause more problems that I otherwise wouldn't have, Difficult to manage a potentially large number of instances.
 
 
- -10/01/2021 Week Summary
+ -10/01/2021 Week Summary (Enemy Class Rework)
    This week I looked over my previous code of stalfos_main and decided to use a different method to identify the
 	different stalfos that I would have at once. So now instead of having one instance of the Stalfos_Main class
 	full of lists to have the parameters. I now will call a new instance of the Stalfos_main class every
@@ -44,7 +45,7 @@ many. If you want to run the code run the alpha.py file.
 	(THIS IS THE LAST INSTANCE OF STALFOS_REWORK)
 
 
- -10/08/21 Week Summary
+ -10/08/21 Week Summary  (Created Timer_Node, Knockback collision)
  	This week I finished working on separating the game time from the alpha.py file to its own file. I also began
 	working on enhancing my knockback by creating a new function that uses math on the grid plane to determine
 	where the objects that are colliding are at. This allows me to then when using the knockback function have them
@@ -52,7 +53,7 @@ many. If you want to run the code run the alpha.py file.
 	will be talked about again next entry.
 
 
- -10/15/21 Week Summary
+ -10/15/21 Week Summary  (Object Direction, Item classes)
  	This Week I quickly put together saving the last direction my player moved. This allowed me to change which direction
 	my sword rendered to, I was also able to create the basic direction for knockback. So if player comes in from the top
 	the knockback sends the player back the same way. The same for the other 3 directions. As of Wednesday I began work on
@@ -62,7 +63,7 @@ many. If you want to run the code run the alpha.py file.
 	attempt to write it again. The other thing to do is to use inheritance to help. That will also help for future projectiles.
 
 
- -10/22/21 Week Summary
+ -10/22/21 Week Summary  (Bow & Arrow, Future Ideas)
  	This week I worked more on the bow & arrow. With this I was able to now not just create the bow but also create
 	an arrow that would also not only just be a stagnant image. I was able to add movement to the arrow with relative ease.
 	The problems that I faced was because I went through the bow originally to create the arrow and use its movement.
@@ -72,3 +73,16 @@ many. If you want to run the code run the alpha.py file.
 	versus just calling the parent class's __init__.py. My next goal for this project is to create walls and basic stalfos
 	movement. The next major project will most likely be animation. Although most implementation of that won't be common.
 	I plan to get the basics of it down before I look into how I want to do my camera.
+
+
+ -10/29/21 Week Summary  (Enemy Movement, Walls/Static objects)
+ 	This week I worked on creating a basic form of movement of my enemies and I worked on the basic form of a wall/static object. The enemy
+	movement itself wasn't that hard to do because the logic for it isn't that hard. The somewhat difficult thing was finding the timing
+	that allowed the movement to look somewhat natural. When I first set it up it looked as though the stalfos was having a seizure because
+	it kept bouncing in multiple directions at a fast rate. So I set up a little timer that would slow down the rate that it would change
+	directions. The next part was working on the wall. For the most part the wall was relatively easy to set up. I actually fond an slight change
+	in variable names I used that started to cause some problems. Once that was fixed I went through and made the if statements that allow player
+	movement and added a variable that is set to True if I am colliding with a wall/static object in that direction. This allowed for my player to
+	not be able to pass through the said object. That part was easy the next difficult thing was to turn that variable back to false. That itself
+	was a bit more challenging. In reality all I had to do was set up a simple if statement that only happened with everything else was None
+	and had the my_Collision() function called when collision happens and when and all the time during the game loop.

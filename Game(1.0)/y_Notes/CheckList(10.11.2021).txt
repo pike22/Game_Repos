@@ -1,5 +1,5 @@
 Created (10.11.2021)
-Updated (10.27.2021)
+Updated (10.29.2021)
 Check List:
 	1. Collision identification 					[DONE]
 	2. Parameter Functionality 					[Done]
@@ -13,3 +13,7 @@ Check List:
 	10. Add Camera/Camera functionality		[LATER]
 			(Logic Map in 2D Array )
 	11. Create a level editor
+		- Make a new subfolder for this as well as take some
+		  time to think through what I want and how I want
+		  to make this because it has a lot of GUI that I
+		  have to think about.
