@@ -36,6 +36,11 @@ class Collision_Logic():
 		for item in range(len(listofCorners)):
 			self.__Corners.append(listofCorners[item])
 
+	def ForT_Collision(self, targOBJ):
+		x1, y1, x2, y2 = targOBJ.get_Corners()
+		collision = Image_Node.Render.find_overlapping(x1, y1, x2, y2)
+		print(collision, 'ForT Collision')
+
 	#use this: .find_overlapping
 	# only outputs the last assigned var.
 	def Is_Collision(self, item):
@@ -65,7 +70,7 @@ class Collision_Logic():
 			self.__IsCollision = False
 			return None
 
-	def Dir_Calc(self):
+	def Side_Calc(self):
 		objA  = None
 		NameA = None
 		objB  = None
@@ -89,12 +94,17 @@ class Collision_Logic():
 
 		varA = (3/4) * height_A
 		varB = (3/4) * height_B
-		if (yA+varA) < yB:
-			# print('up')
-			return 'up'
-		elif (yB+varB) <= yA:
-			print('down')
-			return 'down'
+		print(yB, 'y coord objB')
+		print(yA+varA, 'variable A + yA')
+		print('------------------------')
+		print(yA, 'y coord objA')
+		print(yB+varB, 'variable B + yB')
+		if (yA+varA) <= yB:
+			# print('top')
+			return 'top'
+		elif (yB+varB) >= yA:
+			print('bottom')
+			return 'bottom'
 		else:
 			if xA > xB:
 				# print('right')

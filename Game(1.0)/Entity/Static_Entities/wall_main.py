@@ -17,8 +17,8 @@ class Wall_Main():
 	#seting up Wall bellow
 	def wall_setUP(self, x, y):
 		#img setup
-		Img_info = self.__Image.Img_Add('z_Pictures/Sword2.png')
-		self.__info.Image_Data(Size=Img_info[1], PIL_img=Img_info[0], TK_img=Img_info[2], file_Location='z_Pictures/Sword2.png')
+		Img_info = self.__Image.Img_Add('z_Pictures/MissingIMG.png')
+		self.__info.Image_Data(Size=Img_info[1], PIL_img=Img_info[0], TK_img=Img_info[2], file_Location='z_Pictures/MissingIMG.png')
 
 		#placing the img
 		img_coords = self.__Image.Img_Place(x, y, self.__info.get_TKimg(), tag=self.__ID)

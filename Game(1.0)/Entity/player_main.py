@@ -159,12 +159,18 @@ class Player_Main(All_Entities):
 
 		#OSC == Other Side of Collision, it represents the other object that collided with player
 		#OSA == Other Side's Attack, represents the other objects needed parameters. Ex. dmg
-	def my_Collision(self, OSC=None, OSA=None, DIR=None):
+	def my_Collision(self, OSC=None, OSA=None, side=None):
 		if OSC == 'Enemy':
 			if self.__isHit == False:
 				'''#_Actuall MATH_#'''
 				self.__Cur_Health -= OSA
-				new_Coords = self.__Kinetics.Knock_Back(self.__info.get_Coords(), self.__info.get_ID(), DIR)
+				if side == 'top':
+					Dir = 'up'
+				elif side == 'bottom':
+					Dir = 'down'
+				else:
+					Dir = side
+				new_Coords = self.__Kinetics.Knock_Back(self.__info.get_Coords(), self.__info.get_ID(), Dir)
 				self.__info.set_Coords(new_Coords)
 				self.__info.set_Corners(Image_Node.Render.bbox(self.__info.get_ID()))
 
@@ -177,17 +183,16 @@ class Player_Main(All_Entities):
 			pass
 
 		elif OSC == 'Static':
-			if DIR == 'up':
+			if side == 'top':
 				self.__downOFF = True
-			elif DIR == 'down':
+			elif side == 'bottom':
 				self.__upOFF = True
-			elif DIR == 'left':
+			elif side == 'left':
 				self.__rightOFF = True
-			elif DIR == 'right':
+			elif side == 'right':
 				self.__leftOFF = True
-		elif OSC != 'Static':
-			self.OnOff_Move()
-
+			else:
+				print('ERROR P#190')
 		else:
 			print('Error: P#108')
 			pass
@@ -270,6 +275,7 @@ class Player_Main(All_Entities):
 		self.__isAlive = isAlive
 
 	def OnOff_Move(self):
+		self.__Collision_Logic
 		self.__upOFF	= False
 		self.__downOFF	= False
 		self.__leftOFF	= False
