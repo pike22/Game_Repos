@@ -38,6 +38,10 @@ class Kinetics_Node(Node):
 			print('NO DIRECTIONS')
 		return (x, y)
 
+	def Static_Hit(self, Cur_Coords, img_ID, dir):
+		return self.kinetics(Cur_Coords, img_ID, dir)
+
+
 
 	#special types of movement may be implimented later
 	"""|--------------Getters--------------|#"""

@@ -165,7 +165,7 @@ class Alpha():
 		for item in range(len(self.__Stal_Roster)):
 			stalfos = Col_Dict[self.__Stal_Roster[item]]
 			if stalfos.get_isAlive() == True:
-				stalfos.Movement_Controll()
+				# stalfos.Movement_Controll()
 				stalfos.Stal_Attack()
 			else:
 				# print('dead? A#140')
@@ -209,9 +209,10 @@ class Alpha():
 				Col_Dict = self.__Collision_Logic.get_Col_Dict() #this may not be needed
 				for item in range(len(Col_result)):
 					# print('obj', Col_result[item])
+					#PLAYER COL_LOGIC
 					if Col_result[item] == self.__Player: #player is always checked first
 						side = self.__Collision_Logic.Side_Calc()
-						print('Player direction:', side)
+						# print('Player direction:', side)
 						if Col_result[item+1].get_group_ID() in self.__enemyRoster:
 							self.__Player.my_Collision(OSC='Enemy', OSA=Col_result[item+1].get_attack(), side=side)
 						elif Col_result[item+1].get_group_ID() in self.__weaponRoster:
@@ -219,6 +220,7 @@ class Alpha():
 						elif Col_result[item+1].get_group_ID() in self.__staticRoster:
 							self.__Player.my_Collision(OSC='Static', side=side)
 
+					#STALFOS COL_LOGIC
 					if Col_result[item].get_ID() in self.__Stal_Roster:
 						if item == len(Col_result)-1:
 							pass

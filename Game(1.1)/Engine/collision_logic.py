@@ -39,7 +39,7 @@ class Collision_Logic():
 	def ForT_Collision(self, targOBJ):
 		x1, y1, x2, y2 = targOBJ.get_Corners()
 		collision = Image_Node.Render.find_overlapping(x1, y1, x2, y2)
-		print(collision, 'ForT Collision')
+		# print(collision, 'ForT Collision')
 
 	#use this: .find_overlapping
 	# only outputs the last assigned var.
@@ -72,16 +72,12 @@ class Collision_Logic():
 
 	def Side_Calc(self):
 		objA  = None
-		NameA = None
 		objB  = None
-		NameB = None
 		for item in range(len(self.__obj_list)):
 			if item == 0:
 				objA = self.__obj_list[item]
-				NameA = objA.get_ID()
 			elif item == 1:
 				objB = self.__obj_list[item]
-				NameB = objB.get_ID()
 			else:
 				print("ERROR: CL#81")
 		"""Object A's coords/size"""
@@ -92,26 +88,28 @@ class Collision_Logic():
 		xB, yB = objB.get_Coords()
 		height_B, width_B = objB.get_size()
 
-		varA = (3/4) * height_A
-		varB = (3/4) * height_B
-		print(yB, 'y coord objB')
+		varA = (9/10) * height_A
+		varB = (9/10) * height_B
+		print(yB, "objB's y")
 		print(yA+varA, 'variable A + yA')
 		print('------------------------')
-		print(yA, 'y coord objA')
+		print(yA, "objA's y")
 		print(yB+varB, 'variable B + yB')
+		print('------------------------')
 		if (yA+varA) <= yB:
-			# print('top')
+			print('top')
 			return 'top'
-		elif (yB+varB) >= yA:
+		elif (yB+varB) <= yA:
 			print('bottom')
 			return 'bottom'
 		else:
 			if xA > xB:
-				# print('right')
+				print('right')
 				return 'right'
 			elif xA < xB:
-				# print('left')
+				print('left')
 				return 'left'
+		print('------------------------')
 
 
 	"""|--------------Getters--------------|#"""

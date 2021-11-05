@@ -184,15 +184,15 @@ class Player_Main(All_Entities):
 
 		elif OSC == 'Static':
 			if side == 'top':
-				self.__downOFF = True
+				Dir = 'up'
 			elif side == 'bottom':
-				self.__upOFF = True
-			elif side == 'left':
-				self.__rightOFF = True
-			elif side == 'right':
-				self.__leftOFF = True
+				Dir = 'down'
 			else:
-				print('ERROR P#190')
+				Dir = side
+			new_Coords = self.__Kinetics.Static_Hit(self.__info.get_Coords(), self.__info.get_ID(), Dir)
+			self.__info.set_Coords(new_Coords)
+			self.__info.set_Corners(Image_Node.Render.bbox(self.__info.get_ID()))
+
 		else:
 			print('Error: P#108')
 			pass
@@ -275,7 +275,6 @@ class Player_Main(All_Entities):
 		self.__isAlive = isAlive
 
 	def OnOff_Move(self):
-		self.__Collision_Logic
 		self.__upOFF	= False
 		self.__downOFF	= False
 		self.__leftOFF	= False
