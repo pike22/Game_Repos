@@ -119,7 +119,8 @@ class Alpha():
 
 		#__Border Walls__#
 		# for now wall is substituted with Sword2.png
-		self.__Wall.wall_setUP(x=5, y=5)
+		# self.__Wall.wall_setUP(x=5, y=5)
+		self.__Wall.wall_setUP(x=300, y=300, Grid='No')
 
 
 

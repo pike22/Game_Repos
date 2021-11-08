@@ -15,13 +15,17 @@ class Wall_Main():
 
 
 	#seting up Wall bellow
-	def wall_setUP(self, x, y):
+	def wall_setUP(self, x, y, Grid=None):
 		#img setup
 		Img_info = self.__Image.Img_Add('z_Pictures/MissingIMG.png')
 		self.__info.Image_Data(Size=Img_info[1], PIL_img=Img_info[0], TK_img=Img_info[2], file_Location='z_Pictures/MissingIMG.png')
 
 		#placing the img
-		img_coords = self.__Image.Img_Place(x, y, self.__info.get_TKimg(), tag=self.__ID)
+		if Grid != None:
+			img_coords = self.__Image.Img_Place(x, y, self.__info.get_TKimg(), tag=self.__ID, Grid='No')
+		else:
+			img_coords = self.__Image.Img_Place(x, y, self.__info.get_TKimg(), tag=self.__ID)
+
 
 		#final set of information save to Wall
 		print(self.__ID)
