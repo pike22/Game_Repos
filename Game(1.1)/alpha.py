@@ -202,7 +202,10 @@ class Alpha():
 		proj 	= self.__projDict['#arrow'].get_itemCount()
 		#self.__stalfosCount represents number of stalfo's and their corners
 		#when more enemies exist create more 'enemyName'Count, then add below.
-		for item in range(wall, player + sword + bow + proj + self.__stalfosCount):
+		totItemCount = wall + player + sword + bow + proj + self.__stalfosCount
+		# print(totItemCount, 'Item count')
+		# print('list of corners\n',list1)
+		for item in range(totItemCount):
 			Col_result = self.__Collision_Logic.Is_Collision(item)
 
 
@@ -230,15 +233,15 @@ class Alpha():
 								Col_result[item].my_Collision(OSC=str(Col_result[item+1].get_ID()), OSA=Col_result[item+1].get_attack())
 							elif Col_result[item+1].get_group_ID() in self.__projRoster:
 								Col_result[item].my_Collision(OSC=str(Col_result[item+1].get_ID()), OSA=Col_result[item+1].get_attack())
-								Col_result[item+1].del_Arrow()
+								Col_result[item+1].del_Proj()
 
 					if Col_result[item] == self.__Sword: #weapon will always be last
 						#print('Sword')
 						pass
 
 					if Col_result[item] == self.__Wall:
-						# print('wall')
-						pass
+						if Col_result[item+1].get_group_ID() in self.__projRoster:
+							Col_result[item+1].del_Proj()
 
 
 		#_Combat_#

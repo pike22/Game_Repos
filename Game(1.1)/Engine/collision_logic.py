@@ -54,14 +54,15 @@ class Collision_Logic():
 		if len(collision) > 1:
 			for item in range(len(collision)):
 				tag = Image_Node.Render.gettags(collision[item])
+				# print(tag, 'tag')
 				self.__collision.append(tag[0]) #item 0 is the entity_ID, 1 == group_ID
-			# print(self.__collision, 'Colliding') #print Tags of Entity Colliding
+			print(self.__collision, 'Colliding') #print Tags of Entity Colliding
 
 			for item in range(len(self.__collision)):
 				tagOrId = self.__collision[item]
 				obj		= self.__Col_Dict[tagOrId]
-				# print(tagOrId, 'tag')
 				# print(obj, 'obj')
+				# print(tagOrId, 'tag')
 				self.__obj_list.append(obj)
 
 			self.__IsCollision = True
@@ -88,36 +89,18 @@ class Collision_Logic():
 		xB, yB = objB.get_Coords()
 		height_B, width_B = objB.get_size()
 
-		varA = (9/10) * height_A
-		varB = (9/10) * height_B
-		# print(yB, "objB's y")
-		# print(yA+varA, 'variable A + yA')
-		print('------------------------')
-		print(yA, "objA's yCOORD")
-		print(yB+varB, 'var B + yB')
-		print(yB+height_B, '100% objB')
-		print('------------------------')
-		# print(varB, "B's % height")
-		# print(height_B, "B's height")
-		# print(yB, "B's yCOORD")
-		print('------------------------')
-		print(yA, 'a')
-		b = yB+height_B
-		print(b,'b')
-		if (yA+varA) <= yB:
-			print('top')
+		if xA >= xB+(width_B*(9/10)):
+			# print('right')
+			return 'right'
+		if xA <= xB-(0.5*width_A):
+			# print('left')
+			return 'left'
+		if yA <= yB:
+			# print('top')
 			return 'top'
-		elif b <= yA:
-			print('bottom')
+		if yB+height_B >= yA:
+			# print('bottom')
 			return 'bottom'
-		else:
-			if xA > xB+width_B:
-				print('right')
-				return 'right'
-			elif xA < xB:
-				print('left')
-				return 'left'
-		print('------------------------')
 
 
 	"""|--------------Getters--------------|#"""

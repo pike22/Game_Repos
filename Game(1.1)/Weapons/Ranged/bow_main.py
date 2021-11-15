@@ -20,7 +20,6 @@ class Bow_Main():
 	def bow_setUP(self):
 		#img setup
 		Img_info = self.__Image.Img_Add('z_Pictures/red_bow.png')
-		print(Img_info[1], 'size')
 		self.__info.Image_Data(Size=Img_info[1], PIL_img=Img_info[0], TK_img=Img_info[2], file_Location='z_Pictures/red_bow.png')
 		self.__info.Bow_Data(2) #check melee_info for well info.
 
@@ -67,8 +66,8 @@ class Bow_Main():
 	def del_item(self):
 		Image_Node.Render.delete(self.__info.get_ID())
 		self.__isActive = False
-		self.__Collision.del_Col_Dict(self.__ammo.get_ID())
-		self.__ammo.del_Arrow()
+		# self.__Collision.del_Col_Dict(self.__ammo.get_ID())
+		# self.__ammo.del_Arrow()
 
 
 

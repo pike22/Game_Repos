@@ -25,13 +25,9 @@ class Player_Main(All_Entities):
 
 		#----Keyboard inputs----#
 		self.__key_up		= 'w'
-		self.__upOFF		= False
 		self.__key_down		= 's'
-		self.__downOFF		= False
 		self.__key_left		= 'a'
-		self.__leftOFF		= False
 		self.__key_right	= 'd'
-		self.__rightOFF		= False
 		self.__melee		= 'k'
 		self.__ranged		= 'l'
 
@@ -59,13 +55,11 @@ class Player_Main(All_Entities):
 		#final set of information save to player
 		Canvas_ID = Image_Node.Render.find_withtag(ID)[0] #finds my canvas ID numb.
 		Coords = img_coords[Canvas_ID-1]
-		print(Coords, 'Player Coords')
 		self.__info.set_Canvas_ID(Canvas_ID)
 		self.__info.Player_Data(Coords=Coords, Speed=7, health=100, defense=5, attack=0) #check player_info for well info.
 		self.__Kinetics.set_Speed(self.__info.get_Speed())
 		Image_Node.Render.addtag_withtag(group_ID, Canvas_ID)
 		self.__info.set_Corners(Image_Node.Render.bbox(Canvas_ID))
-		print(self.get_Corners(), 'player corners')
 
 		#Active Parameters
 		self.__Cur_Health = self.__info.get_health()
@@ -86,28 +80,28 @@ class Player_Main(All_Entities):
 		print('-----------------------------------\n')
 
 	def Movement_Controll(self):
-		if keyboard.is_pressed(self.__key_up) and self.__upOFF == False:
+		if keyboard.is_pressed(self.__key_up):
 			self.__Direction = 'up'
 			new_Coords = self.__Kinetics.kinetics(self.__info.get_Coords(), self.__info.get_ID(), self.__Direction)#, neg=False)
 			self.__info.set_Coords(new_Coords)
 			self.__info.set_Corners(Image_Node.Render.bbox(self.__info.get_ID()))
 			self.__isMoving = True
 
-		if keyboard.is_pressed(self.__key_down) and self.__downOFF == False:
+		if keyboard.is_pressed(self.__key_down):
 			self.__Direction = 'down'
 			new_Coords = self.__Kinetics.kinetics(self.__info.get_Coords(), self.__info.get_ID(), self.__Direction)
 			self.__info.set_Coords(new_Coords)
 			self.__info.set_Corners(Image_Node.Render.bbox(self.__info.get_ID()))
 			self.__isMoving = True
 
-		if keyboard.is_pressed(self.__key_left) and self.__leftOFF == False:
+		if keyboard.is_pressed(self.__key_left):
 			self.__Direction = 'left'
 			new_Coords = self.__Kinetics.kinetics(self.__info.get_Coords(), self.__info.get_ID(), self.__Direction)
 			self.__info.set_Coords(new_Coords)
 			self.__info.set_Corners(Image_Node.Render.bbox(self.__info.get_ID()))
 			self.__isMoving = True
 
-		if keyboard.is_pressed(self.__key_right) and self.__rightOFF == False:
+		if keyboard.is_pressed(self.__key_right):
 			self.__Direction = 'right'
 			new_Coords = self.__Kinetics.kinetics(self.__info.get_Coords(), self.__info.get_ID(), self.__Direction)
 			self.__info.set_Coords(new_Coords)
@@ -275,11 +269,8 @@ class Player_Main(All_Entities):
 	def set_isAlive(self, isAlive):
 		self.__isAlive = isAlive
 
-	def OnOff_Move(self):
-		self.__upOFF	= False
-		self.__downOFF	= False
-		self.__leftOFF	= False
-		self.__rightOFF	= False
+	def set_ammo(self, ammo):
+		self.__Bow.set_ammo(ammo)
 
 
 	"""|--------------Test Functions--------------|#"""
