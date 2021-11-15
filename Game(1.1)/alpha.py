@@ -11,7 +11,7 @@ class Alpha():
 	def __init__(self):
 		self.__Sc_Width	 = 992
 		self.__Sc_Height = 608
-		self.__version	 = "(Stab Simulator) BETAv.1.0"
+		self.__version	 = "(Stab Simulator) BETAv.1.1"
 		self.__listTags  = None
 
 		#this will be a growing list of group tags. It is hard set to refer here for spacific groups

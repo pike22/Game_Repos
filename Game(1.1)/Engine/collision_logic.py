@@ -97,20 +97,21 @@ class Collision_Logic():
 		print(yB+varB, 'var B + yB')
 		print(yB+height_B, '100% objB')
 		print('------------------------')
-		print(varB, "B's % height")
-		print(height_B, "B's height")
-		print(yB, "B's yCOORD")
-		print(objB.get_Coords(), "B's Coords")
-		print(objB.get_Corners(), "B's Corners")
+		# print(varB, "B's % height")
+		# print(height_B, "B's height")
+		# print(yB, "B's yCOORD")
 		print('------------------------')
+		print(yA, 'a')
+		b = yB+height_B
+		print(b,'b')
 		if (yA+varA) <= yB:
 			print('top')
 			return 'top'
-		elif (yB+varB) >= yA and yB+height_B <= yA:
+		elif b <= yA:
 			print('bottom')
 			return 'bottom'
 		else:
-			if xA > xB:
+			if xA > xB+width_B:
 				print('right')
 				return 'right'
 			elif xA < xB:

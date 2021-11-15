@@ -65,6 +65,7 @@ class Player_Main(All_Entities):
 		self.__Kinetics.set_Speed(self.__info.get_Speed())
 		Image_Node.Render.addtag_withtag(group_ID, Canvas_ID)
 		self.__info.set_Corners(Image_Node.Render.bbox(Canvas_ID))
+		print(self.get_Corners(), 'player corners')
 
 		#Active Parameters
 		self.__Cur_Health = self.__info.get_health()
