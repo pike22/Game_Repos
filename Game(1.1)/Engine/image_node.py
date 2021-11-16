@@ -68,8 +68,8 @@ class Image_Node(Node):
 		#	(allow for placement based on grid or not grid.)
 
 
-	"""|--------------Getters--------------|#"""
+	"""#|--------------Getters--------------|#"""
 
 
 
-	"""|--------------Setters--------------|#"""
+	"""#|--------------Setters--------------|#"""

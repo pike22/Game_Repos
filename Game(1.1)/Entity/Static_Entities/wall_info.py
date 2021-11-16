@@ -34,7 +34,7 @@ class Wall_Info():
 		self.__Speed		= Speed
 
 
-	"""|--------------Getters--------------|#"""
+	"""#|--------------Getters--------------|#"""
 		#this is where a list of getters will go...
 
 	def get_TKimg(self):
@@ -69,7 +69,7 @@ class Wall_Info():
 		return self.__base_defense
 
 
-	"""|--------------Setters--------------|#"""
+	"""#|--------------Setters--------------|#"""
 	def set_Coords(self, Coords):
 		self.__Coords = Coords
 

@@ -4,9 +4,10 @@ from .bow_info import Bow_Info
 from .Projectiles import *
 
 class Bow_Main():
-	def __init__(self, iNode, cNode):
+	def __init__(self, iNode, cLogic, cNode):
 		self.__Image	 = iNode
-		self.__Collision = cNode
+		self.__Col_logic = cLogic
+		self.__Col_node	 = cNode
 		self.__info		 = Bow_Info()
 		self.__ammo		 = None
 
@@ -86,7 +87,7 @@ class Bow_Main():
 
 
 
-	"""|--------------Getters--------------|#"""
+	"""#|--------------Getters--------------|#"""
 		#this is where a list of getters will go...
 	def get_attackMOD(self):
 		return self.__info.get_AttackMOD()
@@ -122,7 +123,7 @@ class Bow_Main():
 		return self.__ammoCount
 
 
-	"""|--------------Setters--------------|#"""
+	"""#|--------------Setters--------------|#"""
 		#this is where a list of setters will go...
 	def set_IsWeapon(self, Fort):
 		self.__isActive = Fort

@@ -19,13 +19,13 @@ class Alpha():
 		self.__enemyRoster	= ["#stalfos", ]
 
 			#_Stalfos_#
-		self.__Stal_Roster	= []
-		self.__stalfosCount = 2
+		self.__stalfosRoster = []
+		self.__stalfosCount  = 2
 
 
 		'''#_Weapon Parameters_#'''
-		self.__weaponRoster = ["#sword", "#bow", ]
-		self.__projRoster 	= ['#arrow', ]
+		self.__weaponRoster	= ["#sword", "#bow", ]
+		self.__projRoster	= ['#arrow', ]
 		self.__projDict		= {}
 
 		'''#_Static Parameters_#'''
@@ -33,7 +33,7 @@ class Alpha():
 
 		#collision logic v2.
 		self.__Collision_Logic = Collision_Logic()
-		self.__Collision_Node  = Collision_Node()
+		self.__Collision_Node  = Collision_Node(self.__Collision_Logic)
 
 		#below is class Calling
 		self.__mainApp		= Tk()
@@ -46,18 +46,22 @@ class Alpha():
 		self.__Player		= Player_Main(self.__Image, self.__Kinetics)
 		self.__Sword		= Sword_Main(self.__Image, self.__Collision_Logic)
 		self.__Wall 		= Wall_Main(self.__Image, self.__Collision_Logic)
-		self.__Bow			= Bow_Main(self.__Image, self.__Collision_Logic)
+		self.__Bow			= Bow_Main(self.__Image, self.__Collision_Logic, self.__Collision_Node)
 
 		#yes
 		self.__Entities.set_mainApp(self.__mainApp)
 		self.__Projectiles.set_Nodes(self.__Image, self.__Kinetics, self.__Collision_Logic)
 
-		'''Collision SETUP'''
-		#-------------------#
+
+
+		#_#Collision SETUP#_#
 		"""Entities"""
-		self.__Collision_Logic.add_Col_Dict(self.__Player.get_ID(), self.__Player)
+		#player
+		self.__Collision_Logic.add_Col_Dict(tagOrId=self.__Player.get_ID(), obj=self.__Player)
+
 		#Static Entities
 		self.__Collision_Logic.add_Col_Dict(tagOrId=self.__Wall.get_ID(), obj=self.__Wall)
+		self.__Collision_Node.set_staticRoster(self.__staticRoster)
 
 		#Stalfos collision setup
 		for item in range(self.__stalfosCount):
@@ -65,15 +69,21 @@ class Alpha():
 				ID = "S#00" + str(item)
 			elif item >= 10 and item < 100:
 				ID = "S#0" + str(item)
-			self.__Stal_Roster.append(ID)
-			self.__Collision_Logic.add_Col_Dict(tagOrId=ID, obj=Stalfos_Main(self.__Image, self.__Collision_Logic, self.__Kinetics, ID=ID))
+			self.__stalfosRoster.append(ID)
+			stalMain = Stalfos_Main(self.__Image, self.__Collision_Logic, self.__Kinetics, ID=ID)
+			self.__Collision_Logic.add_Col_Dict(tagOrId=ID, obj=stalMain)
+		self.__Collision_Node.set_stalfosRoster(self.__stalfosRoster)
+		self.__Collision_Node.set_enemyRoster(self.__enemyRoster)
 
 		"""Items"""
 		self.__Collision_Logic.add_Col_Dict(self.__Sword.get_ID(), self.__Sword)
 		self.__Collision_Logic.add_Col_Dict(self.__Bow.get_ID(), self.__Bow)
+		self.__Collision_Node.set_weaponRoster(self.__weaponRoster)
 
 		"""Projectiles"""
+		#this gets handled inside of the Bow_Main
 		# self.__Collision_Logic.add_Col_Dict(self.__projDict['#arrow'].get_ID(), self.__projDict['#arrow'])
+		self.__Collision_Node.set_projRoster(self.__projRoster)
 
 
 		#temp val
@@ -88,12 +98,6 @@ class Alpha():
 	def set_MainCanvas(self): #Set Renders HERE
 		self.__Image.Create_Canvas(self.__mainApp, self.__Sc_Height, self.__Sc_Width)
 
-		#mass set_Render() !!!Render was made Static Var!!!
-		#leave enemies out of this for now
-		# self.__Collision_Logic.set_Render(self.__Image.get_Render())
-		# self.__Kinetics.set_Render(self.__Image.get_Render())
-		# self.__Player.set_Render(self.__Image.get_Render())
-		# self.__Sword.set_Render(self.__Image.get_Render())
 
 	def close_window(self): #putting this on HOLD
 		if keyboard.is_pressed('q') == True:
@@ -111,9 +115,9 @@ class Alpha():
 
 		#__ENEMY Setup__#
 		COLDICT = self.__Collision_Logic.get_Col_Dict()
-		for item in range(len(self.__Stal_Roster)):
-			if self.__Stal_Roster[item] in COLDICT.keys():
-				r_Stal = COLDICT[self.__Stal_Roster[item]]
+		for item in range(len(self.__stalfosRoster)):
+			if self.__stalfosRoster[item] in COLDICT.keys():
+				r_Stal = COLDICT[self.__stalfosRoster[item]]
 				r_Stal.stalfos_setUP(self.__Sc_Width, self.__Sc_Height)
 				# r_Stal.Stalfos_Print()
 
@@ -163,8 +167,8 @@ class Alpha():
 
 			#_STALFOS_#
 		Col_Dict = self.__Collision_Logic.get_Col_Dict()
-		for item in range(len(self.__Stal_Roster)):
-			stalfos = Col_Dict[self.__Stal_Roster[item]]
+		for item in range(len(self.__stalfosRoster)):
+			stalfos = Col_Dict[self.__stalfosRoster[item]]
 			if stalfos.get_isAlive() == True:
 				# stalfos.Movement_Controll()
 				stalfos.Stal_Attack()
@@ -179,8 +183,8 @@ class Alpha():
 		#only one Player should be here (IGNORE MULTIPLAYER)
 		list1 = []
 		list1 = [self.__Wall.get_Corners(), self.__Player.get_Corners()]
-		for item in range(len(self.__Stal_Roster)):
-			c_Stal = self.__Collision_Logic.tag_to_obj(self.__Stal_Roster[item]) #c_Stal == stalfos obj
+		for item in range(len(self.__stalfosRoster)):
+			c_Stal = self.__Collision_Logic.tag_to_obj(self.__stalfosRoster[item]) #c_Stal == stalfos obj
 			list1.append(c_Stal.get_Corners())
 
 		if self.__Sword.get_isActive() == True:
@@ -190,58 +194,8 @@ class Alpha():
 		if self.__projDict['#arrow'].get_isActive() == True:
 			list1.append(self.__projDict['#arrow'].get_Corners())
 
+		self.__Collision_Node.use_Collision(list1, len(list1))
 
-		self.__Collision_Logic.add_Collision(list1)
-
-
-		#Below are representation of object corners
-		wall	= 1
-		player 	= 1
-		sword 	= self.__Sword.get_itemCount()
-		bow		= self.__Bow.get_itemCount()
-		proj 	= self.__projDict['#arrow'].get_itemCount()
-		#self.__stalfosCount represents number of stalfo's and their corners
-		#when more enemies exist create more 'enemyName'Count, then add below.
-		totItemCount = wall + player + sword + bow + proj + self.__stalfosCount
-		# print(totItemCount, 'Item count')
-		# print('list of corners\n',list1)
-		for item in range(totItemCount):
-			Col_result = self.__Collision_Logic.Is_Collision(item)
-
-
-			if Col_result != None:
-				Col_Dict = self.__Collision_Logic.get_Col_Dict() #this may not be needed
-				for item in range(len(Col_result)):
-					# print('obj', Col_result[item])
-					#PLAYER COL_LOGIC
-					if Col_result[item] == self.__Player: #player is always checked first
-						side = self.__Collision_Logic.Side_Calc()
-						# print('Player direction:', side)
-						if Col_result[item+1].get_group_ID() in self.__enemyRoster:
-							self.__Player.my_Collision(OSC='Enemy', OSA=Col_result[item+1].get_attack(), side=side)
-						elif Col_result[item+1].get_group_ID() in self.__weaponRoster:
-							Col_result[item+1].del_item()
-						elif Col_result[item+1].get_group_ID() in self.__staticRoster:
-							self.__Player.my_Collision(OSC='Static', side=side)
-
-					#STALFOS COL_LOGIC
-					if Col_result[item].get_ID() in self.__Stal_Roster:
-						if item == len(Col_result)-1:
-							pass
-						elif item != len(Col_result)-1:
-							if Col_result[item+1].get_group_ID() in self.__weaponRoster:
-								Col_result[item].my_Collision(OSC=str(Col_result[item+1].get_ID()), OSA=Col_result[item+1].get_attack())
-							elif Col_result[item+1].get_group_ID() in self.__projRoster:
-								Col_result[item].my_Collision(OSC=str(Col_result[item+1].get_ID()), OSA=Col_result[item+1].get_attack())
-								Col_result[item+1].del_Proj()
-
-					if Col_result[item] == self.__Sword: #weapon will always be last
-						#print('Sword')
-						pass
-
-					if Col_result[item] == self.__Wall:
-						if Col_result[item+1].get_group_ID() in self.__projRoster:
-							Col_result[item+1].del_Proj()
 
 
 		#_Combat_#
@@ -258,9 +212,10 @@ class Alpha():
 			self.__Player.reset_hit()
 
 		Col_Dict = self.__Collision_Logic.get_Col_Dict()
-		for item in range(len(self.__Stal_Roster)):
-			result = Col_Dict[self.__Stal_Roster[item]]
+		for item in range(len(self.__stalfosRoster)):
+			result = Col_Dict[self.__stalfosRoster[item]]
 			if result.get_isHit() == True:
+				print('got hit')
 				result.reset_hit()
 
 

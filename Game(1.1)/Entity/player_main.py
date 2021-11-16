@@ -12,7 +12,7 @@ import keyboard
 class Player_Main(All_Entities):
 	def __init__(self, iNode, kNode):
 		#iNode == Image_Node
-		#clNode == Collision_Node
+		#cLogic == Collision_Logic
 
 		#----Class Calls----#
 		All_Entities.__init__(self)
@@ -184,7 +184,9 @@ class Player_Main(All_Entities):
 				Dir = 'down'
 			else:
 				Dir = side
+			print(self.__info.get_Coords(), 'OLD COORDS')
 			new_Coords = self.__Kinetics.Static_Hit(self.__info.get_Coords(), self.__info.get_ID(), Dir)
+			print(new_Coords, 'NEW COORDS')
 			self.__info.set_Coords(new_Coords)
 			self.__info.set_Corners(Image_Node.Render.bbox(self.__info.get_ID()))
 
@@ -216,7 +218,7 @@ class Player_Main(All_Entities):
 
 
 
-	"""|--------------Getters--------------|#"""
+	"""#|--------------Getters--------------|#"""
 		#this is where a list of getters will go...
 	def get_size(self):
 		return self.__info.get_size()
@@ -256,7 +258,7 @@ class Player_Main(All_Entities):
 		return self.__info.get_defense()
 
 
-	"""|--------------Setters--------------|#"""
+	"""#|--------------Setters--------------|#"""
 		#this is where a list of setters will go...
 	def set_Weapons(self, sword, bow):
 		self.__Sword = sword
@@ -273,7 +275,7 @@ class Player_Main(All_Entities):
 		self.__Bow.set_ammo(ammo)
 
 
-	"""|--------------Test Functions--------------|#"""
+	"""#|--------------Test Functions--------------|#"""
 
 	def test_Coords(self):
 		if keyboard.is_pressed('c') == True:

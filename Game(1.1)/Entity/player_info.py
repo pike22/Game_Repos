@@ -35,7 +35,7 @@ class Player_Info():
 		self.__Cur_Coords	= Coords
 
 
-	"""|--------------Getters--------------|#"""
+	"""#|--------------Getters--------------|#"""
 		#this is where a list of getters will go...
 
 	def get_TKimg(self):
@@ -70,7 +70,7 @@ class Player_Info():
 		return self.__base_defense
 
 
-	"""|--------------Setters--------------|#"""
+	"""#|--------------Setters--------------|#"""
 	def set_Coords(self, Coords):
 		self.__Cur_Coords = Coords
 

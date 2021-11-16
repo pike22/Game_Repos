@@ -22,7 +22,7 @@ class Timer_Node():
 		self.__mainApp.after(int(self.__FPS), self.GameClock)
 
 
-	"""|--------------Getters--------------|#"""
+	"""#|--------------Getters--------------|#"""
 		#this is where a list of getters will go...
 	def get_Seconds(self):
 		return self.__Seconds
@@ -31,6 +31,6 @@ class Timer_Node():
 		return self.__FPS
 
 
-	"""|--------------Setters--------------|#"""
+	"""#|--------------Setters--------------|#"""
 		#this is where a list of setters will go...
 	#def set_...

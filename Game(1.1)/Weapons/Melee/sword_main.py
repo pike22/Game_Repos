@@ -3,9 +3,9 @@ from Engine.image_node import Image_Node
 from .sword_info import Sword_Info
 
 class Sword_Main():
-	def __init__(self, iNode, cNode):
+	def __init__(self, iNode, cLogic):
 		self.__Image	 = iNode
-		self.__Collision = cNode
+		self.__Col_logic = cLogic
 		self.__info		 = Sword_Info()
 
 		self.__itemCount = 0
@@ -64,7 +64,7 @@ class Sword_Main():
 
 
 
-	"""|--------------Getters--------------|#"""
+	"""#|--------------Getters--------------|#"""
 		#this is where a list of getters will go...
 	def get_attack(self):
 		return self.__info.get_Attack_Dmg()
@@ -91,7 +91,7 @@ class Sword_Main():
 		return self.__itemCount
 
 
-	"""|--------------Setters--------------|#"""
+	"""#|--------------Setters--------------|#"""
 		#this is where a list of setters will go...
 	def set_IsWeapon(self, Fort):
 		self.__isActive = Fort

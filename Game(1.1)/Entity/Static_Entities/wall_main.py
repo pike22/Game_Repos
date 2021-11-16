@@ -2,12 +2,12 @@ from .wall_info import Wall_Info
 from Engine import Image_Node
 
 class Wall_Main():
-	def __init__(self, iNode, cNode):
+	def __init__(self, iNode, cLogic):
 		#iNode == Image_Node
-		#cNode == Collision_Node
+		#cLogic == Collision_Logic
 
 		#----Class Calls----#
-		self.__Collision = cNode
+		self.__Col_logic = cLogic
 		self.__Image	 = iNode
 		self.__info	 	 = Wall_Info()
 		self.__ID 		 = self.__info.get_ID()
@@ -56,7 +56,7 @@ class Wall_Main():
 		pass
 
 
-	"""|--------------Getters--------------|#"""
+	"""#|--------------Getters--------------|#"""
 		#this is where a list of getters will go...
 	def get_ID(self):
 		return self.__info.get_ID()
@@ -73,6 +73,6 @@ class Wall_Main():
 	def get_size(self):
 		return self.__info.get_size()
 
-	"""|--------------Setters--------------|#"""
+	"""#|--------------Setters--------------|#"""
 		#this is where a list of setters will go...
 	#def set_...

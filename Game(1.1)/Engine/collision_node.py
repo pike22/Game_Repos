@@ -3,40 +3,91 @@
 from .node import Node
 from .collision_logic import Collision_Logic
 
+#use this for the games loop collision
 class Collision_Node(Node):
-	def __init__(self):
+	def __init__(self, clNode):
 		Node.__init__(self)
-		self.__logic = Collision_Logic()
-		# self.__object1 = None
-		# self.__object2 = None
+		self.__logic = clNode
+
+		#different obj needed for collision node
+		self.__stalfosRoster = None
+		self.__staticRoster	 = None
+		self.__weaponRoster	 = None
+		self.__enemyRoster	 = None
+		self.__projRoster	 = None
 
 
-		#_Idea 1_#
-	#Capitalise on the ability of the object
-	#use the col_obj to gather group ids of everything and use that to compair for ease of use
+	def use_Collision(self, cornerList, totItemCount):
+		self.__logic.add_Collision(cornerList)
 
-		#_Idea 2_#
-	#this needs to go into the collision logic to have access to the col_dict
+		for item in range(totItemCount):
+			result = self.__logic.Is_Collision(item)
 
-	#this will code for 1-to-1 Collision, No more
-	# def Setting_Params(self, Col_Obj, item):
-	# 	if item == 0:
-	# 		self.__object1 = Col_Obj.get_Params()
-	# 	elif item == 1:
-	# 		self.__object2 = Col_Obj.get_Params()
-	#
-	# def Calc_Params(self):
-	# 	health1, attack1, defense1 = self.__object1
-	# 	health2, attack2, defense2 = self.__object2
+			"""Col_Dict = self.__logic.get_Col_Dict() #this may not be needed"""
+			if result != None:
+				for item in range(len(result)):
+					# print('obj', result[item])
+
+					"""#__# PLAYER COL_LOGIC #__#"""
+					if result[item] == self.__logic.tag_to_obj('P#001'): #player is always checked first
+						side = self.__logic.Side_Calc()
+						# print('Player direction:', side)
+						if result[item+1].get_group_ID() in self.__enemyRoster:
+							self.__logic.tag_to_obj('P#001').my_Collision(OSC='Enemy', OSA=result[item+1].get_attack(), side=side)
+						elif result[item+1].get_group_ID() in self.__weaponRoster:
+							result[item+1].del_item()
+						elif result[item+1].get_group_ID() in self.__staticRoster:
+							self.__logic.tag_to_obj('P#001').my_Collision(OSC='Static', side=side)
+
+					"""#__# STALFOS COL_LOGIC #__#"""
+					if result[item].get_ID() in self.__stalfosRoster:
+						if item == len(result)-1:
+							pass
+						elif item != len(result)-1:
+							if result[item+1].get_group_ID() in self.__weaponRoster:
+								print(result[item+1], 'Collision Result')
+								result[item].my_Collision(OSC="Weapon", OSA=result[item+1].get_attack())
+							elif result[item+1].get_group_ID() in self.__projRoster:
+								print(result[item+1], 'Collision Result')
+								result[item].my_Collision(OSC="Weapon", OSA=result[item+1].get_attack())
+								result[item+1].del_Proj()
+
+					"""#__# WEAPON COL_LOGIC #__#"""
+					if result[item] == self.__logic.tag_to_obj('W#S001'): #weapon will always be last
+						#print('Sword')
+						pass
+					if result[item] == self.__logic.tag_to_obj('W#B001'):
+						#print('Bow')
+						pass
+
+					"""#__# STATIC COL_LOGIC #__#"""
+					if result[item] == self.__logic.tag_to_obj('W#001'):
+						if item == len(result)-1:
+							pass
+						elif item != len(result)-1:
+							if result[item+1].get_group_ID() in self.__projRoster:
+								result[item+1].del_Proj()
 
 
 
-
-	"""|--------------Getters--------------|#"""
+	"""#|--------------Getters--------------|#"""
 		#this is where a list of getters will go...
 	#def get_...
 
 
-	"""|--------------Setters--------------|#"""
+	"""#|--------------Setters--------------|#"""
 		#this is where a list of setters will go...
-	# def set_...
+	def set_enemyRoster(self, Roster):
+		self.__enemyRoster = Roster
+
+	def set_stalfosRoster(self, Roster):
+		self.__stalfosRoster = Roster
+
+	def set_weaponRoster(self, Roster):
+		self.__weaponRoster = Roster
+
+	def set_projRoster(self, Roster):
+		self.__projRoster = Roster
+
+	def set_staticRoster(self, Roster):
+		self.__staticRoster = Roster

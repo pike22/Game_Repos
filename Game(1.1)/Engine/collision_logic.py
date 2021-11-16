@@ -4,11 +4,8 @@ class Collision_Logic():
 	def __init__(self):
 		self.__collision = []
 		self.__Corners 	 = []
-		self.__tag_list  = []
 		self.__obj_list	 = []
-		self.__key_list	 = []
 		self.__Col_Dict  = {}
-		self.__Direcntion = None
 		self.__IsCollision = False
 
 	'''#_COLLISION DICTIONARY FUNCTIONS_#'''
@@ -21,11 +18,14 @@ class Collision_Logic():
 		del self.__Col_Dict[tagOrId]
 
 	def tag_to_obj(self, tagOrId):
+		#output == tag's object
 		output = self.__Col_Dict[tagOrId]
 		return output
 
 	def obj_to_tag(self, obj):
-		pass
+		for key, object in self.__Col_Dict.items():
+			if obj == object:
+				return key
 
 	def print_Col_Dict(self):
 		print('Current Collision Dict', self.__Col_Dict)
@@ -47,6 +47,7 @@ class Collision_Logic():
 		self.__collision = []
 		self.__obj_list  = []
 
+
 		x1, y1, x2, y2 = self.__Corners[item]
 		collision = Image_Node.Render.find_overlapping(x1, y1, x2, y2)
 
@@ -56,7 +57,7 @@ class Collision_Logic():
 				tag = Image_Node.Render.gettags(collision[item])
 				# print(tag, 'tag')
 				self.__collision.append(tag[0]) #item 0 is the entity_ID, 1 == group_ID
-			print(self.__collision, 'Colliding') #print Tags of Entity Colliding
+			# print(self.__collision, 'Colliding') #print Tags of Entity Colliding
 
 			for item in range(len(self.__collision)):
 				tagOrId = self.__collision[item]
@@ -111,5 +112,4 @@ class Collision_Logic():
 
 	"""|--------------Setters--------------|#"""
 		#this is where a list of setters will go...
-	def set_tag_List(self, tagOrId):
-		self.__tag_list.append(tagOrId)
+	# def set_...

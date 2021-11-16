@@ -4,7 +4,6 @@ from .arrow_info import Arrow_Info
 
 class Arrow_Main(Projectiles):
 	def __init__(self):
-		super().__init__()
 		self.__info 	= Arrow_Info()
 		self.__ID 		= self.__info.get_ID()
 		self.__group_ID = self.__info.get_group_ID()
@@ -56,13 +55,13 @@ class Arrow_Main(Projectiles):
 			self.__info.set_Coords(new_Coords)
 			self.__info.set_Corners(Image_Node.Render.bbox(self.__info.get_ID()))
 
-	def del_Arrow(self):
+	def del_Proj(self):
 		Image_Node.Render.delete(self.__info.get_canvasID())
 		self.__isActive = False
 		self.__itemCount -= 1
 
 
-	"""|--------------Getters--------------|#"""
+	"""#|--------------Getters--------------|#"""
 		#this is where a list of getters will go...
 	def get_Corners(self):
 		return self.__info.get_Corners()
@@ -83,6 +82,6 @@ class Arrow_Main(Projectiles):
 		return self.__info.get_attack()
 
 
-	"""|--------------Setters--------------|#"""
+	"""#|--------------Setters--------------|#"""
 		#this is where a list of setters will go...
 	#def set_...

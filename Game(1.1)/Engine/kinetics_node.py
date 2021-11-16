@@ -44,13 +44,13 @@ class Kinetics_Node(Node):
 
 
 	#special types of movement may be implimented later
-	"""|--------------Getters--------------|#"""
+	"""#|--------------Getters--------------|#"""
 		#this is where a list of getters will go...
 	def get_Speed(self):
 		return self.__Speed
 
 
-	"""|--------------Setters--------------|#"""
+	"""#|--------------Setters--------------|#"""
 		#this is where a list of setters will go...
 	def set_Speed(self, Speed):
 		self.__Speed = Speed

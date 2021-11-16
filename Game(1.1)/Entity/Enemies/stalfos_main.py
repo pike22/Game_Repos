@@ -119,7 +119,7 @@ class Stalfos_Main(Enemy_Main):
 			if OSC == 'Weapon':
 				'''#_Actuall MATH_#'''
 				self.__Cur_Health -= OSA
-				# print(self.__Cur_Health, 'health')
+				print(self.__Cur_Health, 'health')
 
 				'''#_Logic_#'''
 				self.__isHit 	= True
@@ -129,8 +129,8 @@ class Stalfos_Main(Enemy_Main):
 	def reset_hit(self):
 		if Timer_Node.GameTime == self.__saveTime+5:
 			self.__isHit = False
-			print('Stalfos Can Get Hit')
-			print(self.__Cur_Health, ':Stalfos Health')
+			# print('Stalfos Can Get Hit')
+			# print(self.__Cur_Health, ':Stalfos Health')
 
 	def isAlive(self):
 		if self.__isHit == True:
@@ -145,7 +145,7 @@ class Stalfos_Main(Enemy_Main):
 			print('ERROR: S#105', '\tself.__isHit = False')
 
 
-	"""|--------------Getters--------------|#"""
+	"""#|--------------Getters--------------|#"""
 		#this is where a list of getters will go...
 	def get_size(self):
 		return self.__info.get_size()
@@ -182,7 +182,7 @@ class Stalfos_Main(Enemy_Main):
 		return self.__info.get_defense()
 
 
-	"""|--------------Setters--------------|#"""
+	"""#|--------------Setters--------------|#"""
 		#this is where a list of setters will go...
 	def set_Collision_Logic(self, Logic):
 		self.__Collision_Logic = Logic

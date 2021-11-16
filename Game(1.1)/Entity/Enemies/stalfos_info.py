@@ -34,7 +34,7 @@ class Stalfos_Info():
 
 
 		#Switch the def get_1 /get_2 to the same format as get_ID
-	"""|--------------Getters--------------|#"""
+	"""#|--------------Getters--------------|#"""
 		#this is where a list of getters will go...
 
 	def get_TKimg(self):
@@ -69,7 +69,7 @@ class Stalfos_Info():
 		return self.__base_defense
 
 
-	"""|--------------Setters--------------|#"""
+	"""#|--------------Setters--------------|#"""
 	def set_Coords(self, Coords):
 		self.__Coords = Coords
 
