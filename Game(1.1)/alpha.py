@@ -20,7 +20,7 @@ class Alpha():
 
 			#_Stalfos_#
 		self.__stalfosRoster = []
-		self.__stalfosCount  = 2
+		self.__stalfosCount  = 1
 
 
 		'''#_Weapon Parameters_#'''
@@ -224,13 +224,20 @@ class Alpha():
 
 
 
-	"""|--------------Getters--------------|#"""
+	"""#|--------------Getters--------------|#"""
 		#this is where a list of getters will go...
 	def get_mainAPP(self):
 		return self.__mainApp
 
 
-	"""|--------------Extra Functions--------------|#"""
+	"""#|--------------Setters--------------|#"""
+		#this is where a list of setters will go...
+	def set_ForT(self, ForT):#ForT == False or True, ForT
+		self.__ForT = ForT
+
+
+
+	"""#|--------------Extra Functions--------------|#"""
 
 	def find_all_Tags(self):
 		listOfTags = Image_Node.Render.find_all()

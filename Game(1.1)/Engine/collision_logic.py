@@ -6,7 +6,7 @@ class Collision_Logic():
 		self.__Corners 	 = []
 		self.__obj_list	 = []
 		self.__Col_Dict  = {}
-		self.__IsCollision = False
+		self.__isCollision = False
 
 	'''#_COLLISION DICTIONARY FUNCTIONS_#'''
 	#tagOrId == dictionary key
@@ -45,7 +45,9 @@ class Collision_Logic():
 	# only outputs the last assigned var.
 	def Is_Collision(self, item):
 		self.__collision = []
-		self.__obj_list  = []
+		# self.__obj_list  = []
+		if item == 0:
+			self.__obj_list = []
 
 
 		x1, y1, x2, y2 = self.__Corners[item]
@@ -54,8 +56,9 @@ class Collision_Logic():
 		#this only shows what is colliding.
 		if len(collision) > 1:
 			for item in range(len(collision)):
+				print('item:', item, 'CL#59')
 				tag = Image_Node.Render.gettags(collision[item])
-				# print(tag, 'tag')
+				print(tag, 'tag CL#61')
 				self.__collision.append(tag[0]) #item 0 is the entity_ID, 1 == group_ID
 			# print(self.__collision, 'Colliding') #print Tags of Entity Colliding
 
@@ -66,11 +69,12 @@ class Collision_Logic():
 				# print(tagOrId, 'tag')
 				self.__obj_list.append(obj)
 
-			self.__IsCollision = True
+			self.__isCollision = True
+			print(self.__obj_list, 'objList')
 			return self.__obj_list
 		else:
-			self.__IsCollision = False
-			return None
+			self.__isCollision = False
+			return self.__obj_list
 
 	def Side_Calc(self):
 		objA  = None
@@ -78,10 +82,12 @@ class Collision_Logic():
 		for item in range(len(self.__obj_list)):
 			if item == 0:
 				objA = self.__obj_list[item]
+				# print(objA, "objA")
 			elif item == 1:
 				objB = self.__obj_list[item]
+				# print(objB, 'objB')
 			else:
-				print("ERROR: CL#81")
+				print("ERROR: CL#81 '3 obj in collision'")
 		"""Object A's coords/size"""
 		xA, yA = objA.get_Coords()
 		height_A, width_A = objA.get_size()
@@ -108,6 +114,12 @@ class Collision_Logic():
 		#this is where a list of getters will go...
 	def get_Col_Dict(self):
 		return self.__Col_Dict
+
+	def get_isCollision(self):
+		return self.__isCollision
+
+	def reset_objList(self):
+		self.__obj_list = []
 
 
 	"""|--------------Setters--------------|#"""

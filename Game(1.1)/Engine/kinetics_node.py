@@ -10,36 +10,54 @@ class Kinetics_Node(Node):
 		self.__Image = iNode
 
 
-	def kinetics(self, Cur_Coords, img_ID, direction):
+	def kinetics(self, Cur_Coords, img_ID, dir):
 		x, y = Cur_Coords
-		if direction == 'left':
+		if dir == 'left':
 			x -= 1 * self.__Speed
-		if direction == 'right':
+		if dir == 'right':
 			x += 1 * self.__Speed
-		if direction == 'up':
+		if dir == 'up':
 			y -= 1 * self.__Speed
-		if direction == 'down':
+		if dir == 'down':
 			y += 1 * self.__Speed
 
 		Image_Node.Render.coords(img_ID, x, y)
 		return (x, y)
 
-	def Knock_Back(self, Cur_Coords, img_ID, direction):#eventually impliment directional based knock back
+	def Knock_Back(self, Cur_Coords, img_ID, dir):#eventually impliment directional based knock back
 		x, y = Cur_Coords
-		if direction == 'left':
+		if dir == 'left':
 			x -= 50
-		elif direction == 'right':
+		elif dir == 'right':
 			x += 50
-		elif direction == 'up':
+		elif dir == 'up':
 			y -= 50
-		elif direction == 'down':
+		elif dir == 'down':
 			y += 50
 		else:
 			print('NO DIRECTIONS')
 		return (x, y)
 
 	def Static_Hit(self, Cur_Coords, img_ID, dir):
-		return self.kinetics(Cur_Coords, img_ID, dir)
+		# print(Cur_Coords, 'OLD COORDS')
+		x, y = Cur_Coords
+		if dir == 'left':
+			x -= 1 * self.__Speed
+			# print((x, y), 'coord, left')
+		if dir == 'right':
+			x += 1 * self.__Speed
+			# print((x, y), 'coord, right')
+		if dir == 'up':
+			y -= 1 * self.__Speed
+			# print((x, y), 'coord, up')
+		if dir == 'down':
+			y += 1 * self.__Speed
+			# print((x, y), 'coord, down')
+
+		Image_Node.Render.coords(img_ID, x, y)
+		# print((x, y), 'NEW COORDS')
+		return (x, y)
+		# return self.kinetics(Cur_Coords, img_ID, dir)
 
 
 
