@@ -6,7 +6,7 @@ class Wall_Info():
 		self.__file_Location = None
 		self.__Speed 		 = None
 		self.__Canvas_ID	= None
-		self.__group_ID		= '#Wall'
+		self.__group_ID		= '#wall'
 		self.__ID			= 'W#001'
 		self.__imgPIL_ID	= None
 		self.__imgTK_ID		= None

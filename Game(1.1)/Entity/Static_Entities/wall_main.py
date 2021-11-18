@@ -7,8 +7,8 @@ class Wall_Main():
 		#cLogic == Collision_Logic
 
 		#----Class Calls----#
-		self.__Col_logic = cLogic
-		self.__Image	 = iNode
+		self.__cLogic = cLogic
+		self.__iNode	 = iNode
 		self.__info	 	 = Wall_Info()
 		self.__ID 		 = self.__info.get_ID()
 		self.__group_ID  = self.__info.get_group_ID()
@@ -17,14 +17,14 @@ class Wall_Main():
 	#seting up Wall bellow
 	def wall_setUP(self, x, y, Grid=None):
 		#img setup
-		Img_info = self.__Image.Img_Add('z_Pictures/MissingIMG.png')
+		Img_info = self.__iNode.Img_Add('z_Pictures/MissingIMG.png')
 		self.__info.Image_Data(Size=Img_info[1], PIL_img=Img_info[0], TK_img=Img_info[2], file_Location='z_Pictures/MissingIMG.png')
 
 		#placing the img
 		if Grid != None:
-			img_coords = self.__Image.Img_Place(x, y, self.__info.get_TKimg(), tag=self.__ID, Grid='No')
+			img_coords = self.__iNode.Img_Place(x, y, self.__info.get_TKimg(), tag=self.__ID, Grid='No')
 		else:
-			img_coords = self.__Image.Img_Place(x, y, self.__info.get_TKimg(), tag=self.__ID)
+			img_coords = self.__iNode.Img_Place(x, y, self.__info.get_TKimg(), tag=self.__ID)
 
 
 		#final set of information save to Wall

@@ -6,7 +6,7 @@ class Arrow_Info():
 		self.__imgPIL_ID	= None
 		self.__imgTK_ID		= None
 		self.__group_ID		= "#arrow"
-		self.__ID			= "P#A001"
+		self.__ID			= None
 		self.__img_size		= None #(x, y)tuple of height, width
 		self.__Corners		= None #(x1, y1, x2, y2) tuple
 		self.__Coords		= None #(x, y) location
@@ -51,7 +51,7 @@ class Arrow_Info():
 	def get_ID(self):
 		return self.__ID
 
-	def get_Size(self):
+	def get_size(self):
 		return self.__img_size
 
 	def get_group_ID(self):
@@ -62,6 +62,9 @@ class Arrow_Info():
 		#this is where a list of setters will go...
 	def set_Canvas_ID(self, ID):
 		self.__Canvas_ID = ID
+
+	def set_ID(self, ID):
+		self.__ID = ID
 
 	def set_Corners(self, Corners):
 		self.__Corners = Corners

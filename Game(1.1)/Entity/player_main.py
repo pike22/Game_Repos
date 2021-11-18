@@ -16,11 +16,10 @@ class Player_Main(All_Entities):
 
 		#----Class Calls----#
 		All_Entities.__init__(self)
-		self.__Kinetics		= kNode
-		self.__Image	 	= iNode
+		self.__kNode		= kNode
+		self.__iNode	 	= iNode
 		self.__info	 		= Player_Info()
 		self.__Sword 		= None
-		self.__Arrow		= None
 		self.__Bow			= None
 
 		#----Keyboard inputs----#
@@ -47,18 +46,18 @@ class Player_Main(All_Entities):
 		#img setup
 		ID = self.__info.get_ID()
 		group_ID = self.__info.get_group_ID()
-		Img_info = self.__Image.Img_Add('z_Pictures/purpuloniousthefirst.png')
+		Img_info = self.__iNode.Img_Add('z_Pictures/purpuloniousthefirst.png')
 		self.__info.Image_Data(Size=Img_info[1], PIL_img=Img_info[0], TK_img=Img_info[2], file_Location='z_Pictures/purpuloniousthefirst.png')
 
 		#placing the img
-		img_coords = self.__Image.Img_Place(x, y, self.__info.get_TKimg(), tag=ID)
+		img_coords = self.__iNode.Img_Place(x, y, self.__info.get_TKimg(), tag=ID)
 
 		#final set of information save to player
 		Canvas_ID = Image_Node.Render.find_withtag(ID)[0] #finds my canvas ID numb.
 		Coords = img_coords[Canvas_ID-1]
 		self.__info.set_Canvas_ID(Canvas_ID)
 		self.__info.Player_Data(Coords=Coords, Speed=7, health=100, defense=5, attack=0) #check player_info for well info.
-		self.__Kinetics.set_Speed(self.__info.get_Speed())
+		self.__kNode.set_Speed(self.__info.get_Speed())
 		Image_Node.Render.addtag_withtag(group_ID, Canvas_ID)
 		self.__info.set_Corners(Image_Node.Render.bbox(Canvas_ID))
 
@@ -84,28 +83,28 @@ class Player_Main(All_Entities):
 		if self.__isStatic == False:
 			if keyboard.is_pressed(self.__key_up):
 				self.__Direction = 'up'
-				new_Coords = self.__Kinetics.kinetics(self.__info.get_Coords(), self.__info.get_ID(), self.__Direction)#, neg=False)
+				new_Coords = self.__kNode.kinetics(self.__info.get_Coords(), self.__info.get_ID(), self.__Direction)#, neg=False)
 				self.__info.set_Coords(new_Coords)
 				self.__info.set_Corners(Image_Node.Render.bbox(self.__info.get_ID()))
 				self.__isMoving = True
 
 			if keyboard.is_pressed(self.__key_down):
 				self.__Direction = 'down'
-				new_Coords = self.__Kinetics.kinetics(self.__info.get_Coords(), self.__info.get_ID(), self.__Direction)
+				new_Coords = self.__kNode.kinetics(self.__info.get_Coords(), self.__info.get_ID(), self.__Direction)
 				self.__info.set_Coords(new_Coords)
 				self.__info.set_Corners(Image_Node.Render.bbox(self.__info.get_ID()))
 				self.__isMoving = True
 
 			if keyboard.is_pressed(self.__key_left):
 				self.__Direction = 'left'
-				new_Coords = self.__Kinetics.kinetics(self.__info.get_Coords(), self.__info.get_ID(), self.__Direction)
+				new_Coords = self.__kNode.kinetics(self.__info.get_Coords(), self.__info.get_ID(), self.__Direction)
 				self.__info.set_Coords(new_Coords)
 				self.__info.set_Corners(Image_Node.Render.bbox(self.__info.get_ID()))
 				self.__isMoving = True
 
 			if keyboard.is_pressed(self.__key_right):
 				self.__Direction = 'right'
-				new_Coords = self.__Kinetics.kinetics(self.__info.get_Coords(), self.__info.get_ID(), self.__Direction)
+				new_Coords = self.__kNode.kinetics(self.__info.get_Coords(), self.__info.get_ID(), self.__Direction)
 				self.__info.set_Coords(new_Coords)
 				self.__info.set_Corners(Image_Node.Render.bbox(self.__info.get_ID()))
 				self.__isMoving = True
@@ -169,7 +168,7 @@ class Player_Main(All_Entities):
 					Dir = 'down'
 				else:
 					Dir = side
-				new_Coords = self.__Kinetics.Knock_Back(self.__info.get_Coords(), self.__info.get_ID(), Dir)
+				new_Coords = self.__kNode.Knock_Back(self.__info.get_Coords(), self.__info.get_ID(), Dir)
 				self.__info.set_Coords(new_Coords)
 				self.__info.set_Corners(Image_Node.Render.bbox(self.__info.get_ID()))
 
@@ -189,7 +188,7 @@ class Player_Main(All_Entities):
 			else:
 				Dir = side
 			# print(self.__info.get_Corners(), 'OLD CORNERS')
-			new_Coords = self.__Kinetics.Static_Hit(self.__info.get_Coords(), self.__info.get_ID(), Dir)
+			new_Coords = self.__kNode.Static_Hit(self.__info.get_Coords(), self.__info.get_ID(), Dir)
 			self.__info.set_Coords(new_Coords)
 			self.__info.set_Corners(Image_Node.Render.bbox(self.__info.get_ID()))
 			# print(self.__info.get_Corners(), 'NEW Corners')

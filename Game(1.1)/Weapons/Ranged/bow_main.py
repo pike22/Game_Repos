@@ -4,23 +4,29 @@ from .bow_info import Bow_Info
 from .Projectiles import *
 
 class Bow_Main():
-	def __init__(self, iNode, cLogic, cNode):
-		self.__Image	 = iNode
-		self.__Col_logic = cLogic
-		self.__Col_node	 = cNode
+	def __init__(self, iNode, cLogic, cNode, kNode):
+		self.__iNode	 = iNode
+		self.__cLogic	 = cLogic
+		self.__cNode	 = cNode
+		self.__kNode	 = kNode
 		self.__info		 = Bow_Info()
 		self.__ammo		 = None
 
+		'''Bow Parameters'''
 		self.__attack	  = 0
 		self.__itemCount  = 0
 		self.__saveTime   = 0
 		self.__isActive   = False
+
+		'''Projectile Parameters'''
 		self.__projActive = False
+		self.__projCount  = 0
+		self.__projID	  = []
 
 
 	def bow_setUP(self):
 		#img setup
-		Img_info = self.__Image.Img_Add('z_Pictures/red_bow.png')
+		Img_info = self.__iNode.Img_Add('z_Pictures/red_bow.png')
 		self.__info.Image_Data(Size=Img_info[1], PIL_img=Img_info[0], TK_img=Img_info[2], file_Location='z_Pictures/red_bow.png')
 		self.__info.Bow_Data(2) #check melee_info for well info.
 
@@ -31,28 +37,33 @@ class Bow_Main():
 		group_ID = self.__info.get_group_ID()
 		height, width = self.__info.get_size()
 		if self.__isActive == False:
-			self.__Image.Img_Place(x, y, self.__info.get_TKimg(), Grid='No', tag=ID)
-			self.__Collision.add_Col_Dict(self.__ammo.get_ID(), self.__ammo)
+			#intial bow render and variable updates
+			self.__iNode.Img_Place(x, y, self.__info.get_TKimg(), Grid='No', tag=ID)
+			self.__isActive   = True
+			self.__projCount += 1
+			self.__itemCount += 1
 
+			#this creates arrow and saves the current state to collision
+			self.__ammo = Arrow_Main(self.__iNode, self.__cLogic, self.__cNode, self.__kNode, self.__projCount)
+			self.__projID.append(self.__ammo.get_ID())
+			self.__cLogic.addColDict(tagOrId=self.__ammo.get_ID(), obj=self.__ammo)
+
+			#this is for what direction the arrow flies
 			if direction == 'up':
-				self.__ammo.use_Arrow(x, (y-width), 'up', dmgMod=self.__info.get_attackMOD())
+				self.__ammo.use(x, (y-width), 'up', dmgMod=self.__info.get_attackMOD())
 			elif direction == 'down':
-				self.__ammo.use_Arrow(x, (y+width), 'down', dmgMod=self.__info.get_attackMOD())
+				self.__ammo.use(x, (y+width), 'down', dmgMod=self.__info.get_attackMOD())
 			elif direction == 'right':
-				self.__ammo.use_Arrow((x+height), y, 'right', dmgMod=self.__info.get_attackMOD())
+				self.__ammo.use((x+height), y, 'right', dmgMod=self.__info.get_attackMOD())
 			elif direction == 'left':
-				self.__ammo.use_Arrow((x-height), y, 'left', dmgMod=self.__info.get_attackMOD())
+				self.__ammo.use((x-height), y, 'left', dmgMod=self.__info.get_attackMOD())
 
-
+			#finishing the render of the bow
 			Canvas_ID = Image_Node.Render.find_withtag(ID)[0] #finds my canvas ID numb.
 			self.__info.set_Canvas_ID(Canvas_ID)
 			Image_Node.Render.addtag_withtag(group_ID, Canvas_ID)
 			self.__info.set_Corners(Image_Node.Render.bbox(Canvas_ID))
 			self.__saveTime = Timer_Node.GameTime
-			self.__isActive = True
-			self.__projActive = True
-			self.__itemCount += 1
-
 
 	def Weapon_Active(self):
 		if Timer_Node.GameTime == (self.__saveTime+9):
@@ -60,9 +71,10 @@ class Bow_Main():
 			self.__isActive = False
 			self.__itemCount -= 1
 
-	def proj_Active(self):
-		if self.__projActive == True:
-			self.__ammo.isActive()
+	def proj_Active(self, numb=None):
+		if numb != None:
+			if self.__cLogic.tagToObj(self.__projID[numb]).get_isActive() == True:
+				self.__cLogic.tagToObj(self.__projID[numb]).isActive()
 
 	def del_item(self):
 		Image_Node.Render.delete(self.__info.get_ID())
@@ -101,12 +113,6 @@ class Bow_Main():
 	def get_isActive(self):
 		return self.__isActive
 
-	def get_projActive(self):
-		return self.__projActive
-
-	def get_projCorners(self):
-		return self.__ammo.get_Corners()
-
 	def get_Corners(self):
 		return self.__info.get_Corners()
 
@@ -119,8 +125,43 @@ class Bow_Main():
 	def get_itemCount(self):
 		return self.__itemCount
 
-	def get_ammoCount(self):
-		return self.__ammoCount
+
+	"""#|---------Projectile-Getters--------|#"""
+
+	def get_projCount(self):
+		return self.__projCount
+
+	def get_projID(self, numb=None):
+		if numb == None:
+			return self.__projID
+		else:
+			return self.__projID[numb]
+
+	def get_projActive(self, numb=None):
+		if numb == None:
+			if self.__projID == []:
+				return False
+		else:
+			if self.__projID[numb] in self.__cLogic.listOfKeys():
+				return self.__cLogic.tagToObj(self.__projID[numb]).get_isActive()
+
+	def get_projCorners(self, numb=None):
+		if numb == None:
+			pass
+		else:
+			return self.__cLogic.tagToObj(self.__projID[numb]).get_Corners()
+
+	def get_projCoords(self, numb=None):
+		if numb == None:
+			pass
+		else:
+			return self.__cLogic.tagToObj(self.__projID[numb]).get_Coords()
+
+	def get_projClass(self, numb=None):
+		if numb == None:
+			pass
+		else:
+			return self.__cLogic.tagToObj(self.__projID[numb])
 
 
 	"""#|--------------Setters--------------|#"""

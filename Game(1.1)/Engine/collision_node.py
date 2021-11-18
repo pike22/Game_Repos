@@ -26,14 +26,14 @@ class Collision_Node(Node):
 
 		self.__Result = None
 		for item in range(totItemCount):
-			print(item, ':times through loop')
-			# print(cornerList[item], item,"'s item corner")
 			self.__Result = self.__logic.Is_Collision(item)
+			# print('-----------', item, '---------:TIME THROUGH LOOP')
+			# print(cornerList[item], item,"'s item corner")
 
-		print('--------------------------------------')
-		print("-------------'result'-----------------")
-		print(self.__Result,'result')
-		print('--------------------------------------')
+		# print('--------------------------------------')
+		# print("-------------'result'-----------------")
+		# print(self.__Result,'result')
+		# print('--------------------------------------')
 
 
 		"""Col_Dict = self.__logic.get_Col_Dict() #this may not be needed"""
@@ -44,15 +44,15 @@ class Collision_Node(Node):
 				print('--')
 
 				"""#__# PLAYER COL_LOGIC #__#"""
-				if self.__Result[item] == self.__logic.tag_to_obj('P#001'): #player is always checked first
+				if self.__Result[item] == self.__logic.tagToObj('P#001'): #player is always checked first
 					side = self.__logic.Side_Calc()
 					# print('Player direction:', side)
 					if self.__Result[item+1].get_group_ID() in self.__enemyRoster:
-						self.__logic.tag_to_obj('P#001').my_Collision(OSC='Enemy', OSA=self.__Result[item+1].get_attack(), side=side)
+						self.__logic.tagToObj('P#001').my_Collision(OSC='Enemy', OSA=self.__Result[item+1].get_attack(), side=side)
 					elif self.__Result[item+1].get_group_ID() in self.__weaponRoster:
 						self.__Result[item+1].del_item()
 					elif self.__Result[item+1].get_group_ID() in self.__staticRoster:
-						self.__logic.tag_to_obj('P#001').my_Collision(OSC='Static', side=side)
+						self.__logic.tagToObj('P#001').my_Collision(OSC='Static', side=side)
 
 				"""#__# STALFOS COL_LOGIC #__#"""
 				if self.__Result[item].get_ID() in self.__stalfosRoster:
@@ -68,21 +68,27 @@ class Collision_Node(Node):
 							self.__Result[item+1].del_Proj()
 
 				"""#__# WEAPON COL_LOGIC #__#"""
-				if self.__Result[item] == self.__logic.tag_to_obj('W#S001'): #weapon will always be last
+				if self.__Result[item] == self.__logic.tagToObj('W#S001'): #weapon will always be last
 					#print('Sword')
 					pass
-				if self.__Result[item] == self.__logic.tag_to_obj('W#B001'):
+				if self.__Result[item] == self.__logic.tagToObj('W#B001'):
 					#print('Bow')
 					pass
 
 				"""#__# STATIC COL_LOGIC #__#"""
-				if self.__Result[item] == self.__logic.tag_to_obj('W#001'):
+				if self.__Result[item] == self.__logic.tagToObj('W#001'):
+					print('CN #80')
 					if item == len(self.__Result)-1:
 						pass
 					elif item != len(self.__Result)-1:
+						if self.__Result[item+1].get_group_ID() in self.__weaponRoster:
+							print('CLANG!!!!!')
+					elif item != len(self.__Result)-1:
+						print('hell0?')
 						if self.__Result[item+1].get_group_ID() in self.__projRoster:
+							print(self.__Result[item+1], 'Collision Result')
 							self.__Result[item+1].del_Proj()
-		print('--------------------------------------')
+		# print('--------------------------------------')
 
 
 

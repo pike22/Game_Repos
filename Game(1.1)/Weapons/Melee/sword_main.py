@@ -4,8 +4,8 @@ from .sword_info import Sword_Info
 
 class Sword_Main():
 	def __init__(self, iNode, cLogic):
-		self.__Image	 = iNode
-		self.__Col_logic = cLogic
+		self.__iNode	 = iNode
+		self.__cLogic = cLogic
 		self.__info		 = Sword_Info()
 
 		self.__itemCount = 0
@@ -15,7 +15,7 @@ class Sword_Main():
 
 	def sword_setUP(self):
 		#img setup
-		Img_info = self.__Image.Img_Add('z_Pictures/notasword.png')
+		Img_info = self.__iNode.Img_Add('z_Pictures/notasword.png')
 		self.__info.Image_Data(Size=Img_info[1], PIL_img=Img_info[0], TK_img=Img_info[2], file_Location='z_Pictures/notasword.png')
 		self.__info.Sword_Data(2) #check melee_info for well info.
 
@@ -25,7 +25,7 @@ class Sword_Main():
 		ID = self.__info.get_ID()
 		group_ID = self.__info.get_group_ID()
 		if self.__isActive == False:
-			self.__Image.Img_Place(x, y, self.__info.get_TKimg(), Grid='No', tag=ID)
+			self.__iNode.Img_Place(x, y, self.__info.get_TKimg(), Grid='No', tag=ID)
 			self.__info.set_Coords(Coords=(x, y))
 
 			Canvas_ID = Image_Node.Render.find_withtag(ID)[0] #finds my canvas ID numb.

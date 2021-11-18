@@ -3,62 +3,66 @@ from .all_projectile import Projectiles
 from .arrow_info import Arrow_Info
 
 class Arrow_Main(Projectiles):
-	def __init__(self):
+	def __init__(self, iNode, cLogic, cNode, kNode, itemCount):
 		self.__info 	= Arrow_Info()
-		self.__ID 		= self.__info.get_ID()
+		self.__iNode	= iNode
+		self.__cLogic	= cLogic
+		self.__cNode 	= cNode
+		self.__kNode	= kNode
+		self.__ID 		= "P#A00"+str(itemCount)
 		self.__group_ID = self.__info.get_group_ID()
 		self.__Direction = None
 
-		self.__itemCount = 0
+		#potential removal
 		self.__isActive  = False
+		self.__count	 = 0
 
 	def Arrow_setUP(self):
 		#img setup
-		Img_info = self.get_iNode().Img_Add('z_Pictures/arrowmaybe.png')
+		self.__info.set_ID(self.__ID)
+		Img_info = self.__iNode.Img_Add('z_Pictures/arrowmaybe.png')
 		self.__info.Image_Data(Size=Img_info[1], PIL_img=Img_info[0], TK_img=Img_info[2], file_Location='z_Pictures/arrowmaybe.png')
 
 
-	def use_Arrow(self, x, y, direction, dmgMod):
+	def use(self, x, y, direction, dmgMod):
 		self.Arrow_setUP()
-		if self.__isActive == False:
-			self.get_iNode().Img_Place(x, y, self.__info.get_TKimg(), Grid='No', tag=self.__ID)
-			self.__isActive = True
+		self.__iNode.Img_Place(x, y, self.__info.get_TKimg(), Grid='No', tag=self.__ID)
+		self.__isActive = True
 
-			#final half of Arrow_setUP
-			Canvas_ID = Image_Node.Render.find_withtag(self.__ID)[0] #finds my canvas ID numb.
+		#final half of Arrow_setUP
+		Canvas_ID = Image_Node.Render.find_withtag(self.__ID)[0] #finds my canvas ID numb.
 
-			self.__info.set_Canvas_ID(Canvas_ID)
-			self.__info.Arrow_Data(attack=2+dmgMod, Coords=(x, y)) #check arrow_info for well info.
-			self.__info.set_Corners(Image_Node.Render.bbox(Canvas_ID))
-			Image_Node.Render.addtag_withtag(self.__group_ID, Canvas_ID)
+		self.__info.set_Canvas_ID(Canvas_ID)
+		self.__info.Arrow_Data(attack=2+dmgMod, Coords=(x, y)) #check arrow_info for well info.
+		self.__info.set_Corners(Image_Node.Render.bbox(Canvas_ID))
+		Image_Node.Render.addtag_withtag(self.__group_ID, Canvas_ID)
 
-			#arrow move
-			self.__Direction = direction
-			self.__itemCount += 1
+		#arrow move
+		self.__Direction = direction
 
 	def isActive(self):
 		# print('hello"')
 		if self.__Direction == 'up':
-			new_Coords = self.get_kNode().kinetics(self.__info.get_Coords(), self.__ID, 'up')
+			new_Coords = self.__kNode.kinetics(self.__info.get_Coords(), self.__ID, 'up')
 			self.__info.set_Coords(new_Coords)
 			self.__info.set_Corners(Image_Node.Render.bbox(self.__info.get_ID()))
 		elif self.__Direction == 'down':
-			new_Coords = self.get_kNode().kinetics(self.__info.get_Coords(), self.__ID, 'down')
+			new_Coords = self.__kNode.kinetics(self.__info.get_Coords(), self.__ID, 'down')
 			self.__info.set_Coords(new_Coords)
 			self.__info.set_Corners(Image_Node.Render.bbox(self.__info.get_ID()))
 		elif self.__Direction == 'left':
-			new_Coords = self.get_kNode().kinetics(self.__info.get_Coords(), self.__ID, 'left')
+			new_Coords = self.__kNode.kinetics(self.__info.get_Coords(), self.__ID, 'left')
 			self.__info.set_Coords(new_Coords)
 			self.__info.set_Corners(Image_Node.Render.bbox(self.__info.get_ID()))
 		elif self.__Direction == 'right':
-			new_Coords = self.get_kNode().kinetics(self.__info.get_Coords(), self.__ID, 'right')
+			new_Coords = self.__kNode.kinetics(self.__info.get_Coords(), self.__ID, 'right')
 			self.__info.set_Coords(new_Coords)
 			self.__info.set_Corners(Image_Node.Render.bbox(self.__info.get_ID()))
 
 	def del_Proj(self):
+		self.__isActive  = False
 		Image_Node.Render.delete(self.__info.get_canvasID())
-		self.__isActive = False
-		self.__itemCount -= 1
+		self.__cLogic.delColDict(tagOrId=self.__ID)
 
 
 	"""#|--------------Getters--------------|#"""
@@ -66,11 +70,17 @@ class Arrow_Main(Projectiles):
 	def get_Corners(self):
 		return self.__info.get_Corners()
 
+	def get_Coords(self):
+		return self.__info.get_Coords()
+
+	def get_size(self):
+		return self.__info.get_size()
+
 	def get_ID(self):
-		return self.__info.get_ID()
+		return self.__ID
 
 	def get_group_ID(self):
-		return self.__info.get_group_ID()
+		return self.__group_ID
 
 	def get_itemCount(self):
 		return self.__itemCount

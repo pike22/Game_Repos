@@ -20,16 +20,15 @@ class Alpha():
 
 			#_Stalfos_#
 		self.__stalfosRoster = []
-		self.__stalfosCount  = 1
+		self.__stalfosCount  = 2
 
 
 		'''#_Weapon Parameters_#'''
 		self.__weaponRoster	= ["#sword", "#bow", ]
 		self.__projRoster	= ['#arrow', ]
-		self.__projDict		= {}
 
 		'''#_Static Parameters_#'''
-		self.__staticRoster = ['#Wall']
+		self.__staticRoster = ['#wall', ]
 
 		#collision logic v2.
 		self.__Collision_Logic = Collision_Logic()
@@ -39,28 +38,28 @@ class Alpha():
 		self.__mainApp		= Tk()
 		self.__Node 		= Node()
 		self.__Timer		= Timer_Node(self.__mainApp)
-		self.__Image		= Image_Node() #calls to other classes called need self.Img_Node
-		self.__Kinetics		= Kinetics_Node(self.__Image)
+		self.__iNode		= Image_Node() #calls to other classes called need self.Img_Node
+		self.__Kinetics		= Kinetics_Node(self.__iNode)
 		self.__Entities		= All_Entities()
 		self.__Projectiles  = Projectiles()
-		self.__Player		= Player_Main(self.__Image, self.__Kinetics)
-		self.__Sword		= Sword_Main(self.__Image, self.__Collision_Logic)
-		self.__Wall 		= Wall_Main(self.__Image, self.__Collision_Logic)
-		self.__Bow			= Bow_Main(self.__Image, self.__Collision_Logic, self.__Collision_Node)
+		self.__Player		= Player_Main(self.__iNode, self.__Kinetics)
+		self.__Sword		= Sword_Main(self.__iNode, self.__Collision_Logic)
+		self.__Wall 		= Wall_Main(self.__iNode, self.__Collision_Logic)
+		self.__Bow			= Bow_Main(self.__iNode, self.__Collision_Logic, self.__Collision_Node, self.__Kinetics)
 
 		#yes
 		self.__Entities.set_mainApp(self.__mainApp)
-		self.__Projectiles.set_Nodes(self.__Image, self.__Kinetics, self.__Collision_Logic)
+		self.__Projectiles.set_Nodes(self.__iNode, self.__Kinetics, self.__Collision_Logic)
 
 
 
 		#_#Collision SETUP#_#
 		"""Entities"""
 		#player
-		self.__Collision_Logic.add_Col_Dict(tagOrId=self.__Player.get_ID(), obj=self.__Player)
+		self.__Collision_Logic.addColDict(tagOrId=self.__Player.get_ID(), obj=self.__Player)
 
 		#Static Entities
-		self.__Collision_Logic.add_Col_Dict(tagOrId=self.__Wall.get_ID(), obj=self.__Wall)
+		self.__Collision_Logic.addColDict(tagOrId=self.__Wall.get_ID(), obj=self.__Wall)
 		self.__Collision_Node.set_staticRoster(self.__staticRoster)
 
 		#Stalfos collision setup
@@ -70,20 +69,22 @@ class Alpha():
 			elif item >= 10 and item < 100:
 				ID = "S#0" + str(item)
 			self.__stalfosRoster.append(ID)
-			stalMain = Stalfos_Main(self.__Image, self.__Collision_Logic, self.__Kinetics, ID=ID)
-			self.__Collision_Logic.add_Col_Dict(tagOrId=ID, obj=stalMain)
+			stalMain = Stalfos_Main(self.__iNode, self.__Collision_Logic, self.__Kinetics, ID=ID)
+			self.__Collision_Logic.addColDict(tagOrId=ID, obj=stalMain)
 		self.__Collision_Node.set_stalfosRoster(self.__stalfosRoster)
 		self.__Collision_Node.set_enemyRoster(self.__enemyRoster)
 
 		"""Items"""
-		self.__Collision_Logic.add_Col_Dict(self.__Sword.get_ID(), self.__Sword)
-		self.__Collision_Logic.add_Col_Dict(self.__Bow.get_ID(), self.__Bow)
+		self.__Collision_Logic.addColDict(self.__Sword.get_ID(), self.__Sword)
+		self.__Collision_Logic.addColDict(self.__Bow.get_ID(), self.__Bow)
 		self.__Collision_Node.set_weaponRoster(self.__weaponRoster)
 
 		"""Projectiles"""
-		#this gets handled inside of the Bow_Main
-		# self.__Collision_Logic.add_Col_Dict(self.__projDict['#arrow'].get_ID(), self.__projDict['#arrow'])
+		#A func created in collision logic will set up projectiles, and that func will get
+		#called inside of the class that uses the projectile.
+		#this remains
 		self.__Collision_Node.set_projRoster(self.__projRoster)
+
 
 
 		#temp val
@@ -96,7 +97,7 @@ class Alpha():
 		self.__mainApp.geometry(str(self.__Sc_Width) + 'x' + str(self.__Sc_Height))
 
 	def set_MainCanvas(self): #Set Renders HERE
-		self.__Image.Create_Canvas(self.__mainApp, self.__Sc_Height, self.__Sc_Width)
+		self.__iNode.Create_Canvas(self.__mainApp, self.__Sc_Height, self.__Sc_Width)
 
 
 	def close_window(self): #putting this on HOLD
@@ -121,17 +122,11 @@ class Alpha():
 				r_Stal.stalfos_setUP(self.__Sc_Width, self.__Sc_Height)
 				# r_Stal.Stalfos_Print()
 
-		#__Border Walls__#
-		# for now wall is substituted with Sword2.png
-		# self.__Wall.wall_setUP(x=5, y=5)
+		#__Statics SETUP__#
 		self.__Wall.wall_setUP(x=300, y=300, Grid='No')
 
 
-
 		#_Weapon SETUP_#
-		self.__projDict['#arrow'] = Arrow_Main()
-		self.__projDict['#arrow'].copy_Node(self.__Projectiles)
-		self.__Bow.set_ammo(self.__projDict['#arrow'])
 
 		#_CLOCK SETUP_#
 		self.__Timer.GameClock()
@@ -182,17 +177,19 @@ class Alpha():
 
 		#only one Player should be here (IGNORE MULTIPLAYER)
 		list1 = []
-		list1 = [self.__Wall.get_Corners(), self.__Player.get_Corners()]
+		list1 = [self.__Player.get_Corners(), self.__Wall.get_Corners()]
 		for item in range(len(self.__stalfosRoster)):
-			c_Stal = self.__Collision_Logic.tag_to_obj(self.__stalfosRoster[item]) #c_Stal == stalfos obj
+			c_Stal = self.__Collision_Logic.tagToObj(self.__stalfosRoster[item]) #c_Stal == stalfos obj
 			list1.append(c_Stal.get_Corners())
 
 		if self.__Sword.get_isActive() == True:
 			list1.append(self.__Sword.get_Corners())
 		if self.__Bow.get_isActive() == True:
 			list1.append(self.__Bow.get_Corners())
-		if self.__projDict['#arrow'].get_isActive() == True:
-			list1.append(self.__projDict['#arrow'].get_Corners())
+		for item in range(len(self.__Bow.get_projID())):
+			# print(self.__Bow.get_projID(item), 'proj ID, A#189')
+			if self.__Bow.get_projActive(item) == True:
+				list1.append(self.__Bow.get_projCorners(item))
 
 		self.__Collision_Node.use_Collision(list1, len(list1))
 
@@ -205,8 +202,9 @@ class Alpha():
 		if self.__Bow.get_isActive() == True:
 			self.__Bow.Weapon_Active()
 
-		if self.__Bow.get_projActive() == True:
-			self.__Bow.proj_Active()
+		for item in range(len(self.__Bow.get_projID())):
+			if self.__Bow.get_projActive(item) == True:
+				self.__Bow.proj_Active(item)
 
 		if self.__Player.get_isHit() == True:
 			self.__Player.reset_hit()

@@ -11,23 +11,26 @@ class Collision_Logic():
 	'''#_COLLISION DICTIONARY FUNCTIONS_#'''
 	#tagOrId == dictionary key
 	#object == The keys related class object
-	def add_Col_Dict(self, tagOrId, obj):
+	def addColDict(self, tagOrId, obj):
 		self.__Col_Dict[tagOrId] = obj
 
-	def del_Col_Dict(self, tagOrId):
+	def delColDict(self, tagOrId):
 		del self.__Col_Dict[tagOrId]
 
-	def tag_to_obj(self, tagOrId):
+	def tagToObj(self, tagOrId):
 		#output == tag's object
 		output = self.__Col_Dict[tagOrId]
 		return output
 
-	def obj_to_tag(self, obj):
+	def objToTag(self, obj):
 		for key, object in self.__Col_Dict.items():
 			if obj == object:
 				return key
 
-	def print_Col_Dict(self):
+	def listOfKeys(self):
+		return self.__Col_Dict.keys()
+
+	def printColDict(self):
 		print('Current Collision Dict', self.__Col_Dict)
 
 	'''#_COLLISON CALCULATION FUNCTIONS_#'''
@@ -44,10 +47,9 @@ class Collision_Logic():
 	#use this: .find_overlapping
 	# only outputs the last assigned var.
 	def Is_Collision(self, item):
-		self.__collision = []
-		# self.__obj_list  = []
 		if item == 0:
-			self.__obj_list = []
+			self.__collision = []
+			self.__obj_list	 = []
 
 
 		x1, y1, x2, y2 = self.__Corners[item]
@@ -56,10 +58,11 @@ class Collision_Logic():
 		#this only shows what is colliding.
 		if len(collision) > 1:
 			for item in range(len(collision)):
-				print('item:', item, 'CL#59')
+				# print('item:', item, 'CL#59')
 				tag = Image_Node.Render.gettags(collision[item])
-				print(tag, 'tag CL#61')
-				self.__collision.append(tag[0]) #item 0 is the entity_ID, 1 == group_ID
+				# print(tag, 'tag CL#61')
+				if self.__collision == [] or len(self.__collision) == 1:
+					self.__collision.append(tag[0]) #item 0 is the entity_ID, 1 == group_ID
 			# print(self.__collision, 'Colliding') #print Tags of Entity Colliding
 
 			for item in range(len(self.__collision)):
@@ -67,7 +70,8 @@ class Collision_Logic():
 				obj		= self.__Col_Dict[tagOrId]
 				# print(obj, 'obj')
 				# print(tagOrId, 'tag')
-				self.__obj_list.append(obj)
+				if self.__obj_list == [] or len(self.__obj_list) == 1:
+					self.__obj_list.append(obj)
 
 			self.__isCollision = True
 			print(self.__obj_list, 'objList')
@@ -96,18 +100,37 @@ class Collision_Logic():
 		xB, yB = objB.get_Coords()
 		height_B, width_B = objB.get_size()
 
-		if xA >= xB+(width_B*(9/10)):
-			# print('right')
-			return 'right'
-		if xA <= xB-(0.5*width_A):
-			# print('left')
-			return 'left'
-		if yA <= yB:
-			# print('top')
-			return 'top'
-		if yB+height_B >= yA:
-			# print('bottom')
-			return 'bottom'
+		"""Objects Area"""
+		areaA = height_A * width_A
+		areaB = height_B * width_B
+
+		if areaA >= 5000 or areaB >= 5000: #this may need ajustments as we go
+			if xA >= xB+(width_B*(9/10)):
+				# print('right')
+				return 'right'
+			if xA <= xB-(0.5*width_A):
+				# print('left')
+				return 'left'
+			if yA <= yB:
+				# print('top')
+				return 'top'
+			if yB+height_B >= yA:
+				# print('bottom')
+				return 'bottom'
+		else:
+			if yA+(height_A*(3/4)) <= yB:
+				# print('top')
+				return 'top'
+			elif (yB+height_B) <= yA:
+				# print('bottom')
+				return 'bottom'
+			else:
+				if xA > xB:
+					# print('right')
+					return 'right'
+				elif xA < xB:
+					# print('left')
+					return 'left'
 
 
 	"""|--------------Getters--------------|#"""

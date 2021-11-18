@@ -11,11 +11,11 @@ class Stalfos_Main(Enemy_Main):
 		Enemy_Main.__init__(self)
 		#iNode == Image_Node
 		#clNode == Collision_Node
-		self.__Collision_Logic = clNode
-		self.__Kinetics		= kNode
-		self.__Image	 	= iNode
-		self.__info	 		= Stalfos_Info(ID)
-		self.__rand 		= random
+		self.__cLogic = clNode
+		self.__kNode  = kNode
+		self.__iNode  = iNode
+		self.__info	  = Stalfos_Info(ID)
+		self.__rand   = random
 
 		#----Active Parameters----#
 		self.__GameTime	  = 0
@@ -36,7 +36,7 @@ class Stalfos_Main(Enemy_Main):
 	def stalfos_setUP(self, Sc_Width, Sc_Height):
 		#img setup
 		ID = self.__info.get_ID()
-		Img_info = self.__Image.Img_Add('z_Pictures/RedBoy2.png')
+		Img_info = self.__iNode.Img_Add('z_Pictures/RedBoy2.png')
 		self.__info.Image_Data(Size=Img_info[1], PIL_img=Img_info[0], TK_img=Img_info[2], file_Location='z_Pictures/RedBoy2.png')
 
 		#placing the img
@@ -45,14 +45,14 @@ class Stalfos_Main(Enemy_Main):
 		x, y = self.__info.get_size()
 		self.__x = int(self.__rand.randint((25+x), Sc_Width-(25+x)))
 		self.__y = int(self.__rand.randint((25+y), Sc_Height-(25+y)))
-		img_coords = self.__Image.Img_Place(x=self.__x, y=self.__y, image=self.__info.get_TKimg(), Grid='no', tag=ID)
+		img_coords = self.__iNode.Img_Place(x=self.__x, y=self.__y, image=self.__info.get_TKimg(), Grid='no', tag=ID)
 
 		#final set of information save to stalfos
 		Canvas_ID = Image_Node.Render.find_withtag(ID)[0] #finds my canvas ID numb.
 		Coords = img_coords[Canvas_ID-1]
 		self.__info.set_Canvas_ID(Canvas_ID)
 		self.__info.Stalfos_Data(Coords=Coords, Speed=5, health=10, defense=5, attack=2) #check stalfos_info for, well info.
-		self.__Kinetics.set_Speed(self.__info.get_Speed())
+		self.__kNode.set_Speed(self.__info.get_Speed())
 		Image_Node.Render.addtag_withtag(self.__info.get_group_ID(), Canvas_ID)
 		self.__info.set_Corners(Image_Node.Render.bbox(Canvas_ID))
 
@@ -85,25 +85,25 @@ class Stalfos_Main(Enemy_Main):
 
 		if self.__randNum == 0:
 			direction = "up"
-			new_Coords = self.__Kinetics.kinetics(self.__info.get_Coords(), self.__info.get_ID(), direction)#, neg=False)
+			new_Coords = self.__kNode.kinetics(self.__info.get_Coords(), self.__info.get_ID(), direction)#, neg=False)
 			self.__info.set_Coords(new_Coords)
 			self.__info.set_Corners(Image_Node.Render.bbox(self.__info.get_ID()))
 			self.__isMoving = True
 		elif self.__randNum == 1:
 			direction = "right"
-			new_Coords = self.__Kinetics.kinetics(self.__info.get_Coords(), self.__info.get_ID(), direction)#, neg=False)
+			new_Coords = self.__kNode.kinetics(self.__info.get_Coords(), self.__info.get_ID(), direction)#, neg=False)
 			self.__info.set_Coords(new_Coords)
 			self.__info.set_Corners(Image_Node.Render.bbox(self.__info.get_ID()))
 			self.__isMoving = True
 		elif self.__randNum == 2:
 			direction = "down"
-			new_Coords = self.__Kinetics.kinetics(self.__info.get_Coords(), self.__info.get_ID(), direction)#, neg=False)
+			new_Coords = self.__kNode.kinetics(self.__info.get_Coords(), self.__info.get_ID(), direction)#, neg=False)
 			self.__info.set_Coords(new_Coords)
 			self.__info.set_Corners(Image_Node.Render.bbox(self.__info.get_ID()))
 			self.__isMoving = True
 		elif self.__randNum == 3:
 			direction = "left"
-			new_Coords = self.__Kinetics.kinetics(self.__info.get_Coords(), self.__info.get_ID(), direction)#, neg=False)
+			new_Coords = self.__kNode.kinetics(self.__info.get_Coords(), self.__info.get_ID(), direction)#, neg=False)
 			self.__info.set_Coords(new_Coords)
 			self.__info.set_Corners(Image_Node.Render.bbox(self.__info.get_ID()))
 			self.__isMoving = True
@@ -185,4 +185,4 @@ class Stalfos_Main(Enemy_Main):
 	"""#|--------------Setters--------------|#"""
 		#this is where a list of setters will go...
 	def set_Collision_Logic(self, Logic):
-		self.__Collision_Logic = Logic
+		self.__cLogic = Logic
