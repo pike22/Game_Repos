@@ -57,8 +57,8 @@ class Image_Node(Node):
 			self.__PlaceCOR_List.append((img_x, img_y))
 			return self.__PlaceCOR_List
 
-	def Create_Canvas(self, mainApp, height, width):
-		Image_Node.Render = Canvas(mainApp, height=height, width=width, bg="Blue")
+	def Create_Canvas(self, mainApp, height, width, color='Blue'):
+		Image_Node.Render = Canvas(mainApp, height=height, width=width, bg=str(color))
 		Image_Node.Render.grid(row=0, column=0)
 		Image_Node.Render.grid_propagate(0)
 

@@ -5,14 +5,13 @@ from tkinter import *
 from Weapons import *
 from Engine import *
 from Entity import *
-import keyboard #here for testing reasons
+import keyboard
 
 class Alpha():
 	def __init__(self):
 		self.__Sc_Width	 = 992
 		self.__Sc_Height = 608
-		self.__version	 = "(Stab Simulator) BETAv.1.1"
-		self.__listTags  = None
+		self.__version	 = "Stab Simulator [BETAv.1.1]"
 
 		#this will be a growing list of group tags. It is hard set to refer here for spacific groups
 		'''#_Enemy Variables_#''' #include a list of tags for each enemy
@@ -31,36 +30,36 @@ class Alpha():
 		self.__staticRoster = ['#wall', ]
 
 		#collision logic v2.
-		self.__Collision_Logic = Collision_Logic()
-		self.__Collision_Node  = Collision_Node(self.__Collision_Logic)
+		self.__cLogic = Collision_Logic()
+		self.__cNode  = Collision_Node(self.__cLogic)
 
 		#below is class Calling
 		self.__mainApp		= Tk()
 		self.__Node 		= Node()
-		self.__Timer		= Timer_Node(self.__mainApp)
+		self.__tNode		= Timer_Node(self.__mainApp)
 		self.__iNode		= Image_Node() #calls to other classes called need self.Img_Node
-		self.__Kinetics		= Kinetics_Node(self.__iNode)
+		self.__kNode		= Kinetics_Node(self.__iNode)
 		self.__Entities		= All_Entities()
 		self.__Projectiles  = Projectiles()
-		self.__Player		= Player_Main(self.__iNode, self.__Kinetics)
-		self.__Sword		= Sword_Main(self.__iNode, self.__Collision_Logic)
-		self.__Wall 		= Wall_Main(self.__iNode, self.__Collision_Logic)
-		self.__Bow			= Bow_Main(self.__iNode, self.__Collision_Logic, self.__Collision_Node, self.__Kinetics)
+		self.__Player		= Player_Main(self.__iNode, self.__kNode)
+		self.__Sword		= Sword_Main(self.__iNode, self.__cLogic)
+		self.__Wall 		= Wall_Main(self.__iNode, self.__cLogic)
+		self.__Bow			= Bow_Main(self.__iNode, self.__cLogic, self.__cNode, self.__kNode)
 
 		#yes
 		self.__Entities.set_mainApp(self.__mainApp)
-		self.__Projectiles.set_Nodes(self.__iNode, self.__Kinetics, self.__Collision_Logic)
+		self.__Projectiles.set_Nodes(self.__iNode, self.__kNode, self.__cLogic)
 
 
 
 		#_#Collision SETUP#_#
 		"""Entities"""
 		#player
-		self.__Collision_Logic.addColDict(tagOrId=self.__Player.get_ID(), obj=self.__Player)
+		self.__cLogic.addColDict(tagOrId=self.__Player.get_ID(), obj=self.__Player)
 
 		#Static Entities
-		self.__Collision_Logic.addColDict(tagOrId=self.__Wall.get_ID(), obj=self.__Wall)
-		self.__Collision_Node.set_staticRoster(self.__staticRoster)
+		self.__cLogic.addColDict(tagOrId=self.__Wall.get_ID(), obj=self.__Wall)
+		self.__cNode.set_staticRoster(self.__staticRoster)
 
 		#Stalfos collision setup
 		for item in range(self.__stalfosCount):
@@ -69,21 +68,21 @@ class Alpha():
 			elif item >= 10 and item < 100:
 				ID = "S#0" + str(item)
 			self.__stalfosRoster.append(ID)
-			stalMain = Stalfos_Main(self.__iNode, self.__Collision_Logic, self.__Kinetics, ID=ID)
-			self.__Collision_Logic.addColDict(tagOrId=ID, obj=stalMain)
-		self.__Collision_Node.set_stalfosRoster(self.__stalfosRoster)
-		self.__Collision_Node.set_enemyRoster(self.__enemyRoster)
+			stalMain = Stalfos_Main(self.__iNode, self.__cLogic, self.__kNode, ID=ID)
+			self.__cLogic.addColDict(tagOrId=ID, obj=stalMain)
+		self.__cNode.set_stalfosRoster(self.__stalfosRoster)
+		self.__cNode.set_enemyRoster(self.__enemyRoster)
 
 		"""Items"""
-		self.__Collision_Logic.addColDict(self.__Sword.get_ID(), self.__Sword)
-		self.__Collision_Logic.addColDict(self.__Bow.get_ID(), self.__Bow)
-		self.__Collision_Node.set_weaponRoster(self.__weaponRoster)
+		self.__cLogic.addColDict(self.__Sword.get_ID(), self.__Sword)
+		self.__cLogic.addColDict(self.__Bow.get_ID(), self.__Bow)
+		self.__cNode.set_weaponRoster(self.__weaponRoster)
 
 		"""Projectiles"""
 		#A func created in collision logic will set up projectiles, and that func will get
 		#called inside of the class that uses the projectile.
 		#this remains
-		self.__Collision_Node.set_projRoster(self.__projRoster)
+		self.__cNode.set_projRoster(self.__projRoster)
 
 
 
@@ -115,7 +114,7 @@ class Alpha():
 		self.__Player.set_Weapons(sword=self.__Sword, bow=self.__Bow, )
 
 		#__ENEMY Setup__#
-		COLDICT = self.__Collision_Logic.get_Col_Dict()
+		COLDICT = self.__cLogic.get_Col_Dict()
 		for item in range(len(self.__stalfosRoster)):
 			if self.__stalfosRoster[item] in COLDICT.keys():
 				r_Stal = COLDICT[self.__stalfosRoster[item]]
@@ -129,7 +128,7 @@ class Alpha():
 		#_Weapon SETUP_#
 
 		#_CLOCK SETUP_#
-		self.__Timer.GameClock()
+		self.__tNode.GameClock()
 
 
 	#gameLoop def is for the classes use.
@@ -149,7 +148,7 @@ class Alpha():
 		if self.__Player.get_isAlive() == True:
 			self.__Player.Player_MAttack()
 			self.__Player.Player_RAttack()
-			self.__Collision_Logic.ForT_Collision(self.__Player)
+			self.__cLogic.ForT_Collision(self.__Player)
 			if self.__Player.Player_MAttack() == False and self.__Player.Player_RAttack() == False:
 				self.__Player.Movement_Controll()
 			else:
@@ -161,7 +160,7 @@ class Alpha():
 			pass
 
 			#_STALFOS_#
-		Col_Dict = self.__Collision_Logic.get_Col_Dict()
+		Col_Dict = self.__cLogic.get_Col_Dict()
 		for item in range(len(self.__stalfosRoster)):
 			stalfos = Col_Dict[self.__stalfosRoster[item]]
 			if stalfos.get_isAlive() == True:
@@ -179,7 +178,7 @@ class Alpha():
 		list1 = []
 		list1 = [self.__Player.get_Corners(), self.__Wall.get_Corners()]
 		for item in range(len(self.__stalfosRoster)):
-			c_Stal = self.__Collision_Logic.tagToObj(self.__stalfosRoster[item]) #c_Stal == stalfos obj
+			c_Stal = self.__cLogic.tagToObj(self.__stalfosRoster[item]) #c_Stal == stalfos obj
 			list1.append(c_Stal.get_Corners())
 
 		if self.__Sword.get_isActive() == True:
@@ -191,7 +190,7 @@ class Alpha():
 			if self.__Bow.get_projActive(item) == True:
 				list1.append(self.__Bow.get_projCorners(item))
 
-		self.__Collision_Node.use_Collision(list1, len(list1))
+		self.__cNode.use_Collision(list1, len(list1))
 
 
 
@@ -209,7 +208,7 @@ class Alpha():
 		if self.__Player.get_isHit() == True:
 			self.__Player.reset_hit()
 
-		Col_Dict = self.__Collision_Logic.get_Col_Dict()
+		Col_Dict = self.__cLogic.get_Col_Dict()
 		for item in range(len(self.__stalfosRoster)):
 			result = Col_Dict[self.__stalfosRoster[item]]
 			if result.get_isHit() == True:
@@ -217,7 +216,7 @@ class Alpha():
 				result.reset_hit()
 
 
-		self.__mainApp.after(int(self.__Timer.get_FPS()), self.gameLoop)
+		self.__mainApp.after(int(self.__tNode.get_FPS()), self.gameLoop)
 
 
 
@@ -248,9 +247,9 @@ class Alpha():
 
 	def debug_Col_Dict(self):
 		if keyboard.is_pressed('t'):
-			self.__Collision_Logic.print_Col_Dict()
-			self.__Collision_Logic.del_Col_Dict(self.__Player.get_ID())
-			self.__Collision_Logic.print_Col_Dict()
+			self.__cLogic.print_Col_Dict()
+			self.__cLogic.del_Col_Dict(self.__Player.get_ID())
+			self.__cLogic.print_Col_Dict()
 
 	#this is a function call for test prints to make sure things work
 	def Testing_Debug(self):
@@ -269,3 +268,6 @@ Game.Testing_Debug()
 print('----------------------------')
 Game.gameLoop()
 Game.get_mainAPP().mainloop()
+print('<------------------------->')
+print('<-----------END----------->')
+print('<------------------------->')

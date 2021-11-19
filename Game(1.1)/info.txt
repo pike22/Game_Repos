@@ -13,7 +13,7 @@ many. If you want to run the code run the alpha.py file.
 	form of 2D game that is based around a dungeon crawler. This may change overtime. I have no name or story in mind yet.
 	This is more due to being to early in game development. Daily updates to Github will be normal.
 	- A summary of weekly events will continue to be added bellow as time moves forward.
-	- A 'Title' of sorts will be added next to the week to give a main idea of what was worked on for that week. 
+	- A 'Title' of sorts will be added next to the week to give a main idea of what was worked on for that week.
 
 
  -09/17/2021 Weeks Summary
@@ -86,3 +86,19 @@ many. If you want to run the code run the alpha.py file.
 	not be able to pass through the said object. That part was easy the next difficult thing was to turn that variable back to false. That itself
 	was a bit more challenging. In reality all I had to do was set up a simple if statement that only happened with everything else was None
 	and had the my_Collision() function called when collision happens and when and all the time during the game loop.
+
+ -11/19/21 Week Summary (Arrow/Bow rework, Collision Rework)
+ 	This week was packed full. I got an average of three hours a day for the project. To start my goal was to be able to fire more than one arrow
+	at one time without breaking anything else. Only for it to not work and break multiple things. At the same time I saw that my collision on the wall
+	worked while the smaller entities like my player and enemies would collide I was running into some problems. The top and left sides of the collision
+	worked fine between smaller objects. It was the bottom and right sides that didn't work properly. This itself was an easy fix, where I just set
+	a minimum size that would use one form of my collision calculation. That made that problem disappear. The bigger fish to fry was that when my player
+	hit the wall he would bounce of and jitter back and forth rather than sticking. My first steps to solving this was to go and isolate what was pushing
+	my collision through. I did this by moving my loops of collision from alpha into my collision node file since it wasn't being used. This brought some
+	bugs that easily got fixed. With some handy python prints I was able to see that my collision results got processed twice when it should only be happening
+	once. To fix this I took the multiple nested for loops that I had and broke them apart so that it didn't loop unnecessary times. While testing this I
+	stopped rendering any enemies this isolated my wall and player. I got my collision working and was like this is awesome. Went and rendered in my
+	stalfos then the wall broke. Through even more python prints I found that as my collision result was getting wiped before it could be used. That got
+	fixed by not clearing the stored value as often. Once all that was said and done the problem that started it all was there loud and proud.
+	END Note: I did a quick 30 minute rewrite on the bow and arrow classes and got it to work with multiple shots fired at once and it worked just
+		it doesn't work with my walls yes. Haven't found out why yet. (seconds later it was fixed, with a simple solution) 

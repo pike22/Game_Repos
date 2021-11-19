@@ -39,9 +39,9 @@ class Collision_Node(Node):
 		"""Col_Dict = self.__logic.get_Col_Dict() #this may not be needed"""
 		if self.__Result != None:
 			for item in range(len(self.__Result)):
-				print('item:', item)
-				print('obj', self.__Result[item])
-				print('--')
+				# print('item:', item)
+				# print('obj', self.__Result[item])
+				# print('--')
 
 				"""#__# PLAYER COL_LOGIC #__#"""
 				if self.__Result[item] == self.__logic.tagToObj('P#001'): #player is always checked first
@@ -77,16 +77,12 @@ class Collision_Node(Node):
 
 				"""#__# STATIC COL_LOGIC #__#"""
 				if self.__Result[item] == self.__logic.tagToObj('W#001'):
-					print('CN #80')
 					if item == len(self.__Result)-1:
 						pass
 					elif item != len(self.__Result)-1:
 						if self.__Result[item+1].get_group_ID() in self.__weaponRoster:
 							print('CLANG!!!!!')
-					elif item != len(self.__Result)-1:
-						print('hell0?')
 						if self.__Result[item+1].get_group_ID() in self.__projRoster:
-							print(self.__Result[item+1], 'Collision Result')
 							self.__Result[item+1].del_Proj()
 		# print('--------------------------------------')
 
