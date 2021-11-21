@@ -20,8 +20,8 @@ class Arrow_Main(Projectiles):
 	def Arrow_setUP(self):
 		#img setup
 		self.__info.set_ID(self.__ID)
-		Img_info = self.__iNode.Img_Add('z_Pictures/arrowmaybe.png')
-		self.__info.Image_Data(Size=Img_info[1], PIL_img=Img_info[0], TK_img=Img_info[2], file_Location='z_Pictures/arrowmaybe.png')
+		Img_info = self.__iNode.Img_Add('z_Pictures/arrow_.png')
+		self.__info.Image_Data(Size=Img_info[1], PIL_img=Img_info[0], TK_img=Img_info[2], file_Location='z_Pictures/arrow_.png')
 
 
 	def use(self, x, y, direction, dmgMod):

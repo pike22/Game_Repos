@@ -5,10 +5,12 @@ from lvlDesigner import *
 from z_Pictures import *
 from colored import fg
 from tkinter import *
+from tkinter import filedialog
 from Weapons import *
 from Engine import *
 from Entity import *
 import keyboard
+import mouse
 
 class Alpha_LVD():
 	def __init__(self, ):
@@ -18,12 +20,13 @@ class Alpha_LVD():
 
 		"""Class Call's"""
 		self.__mainApp	= Tk()
-		self.__GUI		= GUI_Main(self.__mainApp)
+		self.__GUI		= GUI_Main()
 		self.__tNode	= Timer_Node(self.__mainApp)
 		self.__iNode	= Image_Node()
 
 		"""Variables"""
-		self.__frameList = []
+		#Wumpas = None
+		self.__t = 0
 
 
 	def tk_windowSETUP(self):
@@ -40,21 +43,25 @@ class Alpha_LVD():
 	def windowSETUP(self):
 		#Frame Creation
 		# placeHold= self.__GUI.Create_Frame(width=50, height=700, parent=Image_Node.Render, bg='Black')
-		projWindow = self.__GUI.Create_Frame("Project Window", width=1000, height=700, parent=Image_Node.Render, bg='Grey')
-		ImgList	   = self.__GUI.Create_Frame("Imported", width=300, height=700, parent=Image_Node.Render, bg='Grey')
+		projWindow = LabelFrame(Image_Node.Render, text='Project Window', width=1100, height=600, bg='Grey')
+		ImgList	   = LabelFrame(Image_Node.Render, text="Imported", width=250, height=600, bg='Grey')
 
 		#Frame Placement
 		# self.__GUI.Place_Frame(placeHold, 0, 0)
-		self.__GUI.Place_Frame(projWindow, 0, 1)
-		self.__GUI.Place_Frame(ImgList, 0, 2)
+		projWindow.grid(row=0, column=1)
+		ImgList.grid(row=0, column=2)
+
+		for frame in [projWindow, ImgList, ]:
+			frame.grid_propagate(0)
 
 		#Button Creation
-		newfile = self.__GUI.Create_Button("Import", width=4, height=4, parent=ImgList, command=self.__GUI.openFiles())
-		testing = self.__GUI.Create_Button("Import", width=4, height=4, parent=ImgList)
+		Import = Button(Image_Node.Render, text='Import',width=32,height=2, command=lambda:self.__GUI.openFiles(ImgList))
 
 		#Button Placement
-		self.__GUI.Place_Button(newfile, 0, 0)
-		self.__GUI.Place_Button(testing, 0, 1)
+		Import.grid(row=1, column=2)
+
+		for frame in [Import, ]:
+		    frame.grid_propagate(0)
 
 
 
@@ -65,10 +72,10 @@ class Alpha_LVD():
 		#-----------------------#
 		#more will be added soon#
 		#-----------------------#
+		
 
 		#repeats the func after so long
 		self.__mainApp.after(int(self.__tNode.get_FPS()), self.windowLoop)
-		print('<------------------------->')
 
 
 	"""#|--------------Getters--------------|#"""
