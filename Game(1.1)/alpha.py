@@ -9,8 +9,10 @@ import keyboard
 
 class Alpha():
 	def __init__(self):
-		self.__Sc_Width	 = 992
-		self.__Sc_Height = 608
+		# self.__Sc_Width	 = 992
+		# self.__Sc_Height = 608
+		self.__Sc_Width	 = 1280
+		self.__Sc_Height = 800
 		self.__version	 = "Stab Simulator [BETAv.1.1]"
 
 		#this will be a growing list of group tags. It is hard set to refer here for spacific groups
