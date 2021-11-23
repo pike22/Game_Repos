@@ -81,38 +81,59 @@ def changeCursor():
 	top.mainloop()
 
 
-from tkinter import *
-root = Tk()
-canvas = Canvas(root, width=800, height=600)
-canvas.pack()
+# from tkinter import *
+# root = Tk()
+# canvas = Canvas(root, width=800, height=600)
+# canvas.pack()
+#
+# bg = PhotoImage(file="E:\Github\Game_Repos_1\Game(1.1)\z_Pictures\saki.png")
+#
+# mapimg = canvas.create_image(0, 0, image=bg, anchor="nw")
+#
+# gx, gy = 0, 0
+# old_event = None
+# dragged = False
+#
+# def drag(event):
+# 	global dragged, old_event
+# 	old_event = event
+# 	dragged = True
+#
+# def release(event):
+# 	global dragged
+# 	dragged = False
+#
+# def moveimg(event):
+# 	global mapimg, gx, gy, old_event
+# 	if dragged:
+# 		gx, gy = gx + (event.x - old_event.x), gy + (event.y - old_event.y)
+# 		old_event = event
+# 		canvas.coords(mapimg, gx, gy)
+#
+# root.bind("<Button-1>", drag)
+# root.bind("<ButtonRelease-1>", release)
+# root.bind("<Motion>", moveimg)
+# root.mainloop()
 
-bg = PhotoImage(file="E:\Github\Game_Repos_1\Game(1.1)\z_Pictures\saki.png")
+import tkinter as tk
+#shows what widget the mouse is in
+def print_widget_under_mouse(root):
+	x,y = root.winfo_pointerxy()
+	widget = root.winfo_containing(x,y)
+	print("widget:", widget)
+	root.after(1000, print_widget_under_mouse, root)
 
-mapimg = canvas.create_image(0, 0, image=bg, anchor="nw")
+root = tk.Tk()
+label_foo = tk.Label(root, text="Foo", name="label_foo")
+label_bar = tk.Label(root, text="Bar", name="label_bar")
+button = tk.Button(root, text="Button", name="button")
 
-gx, gy = 0, 0
-old_event = None
-dragged = False
+button.pack(side="bottom")
+label_foo.pack(fill="both", expand=True)
+label_bar.pack(fill="both", expand=True)
 
-def drag(event):
-	global dragged, old_event
-	old_event = event
-	dragged = True
+print_widget_under_mouse(root)
 
-def release(event):
-	global dragged
-	dragged = False
-
-def moveimg(event):
-	global mapimg, gx, gy, old_event
-	if dragged:
-		gx, gy = gx + (event.x - old_event.x), gy + (event.y - old_event.y)
-		old_event = event
-		canvas.coords(mapimg, gx, gy)
-
-root.bind("<Button-1>", drag)
-root.bind("<ButtonRelease-1>", release)
-root.bind("<Motion>", moveimg)
 root.mainloop()
 
 

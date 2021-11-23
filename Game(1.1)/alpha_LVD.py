@@ -52,20 +52,20 @@ class Alpha_LVD():
 
 	def windowSETUP(self):
 		"""#__Frame Creation & Placement__#"""
-		self.__projWindow = LabelFrame(Image_Node.Render, text='Project Window', width=1100, height=600, bg=self.__color)
-		self.__ImgList	  = LabelFrame(Image_Node.Render, text="Imported", width=250, height=600, bg=self.__color)
+		# self.__projWindow = LabelFrame(Image_Node.Render, text='Project Window', width=1100, height=600, bg=self.__color)
+		self.__ImgList	  = LabelFrame(self.__mainApp, text="Imported", width=250, height=600, bg=self.__color)
 
-		self.__projWindow.grid(row=0, column=1)
+		# self.__projWindow.grid(row=0, column=1)
 		self.__ImgList.grid(row=0, column=2)
 
-		for frame in [self.__projWindow, self.__ImgList, ]:
+		for frame in [self.__ImgList, ]:#self.__projWindow, ]:
 			frame.grid_propagate(0)
 
 		"""#__event Creation__#"""
-		Image_Node.Render.bind_all(('<Button-1>'), self.__GUI.mousePosition)
+		# self.__mainApp.bind_all(('<Button-1>'), self.__GUI.mousePosition)
 
 		"""#__Button Creation & Placement__#"""
-		self.__Import = Button(Image_Node.Render, text='Import',width=32,height=2, command=lambda:self.__GUI.openFiles(self.__ImgList, self.__projWindow))
+		self.__Import = Button(self.__mainApp, text='Import',width=32,height=2, command=lambda:self.__GUI.openFiles(self.__ImgList))
 
 		self.__Import.grid(row=1, column=2)
 

@@ -5,7 +5,7 @@ from Engine import *
 
 class GUI_Main():
 	def __init__(self, iNode, mainApp, color):
-		self.__ColumnMAX = 2
+		self.__ColumnMAX = 3
 		self.__Column = 0
 		self.__RowMAX = 10
 		self.__Row	  = 1
@@ -16,13 +16,14 @@ class GUI_Main():
 		#random vars
 		self.__Drag = False
 		self.__x, self.__y = 0, 0
+		self.__CURwidget=None
 
 	"""BUTTON PRESS FUNCTIONS"""
-	def openFiles(self, parent, parent2):
+	def openFiles(self, parent):
 		file = filedialog.askopenfilename(title='Picture Import', filetypes=(("PNG", "*.png"), ("All Files", "*.*")))
 
 		image = self.__iNode.Img_Add(file)
-		l1 = Button(parent, image=image[2], bg=self.__color, activebackground=self.__color, command=lambda:self.drag_drop(image[2], parent2))
+		l1 = Button(parent, image=image[2], bg=self.__color, activebackground=self.__color, command=lambda:self.drag_drop(image[2]))
 		l1.image = image #places the img inside the button
 		# print(self.__Row, 'row')
 		# print(self.__Column, 'column')
@@ -33,28 +34,35 @@ class GUI_Main():
 			self.__Column = 0
 			self.__Row	  +=1
 
-
-	def mousePosition(self, event):
+	def mousePosition(self, event): #finds coords & shows them
+		#(event.x, event.y) will always be mouse position
 		print((event.x, event.y), 'mouse coords')
-		self.__x, self.__y = event.x, event.y
 
-	def drag_drop(self, img, parent):
+	def drag_drop(self, pyImg):
 		if self.__Drag == False:
 			self.__Drag = True
-			Image_Node.Render.bind_all(('<Button-1>'), self.mousePosition)
-			img = self.__iNode.Img_Place(self.__x, self.__y, img, Grid='no', LVD='yes', render=parent)
-
-			Image_Node.Render.bind_all(('<Motion>'), lambda event, arg=img: self.moveImg(event, arg))
+			img = self.__iNode.Img_Place(self.__x, self.__y, pyImg, Grid='no', LVD='yes', render=Image_Node.Render)
+			self.__mainApp.bind_all(('<Motion>'), lambda event, arg=(img, pyImg): self.moveImg(event, arg))
 
 		else:
-			self.__TPress = False
-			Image_Node.Render.unbind_all(('<Motion>'))
+			self.__Drag = False
+			self.__mainApp.unbind_all(('<Motion>'))
 			print('no more')
 
 	def moveImg(self, event, img_ID):
-		print((event.x, event.y))
+		# print((event.x, event.y))
+		self.find_Widget()
+		if self.__CURwidget == Image_Node.Render:
 
-		Image_Node.Render.coords(img_ID, event.x, event.y)
+			Image_Node.Render.coords(img_ID[0], event.x, event.y)
+			self.__mainApp.bind_all(('<Button-1>'), lambda event, arg=img_ID[1]: self.placeImg(event, arg))
+		else:
+			self.__mainApp.unbind_all(('<Button-1>'))
 
-	def placeHold(self):
-		print('Place Holding')
+	def find_Widget(self):
+	    x,y = self.__mainApp.winfo_pointerxy()
+	    self.__CURwidget = self.__mainApp.winfo_containing(x,y)
+
+
+	def placeImg(self, event, img):
+		self.__iNode.Img_Place(event.x, event.y, img, Grid='no')

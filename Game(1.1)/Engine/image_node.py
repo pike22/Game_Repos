@@ -10,8 +10,8 @@ class Image_Node(Node):
 		self.__gridSizeX = 64
 		self.__gridSizeY = 64
 		self.__Img_list  = [] #0 = PIL_img | #1 = size | #2 = TK_img
-		self.__PlaceIMG_List	= [] # 'item' = Canvas ID for 'item'
-		self.__PlaceCOR_List	= [] # 'item' = Cordanate Tuple for 'item' (x, y)
+		self.__PlaceIMG_List = [] # 'item' = Canvas ID for 'item'
+		self.__PlaceCOR_List = [] # 'item' = Cordanate Tuple for 'item' (x, y)
 		self.__PlaveCOR  = None #this will replace the list varient
 
 	def Img_Add(self, img_Location):
@@ -28,10 +28,12 @@ class Image_Node(Node):
 		## NOTE: self.Img_list is PIL, size, TK image in order of 0, 1, 2
 		return self.__Img_list
 
+	def Img_Del(self, img):
+		Image_Node.delete(img)
+
 	def Img_Place(self, x, y, image, Grid='yes', LVD='no', tag=None, render=None): # !!returns a tuple!!
 		if Grid == "yes":
 			if render == None:
-				render = Image_Node.Render
 				#x & y are grid coords not percise coords
 				# each grid incrament is by 64.
 				img_x = (x - 0.5) * self.__gridSizeX
@@ -40,7 +42,7 @@ class Image_Node(Node):
 
 				#print('3:', image)
 				#print("coords", img_x, img_y)
-				Canvas_ID = render.create_image((img_x, img_y), image=image,anchor="nw")
+				Canvas_ID = Image_Node.Render.create_image((img_x, img_y), image=image,anchor="nw")
 				if tag != None:
 					Image_Node.Render.addtag_withtag(tag, Canvas_ID)
 				self.__PlaceIMG_List.append(Canvas_ID)
@@ -63,13 +65,12 @@ class Image_Node(Node):
 
 		elif Grid != 'yes': #this is if I want to use spacific coords for placement.
 			if render == None:
-				render = Image_Node.Render
 				img_x = x
 				img_y = y
 
 				#print('3:', image)
 				#print("coords", img_x,',', img_y)
-				Canvas_ID = render.create_image((img_x, img_y), image=image,anchor="nw")
+				Canvas_ID = Image_Node.Render.create_image((img_x, img_y), image=image,anchor="nw")
 				if tag != None:
 					Image_Node.Render.addtag_withtag(tag, Canvas_ID)
 				self.__PlaceIMG_List.append(Canvas_ID)
@@ -78,7 +79,7 @@ class Image_Node(Node):
 
 	def Create_Canvas(self, mainApp, height, width, color='Blue'):
 		Image_Node.Render = Canvas(mainApp, height=height, width=width, bg=str(color))
-		Image_Node.Render.grid(row=0, column=0)
+		Image_Node.Render.grid(row=0, column=0, rowspan=10)
 		Image_Node.Render.grid_propagate(0)
 
 	#def Img_Render(self):
