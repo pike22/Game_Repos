@@ -24,7 +24,8 @@ class Alpha_LVD():
 		self.__mainApp	= Tk()
 		self.__tNode	= Timer_Node(self.__mainApp)
 		self.__iNode	= Image_Node()
-		self.__GUI		= GUI_Main(self.__iNode, self.__mainApp, self.__color)
+		self.__kNode	= Kinetics_Node(self.__iNode)
+		self.__GUI		= GUI_Main(self.__iNode, self.__kNode, self.__mainApp, self.__color)
 
 		"""Widget Names"""
 		#frames

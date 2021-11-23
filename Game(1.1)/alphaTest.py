@@ -45,20 +45,20 @@ class SimpleApp(object):
         master.after(1, self.process_next_frame)
 
     def draw(self):
-        image = Image.open(self.filename)
-        angle = 0
-        print(self.process_next_frame)
-        while True:
+		image = Image.open(self.filename)
+		angle = 0
+		print(self.process_next_frame)
+		while True:
 			#"""!!__HERE__!!"""
-            tkimage = ImageTk.PhotoImage(image.rotate(angle)) #"""!!__HERE__!!"""
+			tkimage = ImageTk.PhotoImage(image.rotate(angle)) #"""!!__HERE__!!"""
 			# ^^The above line is the basis of img rotation, use this to further better combat graphics
-            canvas_obj = self.canvas.create_image(250, 250, image=tkimage)
-            self.master.after_idle(self.process_next_frame)
-            yield
-            self.canvas.delete(canvas_obj)
-            angle += 1
-            angle %= 360
-            time.sleep(0.002)
+			canvas_obj = self.canvas.create_image(250, 250, image=tkimage)
+			self.master.after_idle(self.process_next_frame)
+			yield
+			self.canvas.delete(canvas_obj)
+			angle += 1
+			angle %= 360
+			time.sleep(0.002)
 
 def rotateImg():
 	root = tkinter.Tk()

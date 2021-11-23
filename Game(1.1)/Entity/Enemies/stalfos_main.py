@@ -45,11 +45,11 @@ class Stalfos_Main(Enemy_Main):
 		x, y = self.__info.get_size()
 		self.__x = int(self.__rand.randint((25+x), Sc_Width-(25+x)))
 		self.__y = int(self.__rand.randint((25+y), Sc_Height-(25+y)))
-		img_coords = self.__iNode.Img_Place(x=self.__x, y=self.__y, image=self.__info.get_TKimg(), Grid='no', tag=ID)
+		img_coords = self.__iNode.Img_Place(x=self.__x, y=self.__y, image=self.__info.get_TKimg(), tag=ID)
 
 		#final set of information save to stalfos
 		Canvas_ID = Image_Node.Render.find_withtag(ID)[0] #finds my canvas ID numb.
-		Coords = img_coords[Canvas_ID-1]
+		Coords = img_coords
 		self.__info.set_Canvas_ID(Canvas_ID)
 		self.__info.Stalfos_Data(Coords=Coords, Speed=5, health=10, defense=5, attack=2) #check stalfos_info for, well info.
 		self.__kNode.set_Speed(self.__info.get_Speed())

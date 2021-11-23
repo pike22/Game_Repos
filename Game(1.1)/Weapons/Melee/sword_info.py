@@ -44,6 +44,9 @@ class Sword_Info():
 	def get_TKimg(self):
 		return self.__imgTK_ID
 
+	def get_PILimg(self):
+		return self.__imgPIL_ID
+
 	def get_ID(self):
 		return self.__ID
 
@@ -64,3 +67,6 @@ class Sword_Info():
 
 	def set_Coords(self, Coords):
 		self.__Coords = Coords
+
+	def set_TKimg(self, TKimg):
+		self.__imgTK_ID = TKimg

@@ -103,17 +103,22 @@ class Alpha():
 
 	def close_window(self): #putting this on HOLD
 		if keyboard.is_pressed('q') == True:
+			print('<------------------------->')
+			print('<-----------END----------->')
+			print('<------------------------->')
 			self.__mainApp.destroy()
 
 	def GamesetUP(self):
 		#Bellow is Entity set up
-		self.__Player.player_setUP(x=2, y=3)
+		self.__Player.player_setUP(x=96, y=160)
 		# self.__Player.Player_Print()
 		self.__Sword.sword_setUP()
 		# self.__Sword.Sword_Print()
 		self.__Bow.bow_setUP()
 		# self.__Bow.Bow_Print()
 		self.__Player.set_Weapons(sword=self.__Sword, bow=self.__Bow, )
+
+		self.__iNode.test__(self.__Sword.get_PILimg(), 90, x=50, y=50)
 
 		#__ENEMY Setup__#
 		COLDICT = self.__cLogic.get_Col_Dict()
@@ -124,7 +129,7 @@ class Alpha():
 				# r_Stal.Stalfos_Print()
 
 		#__Statics SETUP__#
-		self.__Wall.wall_setUP(x=300, y=300, Grid='No')
+		self.__Wall.wall_setUP(x=300, y=300)
 
 
 		#_Weapon SETUP_#
@@ -150,7 +155,7 @@ class Alpha():
 		if self.__Player.get_isAlive() == True:
 			self.__Player.Player_MAttack()
 			self.__Player.Player_RAttack()
-			self.__cLogic.ForT_Collision(self.__Player)
+			# self.__cLogic.ForT_Collision(self.__Player)
 			if self.__Player.Player_MAttack() == False and self.__Player.Player_RAttack() == False:
 				self.__Player.Movement_Controll()
 			else:

@@ -54,7 +54,7 @@ class Player_Main(All_Entities):
 
 		#final set of information save to player
 		Canvas_ID = Image_Node.Render.find_withtag(ID)[0] #finds my canvas ID numb.
-		Coords = img_coords[Canvas_ID-1]
+		Coords = img_coords
 		self.__info.set_Canvas_ID(Canvas_ID)
 		self.__info.Player_Data(Coords=Coords, Speed=7, health=100, defense=5, attack=0) #check player_info for well info.
 		self.__kNode.set_Speed(self.__info.get_Speed())
@@ -119,13 +119,13 @@ class Player_Main(All_Entities):
 			x, y = self.__info.get_Coords() #current coords
 			a, b = self.__Sword.get_size()
 			if self.__Direction == 'up':
-				self.__Sword.use_Sword(x, y-b)
+				self.__Sword.use_Sword(x, y-b, self.__Direction)
 			elif self.__Direction == 'down':
-				self.__Sword.use_Sword(x, y+b)
+				self.__Sword.use_Sword(x, y+b, self.__Direction)
 			elif self.__Direction == 'left':
-				self.__Sword.use_Sword(x-a, y)
+				self.__Sword.use_Sword(x-a, y, self.__Direction)
 			elif self.__Direction == 'right':
-				self.__Sword.use_Sword(x+a, y)
+				self.__Sword.use_Sword(x+a, y, self.__Direction)
 			self.__isAttack = True
 			return self.__isAttack
 

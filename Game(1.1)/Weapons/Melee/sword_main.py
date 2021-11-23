@@ -21,12 +21,29 @@ class Sword_Main():
 
 
 
-	def use_Sword(self, x, y):
+	def use_Sword(self, x, y, direction):
 		ID = self.__info.get_ID()
 		group_ID = self.__info.get_group_ID()
 		if self.__isActive == False:
-			self.__iNode.Img_Place(x, y, self.__info.get_TKimg(), Grid='No', tag=ID)
 			self.__info.set_Coords(Coords=(x, y))
+
+			if direction == 'up':
+				newIMG = self.__iNode.Img_Rotate(self.__info.get_PILimg(), 90)
+				self.__info.set_TKimg(newIMG)
+				self.__iNode.Img_Place(x, y, self.__info.get_TKimg(), tag=ID)
+			if direction == 'down':
+				newIMG = self.__iNode.Img_Rotate(self.__info.get_PILimg(), 270)
+				self.__info.set_TKimg(newIMG)
+				self.__iNode.Img_Place(x, y, self.__info.get_TKimg(), tag=ID)
+			if direction == 'left':
+				newIMG = self.__iNode.Img_Rotate(self.__info.get_PILimg(), 180)
+				self.__info.set_TKimg(newIMG)
+				self.__iNode.Img_Place(x, y, self.__info.get_TKimg(), tag=ID)
+			if direction == 'right':
+				newIMG = self.__iNode.Img_Rotate(self.__info.get_PILimg(), 0)
+				self.__info.set_TKimg(newIMG)
+				self.__iNode.Img_Place(x, y, self.__info.get_TKimg(), tag=ID)
+
 
 			Canvas_ID = Image_Node.Render.find_withtag(ID)[0] #finds my canvas ID numb.
 			self.__info.set_Canvas_ID(Canvas_ID)
@@ -83,6 +100,12 @@ class Sword_Main():
 
 	def get_ID(self):
 		return self.__info.get_ID()
+
+	def get_PILimg(self):
+		return self.__info.get_PILimg()
+
+	def get_TKimg(self):
+		return self.__info.get_TKimg()
 
 	def get_group_ID(self):
 		return self.__info.get_group_ID()

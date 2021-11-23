@@ -48,6 +48,9 @@ class Arrow_Info():
 	def get_TKimg(self):
 		return self.__imgTK_ID
 
+	def get_PILimg(self):
+		return self.__imgPIL_ID
+
 	def get_ID(self):
 		return self.__ID
 
@@ -65,6 +68,12 @@ class Arrow_Info():
 
 	def set_ID(self, ID):
 		self.__ID = ID
+
+	def set_PILimg(self, PILimg):
+		self.__imgPIL_ID = PILimg
+		
+	def set_TKimg(self, TKimg):
+		self.__imgTK_ID = TKimg
 
 	def set_Corners(self, Corners):
 		self.__Corners = Corners

@@ -9,6 +9,7 @@ class Bow_Info():
 		self.__ID 			= 'W#B001'
 		self.__img_size		= None #(x, y)tuple of height, width
 		self.__Corners		= None #(x1, y1, x2, y2)tuple
+		self.__Coords		= None #(x, y)tuple of coord.x, coord.y
 		#Parameters
 		self.__attack_damageMOD = None
 
@@ -37,8 +38,14 @@ class Bow_Info():
 	def get_Corners(self):
 		return self.__Corners
 
+	def get_Coords(self):
+		return self.__Coords
+
 	def get_TKimg(self):
 		return self.__imgTK_ID
+
+	def get_PILimg(self):
+		return self.__imgPIL_ID
 
 	def get_ID(self):
 		return self.__ID
@@ -57,3 +64,9 @@ class Bow_Info():
 
 	def set_Corners(self, Corners):
 		self.__Corners = Corners
+
+	def set_Coords(self, coord):
+		self.__Coords = coord
+
+	def set_TKimg(self, tkImg):
+		self.__imgTK_ID = tkImg

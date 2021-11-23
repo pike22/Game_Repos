@@ -33,12 +33,12 @@ class Bow_Main():
 		#self.output = self.Image.
 
 	def use_Bow(self, x, y, direction):
+		self.__info.set_Coords((x, y))
 		ID = self.__info.get_ID()
 		group_ID = self.__info.get_group_ID()
 		height, width = self.__info.get_size()
 		if self.__isActive == False:
 			#intial bow render and variable updates
-			self.__iNode.Img_Place(x, y, self.__info.get_TKimg(), Grid='No', tag=ID)
 			self.__isActive   = True
 			self.__projCount += 1
 			self.__itemCount += 1
@@ -50,13 +50,29 @@ class Bow_Main():
 
 			#this is for what direction the arrow flies
 			if direction == 'up':
+				newIMG = self.__iNode.Img_Rotate(self.__info.get_PILimg(), 90)
+				self.__info.set_TKimg(newIMG)
+				self.__iNode.Img_Place(x, y, self.__info.get_TKimg(), tag=ID)
 				self.__ammo.use(x, (y-width), 'up', dmgMod=self.__info.get_attackMOD())
+
 			elif direction == 'down':
+				newIMG = self.__iNode.Img_Rotate(self.__info.get_PILimg(), 270)
+				self.__info.set_TKimg(newIMG)
+				self.__iNode.Img_Place(x, y, self.__info.get_TKimg(), tag=ID)
 				self.__ammo.use(x, (y+width), 'down', dmgMod=self.__info.get_attackMOD())
-			elif direction == 'right':
-				self.__ammo.use((x+height), y, 'right', dmgMod=self.__info.get_attackMOD())
+
+
 			elif direction == 'left':
+				newIMG = self.__iNode.Img_Rotate(self.__info.get_PILimg(), 180)
+				self.__info.set_TKimg(newIMG)
+				self.__iNode.Img_Place(x, y, self.__info.get_TKimg(), tag=ID)
 				self.__ammo.use((x-height), y, 'left', dmgMod=self.__info.get_attackMOD())
+
+			elif direction == 'right':
+				newIMG = self.__iNode.Img_Rotate(self.__info.get_PILimg(), 0)
+				self.__info.set_TKimg(newIMG)
+				self.__iNode.Img_Place(x, y, self.__info.get_TKimg(), tag=ID)
+				self.__ammo.use((x+height), y, 'right', dmgMod=self.__info.get_attackMOD())
 
 			#finishing the render of the bow
 			Canvas_ID = Image_Node.Render.find_withtag(ID)[0] #finds my canvas ID numb.
@@ -115,6 +131,9 @@ class Bow_Main():
 
 	def get_Corners(self):
 		return self.__info.get_Corners()
+
+	def get_Coords(self):
+		return self.__info.get_Coords()
 
 	def get_ID(self):
 		return self.__info.get_ID()
