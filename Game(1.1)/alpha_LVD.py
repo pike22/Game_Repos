@@ -17,7 +17,7 @@ class Alpha_LVD():
 	def __init__(self, ):
 		self.__Sc_Width	 = 1400
 		self.__Sc_Height = 700
-		self.__version	 = "Level Designer [ALPHAv0.0]"
+		self.__version	 = "Level Designer [ALPHAv0.1]"
 		self.__color 	 = 'Grey'
 
 		"""Class Call's"""
@@ -42,7 +42,7 @@ class Alpha_LVD():
 
 	def tk_windowSETUP(self):
 		self.__mainApp.title(self.__version)
-		self.__mainApp.geometry(str(self.__Sc_Width) + 'x' + str(self.__Sc_Height))
+		self.__mainApp.geometry(str(self.__Sc_Width+260) + 'x' + str(self.__Sc_Height))
 
 	def set_MainCanvas(self): #Set Renders HERE
 		self.__iNode.Create_Canvas(self.__mainApp, self.__Sc_Height, self.__Sc_Width, color=self.__color)
@@ -52,26 +52,7 @@ class Alpha_LVD():
 			self.__mainApp.destroy()
 
 	def windowSETUP(self):
-		"""#__Frame Creation & Placement__#"""
-		# self.__projWindow = LabelFrame(Image_Node.Render, text='Project Window', width=1100, height=600, bg=self.__color)
-		self.__ImgList	  = LabelFrame(self.__mainApp, text="Imported", width=250, height=600, bg=self.__color)
-
-		# self.__projWindow.grid(row=0, column=1)
-		self.__ImgList.grid(row=0, column=2)
-
-		for frame in [self.__ImgList, ]:#self.__projWindow, ]:
-			frame.grid_propagate(0)
-
-		"""#__event Creation__#"""
-		# self.__mainApp.bind_all(('<Button-1>'), self.__GUI.mousePosition)
-
-		"""#__Button Creation & Placement__#"""
-		self.__Import = Button(self.__mainApp, text='Import',width=32,height=2, command=lambda:self.__GUI.openFiles(self.__ImgList))
-
-		self.__Import.grid(row=1, column=2)
-
-		for frame in [self.__Import, ]:
-		    frame.grid_propagate(0)
+		self.__GUI.windowSETUP()
 
 
 	def windowLoop(self):
@@ -103,6 +84,7 @@ class Alpha_LVD():
 
 
 LVD = Alpha_LVD()
+LVD.tk_windowSETUP()
 LVD.set_MainCanvas()
 LVD.windowSETUP()
 LVD.windowLoop()

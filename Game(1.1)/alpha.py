@@ -118,8 +118,6 @@ class Alpha():
 		# self.__Bow.Bow_Print()
 		self.__Player.set_Weapons(sword=self.__Sword, bow=self.__Bow, )
 
-		self.__iNode.test__(self.__Sword.get_PILimg(), 90, x=50, y=50)
-
 		#__ENEMY Setup__#
 		COLDICT = self.__cLogic.get_Col_Dict()
 		for item in range(len(self.__stalfosRoster)):
@@ -146,6 +144,9 @@ class Alpha():
 		# self.new_Player()
 
 		"""#_calls_#"""
+		# self.__mainApp.bind_all(('<MouseWheel>'), lambda event, arg=(self.__IMG, pilImg): self.rotation(event, arg))
+
+
 
 		"""#_loop Debug_#"""
 		# self.debug_Col_Dict() #workes

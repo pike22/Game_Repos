@@ -24,57 +24,39 @@ class Image_Node(Node):
 		self.__Img_list.append(ImageTk.PhotoImage(PIL_img))
 		#Eventually a method of storage will be implimented
 
-		## NOTE: self.Img_list is PIL, size, TK image in order of 0, 1, 2
+		## NOTE: self.Img_list == [PIL, size, TK image] in order of 0, 1, 2
 		# print(self.__Img_list, 'PIL_img | size | TK_img')
 		return self.__Img_list
 
 	def Img_Rotate(self, pilImg, angle, LVD=False):
 		# angle %= angle
 		if LVD == True:
-			self.Img_Place()
+			# self.Img_Place()
 			pilImg = pilImg.rotate(angle, Image.NEAREST)
 			tkImg  = ImageTk.PhotoImage(pilImg)
-			return tkImg
+			return tkImg, pilImg
 		else:
 			pilImg = pilImg.rotate(angle, Image.NEAREST)
 			tkImg  = ImageTk.PhotoImage(pilImg)
-			return tkImg
-
-	def test__(self, pilImg, angle, x, y):
-		# angle %= angle
-		print(pilImg, 'old pilImg')
-		pilImg = pilImg.rotate(angle, Image.NEAREST)
-		print(pilImg, "new pilImg")
-		tkImg  = ImageTk.PhotoImage(pilImg)
-		print(Image_Node.Render, 'render?')
-		print(tkImg, 'tkimg')
-		Canvas_ID = Image_Node.Render.create_image(x, y, image=tkImg, anchor="nw")
+			return tkImg, pilImg
 
 	def Img_Place(self, x, y, image, LVD='no', tag=None): # !!returns a tuple!!
-		if LVD != 'yes':
-			img_x = x
-			img_y = y
+		if LVD == 'no':
 
-			#print('3:', image)
-			#print("coords", img_x,',', img_y)
-			Canvas_ID = Image_Node.Render.create_image((img_x, img_y), image=image,anchor="nw")
-			if tag != None:
-				Image_Node.Render.addtag_withtag(tag, Canvas_ID)
-			self.__PlaceIMG = (Canvas_ID)
-			self.__PlaceCOR = (img_x, img_y)
-			return self.__PlaceCOR
-
-		elif LVD == 'yes': #this is for the level designer
-			img_x = x
-			img_y = y
-
-			#print('3:', image)
-			#print("coords", img_x,',', img_y)
-			Canvas_ID = Image_Node.Render.create_image((img_x, img_y), image=image,anchor="nw")
+			Canvas_ID = Image_Node.Render.create_image((x, y), image=image,anchor="nw")
 			if tag != None:
 				Image_Node.Render.addtag_withtag(tag, Canvas_ID)
 			self.__PlaceIMG = Canvas_ID
-			self.__PlaceCOR = (img_x, img_y)
+			self.__PlaceCOR = (x, y)
+			return self.__PlaceCOR
+
+		elif LVD != 'no': #this is for the level designer
+
+			Canvas_ID = Image_Node.Render.create_image((x, y), image=image,anchor="nw")
+			if tag != None:
+				Image_Node.Render.addtag_withtag(tag, Canvas_ID)
+			self.__PlaceIMG = Canvas_ID
+			self.__PlaceCOR = (x, y)
 			return self.__PlaceIMG
 
 
