@@ -1,60 +1,37 @@
+from tkinter import *
+from tkinter import filedialog
+from PIL import ImageTk, Image #PIL = Pillow
+from .img_info import IMG_Info
+
 
 class GUI_Statics():
-	def __init__(self):#, BIMG):
-		# self.__ButtonIMG = BIMG
-		self.__placedTK_IMG = []
-		self.__placedPIL_IMG =[]
-
-		#engine based Parameters.
-		self.__file_Location = None
-		self.__Canvas_ID	= None
-		self.__group_ID		= '#entityName'
-		self.__ID			= ''
-		self.__imgPIL_ID	= None
-		self.__imgTK_ID		= None
-		self.__img_size		= None #(x, y)tuple of height, width
-		self.__Corners		= None #(x1, y1, x2, y2) tuple
-		self.__Coords 		= None
+	def __init__(self, ID):
+		self.__info   = IMG_Info(ID)
+		self.__tkIMG  = None
+		self.__pilIMG = None
 
 
-	def Image_Data(self, Size=None, PIL_img=None, TK_img=None, file_Location=None):
-		self.__file_Location	= file_Location
-		self.__imgPIL_ID		= PIL_img
-		self.__imgTK_ID			= TK_img
-		self.__img_size			= Size
-
-	def entityName_Data(self, Coords=None):
-		self.__Coords = Coords
+	"""Local Dictionary"""
+	def add_IMG(self, tkIMG, pilIMG):
+		self.__tkIMG  = tkIMG
+		self.__pilIMG = pilIMG
+		pass #this will add target img to the dictionary
 
 
-	"""|--------------Getters--------------|#"""
+	"""IMG_INFO CLASS"""
+	def info_Dump(self, ID, tkIMG, pilIMG, fLocation):
+		self.__info.Image_Data(Size=pilIMG.size, PIL_img=pilIMG, TK_img=tkIMG, file_Location=fLocation)
+
+
+
+	"""#|--------------Getters--------------|#"""
 		#this is where a list of getters will go...
+	def get_pilIMG(self):
+		return self.__pilIMG
 
-	def get_TKimg(self):
-		return self.__imgTK_ID
+	def get_tkIMG(self):
+		return self.__tkIMG
 
-	def get_Coords(self):
-		return self.__Coords
-
-	def get_Size(self):
-		return self.__img_size
-
-	def get_Corners(self):
-		return self.__Corners
-
-	def get_ID(self):
-		return self.__ID
-
-	def get_group_ID(self):
-		return self.__group_ID
-
-
-	"""|--------------Setters--------------|#"""
-	def set_Coords(self, Coords):
-		self.__Coords = Coords
-
-	def set_Canvas_ID(self, Canvas_ID):
-		self.__Canvas_ID = Canvas_ID
-
-	def set_Corners(self, bbox):
-		self.__Corners = bbox
+	"""#|--------------Setters--------------|#"""
+		#this is where a list of setters will go...
+	#def set_...

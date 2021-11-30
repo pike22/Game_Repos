@@ -51,8 +51,9 @@ class Alpha_LVD():
 		if keyboard.is_pressed('q') == True:
 			self.__mainApp.destroy()
 
-	def windowSETUP(self):
+	def GUI_run(self):
 		self.__GUI.windowSETUP()
+		self.__GUI.gridSETUP()
 
 
 	def windowLoop(self):
@@ -86,7 +87,7 @@ class Alpha_LVD():
 LVD = Alpha_LVD()
 LVD.tk_windowSETUP()
 LVD.set_MainCanvas()
-LVD.windowSETUP()
+LVD.GUI_run()
 LVD.windowLoop()
 LVD.get_mainAPP().mainloop()
 print('<------------------------->')

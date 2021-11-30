@@ -31,7 +31,6 @@ class Image_Node(Node):
 	def Img_Rotate(self, pilImg, angle, LVD=False):
 		# angle %= angle
 		if LVD == True:
-			# self.Img_Place()
 			pilImg = pilImg.rotate(angle, Image.NEAREST)
 			tkImg  = ImageTk.PhotoImage(pilImg)
 			return tkImg, pilImg
