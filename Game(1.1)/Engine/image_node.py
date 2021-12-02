@@ -39,12 +39,15 @@ class Image_Node(Node):
 			tkImg  = ImageTk.PhotoImage(pilImg)
 			return tkImg, pilImg
 
-	def Img_Place(self, x, y, image, LVD='no', tag=None): # !!returns a tuple!!
+	def Img_Place(self, x, y, image, LVD='no', tag=None): # !!returns a tuple!! #Tag needs to be a list
 		if LVD == 'no':
-
 			Canvas_ID = Image_Node.Render.create_image((x, y), image=image,anchor="nw")
 			if tag != None:
-				Image_Node.Render.addtag_withtag(tag, Canvas_ID)
+				if len(tag) > 1:
+					for item in range(len(tag)):
+						Image_Node.Render.addtag_withtag(tag[item], Canvas_ID)
+				else:
+					Image_Node.Render.addtag_withtag(tag, Canvas_ID)
 			self.__PlaceIMG = Canvas_ID
 			self.__PlaceCOR = (x, y)
 			return self.__PlaceCOR

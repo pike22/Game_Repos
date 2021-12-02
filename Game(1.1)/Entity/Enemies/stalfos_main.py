@@ -36,8 +36,8 @@ class Stalfos_Main(Enemy_Main):
 	def stalfos_setUP(self, Sc_Width, Sc_Height):
 		#img setup
 		ID = self.__info.get_ID()
-		Img_info = self.__iNode.Img_Add('z_Pictures/RedBoy2.png')
-		self.__info.Image_Data(Size=Img_info[1], PIL_img=Img_info[0], TK_img=Img_info[2], file_Location='z_Pictures/RedBoy2.png')
+		Img_info = self.__iNode.Img_Add('z_Pictures/bloodboy.png')
+		self.__info.Image_Data(Size=Img_info[1], PIL_img=Img_info[0], TK_img=Img_info[2], file_Location='z_Pictures/bloodboy.png')
 
 		#placing the img
 		self.__x = 0
@@ -45,7 +45,7 @@ class Stalfos_Main(Enemy_Main):
 		x, y = self.__info.get_size()
 		self.__x = int(self.__rand.randint((25+x), Sc_Width-(25+x)))
 		self.__y = int(self.__rand.randint((25+y), Sc_Height-(25+y)))
-		img_coords = self.__iNode.Img_Place(x=self.__x, y=self.__y, image=self.__info.get_TKimg(), tag=ID)
+		img_coords = self.__iNode.Img_Place(x=self.__x, y=self.__y, image=self.__info.get_TKimg(), tag=[ID, self.__info.get_group_ID()])
 
 		#final set of information save to stalfos
 		Canvas_ID = Image_Node.Render.find_withtag(ID)[0] #finds my canvas ID numb.
@@ -53,7 +53,6 @@ class Stalfos_Main(Enemy_Main):
 		self.__info.set_Canvas_ID(Canvas_ID)
 		self.__info.Stalfos_Data(Coords=Coords, Speed=5, health=10, defense=5, attack=2) #check stalfos_info for, well info.
 		self.__kNode.set_Speed(self.__info.get_Speed())
-		Image_Node.Render.addtag_withtag(self.__info.get_group_ID(), Canvas_ID)
 		self.__info.set_Corners(Image_Node.Render.bbox(Canvas_ID))
 
 		#Active Parameters

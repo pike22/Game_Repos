@@ -30,19 +30,19 @@ class Sword_Main():
 			if direction == 'up':
 				newIMG = self.__iNode.Img_Rotate(self.__info.get_PILimg(), 90)
 				self.__info.set_TKimg(newIMG[0])
-				self.__iNode.Img_Place(x, y, self.__info.get_TKimg(), tag=ID)
+				self.__iNode.Img_Place(x, y, self.__info.get_TKimg(), tag=[ID, group_ID])
 			if direction == 'down':
 				newIMG = self.__iNode.Img_Rotate(self.__info.get_PILimg(), 270)
 				self.__info.set_TKimg(newIMG[0])
-				self.__iNode.Img_Place(x, y, self.__info.get_TKimg(), tag=ID)
+				self.__iNode.Img_Place(x, y, self.__info.get_TKimg(), tag=[ID, group_ID])
 			if direction == 'left':
 				newIMG = self.__iNode.Img_Rotate(self.__info.get_PILimg(), 180)
 				self.__info.set_TKimg(newIMG[0])
-				self.__iNode.Img_Place(x, y, self.__info.get_TKimg(), tag=ID)
+				self.__iNode.Img_Place(x, y, self.__info.get_TKimg(), tag=[ID, group_ID])
 			if direction == 'right':
 				newIMG = self.__iNode.Img_Rotate(self.__info.get_PILimg(), 0)
 				self.__info.set_TKimg(newIMG[0])
-				self.__iNode.Img_Place(x, y, self.__info.get_TKimg(), tag=ID)
+				self.__iNode.Img_Place(x, y, self.__info.get_TKimg(), tag=[ID, group_ID])
 
 
 			Canvas_ID = Image_Node.Render.find_withtag(ID)[0] #finds my canvas ID numb.

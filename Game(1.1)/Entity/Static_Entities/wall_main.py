@@ -21,7 +21,7 @@ class Wall_Main():
 		self.__info.Image_Data(Size=Img_info[1], PIL_img=Img_info[0], TK_img=Img_info[2], file_Location='z_Pictures/MissingIMG.png')
 
 		#placing the img
-		img_coords = self.__iNode.Img_Place(x, y, self.__info.get_TKimg(), tag=self.__ID)
+		img_coords = self.__iNode.Img_Place(x, y, self.__info.get_TKimg(), tag=[self.__ID, self.__group_ID])
 
 
 		#final set of information save to Wall
@@ -30,7 +30,6 @@ class Wall_Main():
 		Coords = img_coords
 		self.__info.set_Canvas_ID(Canvas_ID)
 		self.__info.Wall_Data(Coords=Coords) #check Wall_info for well info.
-		Image_Node.Render.addtag_withtag(self.__group_ID, Canvas_ID)
 		self.__info.set_Corners(Image_Node.Render.bbox(Canvas_ID))
 
 	def Wall_Print(self):

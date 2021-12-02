@@ -30,22 +30,22 @@ class Arrow_Main(Projectiles):
 			print('up')
 			newIMG = self.__iNode.Img_Rotate(self.__info.get_PILimg(), 90)
 			self.__info.set_TKimg(newIMG[0])
-			self.__iNode.Img_Place(x, y, self.__info.get_TKimg(), tag=self.__ID)
+			self.__iNode.Img_Place(x, y, self.__info.get_TKimg(), tag=[self.__ID, self.__info.get_group_ID()])
 		elif direction == 'down':
 			print('down')
 			newIMG = self.__iNode.Img_Rotate(self.__info.get_PILimg(), 270)
 			self.__info.set_TKimg(newIMG[0])
-			self.__iNode.Img_Place(x, y, self.__info.get_TKimg(), tag=self.__ID)
+			self.__iNode.Img_Place(x, y, self.__info.get_TKimg(), tag=[self.__ID, self.__info.get_group_ID()])
 		elif direction == 'left':
 			print('left')
 			newIMG = self.__iNode.Img_Rotate(self.__info.get_PILimg(), 180)
 			self.__info.set_TKimg(newIMG[0])
-			self.__iNode.Img_Place(x, y, self.__info.get_TKimg(), tag=self.__ID)
+			self.__iNode.Img_Place(x, y, self.__info.get_TKimg(), tag=[self.__ID, self.__info.get_group_ID()])
 		elif direction == 'right':
 			print('right') #this is normal direction
 			newIMG = self.__iNode.Img_Rotate(self.__info.get_PILimg(), 0)
 			self.__info.set_TKimg(newIMG[0])
-			self.__iNode.Img_Place(x, y, self.__info.get_TKimg(), tag=self.__ID)
+			self.__iNode.Img_Place(x, y, self.__info.get_TKimg(), tag=[self.__ID, self.__info.get_group_ID()])
 
 
 		self.__isActive = True

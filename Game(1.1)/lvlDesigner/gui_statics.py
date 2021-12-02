@@ -5,8 +5,8 @@ from .img_info import IMG_Info
 
 
 class GUI_Statics():
-	def __init__(self, ID):
-		self.__info   = IMG_Info(ID)
+	def __init__(self, group_ID):
+		self.__info   = IMG_Info(group_ID)
 		self.__tkIMG  = None
 		self.__pilIMG = None
 
@@ -19,9 +19,14 @@ class GUI_Statics():
 
 
 	"""IMG_INFO CLASS"""
-	def info_Dump(self, ID, tkIMG, pilIMG, fLocation):
+	def Img_Info(self, tkIMG, pilIMG, fLocation):
 		self.__info.Image_Data(Size=pilIMG.size, PIL_img=pilIMG, TK_img=tkIMG, file_Location=fLocation)
 
+	def Placed_imgInfo(self, ID, Corners, Coords, pilIMG, tkIMG):
+		if tkIMG == None and pilIMG == None:
+			self.__info.Placed_imgData(ID=ID, Corners=Corners, Coords=Coords, pilIMG=self.__pilIMG, tkIMG=self.__tkIMG)
+		else:
+			self.__info.Placed_imgData(ID=ID, Corners=Corners, Coords=Coords, pilIMG=pilIMG, tkIMG=tkIMG)
 
 
 	"""#|--------------Getters--------------|#"""
@@ -32,6 +37,28 @@ class GUI_Statics():
 	def get_tkIMG(self):
 		return self.__tkIMG
 
+	def get_ID(self, item=None, full=True):
+		return self.__info.get_ID(item=item, full=full)
+
+	def get_fileLocation(self):
+		return self.__info.get_fileLocation()
+
+	def show_PLC_Data(self):
+		self.__info.show_PLC_Data()
+
+	def get_PLC_tkIMG(self, key):
+		return self.__info.get_PLC_tkIMG(key)
+
+	def get_PLC_pilIMG(self, key):
+		return self.__info.get_PLC_pilIMG(key)
+
+	def get_PLC_Coords(self, key):
+		return self.__info.get_PLC_Coords(key)
+
+	def	get_PLC_Corners(self, key):
+		return self.__info.get_PLC_Corners(key)
+
 	"""#|--------------Setters--------------|#"""
 		#this is where a list of setters will go...
-	#def set_...
+	def set_ID(self, ID):
+		self.__info.set_ID(ID)

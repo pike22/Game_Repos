@@ -22,10 +22,12 @@ class Alpha_LVD():
 
 		"""Class Call's"""
 		self.__mainApp	= Tk()
+		self.__cLogic	= Collision_Logic()
+		self.__cNode	= Collision_Node(self.__cLogic)
 		self.__tNode	= Timer_Node(self.__mainApp)
-		self.__iNode	= Image_Node()
+		self.__iNode	= Image_Node() #NOTHING TO NOTE
 		self.__kNode	= Kinetics_Node(self.__iNode)
-		self.__GUI		= GUI_Main(self.__iNode, self.__kNode, self.__mainApp, self.__color)
+		self.__GUI		= GUI_Main(self.__iNode, self.__cLogic,  self.__kNode, self.__mainApp, self.__color)
 
 		"""Widget Names"""
 		#frames
@@ -87,6 +89,7 @@ class Alpha_LVD():
 LVD = Alpha_LVD()
 LVD.tk_windowSETUP()
 LVD.set_MainCanvas()
+print('\n')
 LVD.GUI_run()
 LVD.windowLoop()
 LVD.get_mainAPP().mainloop()
