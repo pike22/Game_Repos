@@ -5,28 +5,31 @@ PLC#003
 
 <=======================================================>
 
-{'PLC#000': 'z_Pictures/Walls/corner01.png', 'PLC#001': 'z_Pictures/Walls/corner01.png'}
-{'PLC#002': 'z_Pictures/Walls/smallcorner.png', 'PLC#003': 'z_Pictures/Walls/smallcorner.png'}
+PLC#000=z_Pictures/Walls/corner01.png
+PLC#001=z_Pictures/Walls/corner01.png
+PLC#002=z_Pictures/Walls/cornerin.png
+PLC#003=z_Pictures/Walls/cornerin.png
 
 <=======================================================>
 
-{'PLC#000': <PIL.ImageTk.PhotoImage object at 0x0000022AD02E9850>, 'PLC#001': <PIL.ImageTk.PhotoImage object at 0x0000022AD3176BE0>}
-{'PLC#002': <PIL.ImageTk.PhotoImage object at 0x0000022AD02E96D0>, 'PLC#003': <PIL.ImageTk.PhotoImage object at 0x0000022AD318CF40>}
+PLC#000=zNone
+PLC#001=z90
+PLC#002=zNone
+PLC#003=z90
 
 <=======================================================>
 
-{'PLC#000': <PIL.PngImagePlugin.PngImageFile image mode=RGBA size=32x32 at 0x22AD02E9910>, 'PLC#001': <PIL.Image.Image image mode=RGBA size=32x32 at 0x22AD3179160>}
-{'PLC#002': <PIL.PngImagePlugin.PngImageFile image mode=RGBA size=32x32 at 0x22AD3166B80>, 'PLC#003': <PIL.Image.Image image mode=RGBA size=32x32 at 0x22AD318CDF0>}
+PLC#000=z(864, 192)
+PLC#001=z(832, 192)
+PLC#002=z(832, 224)
+PLC#003=z(864, 224)
 
 <=======================================================>
 
-{'PLC#000': (864, 160), 'PLC#001': (832, 160)}
-{'PLC#002': (832, 192), 'PLC#003': (864, 192)}
-
-<=======================================================>
-
-{'PLC#000': (864, 160, 896, 192), 'PLC#001': (832, 160, 864, 192)}
-{'PLC#002': (832, 192, 864, 224), 'PLC#003': (864, 192, 896, 224)}
+PLC#000=LVL_D#000
+PLC#001=LVL_D#000
+PLC#002=LVL_D#001
+PLC#003=LVL_D#001
 
 <=======================================================>
 

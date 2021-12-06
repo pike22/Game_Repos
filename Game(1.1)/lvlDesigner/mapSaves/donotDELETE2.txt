@@ -1,0 +1,75 @@
+PLC#000
+PLC#001
+PLC#004
+PLC#005
+PLC#002
+PLC#003
+PLC#006
+PLC#007
+PLC#008
+PLC#009
+PLC#010
+PLC#011
+
+<=======================================================>
+
+PLC#000=z_Pictures/Walls/corner01.png
+PLC#001=z_Pictures/Walls/corner01.png
+PLC#004=z_Pictures/Walls/corner01.png
+PLC#005=z_Pictures/Walls/corner01.png
+PLC#002=z_Pictures/Walls/cornerin.png
+PLC#003=z_Pictures/Walls/cornerin.png
+PLC#006=z_Pictures/Walls/cornerin.png
+PLC#007=z_Pictures/Walls/cornerin.png
+PLC#008=z_Pictures/Walls/wall01.png
+PLC#009=z_Pictures/Walls/wall01.png
+PLC#010=z_Pictures/Walls/wall01.png
+PLC#011=z_Pictures/Walls/wall01.png
+
+<=======================================================>
+
+PLC#000=zNone
+PLC#001=z90
+PLC#004=zNone
+PLC#005=z90
+PLC#002=zNone
+PLC#003=z90
+PLC#006=zNone
+PLC#007=z90
+PLC#008=zNone
+PLC#009=zNone
+PLC#010=zNone
+PLC#011=zNone
+
+<=======================================================>
+
+PLC#000=z(864, 192)
+PLC#001=z(832, 192)
+PLC#004=z(896, 160)
+PLC#005=z(800, 160)
+PLC#002=z(832, 224)
+PLC#003=z(864, 224)
+PLC#006=z(800, 256)
+PLC#007=z(896, 256)
+PLC#008=z(864, 160)
+PLC#009=z(832, 160)
+PLC#010=z(832, 256)
+PLC#011=z(864, 256)
+
+<=======================================================>
+
+PLC#000=LVL_D#000
+PLC#001=LVL_D#000
+PLC#004=LVL_D#000
+PLC#005=LVL_D#000
+PLC#002=LVL_D#001
+PLC#003=LVL_D#001
+PLC#006=LVL_D#001
+PLC#007=LVL_D#001
+PLC#008=LVL_D#004
+PLC#009=LVL_D#004
+PLC#010=LVL_D#004
+PLC#011=LVL_D#004
+
+<=======================================================>
+

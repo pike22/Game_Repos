@@ -6,11 +6,12 @@ from PIL import ImageTk, Image #PIL = Pillow
 from .gui_statics import GUI_Statics
 
 class GUI_Events():
-	def __init__(self, iNode, cLogic, kNode, mainApp, color):
+	def __init__(self, iNode, cLogic, kNode, mainApp, color, key):
 		self.__ColumnMAX = 4
 		self.__Column = 0
 		self.__RowMAX = 10
 		self.__Row	  = 1
+		self.__Key 	  = key
 
 		#other classes
 		self.__mainApp = mainApp
@@ -30,9 +31,9 @@ class GUI_Events():
 		self.__GRID 	 = []
 
 		#img Vars
+		self.__placedIMG_tag = []
 		self.__pilIMG_LIST	= []
 		self.__tkIMG_LIST	= []
-		self.__placedIMG 	= []
 		self.__imgKEYL		= []
 		self.__imgDICT	 	= {}
 		self.__IDsNUMB		= 0
@@ -41,148 +42,37 @@ class GUI_Events():
 		self.__tkIMG 		= None
 		self.__IMG			= None
 
-		#random var
-		self.__mapFiles = 'E:\Github\Game_Repos_1\Game(1.1)\lvlDesigner\mapSaves'
-		self.__pngFiles = 'E:\Github\Game_Repos_1\Game(1.1)\z_Pictures\Walls'
-
-		self.__tempDICT = {}
-		self.__tempLIST = []
-
-		#opening a file
-		self.__ID_ff = []
-
 
 	"""BUTTON PRESS FUNCTIONS"""
-	def fullCLear(self, ):
-		for item in range(len(self.__tkIMG_LIST)):
-			Image_Node.Render.delete(self.__imgDICT[self.__imgKEYL[item]].get_ID())
-
-			self.__mainApp.unbind_all(('<Motion>'))
-			self.__mainApp.unbind_all(('<MouseWheel>'))
-
-	def saveFILE(self, ):
-		filetype = [('Text Document', '*.txt'), ('All Files', '*.*')]
-		file = filedialog.asksaveasfile(title='Save Map', filetypes=filetype, defaultextension=filetype, initialdir=self.__mapFiles)
-		if file == None:
-			return
-
-		targFile = open(str(file.name), 'w')
-
-		# self.__tempDICT = {}
-		# self.__tempLIST = []
-		# for key in self.__imgDICT.keys():
-		# 	for item in range(len(self.__imgDICT[key].get_ID())):
-		# 		ID = self.__imgDICT[key].get_ID(item, full=False)
-		# 		self.__tempLIST.append(ID)
-		# 		fileLocation = self.__imgDICT[key].get_fileLocation()
-		# 		self.__tempDICT[fileLocation] = self.__tempLIST
-		# info = str(self.__tempDICT) +'\n'
-		# targFile.write(info)
-		# targFile.write('\n<=======================================================>\n\n')
-
-		self.__tempDICT = {}
-		self.__tempLIST = []
-		for key in self.__imgDICT.keys():
-			self.__tempDICT = {}
-			self.__tempLIST = []
-			for item in range(len(self.__imgDICT[key].get_ID())):
-				ID = self.__imgDICT[key].get_ID(item, full=False)
-				info = str(ID) +'\n'
-				targFile.write(info)
-		targFile.write('\n<=======================================================>\n\n')
-
-		self.__tempDICT = {}
-		self.__tempLIST = []
-		for key in self.__imgDICT.keys():
-			self.__tempDICT = {}
-			self.__tempLIST = []
-			for item in range(len(self.__imgDICT[key].get_ID())):
-				ID = self.__imgDICT[key].get_ID(item, full=False)
-				fileLocation = self.__imgDICT[key].get_fileLocation()
-				self.__tempDICT[ID] = fileLocation
-			info = str(self.__tempDICT) +'\n'
-			targFile.write(info)
-		targFile.write('\n<=======================================================>\n\n')
-
-		self.__tempDICT = {}
-		self.__tempLIST = []
-		for key in self.__imgDICT.keys():
-			self.__tempDICT = {}
-			self.__tempLIST = []
-			for item in range(len(self.__imgDICT[key].get_ID())):
-				ID 		= self.__imgDICT[key].get_ID(item, full=False)
-				tkIMG	= self.__imgDICT[key].get_PLC_tkIMG(ID)
-				self.__tempDICT[ID] = tkIMG
-			info = str(self.__tempDICT) +'\n'
-			targFile.write(info)
-		targFile.write('\n<=======================================================>\n\n')
-
-		self.__tempDICT = {}
-		self.__tempLIST = []
-		for key in self.__imgDICT.keys():
-			self.__tempDICT = {}
-			self.__tempLIST = []
-			for item in range(len(self.__imgDICT[key].get_ID())):
-				ID 		= self.__imgDICT[key].get_ID(item, full=False)
-				pilIMG	= self.__imgDICT[key].get_PLC_pilIMG(ID)
-				self.__tempDICT[ID] = pilIMG
-			info = str(self.__tempDICT) +'\n'
-			targFile.write(info)
-		targFile.write('\n<=======================================================>\n\n')
-
-		self.__tempDICT = {}
-		self.__tempLIST = []
-		for key in self.__imgDICT.keys():
-			self.__tempDICT = {}
-			self.__tempLIST = []
-			for item in range(len(self.__imgDICT[key].get_ID())):
-				ID 		= self.__imgDICT[key].get_ID(item, full=False)
-				coords	= self.__imgDICT[key].get_PLC_Coords(ID)
-				self.__tempDICT[ID] = coords
-			info = str(self.__tempDICT) +'\n'
-			targFile.write(info)
-		targFile.write('\n<=======================================================>\n\n')
-
-		self.__tempDICT = {}
-		self.__tempLIST = []
-		for key in self.__imgDICT.keys():
-			self.__tempDICT = {}
-			self.__tempLIST = []
-			for item in range(len(self.__imgDICT[key].get_ID())):
-				ID 		= self.__imgDICT[key].get_ID(item, full=False)
-				corners = self.__imgDICT[key].get_PLC_Corners(ID)
-				self.__tempDICT[ID] = corners
-			info = str(self.__tempDICT) +'\n'
-			targFile.write(info)
-		targFile.write('\n<=======================================================>\n\n')
-
-		targFile.write('***')
-		targFile.close() #DON'T FORGET ABOUT THIS
+	def fullCLear(self):
+		item = len(self.__placedIMG_tag)-1
+		while self.__placedIMG_tag != []:
+			item -= 1
+			ID = Image_Node.Render.find_withtag(self.__placedIMG_tag[item])
+			if ID != ():
+				Image_Node.Render.delete(ID)
+				del self.__placedIMG_tag[item]
 
 
-	def open_lvlFIles(self, ):
-		filetypes = [(("TXT", "*.txt"), ("All Files", "*.*"))]
-		file = filedialog.askopenfilename(title='Level Import', filetypes=filetypes, initialdir=self.__mapFiles)
-		if file == None:
-			return
-		print('THIS HAPPEND')
-		targFile = open(file, 'r')
-		tempLIST = []
-		for line in targFile:
-			line = line.rstrip('\n')
-			# print('Original Line;', line)
-
-			ID = re.search("(^PLC#.*)", line)
-			if ID != None:
-				y = ID.group(1)
-				self.__ID_ff.append(y)
-
-				
-		print(self.__ID_ff)
+	def buttonFromSave(self, fileLoc, parent, group_ID):
+		image = self.__iNode.Img_Add(fileLoc)
+		self.__tkIMG_LIST.append(image[2])
+		self.__pilIMG_LIST.append(image[0])
+		B1 = Button(parent, image=image[2], bg=self.__color, activebackground=self.__color, command=lambda:self.drag_drop(group_ID))
+		self.__imgKEYL.append(group_ID)
+		self.__imgDICT[group_ID] = GUI_Statics(group_ID)
+		self.__imgDICT[group_ID].add_IMG(tkIMG=image[2], pilIMG=image[0])
+		self.__imgDICT[group_ID].Img_Info(tkIMG=image[2], pilIMG=image[0], fLocation=fileLoc)
 
 
-		targFile.close()
+		B1.grid(row=self.__Row, column=self.__Column)
+		if self.__Column <= self.__ColumnMAX:
+			self.__Column += 1
+		else:
+			self.__Column = 0
+			self.__Row	  +=1
 
+		return self.__imgDICT
 
 	def open_imgFiles(self, parent):
 		filetypes = (("PNG", "*.png"), ("All Files", "*.*"))
@@ -192,7 +82,12 @@ class GUI_Events():
 		newFile = re.search('.*/(.*/.*/.*$)', file)
 		file = newFile.group(1)
 
-		group_ID = 'LVL_D#00'+str(self.__IDsNUMB)
+		if self.__IDsNUMB <= 9:
+			group_ID = 'LVL_D#00'+str(self.__IDsNUMB)
+		elif self.__newNUMB > 9 and self.__IDsNUMB <= 99:
+			group_ID = 'LVL_D#0'+str(self.__IDsNUMB)
+		else:
+			group_ID = 'LVL_D#'+str(self.__IDsNUMB)
 		self.__IDsNUMB += 1
 
 		image = self.__iNode.Img_Add(file)
@@ -200,6 +95,10 @@ class GUI_Events():
 		self.__pilIMG_LIST.append(image[0])
 		B1 = Button(parent, image=image[2], bg=self.__color, activebackground=self.__color, command=lambda:self.drag_drop(group_ID))
 		self.__imgKEYL.append(group_ID)
+		# if group_ID in self.__imgDICT.keys():
+		# 	g_ID = re.search("LVL_D#(.{3})", group_ID)
+		# 	if g_ID != None:
+		# 		print(g_ID.group(1))
 		self.__imgDICT[group_ID] = GUI_Statics(group_ID)
 		self.__imgDICT[group_ID].add_IMG(tkIMG=image[2], pilIMG=image[0])
 		self.__imgDICT[group_ID].Img_Info(tkIMG=image[2], pilIMG=image[0], fLocation=file)
@@ -222,6 +121,8 @@ class GUI_Events():
 			self.__mainApp.bind_all(('<MouseWheel>'), lambda event, arg=group_ID: self.rotation(event, arg))
 		else:
 			print('OFF')
+			self.__lastRotate = 0
+			self.__isRotate = False
 			self.__isDrag = False
 			self.__pilIMG = None
 			self.__tkIMG  = None
@@ -263,41 +164,59 @@ class GUI_Events():
 		self.__CUR_widget = self.__mainApp.winfo_containing(x,y)
 
 	def placeImg(self, event, group_ID):
-		ID = 'PLC#00'+str(self.__newNUMB)
-		self.__newNUMB += 1
-		if self.__tkIMG != None:
-			self.__tkIMG_LIST.append(self.__tkIMG)
-			self.__iNode.Img_Place(self.__GRID[self.__Cur_Square][0], self.__GRID[self.__Cur_Square][1], self.__tkIMG,
-									LVD='yes', tag=[ID, group_ID])
-			self.__imgDICT[group_ID].set_ID(ID)
-			self.__imgDICT[group_ID].Placed_imgInfo(ID=ID,
-													Corners=self.__GRID[self.__Cur_Square],
-													Coords=(self.__GRID[self.__Cur_Square][0], self.__GRID[self.__Cur_Square][1]),
-													pilIMG=self.__pilIMG, tkIMG=self.__tkIMG)
-			print([group_ID], ':GroupID')
-			self.__imgDICT[group_ID].show_PLC_Data()
-			print(self.__imgDICT[group_ID].get_ID())
+		if self.__newNUMB <= 9:
+			ID = 'PLC#00'+str(self.__newNUMB)
+		elif self.__newNUMB > 9 and self.__newNUMB <= 99:
+			ID = 'PLC#0'+str(self.__newNUMB)
 		else:
-			self.__tkIMG_LIST.append(self.__imgDICT[group_ID].get_tkIMG())
-			self.__iNode.Img_Place(self.__GRID[self.__Cur_Square][0], self.__GRID[self.__Cur_Square][1],
-									self.__imgDICT[group_ID].get_tkIMG(), LVD='yes', tag=[ID, group_ID])
-			self.__imgDICT[group_ID].set_ID(ID)
-			self.__imgDICT[group_ID].Placed_imgInfo(ID=ID,
-													Corners=self.__GRID[self.__Cur_Square],
-													Coords=(self.__GRID[self.__Cur_Square][0], self.__GRID[self.__Cur_Square][1]),
-													pilIMG=self.__imgDICT[group_ID].get_pilIMG(), tkIMG=self.__imgDICT[group_ID].get_tkIMG())
-			print([group_ID], ':GroupID')
-			self.__imgDICT[group_ID].show_PLC_Data()
-			print(self.__imgDICT[group_ID].get_ID())
+			ID = 'PLC#'+str(self.__newNUMB)
+		self.__newNUMB += 1
+
+		self.__placedIMG_tag.append(ID)
+		self.imgINFO(group_ID=group_ID, ID=ID, rotation=self.__lastRotate, isRotate=self.__isRotate, tkIMG=self.__tkIMG)
+
+		# print(group_ID, ':GroupID')
+		# self.__imgDICT[group_ID].show_PLC_Data()
+		# print('ids', self.__imgDICT[group_ID].get_ID())
 
 
 	def deleteImg(self, event):
+		print('happening')
+		#incase of imeadiate delete
+		for item in range(len(self.__GRID)):
+			if event.x > self.__GRID[item][0] and event.y > self.__GRID[item][1]:
+				if event.x < self.__GRID[item][2] and event.y < self.__GRID[item][3]:
+					self.__Cur_Square = item
+
 		x1, y1, x2, y2 = self.__GRID[self.__Cur_Square]
-		img = Image_Node.Render.find_overlapping(x1, y1, x2, y2)
-		if len(img) > 1 and len(img) < 3: #this is when I don't have the grid up
-			Image_Node.Render.delete(img[1])
-		elif len(img) > 4:
-			Image_Node.Render.delete(img[len(img)-1])
+		Canvas_ID = Image_Node.Render.find_overlapping(x1, y1, x2, y2)
+		ID = None
+		saveForDel = None
+		for item in range(len(self.__placedIMG_tag)-1, -1, -1):
+			ID = Image_Node.Render.find_withtag(self.__placedIMG_tag[item])
+			if ID != ():
+				if self.__isDrag == False and len(Canvas_ID) > 4:
+					if ID[0] == Canvas_ID[4]:
+						for keys in self.__imgDICT.keys():
+							keysTag = self.__imgDICT[keys].get_ID()
+							for myTag in range(len(keysTag)-1, -1, -1):
+								if self.__placedIMG_tag[item] == keysTag[myTag]:
+									self.__imgDICT[keys].del_Placed(keysTag[myTag])
+									Image_Node.Render.delete(ID)
+									del self.__placedIMG_tag[item]
+									return
+
+				elif len(Canvas_ID) >= 1:
+					ID = Image_Node.Render.find_withtag(self.__placedIMG_tag[item])
+					if ID == Canvas_ID:
+						for keys in self.__imgDICT.keys():
+							keysTag = self.__imgDICT[keys].get_ID()
+							for myTag in range(len(keysTag)-1, -1, -1):
+								if self.__placedIMG_tag[item] == keysTag[myTag]:
+									self.__imgDICT[keys].del_Placed(keysTag[myTag])
+									Image_Node.Render.delete(ID)
+									del self.__placedIMG_tag[item]
+									return
 
 	def mousePosition(self, event): #finds coords & shows them
 		#(event.x, event.y) will always be mouse position
@@ -306,8 +225,44 @@ class GUI_Events():
 	def PASS(self):
 		pass
 
+	def imgINFO(self, group_ID, ID, Corner=None, Coord=None, rotation=None, tkIMG=None, isRotate=False, fileREAD=None):
+		if tkIMG != None:
+			if fileREAD != None:
+				self.__tkIMG_LIST.append(tkIMG)
+				x, y = fileREAD
+				self.__iNode.Img_Place(x, y, tkIMG, LVD='yes', tag=ID)
+				self.__imgDICT[group_ID].set_ID(ID)
+				if isRotate == True:
+					self.__imgDICT[group_ID].Placed_imgInfo(ID=ID, Corners=Corner, Coords=Coord, rotation=rotation)
+				else:
+					self.__imgDICT[group_ID].Placed_imgInfo(ID=ID, Corners=Corner, Coords=Coord, rotation=None)
+
+			else:
+				self.__tkIMG_LIST.append(tkIMG)
+				self.__iNode.Img_Place(self.__GRID[self.__Cur_Square][0], self.__GRID[self.__Cur_Square][1], tkIMG, LVD='yes', tag=ID)
+				self.__imgDICT[group_ID].set_ID(ID)
+				if isRotate == True:
+					self.__imgDICT[group_ID].Placed_imgInfo(ID=ID,	Corners=self.__GRID[self.__Cur_Square], Coords=(self.__GRID[self.__Cur_Square][0], self.__GRID[self.__Cur_Square][1]), rotation=self.__lastRotate)
+				else:
+					self.__imgDICT[group_ID].Placed_imgInfo(ID=ID,	Corners=self.__GRID[self.__Cur_Square], Coords=(self.__GRID[self.__Cur_Square][0], self.__GRID[self.__Cur_Square][1]), rotation=None)
+		else:
+			self.__tkIMG_LIST.append(self.__imgDICT[group_ID].get_tkIMG())
+			self.__iNode.Img_Place(self.__GRID[self.__Cur_Square][0], self.__GRID[self.__Cur_Square][1], self.__imgDICT[group_ID].get_tkIMG(), LVD='yes', tag=ID)
+			self.__imgDICT[group_ID].set_ID(ID)
+			self.__placedIMG_tag.append(ID)
+			if isRotate == True:
+				self.__imgDICT[group_ID].Placed_imgInfo(ID=ID,	Corners=self.__GRID[self.__Cur_Square], Coords=(self.__GRID[self.__Cur_Square][0], self.__GRID[self.__Cur_Square][1]), rotation=self.__lastRotate)
+			else:
+				self.__imgDICT[group_ID].Placed_imgInfo(ID=ID,	Corners=self.__GRID[self.__Cur_Square], Coords=(self.__GRID[self.__Cur_Square][0], self.__GRID[self.__Cur_Square][1]), rotation=None)
+
 
 	"""#|--------------Setters--------------|#"""
 		#this is where a list of setters will go...
 	def set_gridSETUP(self, grid):
 		self.__GRID = grid
+
+	def set_Images(self, imgDict, newNUMB, IDsNUMB, placedList):
+		self.__placedIMG_tag = placedList
+		self.__imgDICT = imgDict
+		self.__newNUMB = newNUMB
+		self.__IDsNUMB = IDsNUMB

@@ -22,11 +22,14 @@ class GUI_Statics():
 	def Img_Info(self, tkIMG, pilIMG, fLocation):
 		self.__info.Image_Data(Size=pilIMG.size, PIL_img=pilIMG, TK_img=tkIMG, file_Location=fLocation)
 
-	def Placed_imgInfo(self, ID, Corners, Coords, pilIMG, tkIMG):
-		if tkIMG == None and pilIMG == None:
-			self.__info.Placed_imgData(ID=ID, Corners=Corners, Coords=Coords, pilIMG=self.__pilIMG, tkIMG=self.__tkIMG)
+	def Placed_imgInfo(self, ID, Corners, Coords, rotation):
+		if rotation == None:
+			self.__info.Placed_imgData(ID=ID, Corners=Corners, Coords=Coords, rotation=None)
 		else:
-			self.__info.Placed_imgData(ID=ID, Corners=Corners, Coords=Coords, pilIMG=pilIMG, tkIMG=tkIMG)
+			self.__info.Placed_imgData(ID=ID, Corners=Corners, Coords=Coords, rotation=rotation)
+
+	def del_Placed(self, ID):
+		self.__info.del_Placed(ID)
 
 
 	"""#|--------------Getters--------------|#"""
@@ -46,11 +49,8 @@ class GUI_Statics():
 	def show_PLC_Data(self):
 		self.__info.show_PLC_Data()
 
-	def get_PLC_tkIMG(self, key):
-		return self.__info.get_PLC_tkIMG(key)
-
-	def get_PLC_pilIMG(self, key):
-		return self.__info.get_PLC_pilIMG(key)
+	def get_PLC_Rotation(self, key):
+		return self.__info.get_PLC_Rotation(key)
 
 	def get_PLC_Coords(self, key):
 		return self.__info.get_PLC_Coords(key)

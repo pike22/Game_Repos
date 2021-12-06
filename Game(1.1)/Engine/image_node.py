@@ -53,7 +53,6 @@ class Image_Node(Node):
 			return self.__PlaceCOR
 
 		elif LVD != 'no': #this is for the level designer
-
 			Canvas_ID = Image_Node.Render.create_image((x, y), image=image,anchor="nw")
 			if tag != None:
 				Image_Node.Render.addtag_withtag(tag, Canvas_ID)

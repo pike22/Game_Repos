@@ -15,8 +15,7 @@ class IMG_Info():
 		#save to txt
 		self.__PLC_Corners = {}
 		self.__PLC_Coords  = {}
-		self.__PLC_pilIMG  = {}
-		self.__PLC_tkIMG   = {}
+		self.__PLC_Rotation= {}
 
 
 	def Image_Data(self, Size=None, PIL_img=None, TK_img=None, file_Location=None):
@@ -28,11 +27,26 @@ class IMG_Info():
 	def Item_Data(self, Coords=None):
 		self.__Coords = Coords
 
-	def Placed_imgData(self, ID, Corners, Coords, pilIMG, tkIMG):
+	def Placed_imgData(self, ID, Corners, Coords, rotation):
 		self.__PLC_Corners[ID] = Corners
 		self.__PLC_Coords[ID]  = Coords
-		self.__PLC_pilIMG[ID]  = pilIMG
-		self.__PLC_tkIMG[ID]   = tkIMG
+		self.__PLC_Rotation[ID]= rotation
+
+	def del_Placed(self, ID):
+		del self.__PLC_Corners[ID]
+		del self.__PLC_Coords[ID]
+		print(self.__PLC_Rotation, 'old')
+		del self.__PLC_Rotation[ID]
+		print(self.__PLC_Rotation, 'new')
+		for item in range(len(self.__ID)-1, -1, -1):
+			if ID == self.__ID[item]:
+				print(self.__ID, 'old')
+				print(self.__ID[item], 'targ DEL')
+				del self.__ID[item]
+				print(self.__ID, 'new')
+				return
+		return
+
 
 
 	"""|--------------Getters--------------|#"""
@@ -62,19 +76,14 @@ class IMG_Info():
 	def get_group_ID(self):
 		return self.__group_ID
 
-	def show_PLC_Data(self, ):
-		print(	self.__PLC_Coords, '\n',
-				self.__PLC_Corners, '\n',
-				self.__PLC_tkIMG, '\n',
-				self.__PLC_pilIMG, '\n'	)
+	def show_PLC_Data(self):
+		print('coord',	self.__PLC_Coords, '\n',
+			  'Corner', self.__PLC_Corners, '\n',
+			  'rotate', self.__PLC_Rotation, '\n')
 
-	def get_PLC_tkIMG(self, key):
-		# print(self.__PLC_tkIMG[key], 'tk')
-		return self.__PLC_tkIMG[key]
-
-	def get_PLC_pilIMG(self, key):
-		# print(self.__PLC_pilIMG[key], 'pil')
-		return self.__PLC_pilIMG[key]
+	def get_PLC_Rotation(self, key):
+		# print(self.__PLC_Rotation[key], 'tk')
+		return self.__PLC_Rotation[key]
 
 	def get_PLC_Coords(self, key):
 		# print(self.__PLC_Coords[key], 'Coords')

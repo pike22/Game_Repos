@@ -3,16 +3,19 @@ from Engine import *
 from tkinter import filedialog
 from PIL import ImageTk, Image #PIL = Pillow
 from .gui_events import GUI_Events
+from .si_file import SI_File
 
 
 class GUI_Main():
 	def __init__(self, iNode, cLogic, kNode, mainApp, color):
+		self.__Key = 32
 		self.__iNode  = iNode
 		self.__kNode  = kNode
 		self.__cLogic = cLogic
 		self.__mainApp= mainApp
 		self.__color  = color
-		self.__eGUI	  = GUI_Events(iNode, cLogic, kNode, mainApp, color)
+		self.__eGUI	  = GUI_Events(iNode, cLogic, kNode, mainApp, color, self.__Key)
+		self.__siFILE = SI_File(iNode, mainApp, self.__eGUI, self.__Key)
 
 		#Frame Vars
 		self.__ImgList= None
@@ -24,7 +27,6 @@ class GUI_Main():
 		self.__lvlImport = None
 
 		#Grid Mapping
-		self.__Key = 32
 		self.__x, self.__y = 0, 0
 		self.__linex, self.__liney = 0, 0
 		self.__placeABLE = [] #(x1, y1, x2, y2) this represents one square of the grid
@@ -38,13 +40,15 @@ class GUI_Main():
 		for frame in [self.__ImgList, ]:
 			frame.grid_propagate(0)
 
+		self.__siFILE.set_imgFrame(self.__ImgList)
+
 		"""#__event Calls__#"""
 		# self.__mainApp.bind_all(('<Button-1>'), self.__eGUI.mousePosition)
 		self.__mainApp.bind_all(('<Button-3>'), self.__eGUI.deleteImg)
 
 		"""#__Button Creation & Placement__#"""
-		self.__lvlImport = Button(self.__mainApp, text='Import LVL', width=16, height=2, command=self.__eGUI.open_lvlFIles)
-		self.__saveFILE = Button(self.__mainApp, text='Save', width=16, height=2, command=self.__eGUI.saveFILE)
+		self.__lvlImport = Button(self.__mainApp, text='Import LVL', width=16, height=2, command=self.__siFILE.open_lvlFIles)
+		self.__saveFILE = Button(self.__mainApp, text='Save', width=16, height=2, command=self.__siFILE.saveFILE)
 		self.__delKEY = Button(self.__mainApp, text='Map Wipe', width=16, height=2, command=self.__eGUI.fullCLear)
 		self.__Import = Button(self.__mainApp, text='Import Image', width=16, height=2,
 											   command=lambda:self.__eGUI.open_imgFiles(self.__ImgList))
