@@ -1,0 +1,215 @@
+PLC#000
+PLC#010
+PLC#039
+PLC#040
+PLC#041
+PLC#042
+PLC#043
+PLC#044
+PLC#046
+PLC#047
+PLC#048
+PLC#049
+PLC#001
+PLC#007
+PLC#008
+PLC#009
+PLC#011
+PLC#012
+PLC#013
+PLC#014
+PLC#015
+PLC#020
+PLC#021
+PLC#022
+PLC#023
+PLC#024
+PLC#025
+PLC#026
+PLC#027
+PLC#028
+PLC#029
+PLC#035
+PLC#036
+PLC#037
+PLC#038
+PLC#045
+PLC#050
+PLC#051
+PLC#052
+PLC#053
+
+<=======================================================>
+
+PLC#000=z_Pictures/Walls/corner01.png
+PLC#010=z_Pictures/Walls/corner01.png
+PLC#039=z_Pictures/Walls/corner01.png
+PLC#040=z_Pictures/Walls/corner01.png
+PLC#041=z_Pictures/Walls/corner01.png
+PLC#042=z_Pictures/Walls/corner01.png
+PLC#043=z_Pictures/Walls/corner01.png
+PLC#044=z_Pictures/Walls/corner01.png
+PLC#046=z_Pictures/Walls/cornerin.png
+PLC#047=z_Pictures/Walls/cornerin.png
+PLC#048=z_Pictures/Walls/cornerin.png
+PLC#049=z_Pictures/Walls/cornerin.png
+PLC#001=z_Pictures/Walls/wall01.png
+PLC#007=z_Pictures/Walls/wall01.png
+PLC#008=z_Pictures/Walls/wall01.png
+PLC#009=z_Pictures/Walls/wall01.png
+PLC#011=z_Pictures/Walls/wall01.png
+PLC#012=z_Pictures/Walls/wall01.png
+PLC#013=z_Pictures/Walls/wall01.png
+PLC#014=z_Pictures/Walls/wall01.png
+PLC#015=z_Pictures/Walls/wall01.png
+PLC#020=z_Pictures/Walls/wall01.png
+PLC#021=z_Pictures/Walls/wall01.png
+PLC#022=z_Pictures/Walls/wall01.png
+PLC#023=z_Pictures/Walls/wall01.png
+PLC#024=z_Pictures/Walls/wall01.png
+PLC#025=z_Pictures/Walls/wall01.png
+PLC#026=z_Pictures/Walls/wall01.png
+PLC#027=z_Pictures/Walls/wall01.png
+PLC#028=z_Pictures/Walls/wall01.png
+PLC#029=z_Pictures/Walls/wall01.png
+PLC#035=z_Pictures/Walls/wall01.png
+PLC#036=z_Pictures/Walls/wall01.png
+PLC#037=z_Pictures/Walls/wall01.png
+PLC#038=z_Pictures/Walls/wall01.png
+PLC#045=z_Pictures/Walls/wall01.png
+PLC#050=z_Pictures/Walls/dooropen.png
+PLC#051=z_Pictures/Walls/dooropen.png
+PLC#052=z_Pictures/Walls/dooropen.png
+PLC#053=z_Pictures/Walls/dooropen.png
+
+<=======================================================>
+
+PLC#000=zNone
+PLC#010=z90
+PLC#039=zNone
+PLC#040=z270
+PLC#041=z270
+PLC#042=z540
+PLC#043=z540
+PLC#044=z810
+PLC#046=z90
+PLC#047=z180
+PLC#048=z270
+PLC#049=z360
+PLC#001=zNone
+PLC#007=zNone
+PLC#008=zNone
+PLC#009=zNone
+PLC#011=z90
+PLC#012=z90
+PLC#013=z270
+PLC#014=z270
+PLC#015=z360
+PLC#020=z1260
+PLC#021=z1350
+PLC#022=z1350
+PLC#023=z1620
+PLC#024=z1620
+PLC#025=z1620
+PLC#026=z1620
+PLC#027=z2250
+PLC#028=z2250
+PLC#029=z2340
+PLC#035=z2970
+PLC#036=z2970
+PLC#037=z3150
+PLC#038=z3150
+PLC#045=zNone
+PLC#050=zNone
+PLC#051=z90
+PLC#052=z180
+PLC#053=z270
+
+<=======================================================>
+
+PLC#000=z(864, 128)
+PLC#010=z(672, 128)
+PLC#039=z(928, 224)
+PLC#040=z(928, 352)
+PLC#041=z(864, 448)
+PLC#042=z(672, 448)
+PLC#043=z(608, 352)
+PLC#044=z(608, 224)
+PLC#046=z(672, 224)
+PLC#047=z(672, 352)
+PLC#048=z(864, 352)
+PLC#049=z(864, 224)
+PLC#001=z(832, 128)
+PLC#007=z(800, 128)
+PLC#008=z(736, 128)
+PLC#009=z(704, 128)
+PLC#011=z(672, 160)
+PLC#012=z(672, 192)
+PLC#013=z(864, 160)
+PLC#014=z(864, 192)
+PLC#015=z(896, 224)
+PLC#020=z(896, 352)
+PLC#021=z(864, 384)
+PLC#022=z(864, 416)
+PLC#023=z(832, 448)
+PLC#024=z(800, 448)
+PLC#025=z(736, 448)
+PLC#026=z(704, 448)
+PLC#027=z(672, 416)
+PLC#028=z(672, 384)
+PLC#029=z(640, 352)
+PLC#035=z(608, 256)
+PLC#036=z(608, 320)
+PLC#037=z(928, 256)
+PLC#038=z(928, 320)
+PLC#045=z(640, 224)
+PLC#050=z(768, 128)
+PLC#051=z(608, 288)
+PLC#052=z(768, 448)
+PLC#053=z(928, 288)
+
+<=======================================================>
+
+PLC#000=LVL_D#000
+PLC#010=LVL_D#000
+PLC#039=LVL_D#000
+PLC#040=LVL_D#000
+PLC#041=LVL_D#000
+PLC#042=LVL_D#000
+PLC#043=LVL_D#000
+PLC#044=LVL_D#000
+PLC#046=LVL_D#001
+PLC#047=LVL_D#001
+PLC#048=LVL_D#001
+PLC#049=LVL_D#001
+PLC#001=LVL_D#002
+PLC#007=LVL_D#002
+PLC#008=LVL_D#002
+PLC#009=LVL_D#002
+PLC#011=LVL_D#002
+PLC#012=LVL_D#002
+PLC#013=LVL_D#002
+PLC#014=LVL_D#002
+PLC#015=LVL_D#002
+PLC#020=LVL_D#002
+PLC#021=LVL_D#002
+PLC#022=LVL_D#002
+PLC#023=LVL_D#002
+PLC#024=LVL_D#002
+PLC#025=LVL_D#002
+PLC#026=LVL_D#002
+PLC#027=LVL_D#002
+PLC#028=LVL_D#002
+PLC#029=LVL_D#002
+PLC#035=LVL_D#002
+PLC#036=LVL_D#002
+PLC#037=LVL_D#002
+PLC#038=LVL_D#002
+PLC#045=LVL_D#002
+PLC#050=LVL_D#003
+PLC#051=LVL_D#003
+PLC#052=LVL_D#003
+PLC#053=LVL_D#003
+
+<=======================================================>
+

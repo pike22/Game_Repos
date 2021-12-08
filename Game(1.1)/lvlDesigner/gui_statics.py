@@ -55,7 +55,7 @@ class GUI_Statics():
 	def get_PLC_Rotation(self, key):
 		return self.__info.get_PLC_Rotation(key)
 
-	def get_PLC_Coords(self, key):
+	def get_Coords(self, key):
 		return self.__info.get_PLC_Coords(key)
 
 	def	get_PLC_Corners(self, key):

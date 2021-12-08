@@ -31,7 +31,10 @@ class Alpha():
 
 		'''#_Static Parameters_#'''
 		self.__staticRoster = ['#wall', '#floor', ]
+		self.__wallRoster	= []
 
+		#other classes
+		self.__MGF = Maps_GetFile()
 		#collision logic v2.
 		self.__cLogic = Collision_Logic(self.__staticRoster)
 		self.__cNode  = Collision_Node(self.__cLogic)
@@ -57,6 +60,10 @@ class Alpha():
 		#yes
 		self.__Entities.set_mainApp(self.__mainApp)
 		self.__Projectiles.set_Nodes(self.__iNode, self.__kNode, self.__cLogic)
+
+		#Level Location Imports
+		self.__levelONE = self.__MGF.get_levelONE()
+		self.__levelTWO = self.__MGF.get_levelTWO()
 
 
 
@@ -113,17 +120,20 @@ class Alpha():
 			print('<-----------END----------->')
 			print('<------------------------->')
 			self.__mainApp.destroy()
+			return True
 
 	def GamesetUP(self):
 		# #__Statics SETUP__#
-		# self.__siFILE.open_lvlFIles('E:\Github\Game_Repos_1\Game(1.1)\lvlDesigner\mapSaves\CollisionTESTER.txt')
-		# self.__imgDICT = self.__siFILE.get_imgDICT()
-		#
-		# for key in self.__imgDICT.keys():
-		# 	for item in range(len(self.__imgDICT[key].get_ID())):
-		# 		if self.__imgDICT[key].get_PLC_Collision() == True:
-		# 			self.__cLogic.addColDict(tagOrId=self.__imgDICT[key].get_ID(item, full=False), obj=self.__imgDICT[key])
-		# 			self.__cLogic.add_Collision(LVD_Corner=self.__imgDICT[key].get_PLC_Corners(self.__imgDICT[key].get_ID(item, full=False)))
+		self.__siFILE.open_lvlFIles(self.__levelTWO)
+		self.__imgDICT = self.__siFILE.get_imgDICT()
+
+		for key in self.__imgDICT.keys():
+			for item in range(len(self.__imgDICT[key].get_ID())):
+				if self.__imgDICT[key].get_PLC_Collision() == True:
+					self.__cLogic.addColDict(tagOrId=self.__imgDICT[key].get_ID(item, full=False), obj=self.__imgDICT[key])
+					self.__cLogic.add_Collision(LVD_Corner=self.__imgDICT[key].get_PLC_Corners(self.__imgDICT[key].get_ID(item, full=False)))
+					self.__wallRoster.append(self.__imgDICT[key].get_ID(item, full=False))
+					self.__cNode.set_wallRoster(self.__wallRoster)
 
 		#Bellow is Entity set up
 		self.__Player.player_setUP(x=96, y=160)
@@ -142,16 +152,7 @@ class Alpha():
 				r_Stal.stalfos_setUP(self.__Sc_Width, self.__Sc_Height)
 				# r_Stal.Stalfos_Print()
 
-		# #__Statics SETUP__#
-		self.__siFILE.open_lvlFIles('E:\Github\Game_Repos_1\Game(1.1)\lvlDesigner\mapSaves\CollisionTESTER.txt')
-		self.__imgDICT = self.__siFILE.get_imgDICT()
-
-		for key in self.__imgDICT.keys():
-			for item in range(len(self.__imgDICT[key].get_ID())):
-				if self.__imgDICT[key].get_PLC_Collision() == True:
-					self.__cLogic.addColDict(tagOrId=self.__imgDICT[key].get_ID(item, full=False), obj=self.__imgDICT[key])
-					self.__cLogic.add_Collision(LVD_Corner=self.__imgDICT[key].get_PLC_Corners(self.__imgDICT[key].get_ID(item, full=False)))
-
+				
 		#_Weapon SETUP_#
 
 		#_CLOCK SETUP_#
@@ -162,7 +163,9 @@ class Alpha():
 	def gameLoop(self):
 
 		#to kill the window
-		self.close_window()
+		a = self.close_window()
+		if a == True:
+			return
 		# self.new_Player()
 
 
@@ -295,6 +298,3 @@ Game.Testing_Debug()
 print('----------------------------')
 Game.gameLoop()
 Game.get_mainAPP().mainloop()
-print('<------------------------->')
-print('<-----------END----------->')
-print('<------------------------->')

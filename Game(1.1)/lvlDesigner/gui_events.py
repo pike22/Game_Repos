@@ -1,4 +1,5 @@
 import re
+import os
 from tkinter import *
 from Engine import *
 from tkinter import filedialog
@@ -52,17 +53,6 @@ class GUI_Events():
 		self.__timeP = 0
 
 
-	"""BUTTON PRESS FUNCTIONS"""
-	def fullCLear(self):
-		item = len(self.__placedIMG_tag)-1
-		while self.__placedIMG_tag != []:
-			item -= 1
-			ID = Image_Node.Render.find_withtag(self.__placedIMG_tag[item])
-			if ID != ():
-				Image_Node.Render.delete(ID)
-				del self.__placedIMG_tag[item]
-
-
 	def buttonFromSave(self, fileLoc, parent, button_ID, MG=None):
 		image = self.__iNode.Img_Add(fileLoc)
 		self.__tkIMG_LIST.append(image[2])
@@ -94,10 +84,13 @@ class GUI_Events():
 	def open_imgFiles(self, parent):
 		filetypes = (("PNG", "*.png"), ("All Files", "*.*"))
 		file = filedialog.askopenfilename(title='Picture Import', filetypes=filetypes, initialdir=self.__pngFiles)
-		if file == None:
-			return
+		if file == '':
+			print('No File Selected')
 		newFile = re.search('.*/(.*/.*/.*$)', file)
-		file = newFile.group(1)
+		if newFile != None:
+			file = newFile.group(1)
+		else:
+			return
 
 		if self.__IDsNUMB <= 9:
 			button_ID = 'LVL_D#00'+str(self.__IDsNUMB)
@@ -204,6 +197,26 @@ class GUI_Events():
 		# print('ids', self.__imgDICT[button_ID].get_ID())
 
 
+	def fullCLear(self):
+		item = len(self.__placedIMG_tag)-1
+		while self.__placedIMG_tag != []:
+			item -= 1
+			if item == 0:
+				item = len(self.__placedIMG_tag)-1
+			ID = Image_Node.Render.find_withtag(self.__placedIMG_tag[item])
+			if ID != ():
+				for key in self.__imgDICT.keys():
+					keyID = self.__imgDICT[key].get_ID(full=True)
+					if keyID != []:
+						if self.__placedIMG_tag[item] == self.__imgDICT[key].get_ID(len(keyID)-1, full=False):
+							self.__imgDICT[key].del_Placed(self.__placedIMG_tag[item])
+							Image_Node.Render.delete(ID)
+							del self.__placedIMG_tag[item]
+					else:
+						pass
+
+
+
 	def deleteImg(self, event):
 		# print('Delete?') #This is so I know it is at least working
 		#incase of imeadiate delete
@@ -239,6 +252,14 @@ class GUI_Events():
 									Image_Node.Render.delete(ID)
 									del self.__placedIMG_tag[item]
 									return
+	def del_file(self):
+		filetypes = [(("TXT", "*.txt"), ("All Files", "*.*"))]
+		file = filedialog.askopenfilename(title='Select to Be Deleted', filetypes=filetypes, initialdir=self.__mapFiles)
+		if file == '':
+			print('No File Selected')
+			return
+		os.remove(file)
+		print('file Removed')
 
 	def mousePosition(self, event): #finds coords & shows them
 		#(event.x, event.y) will always be mouse position

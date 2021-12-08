@@ -50,6 +50,7 @@ class GUI_Main():
 
 		"""#__Button Creation & Placement__#"""
 		self.__lvlImport = Button(self.__mainApp, text='Import LVL', width=16, height=2, command=self.__siFILE.open_lvlFIles)
+		self.__delFILE = Button(self.__mainApp, text='Delete File', width=16, height=2, command=self.__eGUI.del_file)
 		self.__saveFILE = Button(self.__mainApp, text='Save', width=16, height=2,
 											   command=lambda:self.__siFILE.saveFILE(self.__eGUI.get_imgDICT()))
 		self.__delKEY = Button(self.__mainApp, text='Map Wipe', width=16, height=2, command=self.__eGUI.fullCLear)
@@ -58,6 +59,7 @@ class GUI_Main():
 
 		self.__Import.grid(row=1, column=2)
 		self.__delKEY.grid(row=2, column=3)
+		self.__delFILE.grid(row=3, column=2)
 		self.__saveFILE.grid(row=1, column=3)
 		self.__lvlImport.grid(row=2, column=2)
 

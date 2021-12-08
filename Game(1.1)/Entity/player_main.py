@@ -80,6 +80,7 @@ class Player_Main(All_Entities):
 
 	def Movement_Controll(self):
 		if self.__isStatic == False:
+			self.__kNode.set_Speed(5)
 			if keyboard.is_pressed(self.__key_up):
 				self.__Direction = 'up'
 				new_Coords = self.__kNode.kinetics(self.__info.get_Coords(), self.__info.get_ID(), self.__Direction)#, neg=False)

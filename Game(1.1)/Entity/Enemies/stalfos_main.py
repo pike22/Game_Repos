@@ -81,7 +81,7 @@ class Stalfos_Main(Enemy_Main):
 			# print(self.__var, S#82)
 			self.__var += 11
 
-
+		self.__kNode.set_Speed(5)
 		if self.__randNum == 0:
 			direction = "up"
 			new_Coords = self.__kNode.kinetics(self.__info.get_Coords(), self.__info.get_ID(), direction)#, neg=False)

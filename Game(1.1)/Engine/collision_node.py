@@ -14,6 +14,7 @@ class Collision_Node(Node):
 		self.__staticRoster	 = None
 		self.__weaponRoster	 = None
 		self.__enemyRoster	 = None
+		self.__wallRoster	 = None
 		self.__projRoster	 = None
 
 		#COllision Result save
@@ -79,14 +80,16 @@ class Collision_Node(Node):
 					pass
 
 				"""#__# STATIC COL_LOGIC #__#"""
-				# if self.__Result[item] == self.__logic.tagToObj('W#001'):
-				# 	if item == len(self.__Result)-1:
-				# 		pass
-				# 	elif item != len(self.__Result)-1:
-				# 		if self.__Result[item+1].get_group_ID() in self.__weaponRoster:
-				# 			print('CLANG!!!!!')
-				# 		if self.__Result[item+1].get_group_ID() in self.__projRoster:
-				# 			self.__Result[item+1].del_Proj()
+				if self.__Result[item] in self.__wallRoster:
+					if item == len(self.__Result)-1:
+						print('hell0')
+						pass
+					else:
+						print('goodbye')
+						if self.__Result[item+1].get_group_ID() in self.__weaponRoster:
+							print('CLANG!!!!!')
+						if self.__Result[item+1].get_group_ID() in self.__projRoster:
+							self.__Result[item+1].del_Proj()
 		# print('--------------------------------------')
 
 
@@ -112,3 +115,7 @@ class Collision_Node(Node):
 
 	def set_staticRoster(self, Roster):
 		self.__staticRoster = Roster
+
+	def set_wallRoster(self, Roster):
+		self.__wallRoster = Roster
+		self.__logic.set_listOfWalls(Roster)

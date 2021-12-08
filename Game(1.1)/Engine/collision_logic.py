@@ -1,3 +1,4 @@
+import re
 from .image_node import Image_Node
 
 class Collision_Logic():
@@ -10,6 +11,7 @@ class Collision_Logic():
 		self.__isCollision = False
 
 		#vars for statics
+		self.__wallRoster = []
 		self.__Statics = statics
 		self.__keyA = None
 		self.__keyB = None
@@ -74,6 +76,7 @@ class Collision_Logic():
 
 		#this only shows what is colliding.
 		if len(collision) > 1:
+			self.__collision = []
 			for item in range(len(collision)):
 				# print('item:', item, 'CL#59')
 				tag = Image_Node.Render.gettags(collision[item])
@@ -84,14 +87,27 @@ class Collision_Logic():
 					self.__collision.append(tag[0])
 			print(self.__collision, 'Colliding') #print Tags of Entity Colliding
 
+			self.oldList = self.__collision
+			self.__collision = []
+			for item in range(len(self.oldList)-1, -1, -1):
+				tagOrId = self.oldList[item]
+				if tagOrId not in self.__wallRoster:
+					self.__collision.append(tagOrId)
+				elif tagOrId in self.__wallRoster and self.__collision != []:
+					self.__collision.append(tagOrId)
+			print(self.__collision, 'new Colliding') #print Tags of Entity Colliding
+
+
 			for item in range(len(self.__collision)):
 				tagOrId = self.__collision[item]
-				obj		= self.__Col_Dict[tagOrId]
+				obj = self.__Col_Dict[tagOrId]
 
-				# print(obj, 'obj')
-				# print(tagOrId, 'tag')
+
 				if self.__obj_list == [] or len(self.__obj_list) == 1:
 					self.__obj_list.append(obj)
+				else:
+					self.__obj_list.append(obj)
+
 
 			self.__isCollision = True
 			# print(self.__obj_list, 'objList')
@@ -187,4 +203,5 @@ class Collision_Logic():
 
 	"""|--------------Setters--------------|#"""
 		#this is where a list of setters will go...
-	# def set_...
+	def set_listOfWalls(self, list):
+		self.__wallRoster = list

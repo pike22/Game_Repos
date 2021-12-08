@@ -37,17 +37,14 @@ class SI_File():
 		self.__isRotate		= False
 
 		self.__rotateVar = None
-		self.__newNUMB	 = 0
-		self.__IDsNUMB	 = 0
+		self.__newNUMB	 = 1
+		self.__IDsNUMB	 = 1
 
 
 	def saveFILE(self, imgDICT):
 		self.__imgDICT = imgDICT
 		filetype = [('Text Document', '*.txt'), ('All Files', '*.*')]
 		file = filedialog.asksaveasfile(title='Save Map', filetypes=filetype, defaultextension=filetype, initialdir=self.__mapFiles)
-		if file == None:
-			print('None')
-			return
 
 		targFile = open(str(file.name), 'w')
 
@@ -56,6 +53,7 @@ class SI_File():
 				ID   = self.__imgDICT[key].get_ID(item, full=False)
 				info = str(ID) +'\n'
 				targFile.write(info)
+				# print(info)
 		targFile.write('\n<=======================================================>\n\n')
 
 		for key in self.__imgDICT.keys():
@@ -64,6 +62,7 @@ class SI_File():
 				ID 	 = self.__imgDICT[key].get_ID(item, full=False)
 				info = str(ID)+'='+str(fileLocation) +'\n'
 				targFile.write(info)
+				# print(info)
 		targFile.write('\n<=======================================================>\n\n')
 
 		for key in self.__imgDICT.keys():
@@ -72,6 +71,7 @@ class SI_File():
 				rotation = self.__imgDICT[key].get_PLC_Rotation(ID)
 				info = str(ID)+'=z'+str(rotation) +'\n'
 				targFile.write(info)
+				# print(info)
 		targFile.write('\n<=======================================================>\n\n')
 
 		for key in self.__imgDICT.keys():
@@ -80,6 +80,7 @@ class SI_File():
 				coords	= self.__imgDICT[key].get_PLC_Coords(ID)
 				info = str(ID)+'=z'+str(coords) +'\n'
 				targFile.write(info)
+				# print(info)
 		targFile.write('\n<=======================================================>\n\n')
 
 		for key in self.__imgDICT.keys():
@@ -87,14 +88,8 @@ class SI_File():
 				ID 	 = self.__imgDICT[key].get_ID(item, full=False)
 				info = str(ID)+'='+str(key) +'\n'
 				targFile.write(info)
+				# print(info)
 		targFile.write('\n<=======================================================>\n\n')
-
-		# for key in self.__imgDICT.keys():
-		# 	for item in range(len(self.__imgDICT[key].get_ID())):
-		# 		ID 	 = self.__imgDICT[key].get_ID(item, full=False)
-		# 		info = str(ID)+'='+str(self.__imgDICT[key].get_PLC_Collision(ID)) +'\n'
-		# 		targFile.write(info)
-		# targFile.write('\n<=======================================================>\n\n')
 
 		targFile.close() #DON'T FORGET ABOUT THIS
 
@@ -103,13 +98,15 @@ class SI_File():
 		filetypes = [(("TXT", "*.txt"), ("All Files", "*.*"))]
 		if mainGame == None:
 			self.__lvlFILE = filedialog.askopenfilename(title='Level Import', filetypes=filetypes, initialdir=self.__mapFiles)
-			if self.__lvlFILE == None:
+			if self.__lvlFILE == '':
+				print('No File Selected')
 				return
 			targFile = open(self.__lvlFILE, 'r')
 		else:
 			targFile = open(mainGame, 'r')
 		tempLIST = []
 		counting = 0
+		lastg_ID = None
 		seperator = None
 		for line in targFile:
 			line = line.rstrip('\n')
@@ -147,8 +144,13 @@ class SI_File():
 			if g_ID != None and seperator == None:
 				newg_ID = g_ID.group(1)
 				if counting == 4:
-					self.__gIDfile.append(newg_ID)
+					if lastg_ID != None:
+						if newg_ID != lastg_ID:
+							self.__gIDfile.append(newg_ID)
+					else:
+						self.__gIDfile.append(newg_ID)
 					self.__gID_DICT[newID] = newg_ID
+					lastg_ID = newg_ID
 
 			seperator = re.search("(^<.*$)", line)
 			if seperator != None:
@@ -172,7 +174,9 @@ class SI_File():
 		pilIMG = None
 		self.__rotateVar = None
 		lastKEY = None
-		self.__newNUMB += len(self.__IDfile)
+		lenID = re.search("^PLC#(.{3})", self.__IDfile[len(self.__IDfile)-1])
+		newlenID = lenID.group(1)
+		self.__newNUMB += int(newlenID)
 		self.__IDsNUMB += len(self.__gIDfile)
 		for item in range(len(self.__IDfile)):
 			image = self.__iNode.Img_Add(self.__fileDICT[self.__IDfile[item]])
@@ -234,7 +238,7 @@ class SI_File():
 
 			self.__eGUI.set_Images(self.__imgDICT, self.__newNUMB, self.__IDsNUMB, self.__placedIMG_tag)
 
-			
+
 
 	"""#|--------------Setters--------------|#"""
 		#this is where a list of setters will go...

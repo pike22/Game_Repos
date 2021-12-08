@@ -63,6 +63,7 @@ class Arrow_Main(Projectiles):
 
 	def isActive(self):
 		# print('hello"')
+		self.__kNode.set_Speed(15)
 		if self.__Direction == 'up':
 			new_Coords = self.__kNode.kinetics(self.__info.get_Coords(), self.__ID, 'up')
 			self.__info.set_Coords(new_Coords)
