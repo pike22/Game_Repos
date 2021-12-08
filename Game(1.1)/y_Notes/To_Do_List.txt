@@ -37,3 +37,26 @@ TO DO LIST: (4.7.2021) //make new ones once this one is done.
 
 	14) Create more enemy types
 	15) Create more Weapons
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Logan's TO DO
+ - variety of walls
+ - Weapon Ideas (spells yes, flails LATER)
+ - enemy class types
+ - animation

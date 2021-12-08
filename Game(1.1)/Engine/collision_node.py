@@ -22,7 +22,7 @@ class Collision_Node(Node):
 
 
 	def use_Collision(self, cornerList, totItemCount):
-		self.__logic.add_Collision(cornerList)
+		self.__logic.add_Collision(listofCorners=cornerList)
 
 		self.__Result = None
 		for item in range(totItemCount):
@@ -47,12 +47,15 @@ class Collision_Node(Node):
 				if self.__Result[item] == self.__logic.tagToObj('P#001'): #player is always checked first
 					side = self.__logic.Side_Calc()
 					# print('Player direction:', side)
-					if self.__Result[item+1].get_group_ID() in self.__enemyRoster:
-						self.__logic.tagToObj('P#001').my_Collision(OSC='Enemy', OSA=self.__Result[item+1].get_attack(), side=side)
-					elif self.__Result[item+1].get_group_ID() in self.__weaponRoster:
-						self.__Result[item+1].del_item()
-					elif self.__Result[item+1].get_group_ID() in self.__staticRoster:
-						self.__logic.tagToObj('P#001').my_Collision(OSC='Static', side=side)
+					if item == len(self.__Result)-1:
+						pass
+					elif item != len(self.__Result)-1:
+						if self.__Result[item+1].get_group_ID() in self.__enemyRoster:
+							self.__logic.tagToObj('P#001').my_Collision(OSC='Enemy', OSA=self.__Result[item+1].get_attack(), side=side)
+						elif self.__Result[item+1].get_group_ID() in self.__weaponRoster:
+							self.__Result[item+1].del_item()
+						elif self.__Result[item+1].get_group_ID() in self.__staticRoster:
+							self.__logic.tagToObj('P#001').my_Collision(OSC='Static', side=side)
 
 				"""#__# STALFOS COL_LOGIC #__#"""
 				if self.__Result[item].get_ID() in self.__stalfosRoster:
@@ -76,14 +79,14 @@ class Collision_Node(Node):
 					pass
 
 				"""#__# STATIC COL_LOGIC #__#"""
-				if self.__Result[item] == self.__logic.tagToObj('W#001'):
-					if item == len(self.__Result)-1:
-						pass
-					elif item != len(self.__Result)-1:
-						if self.__Result[item+1].get_group_ID() in self.__weaponRoster:
-							print('CLANG!!!!!')
-						if self.__Result[item+1].get_group_ID() in self.__projRoster:
-							self.__Result[item+1].del_Proj()
+				# if self.__Result[item] == self.__logic.tagToObj('W#001'):
+				# 	if item == len(self.__Result)-1:
+				# 		pass
+				# 	elif item != len(self.__Result)-1:
+				# 		if self.__Result[item+1].get_group_ID() in self.__weaponRoster:
+				# 			print('CLANG!!!!!')
+				# 		if self.__Result[item+1].get_group_ID() in self.__projRoster:
+				# 			self.__Result[item+1].del_Proj()
 		# print('--------------------------------------')
 
 

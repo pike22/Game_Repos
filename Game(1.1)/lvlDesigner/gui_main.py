@@ -7,10 +7,11 @@ from .si_file import SI_File
 
 
 class GUI_Main():
-	def __init__(self, iNode, cLogic, kNode, mainApp, color):
+	def __init__(self, cLogic, iNode, kNode, cNode, mainApp, color):
 		self.__Key = 32
 		self.__iNode  = iNode
 		self.__kNode  = kNode
+		self.__cNode  = cNode
 		self.__cLogic = cLogic
 		self.__mainApp= mainApp
 		self.__color  = color
@@ -25,6 +26,7 @@ class GUI_Main():
 		self.__delKEY = None
 		self.__saveFILE = None
 		self.__lvlImport = None
+		self.__CCollision = None
 
 		#Grid Mapping
 		self.__x, self.__y = 0, 0
@@ -33,7 +35,7 @@ class GUI_Main():
 
 	def windowSETUP(self):
 		"""#__Frame Creation & Placement__#"""
-		self.__ImgList = LabelFrame(self.__mainApp, text="Imported", width=250, height=600, bg=self.__color)
+		self.__ImgList = LabelFrame(self.__mainApp, text="Imported", width=250, height=500, bg=self.__color)
 
 		self.__ImgList.grid(row=0, column=2, columnspan=10)
 
@@ -48,7 +50,8 @@ class GUI_Main():
 
 		"""#__Button Creation & Placement__#"""
 		self.__lvlImport = Button(self.__mainApp, text='Import LVL', width=16, height=2, command=self.__siFILE.open_lvlFIles)
-		self.__saveFILE = Button(self.__mainApp, text='Save', width=16, height=2, command=self.__siFILE.saveFILE)
+		self.__saveFILE = Button(self.__mainApp, text='Save', width=16, height=2,
+											   command=lambda:self.__siFILE.saveFILE(self.__eGUI.get_imgDICT()))
 		self.__delKEY = Button(self.__mainApp, text='Map Wipe', width=16, height=2, command=self.__eGUI.fullCLear)
 		self.__Import = Button(self.__mainApp, text='Import Image', width=16, height=2,
 											   command=lambda:self.__eGUI.open_imgFiles(self.__ImgList))
@@ -65,10 +68,10 @@ class GUI_Main():
 		segment_x = int(1400/32)
 		segment_y = int(700/32)
 		for item in range(segment_x+1):
-			lineID = Image_Node.Render.create_line(self.__linex, 0, self.__linex, 700)
+			# lineID = Image_Node.Render.create_line(self.__linex, 0, self.__linex, 700)
 			self.__linex += self.__Key
 		for item in range(segment_y+1):
-			lineID = Image_Node.Render.create_line(0, self.__liney, 1400, self.__liney)
+			# lineID = Image_Node.Render.create_line(0, self.__liney, 1400, self.__liney)
 			self.__liney += self.__Key
 
 		for xPos in range(segment_x+1):
@@ -93,6 +96,12 @@ class GUI_Main():
 			return self.__placeABLE
 		else:
 			return self.__placeABLE[item]
+
+	def get_eGUI(self):
+		return self.__eGUI
+
+	def get_siFILE(self):
+		return self.__siFILE
 
 
 	"""#|--------------Setters--------------|#"""

@@ -1,4 +1,5 @@
 from PIL import ImageTk, Image
+from lvlDesigner import *
 from z_Pictures import *
 from colored import fg
 from tkinter import *
@@ -29,10 +30,10 @@ class Alpha():
 		self.__projRoster	= ['#arrow', ]
 
 		'''#_Static Parameters_#'''
-		self.__staticRoster = ['#wall', ]
+		self.__staticRoster = ['#wall', '#floor', ]
 
 		#collision logic v2.
-		self.__cLogic = Collision_Logic()
+		self.__cLogic = Collision_Logic(self.__staticRoster)
 		self.__cNode  = Collision_Node(self.__cLogic)
 
 		#below is class Calling
@@ -45,8 +46,13 @@ class Alpha():
 		self.__Projectiles  = Projectiles()
 		self.__Player		= Player_Main(self.__iNode, self.__kNode)
 		self.__Sword		= Sword_Main(self.__iNode, self.__cLogic)
-		self.__Wall 		= Wall_Main(self.__iNode, self.__cLogic)
+		# self.__Wall 		= Wall_Main(self.__iNode, self.__cLogic)
 		self.__Bow			= Bow_Main(self.__iNode, self.__cLogic, self.__cNode, self.__kNode)
+
+		#from level Designer
+		self.__GUI	= GUI_Main(self.__cLogic, self.__iNode, self.__kNode, self.__cNode, self.__mainApp, None)
+		# self.__eGUI = self.__GUI.get_eGUI()
+		self.__siFILE = self.__GUI.get_siFILE()
 
 		#yes
 		self.__Entities.set_mainApp(self.__mainApp)
@@ -60,7 +66,7 @@ class Alpha():
 		self.__cLogic.addColDict(tagOrId=self.__Player.get_ID(), obj=self.__Player)
 
 		#Static Entities
-		self.__cLogic.addColDict(tagOrId=self.__Wall.get_ID(), obj=self.__Wall)
+		self.__imgDICT = None
 		self.__cNode.set_staticRoster(self.__staticRoster)
 
 		#Stalfos collision setup
@@ -109,6 +115,16 @@ class Alpha():
 			self.__mainApp.destroy()
 
 	def GamesetUP(self):
+		# #__Statics SETUP__#
+		# self.__siFILE.open_lvlFIles('E:\Github\Game_Repos_1\Game(1.1)\lvlDesigner\mapSaves\CollisionTESTER.txt')
+		# self.__imgDICT = self.__siFILE.get_imgDICT()
+		#
+		# for key in self.__imgDICT.keys():
+		# 	for item in range(len(self.__imgDICT[key].get_ID())):
+		# 		if self.__imgDICT[key].get_PLC_Collision() == True:
+		# 			self.__cLogic.addColDict(tagOrId=self.__imgDICT[key].get_ID(item, full=False), obj=self.__imgDICT[key])
+		# 			self.__cLogic.add_Collision(LVD_Corner=self.__imgDICT[key].get_PLC_Corners(self.__imgDICT[key].get_ID(item, full=False)))
+
 		#Bellow is Entity set up
 		self.__Player.player_setUP(x=96, y=160)
 		# self.__Player.Player_Print()
@@ -126,9 +142,15 @@ class Alpha():
 				r_Stal.stalfos_setUP(self.__Sc_Width, self.__Sc_Height)
 				# r_Stal.Stalfos_Print()
 
-		#__Statics SETUP__#
-		self.__Wall.wall_setUP(x=300, y=300)
+		# #__Statics SETUP__#
+		self.__siFILE.open_lvlFIles('E:\Github\Game_Repos_1\Game(1.1)\lvlDesigner\mapSaves\CollisionTESTER.txt')
+		self.__imgDICT = self.__siFILE.get_imgDICT()
 
+		for key in self.__imgDICT.keys():
+			for item in range(len(self.__imgDICT[key].get_ID())):
+				if self.__imgDICT[key].get_PLC_Collision() == True:
+					self.__cLogic.addColDict(tagOrId=self.__imgDICT[key].get_ID(item, full=False), obj=self.__imgDICT[key])
+					self.__cLogic.add_Collision(LVD_Corner=self.__imgDICT[key].get_PLC_Corners(self.__imgDICT[key].get_ID(item, full=False)))
 
 		#_Weapon SETUP_#
 
@@ -142,10 +164,6 @@ class Alpha():
 		#to kill the window
 		self.close_window()
 		# self.new_Player()
-
-		"""#_calls_#"""
-		# self.__mainApp.bind_all(('<MouseWheel>'), lambda event, arg=(self.__IMG, pilImg): self.rotation(event, arg))
-
 
 
 		"""#_loop Debug_#"""
@@ -172,7 +190,7 @@ class Alpha():
 		for item in range(len(self.__stalfosRoster)):
 			stalfos = Col_Dict[self.__stalfosRoster[item]]
 			if stalfos.get_isAlive() == True:
-				stalfos.Movement_Controll()
+				# stalfos.Movement_Controll()
 				stalfos.Stal_Attack()
 			else:
 				# print('dead? A#140')
@@ -184,7 +202,7 @@ class Alpha():
 
 		#only one Player should be here (IGNORE MULTIPLAYER)
 		list1 = []
-		list1 = [self.__Player.get_Corners(), self.__Wall.get_Corners()]
+		list1 = [self.__Player.get_Corners()]
 		for item in range(len(self.__stalfosRoster)):
 			c_Stal = self.__cLogic.tagToObj(self.__stalfosRoster[item]) #c_Stal == stalfos obj
 			list1.append(c_Stal.get_Corners())
@@ -264,6 +282,7 @@ class Alpha():
 		self.find_all_Tags()
 		# self.debug_Col_Dict()
 		# print(Image_Node.Render, 'Render')
+		pass
 
 
 #puts the above class to action

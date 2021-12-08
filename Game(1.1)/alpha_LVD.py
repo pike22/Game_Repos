@@ -17,17 +17,17 @@ class Alpha_LVD():
 	def __init__(self, ):
 		self.__Sc_Width	 = 1400
 		self.__Sc_Height = 700
-		self.__version	 = "Level Designer [ALPHAv0.1]"
+		self.__version	 = "Level Designer [ALPHAv0.3]"
 		self.__color 	 = 'Grey'
 
 		"""Class Call's"""
 		self.__mainApp	= Tk()
-		self.__cLogic	= Collision_Logic()
+		self.__cLogic	= Collision_Logic(None)
 		self.__cNode	= Collision_Node(self.__cLogic)
 		self.__tNode	= Timer_Node(self.__mainApp)
 		self.__iNode	= Image_Node() #NOTHING TO NOTE
 		self.__kNode	= Kinetics_Node(self.__iNode)
-		self.__GUI		= GUI_Main(self.__iNode, self.__cLogic,  self.__kNode, self.__mainApp, self.__color)
+		self.__GUI		= GUI_Main(self.__cLogic, self.__iNode, self.__kNode, self.__cNode, self.__mainApp, self.__color)
 
 		"""Widget Names"""
 		#frames

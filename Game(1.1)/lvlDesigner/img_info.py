@@ -1,10 +1,11 @@
 
 class IMG_Info():
-	def __init__(self, group_ID):
+	def __init__(self, button_ID):
 		#engine based Parameters.
 		self.__file_Location = None
 		self.__Canvas_ID	= None
-		self.__group_ID		= str(group_ID)
+		self.__button_ID	= str(button_ID)
+		self.__group_ID		= '#wall'
 		self.__ID			= []
 		self.__imgPIL_ID	= None
 		self.__imgTK_ID		= None
@@ -16,6 +17,7 @@ class IMG_Info():
 		self.__PLC_Corners = {}
 		self.__PLC_Coords  = {}
 		self.__PLC_Rotation= {}
+		self.__PLC_Collision = True
 
 
 	def Image_Data(self, Size=None, PIL_img=None, TK_img=None, file_Location=None):
@@ -30,20 +32,15 @@ class IMG_Info():
 	def Placed_imgData(self, ID, Corners, Coords, rotation):
 		self.__PLC_Corners[ID] = Corners
 		self.__PLC_Coords[ID]  = Coords
-		self.__PLC_Rotation[ID]= rotation
+		self.__PLC_Rotation[ID]	= rotation
 
 	def del_Placed(self, ID):
 		del self.__PLC_Corners[ID]
 		del self.__PLC_Coords[ID]
-		print(self.__PLC_Rotation, 'old')
 		del self.__PLC_Rotation[ID]
-		print(self.__PLC_Rotation, 'new')
 		for item in range(len(self.__ID)-1, -1, -1):
 			if ID == self.__ID[item]:
-				print(self.__ID, 'old')
-				print(self.__ID[item], 'targ DEL')
 				del self.__ID[item]
-				print(self.__ID, 'new')
 				return
 		return
 
@@ -73,6 +70,9 @@ class IMG_Info():
 		else:
 			return self.__ID[item]
 
+	def get_button_ID(self):
+		return self.__button_ID
+
 	def get_group_ID(self):
 		return self.__group_ID
 
@@ -93,17 +93,30 @@ class IMG_Info():
 		# print(self.__PLC_Corners[key], 'Corners')
 		return self.__PLC_Corners[key]
 
+	def get_PLC_Collision(self):
+		# print(self.__PLC_Collision, 'isCollision')
+		return self.__PLC_Collision
+
 
 
 	"""|--------------Setters--------------|#"""
+	def set_Size(self, size):
+		self.__img_size = size
+		
 	def set_Coords(self, Coords):
 		self.__Coords = Coords
 
 	def set_Canvas_ID(self, Canvas_ID):
 		self.__Canvas_ID = Canvas_ID
 
-	def set_Corners(self, bbox):
-		self.__Corners = bbox
+	def set_group_ID(self, group_ID):
+		self.__group_ID = group_ID
 
 	def set_ID(self, ID):
 		self.__ID.append(str(ID))
+
+	def set_Corners(self, bbox):
+		self.__Corners = bbox
+
+	def set_PLC_Collision(self, Collision=True):
+		self.__PLC_Collision = Collision

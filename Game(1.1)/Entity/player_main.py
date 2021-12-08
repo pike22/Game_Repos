@@ -53,7 +53,6 @@ class Player_Main(All_Entities):
 		img_coords = self.__iNode.Img_Place(x, y, self.__info.get_TKimg(), tag=[ID, group_ID])
 
 		#final set of information save to player
-		print(Image_Node.Render.find_withtag(ID))
 		Canvas_ID = Image_Node.Render.find_withtag(ID)[0] #finds my canvas ID numb.
 		Coords = img_coords
 		self.__info.set_Canvas_ID(Canvas_ID)
