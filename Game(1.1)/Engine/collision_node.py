@@ -11,6 +11,7 @@ class Collision_Node(Node):
 
 		#different obj needed for collision node
 		self.__stalfosRoster = None
+		self.__playerRoster  = None
 		self.__staticRoster	 = None
 		self.__weaponRoster	 = None
 		self.__enemyRoster	 = None
@@ -45,18 +46,18 @@ class Collision_Node(Node):
 				# print('--')
 
 				"""#__# PLAYER COL_LOGIC #__#"""
-				if self.__Result[item] == self.__logic.tagToObj('P#001'): #player is always checked first
+				if self.__Result[item].get_ID() in self.__playerRoster:
 					side = self.__logic.Side_Calc()
 					# print('Player direction:', side)
 					if item == len(self.__Result)-1:
 						pass
 					elif item != len(self.__Result)-1:
 						if self.__Result[item+1].get_group_ID() in self.__enemyRoster:
-							self.__logic.tagToObj('P#001').my_Collision(OSC='Enemy', OSA=self.__Result[item+1].get_attack(), side=side)
+							self.__Result[item].get_ID().my_Collision(OSC='Enemy', OSA=self.__Result[item+1].get_attack(), side=side)
 						elif self.__Result[item+1].get_group_ID() in self.__weaponRoster:
 							self.__Result[item+1].del_item()
 						elif self.__Result[item+1].get_group_ID() in self.__staticRoster:
-							self.__logic.tagToObj('P#001').my_Collision(OSC='Static', side=side)
+							self.__Result[item].get_ID().my_Collision(OSC='Static', side=side)
 
 				"""#__# STALFOS COL_LOGIC #__#"""
 				if self.__Result[item].get_ID() in self.__stalfosRoster:
@@ -96,26 +97,55 @@ class Collision_Node(Node):
 
 	"""#|--------------Getters--------------|#"""
 		#this is where a list of getters will go...
-	#def get_...
+	# def get_playerRoster(self):
+	# 	return self.__playerRoster
+	#
+	# def get_enemyRoster(self):
+	# 	return self.__enemyRoster
+	#
+	# def get_stalfosRoster(self):
+	# 	return self.__stalfosRoster
+	#
+	# def get_weaponRoster(self):
+	# 	return self.__weaponRoster
+	#
+	# def get_projRoster(self):
+	# 	return self.__projRoster
+	#
+	# def get_staticRoster(self):
+	# 	return self.__staticRoster
+	#
+	# def get_wallRoster(self):
+	# 	return self.__wallRoster
+
 
 
 	"""#|--------------Setters--------------|#"""
 		#this is where a list of setters will go...
+	def set_playerRoster(self, Roster):
+		self.__playerRoster = Roster
+		self.__logic.set_playerRoster(Roster)
+
 	def set_enemyRoster(self, Roster):
 		self.__enemyRoster = Roster
+		self.__logic.set_enemyRoster(Roster)
 
 	def set_stalfosRoster(self, Roster):
 		self.__stalfosRoster = Roster
+		self.__logic.set_stalfosRoster(Roster)
 
 	def set_weaponRoster(self, Roster):
 		self.__weaponRoster = Roster
+		self.__logic.set_weaponRoster(Roster)
 
 	def set_projRoster(self, Roster):
 		self.__projRoster = Roster
+		self.__logic.set_projRoster(Roster)
 
 	def set_staticRoster(self, Roster):
 		self.__staticRoster = Roster
+		self.__logic.set_staticRoster(Roster)
 
 	def set_wallRoster(self, Roster):
 		self.__wallRoster = Roster
-		self.__logic.set_listOfWalls(Roster)
+		self.__logic.set_wallRoster(Roster)

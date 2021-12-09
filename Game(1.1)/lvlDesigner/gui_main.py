@@ -3,7 +3,7 @@ from Engine import *
 from tkinter import filedialog
 from PIL import ImageTk, Image #PIL = Pillow
 from .gui_events import GUI_Events
-from .si_file import SI_File
+from .si_files import SI_Files
 
 
 class GUI_Main():
@@ -16,7 +16,7 @@ class GUI_Main():
 		self.__mainApp= mainApp
 		self.__color  = color
 		self.__eGUI	  = GUI_Events(iNode, cLogic, kNode, mainApp, color, self.__Key)
-		self.__siFILE = SI_File(iNode, mainApp, self.__eGUI, self.__Key)
+		self.__siFILES= SI_Files(iNode, mainApp, self.__eGUI, self.__Key)
 
 		#Frame Vars
 		self.__ImgList= None
@@ -31,7 +31,8 @@ class GUI_Main():
 		#Grid Mapping
 		self.__x, self.__y = 0, 0
 		self.__linex, self.__liney = 0, 0
-		self.__placeABLE = [] #(x1, y1, x2, y2) this represents one square of the grid
+		self.__PLCcorner = [] #(x1, y1, x2, y2) this represents one square of the grid
+		self.__PLCcoord  = [] #(x, y) this is for grid coords, may be more helpfull
 
 	def windowSETUP(self):
 		"""#__Frame Creation & Placement__#"""
@@ -42,18 +43,18 @@ class GUI_Main():
 		for frame in [self.__ImgList, ]:
 			frame.grid_propagate(0)
 
-		self.__siFILE.set_imgFrame(self.__ImgList)
+		self.__siFILES.set_imgFrame(self.__ImgList)
 
 		"""#__event Calls__#"""
 		# self.__mainApp.bind_all(('<Button-1>'), self.__eGUI.mousePosition)
-		self.__mainApp.bind_all(('<Button-3>'), self.__eGUI.deleteImg)
+		self.__mainApp.bind_all(('<Button-3>'), self.__eGUI.Del_Image)
 
 		"""#__Button Creation & Placement__#"""
-		self.__lvlImport = Button(self.__mainApp, text='Import LVL', width=16, height=2, command=self.__siFILE.open_lvlFIles)
-		self.__delFILE = Button(self.__mainApp, text='Delete File', width=16, height=2, command=self.__eGUI.del_file)
+		self.__lvlImport = Button(self.__mainApp, text='Import LVL', width=16, height=2, command=self.__siFILES.open_lvlFIles)
+		self.__delFILE = Button(self.__mainApp, text='Delete File', width=16, height=2, command=self.__eGUI.Del_File)
 		self.__saveFILE = Button(self.__mainApp, text='Save', width=16, height=2,
-											   command=lambda:self.__siFILE.saveFILE(self.__eGUI.get_imgDICT()))
-		self.__delKEY = Button(self.__mainApp, text='Map Wipe', width=16, height=2, command=self.__eGUI.fullCLear)
+											   command=lambda:self.__siFILES.saveFILE(self.__eGUI.get_imgDICT()))
+		self.__delKEY = Button(self.__mainApp, text='Map Wipe', width=16, height=2, command=self.__eGUI.Map_Wipe)
 		self.__Import = Button(self.__mainApp, text='Import Image', width=16, height=2,
 											   command=lambda:self.__eGUI.open_imgFiles(self.__ImgList))
 
@@ -86,24 +87,32 @@ class GUI_Main():
 				if yPos == (segment_y):
 					self.__y = 0
 				#						(x1=    x, y1=    y, x2=    x+self.__Key, y2=    y+self.__Key)
-				self.__placeABLE.append((self.__x, self.__y, self.__x+self.__Key, self.__y+self.__Key))
-		# print('Corners for placement\n', self.__placeABLE)
-		self.__eGUI.set_gridSETUP(self.__placeABLE)
+				self.__PLCcorner.append((self.__x, self.__y, self.__x+self.__Key, self.__y+self.__Key))
+				self.__PLCcoord.append(self.__x, self.__y)
+		# print('Corners for placement\n', self.__PLCcorner)
+		# print('Coords for placement\n', self.__PLCcoord)
+		self.__eGUI.set_gridSETUP(self.__PLCcorner, self.__PLCcoord)
 
 
 	"""#|--------------Getters--------------|#"""
 		#this is where a list of getters will go...
-	def get_placeABLE(self, item=None):
+	def get_PLCcorner(self, item=None):
 		if item == None:
-			return self.__placeABLE
+			return self.__PLCcorner
 		else:
-			return self.__placeABLE[item]
+			return self.__PLCcorner[item]
+
+	def get_PLCcoord(self, item=None):
+		if item == None:
+			return self.__PLCcoord
+		else:
+			return self.__PLCcoord[item]
 
 	def get_eGUI(self):
 		return self.__eGUI
 
 	def get_siFILE(self):
-		return self.__siFILE
+		return self.__siFILES
 
 
 	"""#|--------------Setters--------------|#"""

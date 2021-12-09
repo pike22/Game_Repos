@@ -33,11 +33,11 @@ class Image_Node(Node):
 		if LVD == True:
 			pilImg = pilImg.rotate(angle, Image.NEAREST)
 			tkImg  = ImageTk.PhotoImage(pilImg)
-			return tkImg, pilImg
+			return tkImg
 		else:
 			pilImg = pilImg.rotate(angle, Image.NEAREST)
 			tkImg  = ImageTk.PhotoImage(pilImg)
-			return tkImg, pilImg
+			return tkImg
 
 	def Img_Place(self, x, y, image, LVD='no', tag=None): # !!returns a tuple!! #Tag needs to be a list
 		if LVD == 'no':

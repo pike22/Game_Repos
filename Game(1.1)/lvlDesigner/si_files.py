@@ -3,10 +3,10 @@ from tkinter import *
 from Engine import *
 from tkinter import filedialog
 from PIL import ImageTk, Image #PIL = Pillow
-from .gui_statics import GUI_Statics
+# from .gui_statics import GUI_Statics
 
 #for save and import information
-class SI_File():
+class SI_Files():
 	def __init__(self, iNode, mainApp, eGUI, key):
 		#class Calls
 		self.__mainApp = mainApp
@@ -77,7 +77,7 @@ class SI_File():
 		for key in self.__imgDICT.keys():
 			for item in range(len(self.__imgDICT[key].get_ID())):
 				ID 	 = self.__imgDICT[key].get_ID(item, full=False)
-				coords	= self.__imgDICT[key].get_PLC_Coords(ID)
+				coords	= self.__imgDICT[key].get_Coords(ID)
 				info = str(ID)+'=z'+str(coords) +'\n'
 				targFile.write(info)
 				# print(info)

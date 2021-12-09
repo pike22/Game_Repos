@@ -17,6 +17,9 @@ class Alpha():
 		self.__version	 = "Stab Simulator [BETAv.1.1]"
 
 		#this will be a growing list of group tags. It is hard set to refer here for spacific groups
+		'''#_Player Tags_#'''
+		self.__playerRoster = []
+
 		'''#_Enemy Variables_#''' #include a list of tags for each enemy
 		self.__enemyRoster	= ["#stalfos", ]
 
@@ -71,6 +74,8 @@ class Alpha():
 		"""Entities"""
 		#player
 		self.__cLogic.addColDict(tagOrId=self.__Player.get_ID(), obj=self.__Player)
+		self.__playerRoster.append(self.__Player.get_ID())
+		self.__cNode.set_playerRoster(self.__playerRoster)
 
 		#Static Entities
 		self.__imgDICT = None
@@ -133,7 +138,7 @@ class Alpha():
 					self.__cLogic.addColDict(tagOrId=self.__imgDICT[key].get_ID(item, full=False), obj=self.__imgDICT[key])
 					self.__cLogic.add_Collision(LVD_Corner=self.__imgDICT[key].get_PLC_Corners(self.__imgDICT[key].get_ID(item, full=False)))
 					self.__wallRoster.append(self.__imgDICT[key].get_ID(item, full=False))
-					self.__cNode.set_wallRoster(self.__wallRoster)
+		self.__cNode.set_wallRoster(self.__wallRoster)
 
 		#Bellow is Entity set up
 		self.__Player.player_setUP(x=96, y=160)
@@ -152,7 +157,7 @@ class Alpha():
 				r_Stal.stalfos_setUP(self.__Sc_Width, self.__Sc_Height)
 				# r_Stal.Stalfos_Print()
 
-				
+
 		#_Weapon SETUP_#
 
 		#_CLOCK SETUP_#

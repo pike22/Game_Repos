@@ -16,6 +16,15 @@ class Collision_Logic():
 		self.__keyA = None
 		self.__keyB = None
 
+		#Roster Vars
+		self.__stalfosRoster = None
+		self.__playerRoster  = None
+		self.__staticRoster	 = None
+		self.__weaponRoster	 = None
+		self.__enemyRoster	 = None
+		self.__wallRoster	 = None
+		self.__projRoster	 = None
+
 		#rand var
 		self.tempL = []
 
@@ -85,7 +94,7 @@ class Collision_Logic():
 					self.__collision.append(tag[0]) #item 0 is the entity_ID, 1 == group_ID
 				else:
 					self.__collision.append(tag[0])
-			print(self.__collision, 'Colliding') #print Tags of Entity Colliding
+			# print(self.__collision, 'Colliding') #print Tags of Entity Colliding
 
 			self.oldList = self.__collision
 			self.__collision = []
@@ -139,21 +148,22 @@ class Collision_Logic():
 				# print(objB, 'objB')
 
 			else:
-				print("ERROR: CL#81 '3 obj in collision'")
+				print("ERROR: CL#142 'multiple obj in collision'")
 		"""Object A's coords/size"""
-		if self.__keyA == None:
+		print(objB.get_ID(), 'ID?')
+		if objA.get_ID() not in self.__wallRoster:
 			xA, yA = objA.get_Coords()
 			height_A, width_A = objA.get_size()
 		else:
-			xA, yA = objA.get_PLC_Coords(self.__keyA)
+			xA, yA = objA.get_Coords(objA.get_ID())
 			height_A, width_A = objA.get_size()
 
 		"""Object B's coords/size"""
-		if self.__keyB == None:
+		if objB.get_ID() not in self.__wallRoster:
 			xB, yB = objB.get_Coords()
 			height_B, width_B = objB.get_size()
 		else:
-			xB, yB = objB.get_PLC_Coords(self.__keyB)
+			xB, yB = objB.get_Coords(objB.get_ID())
 			height_B, width_B = objB.get_size()
 
 		"""Objects Area"""
@@ -203,5 +213,23 @@ class Collision_Logic():
 
 	"""|--------------Setters--------------|#"""
 		#this is where a list of setters will go...
-	def set_listOfWalls(self, list):
-		self.__wallRoster = list
+	def set_playerRoster(self, Roster):
+		self.__playerRoster = Roster
+
+	def set_enemyRoster(self, Roster):
+		self.__enemyRoster = Roster
+
+	def set_stalfosRoster(self, Roster):
+		self.__stalfosRoster = Roster
+
+	def set_weaponRoster(self, Roster):
+		self.__weaponRoster = Roster
+
+	def set_projRoster(self, Roster):
+		self.__projRoster = Roster
+
+	def set_staticRoster(self, Roster):
+		self.__staticRoster = Roster
+
+	def set_wallRoster(self, Roster):
+		self.__wallRoster = Roster

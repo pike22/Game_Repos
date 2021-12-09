@@ -100,9 +100,10 @@ class IMG_Info():
 
 
 	"""|--------------Setters--------------|#"""
+		#this is where a list of setters will go...
 	def set_Size(self, size):
 		self.__img_size = size
-		
+
 	def set_Coords(self, Coords):
 		self.__Coords = Coords
 
