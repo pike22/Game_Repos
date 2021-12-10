@@ -5,7 +5,7 @@ class Button_Main():
 		self.__info = Button_Info(button_ID)
 
 	def Image_Info(self, fileLoc, tkIMG, pilIMG, size):
-		self.__info.Image_Data(fileLoc, tkIMG, pilIMG, size)
+		self.__info.Image_Data(fileLoc=fileLoc, tkIMG=tkIMG, pilIMG=pilIMG, size=size)
 
 
 	"""|--------------Getters--------------|#"""

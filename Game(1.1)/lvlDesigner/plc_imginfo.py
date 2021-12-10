@@ -6,6 +6,7 @@ class PLC_ImgInfo():
 		self.__ID 		  = ID
 		self.__size 	  = None
 		self.__Coords 	  = None
+		self.__Corners	  = None
 		self.__fileLoc 	  = None
 		self.__rotation   = None
 		self.__CCollision = None
@@ -15,6 +16,7 @@ class PLC_ImgInfo():
 		self.__CCollision = CCollision
 		self.__rotation   = rotation
 		self.__fileLoc 	  = fileLoc
+		self.__Corners	  = (coords[0], coords[1], coords[0]+32, coords[1]+32)
 		self.__Coords 	  = coords
 		self.__size 	  = size
 
@@ -38,6 +40,9 @@ class PLC_ImgInfo():
 
 	def get_fileLoc(self):
 		return self.__fileLoc
+
+	def get_Corners(self):
+		return self.__Corners
 
 	def get_rotation(self):
 		return self.__rotation

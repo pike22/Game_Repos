@@ -7,7 +7,7 @@ class Button_Info():
 		self.__tkIMG 	 = None
 		self.__Size		 = None
 
-	def Image_Data(self, fileLoc, pilIMG, tkIMG, size):
+	def Image_Data(self, fileLoc, tkIMG, pilIMG, size):
 		self.__fileLoc 	 = fileLoc
 		self.__pilIMG 	 = pilIMG
 		self.__tkIMG 	 = tkIMG

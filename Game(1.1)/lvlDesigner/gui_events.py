@@ -42,14 +42,15 @@ class GUI_Events():
 		self.__bID_count = 0
 
 		#PLC_images
-		self.__PLCI_Tags = [] #Organizational reasons
-		self.__PLCI_Tk	 = [] #so tkinter doesn't start forgeting images
-		self.__CurIMG	 = None
-		self.__ID_count	 = 0
+		self.__PLCI_Tag = [] #Organizational reasons
+		self.__PLCI_Tk	= [] #so tkinter doesn't start forgeting images
+		self.__imgDICT	= {}
+		self.__CurIMG	= None
+		self.__tkIMG	= None
+		self.__ID_count	= 0
 
 
 		#RAND VARS
-		self.__timeP = 0
 
 
 	def open_imgFiles(self, parent):
@@ -67,9 +68,9 @@ class GUI_Events():
 		if self.__bID_count <= 9:
 			button_ID = 'LVD#B00'+str(self.__bID_count)
 		elif self.__bID_count > 9 and self.__bID_count <= 99:
-			button_ID = 'LVL_D#0'+str(self.__bID_count)
+			button_ID = 'LVD#B0'+str(self.__bID_count)
 		elif self.__bID_count > 99 and self.__bID_count <= 999:
-			button_ID = 'LVL_D#'+str(self.__bID_count)
+			button_ID = 'LVD#B'+str(self.__bID_count)
 		else:
 			print('ERROR: To Manny Buttons')
 		self.__bID_count += 1
@@ -92,26 +93,29 @@ class GUI_Events():
 		if self.__isDrag == False:
 			print("!#_ON_#!")
 			self.__isDrag = True
-			self.__CurIMG = self.__iNode.Img_Place(-50000, -50000, self.__buttonDICT[button_ID].get_tkIMG(), LVD='yes')
-			self.__mainApp.bind(('<Motion>'), lambda event, arg=button_ID: self.moveImg(event, arg))
-			self.__mainApp.bind_all(('<MouseWheel>'), lambda event, arg=button_ID: self.rotation(event, arg))
+			self.__CurIMG = self.__iNode.Img_Place(-50, -50, image=self.__buttonDICT[button_ID].get_tkIMG(), LVD='yes')
+			self.__mainApp.bind(('<Motion>'), lambda event, arg=button_ID: self.Move_Image(event, arg))
+			self.__mainApp.bind_all(('<MouseWheel>'), lambda event, arg=button_ID: self.Rotate(event, arg))
 		else:
 			print('!#_OFF_#!')
 			self.__isDrag = False
 			self.__isRotate = False
 			self.__lastRotate = 0
-			Image_Node.Render.delete(self.__IMG)
-			self.__mainApp.unbind_all(('<Motion>'))
+			self.__tkIMG	= None
+			Image_Node.Render.delete(self.__CurIMG)
+			self.__mainApp.unbind(('<Motion>'))
 			self.__mainApp.unbind_all(('<MouseWheel>'))
 
 
 	def Rotate(self, event, button_ID):
 		self.__lastRotate += 90
+		if self.__lastRotate == 360:
+			self.__lastRotate = 0
 		self.__isRotate = True
 		oldIMG = self.__CurIMG
-		tkIMG = self.__iNode.Img_Rotate(self.__imgDICT[button_ID].get_pilIMG(), self.__lastRotate)
+		self.__tkIMG = self.__iNode.Img_Rotate(self.__buttonDICT[button_ID].get_pilIMG(), self.__lastRotate)
 		x, y = self.__COORD[self.__Cur_Square]
-		self.__CurIMG = self.__iNode.Img_Place(x, y, tkIMG, LVD='yes')
+		self.__CurIMG = self.__iNode.Img_Place(x, y, self.__tkIMG, LVD='yes')
 		Image_Node.Render.delete(oldIMG)
 
 	def Move_Image(self, event, button_ID):
@@ -124,15 +128,15 @@ class GUI_Events():
 				canvID = Image_Node.Render.find_withtag(self.__CurIMG)[0]
 				x, y = self.__COORD[self.__Cur_Square]
 				Image_Node.Render.coords(canvID, x, y)
-				Image_Node.Render.bind(('<Button-1>'), lambda event, arg=button_ID: self.placeImg(event, arg))
+				Image_Node.Render.bind(('<Button-1>'), lambda event, arg=button_ID: self.Place_Image(event, arg))
 
 	def Place_Image(self, event, button_ID):
 		if self.__ID_count <= 9:
-			ID = 'PLCW#00'+str(self.__ID_count)
+			ID = 'LVD#W00'+str(self.__ID_count)
 		elif self.__ID_count > 9 and self.__ID_count <= 99:
-			ID = 'PLCW#0'+str(self.__ID_count)
+			ID = 'LVD#W0'+str(self.__ID_count)
 		elif self.__ID_count > 99 and self.__ID_count <= 999:
-			ID = 'PLCW#'+str(self.__ID_count)
+			ID = 'LVD#W'+str(self.__ID_count)
 		else: #add more elif's above if needed
 			print('ERROR: To Manny Walls')
 		self.__ID_count += 1
@@ -140,20 +144,48 @@ class GUI_Events():
 		self.Find_Square(event)
 		x, y = self.__COORD[self.__Cur_Square]
 
-		self.__PLCI_Tags.append(ID)
-		self.__imgDICT[ID] = PLC_ImgMain()
+		self.__PLCI_Tag.append(ID)
+		self.__PLCI_Tk.append(self.__tkIMG)
+		self.__imgDICT[ID] = PLC_ImgMain(ID, button_ID)
 		self.__imgDICT[ID].Image_Info(self.__buttonDICT[button_ID].get_fileLoc(),
 									  self.__buttonDICT[button_ID].get_Size(),
 									  (x, y), self.__lastRotate)
-		self.__iNode.Img_Place(x, y, )
-		if no=:
-			print(yes)
+		if self.__tkIMG == None:
+			self.__tkIMG = self.__buttonDICT[button_ID].get_tkIMG()
+
+		self.__iNode.Img_Place(x, y, self.__tkIMG, LVD='yes', tag=[ID, self.__imgDICT[ID].get_group_ID()])
 
 	def Map_Wipe(self):
-		pass
+		item = len(self.__PLCI_Tag)-1
+		while self.__PLCI_Tag != []:
+			item -= 1
+			if item == 0:
+				item = len(self.__PLCI_Tag)-1
+			ID = Image_Node.Render.find_withtag(self.__PLCI_Tag[item])
+			if ID != ():
+				print(self.__PLCI_Tag[item])
+				Image_Node.Render.delete(self.__PLCI_Tag[item])
+				del self.__imgDICT[self.__PLCI_Tag[item]]
+				del self.__PLCI_Tag[item]
+			print(self.__PLCI_Tag)
+
 
 	def Del_Image(self, event):
-		pass
+		self.Find_Square(event)
+
+		x1, y1, x2, y2 = self.__GRID[self.__Cur_Square]
+		Canvas_ID = Image_Node.Render.find_overlapping(x1, y1, x2, y2)
+		ID = None
+		if self.__PLCI_Tag != []:
+			for item in range(len(self.__PLCI_Tag)-1, -1, -1):
+				ID = Image_Node.Render.find_withtag(self.__PLCI_Tag[item])
+				if ID != ():
+					for tuple in Canvas_ID:
+						if ID[0] == tuple:
+							print(self.__PLCI_Tag[item])
+							Image_Node.Render.delete(self.__PLCI_Tag[item])
+							del self.__imgDICT[self.__PLCI_Tag[item]]
+							del self.__PLCI_Tag[item]
 
 	def Del_File(self):
 		filetypes = [(("TXT", "*.txt"), ("All Files", "*.*"))]
@@ -162,7 +194,7 @@ class GUI_Events():
 			print('No File Selected')
 			return
 		os.remove(file)
-		print('file Removed')
+		print(file, ':File Removed')
 
 	def PASS(self):
 		pass
@@ -178,13 +210,14 @@ class GUI_Events():
 				if event.x < self.__GRID[item][2] and event.y < self.__GRID[item][3]:
 					self.__Cur_Square = item
 
-	def needNew_Name(self, ): #this was imgINFO from OLDgui_events.py
-		pass
-
 
 	"""#|--------------Getters--------------|#"""
 		#this is where a list of getters will go...
-	# def get_...
+	def get_imgDICT(self):
+		return self.__imgDICT
+
+	def get_buttonDICT(self):
+		return self.__buttonDICT
 
 
 	"""#|--------------Setters--------------|#"""
@@ -193,8 +226,20 @@ class GUI_Events():
 		self.__COORD = coord
 		self.__GRID = grid
 
-	def set_Images(self, imgDict, newNUMB, IDsNUMB, placedList): #SUBJECT TO CHANGE
-		self.__placedIMG_tag = placedList
-		self.__imgDICT = imgDict
-		self.__newNUMB = newNUMB
-		self.__IDsNUMB = IDsNUMB
+	def set_imgDICT(self, dict):
+		self.__imgDICT = dict
+
+	def set_buttonDICT(self, dict):
+		self.__buttonDICT = dict
+
+	def set_RC_Info(self, row, column):
+		self.__Column = column
+		self.__Row 	  = row
+
+	def File_Images(self, buttonDICT, imgDict, PLCI_Tag, PLCI_Tk, bID_count, ID_count): #SUBJECT TO CHANGE
+		self.__buttonDICT = buttonDICT
+		self.__bID_count  = bID_count
+		self.__PLCI_Tag   = PLCI_Tag
+		self.__ID_count   = ID_count
+		self.__PLCI_Tk	  = PLCI_Tk
+		self.__imgDICT 	  = imgDict

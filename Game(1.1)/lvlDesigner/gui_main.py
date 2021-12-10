@@ -16,7 +16,7 @@ class GUI_Main():
 		self.__mainApp= mainApp
 		self.__color  = color
 		self.__eGUI	  = GUI_Events(iNode, cLogic, kNode, mainApp, color, self.__Key)
-		self.__siFILES= SI_Files(iNode, mainApp, self.__eGUI, self.__Key)
+		self.__siFILES= SI_Files(iNode, mainApp, color, self.__eGUI, self.__Key)
 
 		#Frame Vars
 		self.__ImgList= None
@@ -50,7 +50,7 @@ class GUI_Main():
 		self.__mainApp.bind_all(('<Button-3>'), self.__eGUI.Del_Image)
 
 		"""#__Button Creation & Placement__#"""
-		self.__lvlImport = Button(self.__mainApp, text='Import LVL', width=16, height=2, command=self.__siFILES.open_lvlFIles)
+		self.__lvlImport = Button(self.__mainApp, text='Import LVL', width=16, height=2, command=self.__siFILES.Read_File)
 		self.__delFILE = Button(self.__mainApp, text='Delete File', width=16, height=2, command=self.__eGUI.Del_File)
 		self.__saveFILE = Button(self.__mainApp, text='Save', width=16, height=2,
 											   command=lambda:self.__siFILES.saveFILE(self.__eGUI.get_imgDICT()))
@@ -71,10 +71,10 @@ class GUI_Main():
 		segment_x = int(1400/32)
 		segment_y = int(700/32)
 		for item in range(segment_x+1):
-			# lineID = Image_Node.Render.create_line(self.__linex, 0, self.__linex, 700)
+			lineID = Image_Node.Render.create_line(self.__linex, 0, self.__linex, 700, tag='G#line')
 			self.__linex += self.__Key
 		for item in range(segment_y+1):
-			# lineID = Image_Node.Render.create_line(0, self.__liney, 1400, self.__liney)
+			lineID = Image_Node.Render.create_line(0, self.__liney, 1400, self.__liney, tag='G#line')
 			self.__liney += self.__Key
 
 		for xPos in range(segment_x+1):
@@ -88,7 +88,7 @@ class GUI_Main():
 					self.__y = 0
 				#						(x1=    x, y1=    y, x2=    x+self.__Key, y2=    y+self.__Key)
 				self.__PLCcorner.append((self.__x, self.__y, self.__x+self.__Key, self.__y+self.__Key))
-				self.__PLCcoord.append(self.__x, self.__y)
+				self.__PLCcoord.append((self.__x, self.__y))
 		# print('Corners for placement\n', self.__PLCcorner)
 		# print('Coords for placement\n', self.__PLCcoord)
 		self.__eGUI.set_gridSETUP(self.__PLCcorner, self.__PLCcoord)

@@ -7,7 +7,7 @@ class PLC_ImgMain():
 	def __init__(self, ID, button_ID):
 		self.__info = PLC_ImgInfo(ID, button_ID)
 
-	def Image_Info(self, fileLoc, size, coords, CCollision=None, rotation):
+	def Image_Info(self, fileLoc, size, coords, rotation, CCollision=None):
 		self.__info.Image_Data(fileLoc, size, coords, CCollision, rotation)
 
 	# def ...(self, ):
@@ -34,6 +34,9 @@ class PLC_ImgMain():
 
 	def get_fileLoc(self):
 		return self.__info.get_fileLoc()
+
+	def get_Corners(self):
+		return self.__info.get_Corners()
 
 	def get_rotation(self):
 		return self.__info.get_rotation()

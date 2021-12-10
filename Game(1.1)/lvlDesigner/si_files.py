@@ -3,42 +3,54 @@ from tkinter import *
 from Engine import *
 from tkinter import filedialog
 from PIL import ImageTk, Image #PIL = Pillow
-# from .gui_statics import GUI_Statics
+from .button_main import Button_Main
+from .plc_imgmain import PLC_ImgMain
 
 #for save and import information
 class SI_Files():
-	def __init__(self, iNode, mainApp, eGUI, key):
+	def __init__(self, iNode, mainApp, color, eGUI, key):
 		#class Calls
 		self.__mainApp = mainApp
 		self.__iNode = iNode
+		self.__color = color
 		self.__eGUI  = eGUI
 		self.__Key 	 = key
 
-		#Cur_Img
-		self.__placedIMG_tag = []
-		self.__pilIMG_LIST	= []
-		self.__tkIMG_LIST	= []
-		self.__imgDICT = {}
+		#SI_FILES VARS
+		self.__ColumnMAX = 4
+		self.__Column = 0
+		self.__RowMAX = 10
+		self.__Row	  = 1
 
-		#FILE VARS
-		self.__imgFrame = None
-		self.__lvlFILE  = None
+		self.__imgFrame	  = None
+		self.__saveLVL	  = None
+		self.__importLVL  = None
+
 		self.__mapFiles = 'E:\Github\Game_Repos_1\Game(1.1)\lvlDesigner\mapSaves'
 		self.__pngFiles = 'E:\Github\Game_Repos_1\Game(1.1)\z_Pictures\Walls'
+
+		#WRITE FILE VARS
+		self.__buttonDICT = {} #this is for the buttons
+		self.__imgDICT	  = {} #this is for the images
+
+		#READ FILE VARS
+		self.__PLCI_Tag = []
+		self.__PLCI_Tk  = []
 
 		self.__rotationDICT = {}
 		self.__cornersDICT  = {}
 		self.__coordDICT	= {}
 		self.__fileDICT		= {}
-		self.__gID_DICT		= {}
-		self.__gIDfile		= []
+		self.__bID_DICT		= {}
+		self.__bIDfile		= []
 		self.__IDfile		= []
 		self.__tkIMG		= None
 		self.__isRotate		= False
+		self.__lastRotate 	= 0
 
-		self.__rotateVar = None
-		self.__newNUMB	 = 1
-		self.__IDsNUMB	 = 1
+		#OTHER VARS
+		self.__ID_count  = 1
+		self.__bID_count = 1
 
 
 	def saveFILE(self, imgDICT):
@@ -46,73 +58,66 @@ class SI_Files():
 		filetype = [('Text Document', '*.txt'), ('All Files', '*.*')]
 		file = filedialog.asksaveasfile(title='Save Map', filetypes=filetype, defaultextension=filetype, initialdir=self.__mapFiles)
 
-		targFile = open(str(file.name), 'w')
+		self.__saveLVL = open(str(file.name), 'w')
 
 		for key in self.__imgDICT.keys():
-			for item in range(len(self.__imgDICT[key].get_ID())):
-				ID   = self.__imgDICT[key].get_ID(item, full=False)
-				info = str(ID) +'\n'
-				targFile.write(info)
-				# print(info)
-		targFile.write('\n<=======================================================>\n\n')
+			info = str(key) +'\n'
+			self.__saveLVL.write(info)
+			# print(info)
+		self.__saveLVL.write('\n<=======================================================>\n\n')
 
 		for key in self.__imgDICT.keys():
-			for item in range(len(self.__imgDICT[key].get_ID())):
-				fileLocation = self.__imgDICT[key].get_fileLocation()
-				ID 	 = self.__imgDICT[key].get_ID(item, full=False)
-				info = str(ID)+'='+str(fileLocation) +'\n'
-				targFile.write(info)
-				# print(info)
-		targFile.write('\n<=======================================================>\n\n')
+			fileLocation = self.__imgDICT[key].get_fileLoc()
+			info = str(key)+'='+str(fileLocation) +'\n'
+			self.__saveLVL.write(info)
+			# print(info)
+		self.__saveLVL.write('\n<=======================================================>\n\n')
 
 		for key in self.__imgDICT.keys():
-			for item in range(len(self.__imgDICT[key].get_ID())):
-				ID 	 = self.__imgDICT[key].get_ID(item, full=False)
-				rotation = self.__imgDICT[key].get_PLC_Rotation(ID)
-				info = str(ID)+'=z'+str(rotation) +'\n'
-				targFile.write(info)
-				# print(info)
-		targFile.write('\n<=======================================================>\n\n')
+			rotation = self.__imgDICT[key].get_rotation()
+			info = str(key)+'=z'+str(rotation) +'\n'
+			self.__saveLVL.write(info)
+			# print(info)
+		self.__saveLVL.write('\n<=======================================================>\n\n')
 
 		for key in self.__imgDICT.keys():
-			for item in range(len(self.__imgDICT[key].get_ID())):
-				ID 	 = self.__imgDICT[key].get_ID(item, full=False)
-				coords	= self.__imgDICT[key].get_Coords(ID)
-				info = str(ID)+'=z'+str(coords) +'\n'
-				targFile.write(info)
-				# print(info)
-		targFile.write('\n<=======================================================>\n\n')
+			coords	= self.__imgDICT[key].get_Coords()
+			info = str(key)+'=z'+str(coords) +'\n'
+			self.__saveLVL.write(info)
+			# print(info)
+		self.__saveLVL.write('\n<=======================================================>\n\n')
 
 		for key in self.__imgDICT.keys():
-			for item in range(len(self.__imgDICT[key].get_ID())):
-				ID 	 = self.__imgDICT[key].get_ID(item, full=False)
-				info = str(ID)+'='+str(key) +'\n'
-				targFile.write(info)
-				# print(info)
-		targFile.write('\n<=======================================================>\n\n')
+			button_ID = self.__imgDICT[key].get_button_ID()
+			info = str(key)+'='+str(button_ID) +'\n'
+			self.__saveLVL.write(info)
+			# print(info)
+		self.__saveLVL.write('\n<=======================================================>\n\n')
 
-		targFile.close() #DON'T FORGET ABOUT THIS
+		self.__saveLVL.close() #DON'T FORGET ABOUT THIS
 
 
-	def open_lvlFIles(self, mainGame=None):
+	def Read_File(self, mainGame=None):
 		filetypes = [(("TXT", "*.txt"), ("All Files", "*.*"))]
 		if mainGame == None:
-			self.__lvlFILE = filedialog.askopenfilename(title='Level Import', filetypes=filetypes, initialdir=self.__mapFiles)
-			if self.__lvlFILE == '':
+			file = filedialog.askopenfilename(title='Level Import', filetypes=filetypes, initialdir=self.__mapFiles)
+			if file == '':
 				print('No File Selected')
 				return
-			targFile = open(self.__lvlFILE, 'r')
+			self.__importLVL = open(file, 'r')
 		else:
-			targFile = open(mainGame, 'r')
-		tempLIST = []
-		counting = 0
-		lastg_ID = None
+			self.__importLVL = open(mainGame, 'r')
+
+		tempLIST  = []
+		counting  = 0
+		lastB_ID  = None
 		seperator = None
-		for line in targFile:
+		newID	  = None
+		for line in self.__importLVL:
 			line = line.rstrip('\n')
 			# print(line)
 
-			ID = re.search("(^PLC#.{3})", line)
+			ID = re.search("(^LVD#W.{3})", line)
 			if ID != None:
 				newID = ID.group(1)
 				if counting == 0:
@@ -128,10 +133,7 @@ class SI_Files():
 			if rotation != None:
 				newRotation = rotation.group(1)
 				if counting == 2:
-					if newRotation == 'None':
-						newRotation = None
-					else:
-						newRotation = int(newRotation)
+					newRotation = int(newRotation)
 					self.__rotationDICT[newID] = newRotation
 
 			coords = re.search("=z(.*$)", line)
@@ -140,17 +142,12 @@ class SI_Files():
 				if counting == 3:
 					self.__coordDICT[newID] = newCoords
 
-			g_ID = re.search("=(LVL_D#.{3})", line)
-			if g_ID != None and seperator == None:
-				newg_ID = g_ID.group(1)
+			B_ID = re.search("=(LVD#B.{3})", line)
+			if B_ID != None and seperator == None:
+				newB_ID = B_ID.group(1)
 				if counting == 4:
-					if lastg_ID != None:
-						if newg_ID != lastg_ID:
-							self.__gIDfile.append(newg_ID)
-					else:
-						self.__gIDfile.append(newg_ID)
-					self.__gID_DICT[newID] = newg_ID
-					lastg_ID = newg_ID
+					self.__bID_DICT[newID] = newB_ID
+					lastB_ID = newB_ID
 
 			seperator = re.search("(^<.*$)", line)
 			if seperator != None:
@@ -164,35 +161,33 @@ class SI_Files():
 		# print("^Files Rotation\n")
 		# print(self.__coordDICT)
 		# print("^Coords\n")
-		# print(self.__gID_DICT)
-		# print("^Group ID\n")
+		# print(self.__bID_DICT)
+		# print("^Button ID\n")
 
-		targFile.close()
+		self.__importLVL.close()
+		self.INIT_lvlFile(mainGame)
 
-		image = None
-		tkIMG = None
-		pilIMG = None
-		self.__rotateVar = None
-		lastKEY = None
-		lenID = re.search("^PLC#(.{3})", self.__IDfile[len(self.__IDfile)-1])
-		newlenID = lenID.group(1)
-		self.__newNUMB += int(newlenID)
-		self.__IDsNUMB += len(self.__gIDfile)
-		for item in range(len(self.__IDfile)):
-			image = self.__iNode.Img_Add(self.__fileDICT[self.__IDfile[item]])
+	def INIT_lvlFile(self, MG=None):
+		lastB_ID = None
+		for tag in self.__IDfile:
 
-			self.__rotateVar = self.__rotationDICT[self.__IDfile[item]]
-			if self.__rotateVar != None:
-				self.__isRotate = True
-				tkIMG, pilIMG = self.__iNode.Img_Rotate(image[0], int(self.__rotateVar))
+			#CREATES BUTTON FROM SAVE FILE
+			if lastB_ID != None:
+				if self.__bID_DICT[tag] != lastB_ID and self.__bID_DICT[tag] not in self.__bIDfile:
+					self.buttonFromFile(self.__fileDICT[tag], self.__imgFrame, button_ID=self.__bID_DICT[tag], MG=MG)
+					self.__bIDfile.append(self.__bID_DICT[tag])
 			else:
-				self.__isRotate = False
-				pass
-			# print('-----------------------------------')
+				self.buttonFromFile(self.__fileDICT[tag], self.__imgFrame, button_ID=self.__bID_DICT[tag], MG=MG)
+				self.__bIDfile.append(self.__bID_DICT[tag])
+			lastB_ID = self.__bID_DICT[tag]
 
-			"""#_Coord str to Coord int (tuple)_#"""
-			coord = self.__coordDICT[self.__IDfile[item]]
+			#PULLS IN IMAGE AND ROTATES IF NEEDED
+			image = self.__iNode.Img_Add(self.__fileDICT[tag])
+			self.__lastRotate = self.__rotationDICT[tag]
+			tkIMG = self.__iNode.Img_Rotate(image[0], int(self.__lastRotate))
 
+			#COORDS & CORNERS FROM FILE
+			coord = self.__coordDICT[tag]
 			firstNumb = re.search("([0-9]*[^(,)])", coord)
 			if firstNumb != None:
 				new_firstNumb = firstNumb.group(1)
@@ -201,49 +196,57 @@ class SI_Files():
 				new_secondNumb = secondNumb.group(1)
 			x = int(new_firstNumb)
 			y = int(new_secondNumb)
-			self.__coordDICT[self.__IDfile[item]] = (x, y)
-			self.__cornersDICT[self.__IDfile[item]] = (x, y, x+self.__Key, y+self.__Key)
+			self.__coordDICT[tag] = (x, y)
+			self.__cornersDICT[tag] = (x, y, x+self.__Key, y+self.__Key)
 
-			# print(self.__IDfile[item], ':', self.__isRotate)
-			# print(self.__IDfile[item], ':', self.__fileDICT[self.__IDfile[item]])
-			# print(self.__IDfile[item], ':', self.__gID_DICT[self.__IDfile[item]])
-			# print(self.__IDfile[item])
-			# print('-----------------------------')
+			#PLACES THE IMAGES
+			self.__imgDICT[tag] = PLC_ImgMain(tag, self.__bID_DICT[tag])
+			self.__imgDICT[tag].Image_Info(self.__buttonDICT[self.__bID_DICT[tag]].get_fileLoc(),
+											self.__buttonDICT[self.__bID_DICT[tag]].get_Size(),
+											(x, y), self.__lastRotate)
+			self.__iNode.Img_Place(x, y, tkIMG, LVD='yes', tag=[tag, self.__imgDICT[tag].get_group_ID()])
+			self.__PLCI_Tag.append(tag)
+			self.__PLCI_Tk.append(tkIMG)
 
-			if lastKEY != None:
-				if self.__fileDICT[self.__IDfile[item]] != self.__fileDICT[lastKEY]:
-					self.__imgDICT = self.__eGUI.buttonFromSave(fileLoc=self.__fileDICT[self.__IDfile[item]], parent=self.__imgFrame, button_ID=self.__gID_DICT[self.__IDfile[item]], MG=mainGame)
-			elif lastKEY == None:
-				self.__imgDICT = self.__eGUI.buttonFromSave(fileLoc=self.__fileDICT[self.__IDfile[item]], parent=self.__imgFrame, button_ID=self.__gID_DICT[self.__IDfile[item]], MG=mainGame)
 
-			if self.__isRotate == True:
-				button_ID = self.__gID_DICT[self.__IDfile[item]]
-				ID = self.__IDfile[item]
-				Coords=self.__coordDICT[self.__IDfile[item]]
-				Corners=self.__cornersDICT[self.__IDfile[item]]
-				rotation=self.__rotationDICT[self.__IDfile[item]]
-				self.__eGUI.imgINFO(button_ID=button_ID, ID=ID, Coord=Coords, Corner=Corners, tkIMG=tkIMG, rotation=rotation, isRotate=True, fileREAD=(x, y))
+		#INFO TO GUI_EVENT
+		lastID  = re.search("^LVD#W(.{3})", self.__IDfile[len(self.__IDfile)-1])
+		lastID2 = lastID.group(1)
+		self.__ID_count += int(lastID2)+1
 
-				self.__placedIMG_tag.append(self.__IDfile[item])
+		lastBID  = re.search("^LVD#B(.{3})", self.__bIDfile[len(self.__bIDfile)-1])
+		lastBID2 = lastBID.group(1)
+		self.__bID_count += int(lastBID2)+1
+
+		self.__eGUI.File_Images(self.__buttonDICT, self.__imgDICT, self.__PLCI_Tag, self.__PLCI_Tk, self.__bID_count, self.__ID_count)
+		self.__eGUI.set_RC_Info(self.__Row, self.__Column)
+
+
+	def buttonFromFile(self, fileLoc, parent, button_ID, MG=None):
+		image = self.__iNode.Img_Add(fileLoc)
+		if MG == None:
+			B = Button(parent, image=image[2], bg=self.__color, activebackground=self.__color, command=lambda:self.__eGUI.Drag_Drop(button_ID))
+		self.__buttonDICT[button_ID] = Button_Main(button_ID)
+		self.__buttonDICT[button_ID].Image_Info(fileLoc=fileLoc, tkIMG=image[2], pilIMG=image[0], size=image[1])
+
+		#Place Button
+		if MG == None:
+			B.grid(row=self.__Row, column=self.__Column)
+			if self.__Column <= self.__ColumnMAX:
+				self.__Column += 1
 			else:
-				button_ID = self.__gID_DICT[self.__IDfile[item]]
-				ID = self.__IDfile[item]
-				Coords=self.__coordDICT[self.__IDfile[item]]
-				Corners=self.__cornersDICT[self.__IDfile[item]]
-				rotation=self.__rotationDICT[self.__IDfile[item]]
-				self.__eGUI.imgINFO(button_ID=button_ID, ID=ID, Coord=Coords, Corner=Corners, tkIMG=image[2], rotation=rotation, isRotate=False, fileREAD=(x, y))
+				self.__Column = 0
+				self.__Row	  +=1
+		self.__eGUI.set_buttonDICT(self.__buttonDICT)
 
-				self.__placedIMG_tag.append(self.__IDfile[item])
-			lastKEY = self.__IDfile[item] #KEEP THIS LAST IN LOOP
 
-			self.__eGUI.set_Images(self.__imgDICT, self.__newNUMB, self.__IDsNUMB, self.__placedIMG_tag)
-
+	"""#|--------------Getters--------------|#"""
+		#this is where a list of getters will go...
+	def get_imgDICT(self):
+		return self.__imgDICT
 
 
 	"""#|--------------Setters--------------|#"""
 		#this is where a list of setters will go...
 	def set_imgFrame(self, frame):
 		self.__imgFrame = frame
-
-	def get_imgDICT(self):
-		return self.__imgDICT
