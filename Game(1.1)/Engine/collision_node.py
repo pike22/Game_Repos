@@ -47,17 +47,18 @@ class Collision_Node(Node):
 
 				"""#__# PLAYER COL_LOGIC #__#"""
 				if self.__Result[item].get_ID() in self.__playerRoster:
-					side = self.__logic.Side_Calc()
+					side = self.__logic.Side_Calc(self.__Result[item])
+					# side = 'left'
 					# print('Player direction:', side)
 					if item == len(self.__Result)-1:
 						pass
 					elif item != len(self.__Result)-1:
 						if self.__Result[item+1].get_group_ID() in self.__enemyRoster:
-							self.__Result[item].get_ID().my_Collision(OSC='Enemy', OSA=self.__Result[item+1].get_attack(), side=side)
+							self.__Result[item].my_Collision(OSC='Enemy', OSA=self.__Result[item+1].get_attack(), side=side)
 						elif self.__Result[item+1].get_group_ID() in self.__weaponRoster:
 							self.__Result[item+1].del_item()
 						elif self.__Result[item+1].get_group_ID() in self.__staticRoster:
-							self.__Result[item].get_ID().my_Collision(OSC='Static', side=side)
+							self.__Result[item].my_Collision(OSC='Static', side=side)
 
 				"""#__# STALFOS COL_LOGIC #__#"""
 				if self.__Result[item].get_ID() in self.__stalfosRoster:
@@ -81,12 +82,12 @@ class Collision_Node(Node):
 					pass
 
 				"""#__# STATIC COL_LOGIC #__#"""
-				if self.__Result[item] in self.__wallRoster:
+				if self.__Result[item].get_ID() in self.__wallRoster:
 					if item == len(self.__Result)-1:
-						print('hell0')
+						# print('hell0')
 						pass
 					else:
-						print('goodbye')
+						# print('goodbye')
 						if self.__Result[item+1].get_group_ID() in self.__weaponRoster:
 							print('CLANG!!!!!')
 						if self.__Result[item+1].get_group_ID() in self.__projRoster:

@@ -3,11 +3,11 @@ from .image_node import Image_Node
 
 class Collision_Logic():
 	def __init__(self, statics):
-		self.__collision = []
-		self.__Corners 	 = []
-		self.__LVD_Corners=[]
-		self.__obj_list	 = []
-		self.__Col_Dict  = {}
+		self.__LVD_Corners	= []
+		self.__CollideList	= []
+		self.__collision 	= []
+		self.__Corners 	 	= []
+		self.__Col_Dict  	= {}
 		self.__isCollision = False
 
 		#vars for statics
@@ -25,8 +25,27 @@ class Collision_Logic():
 		self.__wallRoster	 = None
 		self.__projRoster	 = None
 
+		#obj Parameters
+		self.__sideResult = []
+		self.__mainOBJ 	  = None
+		self.__objA		  = None
+		self.__objB		  = None
+		self.__objC		  = None
+		self.__objD		  = None
+		"""OBJECT COORDS"""
+		self.__xM, self.__yM = None, None
+		self.__xA, self.__yA = None, None
+		self.__xB, self.__yB = None, None
+		self.__xC, self.__yC = None, None
+		"""OBJECT  SIZE"""
+		self.__hM, self.__wM = None, None
+		self.__hA, self.__wA = None, None
+		self.__hB, self.__wB = None, None
+		self.__hC, self.__wC = None, None
+
 		#rand var
-		self.tempL = []
+		self.__GRID = None
+		self.tempL  = []
 
 	'''#_COLLISION DICTIONARY FUNCTIONS_#'''
 	#tagOrId == dictionary key
@@ -76,7 +95,7 @@ class Collision_Logic():
 	def Is_Collision(self, item):
 		if item == 0:
 			self.__collision = []
-			self.__obj_list	 = []
+			self.__CollideList	 = []
 
 
 		x1, y1, x2, y2 = self.__Corners[item]
@@ -112,91 +131,201 @@ class Collision_Logic():
 				obj = self.__Col_Dict[tagOrId]
 
 
-				if self.__obj_list == [] or len(self.__obj_list) == 1:
-					self.__obj_list.append(obj)
+				if self.__CollideList == [] or len(self.__CollideList) == 1:
+					self.__CollideList.append(obj)
 				else:
-					self.__obj_list.append(obj)
+					self.__CollideList.append(obj)
 
 
 			self.__isCollision = True
-			# print(self.__obj_list, 'objList')
-			return self.__obj_list
+			# print(self.__CollideList, 'objList')
+			return self.__CollideList
 		else:
 			self.__isCollision = False
-			return self.__obj_list
+			return self.__CollideList
 
-	def Side_Calc(self):
-		objA  = None
-		objB  = None
-		for item in range(len(self.__obj_list)):
+	#I want to use this to purly find where objects are in relation to others and push
+	#the opposite direction through so that I can do proper knockback/wall collision
+	def Side_Calc(self, mainOBJ):
+		self.__mainOBJ = mainOBJ
+		self.__xM, self.__yM = mainOBJ.get_Coords()
+		self.__hM, self.__wM = mainOBJ.get_size()
+
+		#Clears the object variables
+		self.__objA = None
+		self.__objB = None
+		self.__objC = None
+		self.__objD = None
+		for item in range(len(self.__CollideList)):
+			#this is object A
 			if item == 0:
-				objA = self.__obj_list[item]
-				if objA.get_group_ID() in self.__Statics:
-					for objItem in range(len(objA.get_ID(full=True))):
-						keyA = objA.get_ID(objItem, full=False)
-						if keyA == self.__collision[0]:
-							self.__keyA = self.__collision[0]
-				# print(objA, "objA")
-
+				if self.__CollideList[0] != self.__mainOBJ:
+					self.__objA = self.__CollideList[0]
+					self.__xA, self.__yA = self.__CollideList[0].get_Coords()
+					self.__hA, self.__wA = self.__CollideList[0].get_size()
+				else:
+					self.__objA = None
+			#this is object B
 			elif item == 1:
-				objB = self.__obj_list[item]
-				if objB.get_group_ID() in self.__Statics:
-					for objItem in range(len(objB.get_ID(full=True))):
-						keyB = objB.get_ID(objItem, full=False)
-						if keyB == self.__collision[1]:
-							self.__keyB = self.__collision[1]
-				# print(objB, 'objB')
+				if self.__CollideList[1] != self.__mainOBJ:
+					self.__objB = self.__CollideList[1]
+					self.__xB, self.__yB = self.__CollideList[1].get_Coords()
+					self.__hB, self.__wB = self.__CollideList[1].get_size()
+				else:
+					self.__objB = None
+			#this is object C
+			elif item == 2:
+				if self.__CollideList[2] != self.__mainOBJ:
+					self.__objC = self.__CollideList[2]
+					self.__xC, self.__yC = self.__CollideList[2].get_Coords()
+					self.__hC, self.__wC = self.__CollideList[2].get_size()
+				else:
+					self.__objC = None
+			#this is object D
+			elif item == 3:
+				if self.__CollideList[3] != self.__mainOBJ:
+					self.__objD = self.__CollideList[3]
+					self.__xD, self.__yD = self.__CollideList[3].get_Coords()
+					self.__hD, self.__wD = self.__CollideList[3].get_size()
+				else:
+					self.__objD = None
 
+		self.objPRINTOUT()
+		#checks which collision objects are used and "returns" the individual squares collision direction
+		self.__sideResult = []
+		self.__resultTAG  = []
+		"""mainOBJ vs. objA"""
+		# print(self.__objB, 'ForT objA')
+		if self.__objA != None:
+			if (self.__yM+self.__hM) <= self.__yA+(self.__hA*0.2):
+				self.__sideResult.append('top')
+				self.__resultTAG.append(self.__objA.get_ID())
+			elif (self.__yA+self.__hA) <= self.__yM+(self.__hM*0.2):
+				self.__sideResult.append('bottom')
+				self.__resultTAG.append(self.__objA.get_ID())
 			else:
-				print("ERROR: CL#142 'multiple obj in collision'")
-		"""Object A's coords/size"""
-		print(objB.get_ID(), 'ID?')
-		if objA.get_ID() not in self.__wallRoster:
-			xA, yA = objA.get_Coords()
-			height_A, width_A = objA.get_size()
-		else:
-			xA, yA = objA.get_Coords(objA.get_ID())
-			height_A, width_A = objA.get_size()
+				if self.__xM > self.__xA:
+					self.__sideResult.append('right')
+					self.__resultTAG.append(self.__objA.get_ID())
+				elif self.__xM < self.__xA:
+					self.__sideResult.append('left')
+					self.__resultTAG.append(self.__objA.get_ID())
 
-		"""Object B's coords/size"""
-		if objB.get_ID() not in self.__wallRoster:
-			xB, yB = objB.get_Coords()
-			height_B, width_B = objB.get_size()
-		else:
-			xB, yB = objB.get_Coords(objB.get_ID())
-			height_B, width_B = objB.get_size()
-
-		"""Objects Area"""
-		areaA = height_A * width_A
-		areaB = height_B * width_B
-
-		if areaA >= 5000 or areaB >= 5000: #this may need ajustments as we go
-			if xA >= xB+(width_B*(9/10)):
-				# print('right')
-				return 'right'
-			if xA <= xB-(0.5*width_A):
-				# print('left')
-				return 'left'
-			if yA <= yB:
-				# print('top')
-				return 'top'
-			if yB+height_B >= yA:
-				# print('bottom')
-				return 'bottom'
-		else:
-			if yA+(height_A*(3/4)) <= yB:
-				print('top')
-				return 'top'
-			elif (yB+height_B) <= yA:
-				print('bottom')
-				return 'bottom'
+		"""mainOBJ vs. objB"""
+		# print(self.__objB, 'ForT objB')
+		if self.__objB != None:
+			if (self.__yM+self.__hM) <= self.__yB+(self.__hB*0.2):
+				self.__sideResult.append('top')
+				self.__resultTAG.append(self.__objB.get_ID())
+			elif (self.__yB+self.__hB) <= self.__yM+(self.__hM*0.2):
+				self.__sideResult.append('bottom')
+				self.__resultTAG.append(self.__objB.get_ID())
 			else:
-				if xA > xB:
-					print('right')
-					return 'right'
-				elif xA < xB:
-					print('left')
-					return 'left'
+				if self.__xM > self.__xB:
+					self.__sideResult.append('right')
+					self.__resultTAG.append(self.__objB.get_ID())
+				elif self.__xM < self.__xB:
+					self.__sideResult.append('left')
+					self.__resultTAG.append(self.__objB.get_ID())
+
+		"""mainOBJ vs. objC"""
+		# print(self.__objC, 'ForT objC')
+		if self.__objC != None:
+			if (self.__yM+self.__hM) <= self.__yC+(self.__hC*0.2):
+				self.__sideResult.append('top')
+				self.__resultTAG.append(self.__objC.get_ID())
+			elif (self.__yC+self.__hC) <= self.__yM+(self.__hM*0.2):
+				self.__sideResult.append('bottom')
+				self.__resultTAG.append(self.__objC.get_ID())
+			else:
+				if self.__xM > self.__xC:
+					self.__sideResult.append('right')
+					self.__resultTAG.append(self.__objC.get_ID())
+				elif self.__xM < self.__xC:
+					self.__sideResult.append('left')
+					self.__resultTAG.append(self.__objC.get_ID())
+
+		"""mainOBJ vs. objD"""
+		# print(self.__objD, 'ForT objD')
+		if self.__objD != None:
+			if (self.__yM+self.__hM) <= self.__yD+(self.__hD*0.2):
+				self.__sideResult.append('top')
+				self.__resultTAG.append(self.__objD.get_ID())
+			elif (self.__yD+self.__hD) <= self.__yM+(self.__hM*0.2):
+				self.__sideResult.append('bottom')
+				self.__resultTAG.append(self.__objD.get_ID())
+			else:
+				if self.__xM > self.__xD:
+					self.__sideResult.append('right')
+					self.__resultTAG.append(self.__objD.get_ID())
+				elif self.__xM < self.__xD:
+					self.__sideResult.append('left')
+					self.__resultTAG.append(self.__objD.get_ID())
+
+
+		print('-----------------result---------------------\n', self.__sideResult, '\n', self.__resultTAG, '\n--------------------------------------------\n\n')
+		topC = 0
+		leftC = 0
+		rightC = 0
+		bottomC = 0
+		for side in self.__sideResult:
+			if side == 'top':
+				topC += 1
+			elif side == 'left':
+				leftC += 1
+			elif side == 'right':
+				rightC += 1
+			elif side == 'bottom':
+				bottomC += 1
+		sideSTR = str(topC) + str(leftC) + str(rightC) + str(bottomC)
+		print(sideSTR)
+		#this is a mainOBJ stuck in topright side corner
+		if sideSTR == '1000' or sideSTR == '2000':
+			self.__sideResult = ['top']
+		elif sideSTR == '0100' or sideSTR == '0200':
+			self.__sideResult = ['left']
+		elif sideSTR == '0010' or sideSTR == '0020':
+			self.__sideResult = ['right']
+		elif sideSTR == '0001' or sideSTR == '0002':
+			self.__sideResult = ['bottom']
+		else:
+			self.__sideResult = []
+
+		return self.__sideResult
+
+
+	def objPRINTOUT(self):
+		print(self.__mainOBJ.get_ID(), 'ID')
+		print(self.__xM, 'coordx mainOBJ')
+		print(self.__yM, 'coordy mainOBJ')
+		print(self.__hM, 'height mainOBJ')
+		print('--------------------------------------------')
+		if self.__objA != None:
+			print(self.__objA.get_ID(), 'ID')
+			print(self.__xA, 'coordx objA')
+			print(self.__yA, 'coordy objA')
+			print(self.__hA, 'height objA')
+			print('--------------------------------------------')
+		if self.__objB != None:
+			print(self.__objB.get_ID(), 'ID')
+			print(self.__xB, 'coordx objB')
+			print(self.__yB, 'coordy objB')
+			print(self.__hB, 'height objB')
+			print('--------------------------------------------')
+		if self.__objC != None:
+			print(self.__objC.get_ID(), 'ID')
+			print(self.__xC, 'coordx objC')
+			print(self.__yC, 'coordy objC')
+			print(self.__hC, 'height objC')
+			print('--------------------------------------------')
+		if self.__objD != None:
+			print(self.__objD.get_ID(), 'ID')
+			print(self.__xD, 'coordx objD')
+			print(self.__yD, 'coordy objD')
+			print(self.__hD, 'height objD')
+			print('--------------------------------------------')
+
+
 
 
 	"""|--------------Getters--------------|#"""
@@ -208,7 +337,7 @@ class Collision_Logic():
 		return self.__isCollision
 
 	def reset_objList(self):
-		self.__obj_list = []
+		self.__CollideList = []
 
 
 	"""|--------------Setters--------------|#"""
@@ -233,3 +362,6 @@ class Collision_Logic():
 
 	def set_wallRoster(self, Roster):
 		self.__wallRoster = Roster
+
+	def set_grid(self, grid):
+		self.__GRID = grid

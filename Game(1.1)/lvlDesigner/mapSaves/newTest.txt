@@ -1,135 +1,75 @@
-LVD#W000
-LVD#W001
-LVD#W002
-LVD#W003
-LVD#W004
-LVD#W005
-LVD#W006
-LVD#W007
-LVD#W008
-LVD#W009
-LVD#W010
-LVD#W011
-LVD#W012
-LVD#W013
-LVD#W014
-LVD#W015
-LVD#W016
-LVD#W017
-LVD#W018
-LVD#W019
-LVD#W020
-LVD#W021
-LVD#W022
-LVD#W023
+LVD#W035
+LVD#W036
+LVD#W037
+LVD#W038
+LVD#W039
+LVD#W040
+LVD#W044
+LVD#W045
+LVD#W046
+LVD#W047
+LVD#W048
+LVD#W049
 
 <=======================================================>
 
-LVD#W000=z_Pictures/Walls/corner01.png
-LVD#W001=z_Pictures/Walls/cornerin.png
-LVD#W002=z_Pictures/Walls/cornerin.png
-LVD#W003=z_Pictures/Walls/corner01.png
-LVD#W004=z_Pictures/Walls/corner01.png
-LVD#W005=z_Pictures/Walls/corner01.png
-LVD#W006=z_Pictures/Walls/corner01.png
-LVD#W007=z_Pictures/Walls/corner01.png
-LVD#W008=z_Pictures/Walls/corner01.png
-LVD#W009=z_Pictures/Walls/corner01.png
-LVD#W010=z_Pictures/Walls/corner01.png
-LVD#W011=z_Pictures/Walls/corner01.png
-LVD#W012=z_Pictures/Walls/corner01.png
-LVD#W013=z_Pictures/Walls/corner01.png
-LVD#W014=z_Pictures/Walls/wall01.png
-LVD#W015=z_Pictures/Walls/wall01.png
-LVD#W016=z_Pictures/Walls/wall01.png
-LVD#W017=z_Pictures/Walls/wall01.png
-LVD#W018=z_Pictures/Walls/cornerin.png
-LVD#W019=z_Pictures/Walls/cornerin.png
-LVD#W020=z_Pictures/Walls/cornerin.png
-LVD#W021=z_Pictures/Walls/cornerin.png
-LVD#W022=z_Pictures/Walls/cornerin.png
-LVD#W023=z_Pictures/Walls/cornerin.png
+LVD#W035=z_Pictures/Walls/corner01.png
+LVD#W036=z_Pictures/Walls/corner01.png
+LVD#W037=z_Pictures/Walls/corner01.png
+LVD#W038=z_Pictures/Walls/corner01.png
+LVD#W039=z_Pictures/Walls/corner01.png
+LVD#W040=z_Pictures/Walls/cornerin.png
+LVD#W044=z_Pictures/Walls/wall01.png
+LVD#W045=z_Pictures/Walls/wall01.png
+LVD#W046=z_Pictures/Walls/wall01.png
+LVD#W047=z_Pictures/Walls/wall01.png
+LVD#W048=z_Pictures/Walls/wall01.png
+LVD#W049=z_Pictures/Walls/dooropen.png
 
 <=======================================================>
 
-LVD#W000=z0
-LVD#W001=z0
-LVD#W002=z0
-LVD#W003=z0
-LVD#W004=z0
-LVD#W005=z90
-LVD#W006=z90
-LVD#W007=z90
-LVD#W008=z180
-LVD#W009=z180
-LVD#W010=z180
-LVD#W011=z270
-LVD#W012=z270
-LVD#W013=z270
-LVD#W014=z0
-LVD#W015=z90
-LVD#W016=z180
-LVD#W017=z270
-LVD#W018=z270
-LVD#W019=z270
-LVD#W020=z180
-LVD#W021=z180
-LVD#W022=z90
-LVD#W023=z90
+LVD#W035=z0
+LVD#W036=z90
+LVD#W037=z180
+LVD#W038=z270
+LVD#W039=z0
+LVD#W040=z0
+LVD#W044=z180
+LVD#W045=z180
+LVD#W046=z0
+LVD#W047=z90
+LVD#W048=z90
+LVD#W049=z270
 
 <=======================================================>
 
-LVD#W000=z(768, 128)
-LVD#W001=z(768, 160)
-LVD#W002=z(736, 128)
-LVD#W003=z(800, 160)
-LVD#W004=z(736, 96)
-LVD#W005=z(672, 96)
-LVD#W006=z(640, 128)
-LVD#W007=z(608, 160)
-LVD#W008=z(608, 224)
-LVD#W009=z(640, 256)
-LVD#W010=z(672, 288)
-LVD#W011=z(736, 288)
-LVD#W012=z(768, 256)
-LVD#W013=z(800, 224)
-LVD#W014=z(704, 96)
-LVD#W015=z(608, 192)
-LVD#W016=z(704, 288)
-LVD#W017=z(800, 192)
-LVD#W018=z(768, 224)
-LVD#W019=z(736, 256)
-LVD#W020=z(672, 256)
-LVD#W021=z(640, 224)
-LVD#W022=z(672, 128)
-LVD#W023=z(640, 160)
+LVD#W035=z(992, 160)
+LVD#W036=z(960, 160)
+LVD#W037=z(960, 256)
+LVD#W038=z(1056, 256)
+LVD#W039=z(1056, 192)
+LVD#W040=z(992, 192)
+LVD#W044=z(992, 256)
+LVD#W045=z(1024, 256)
+LVD#W046=z(1024, 192)
+LVD#W047=z(960, 192)
+LVD#W048=z(960, 224)
+LVD#W049=z(1056, 224)
 
 <=======================================================>
 
-LVD#W000=LVD#B000
-LVD#W001=LVD#B002
-LVD#W002=LVD#B002
-LVD#W003=LVD#B000
-LVD#W004=LVD#B000
-LVD#W005=LVD#B000
-LVD#W006=LVD#B000
-LVD#W007=LVD#B000
-LVD#W008=LVD#B000
-LVD#W009=LVD#B000
-LVD#W010=LVD#B000
-LVD#W011=LVD#B000
-LVD#W012=LVD#B000
-LVD#W013=LVD#B000
-LVD#W014=LVD#B001
-LVD#W015=LVD#B001
-LVD#W016=LVD#B001
-LVD#W017=LVD#B001
-LVD#W018=LVD#B002
-LVD#W019=LVD#B002
-LVD#W020=LVD#B002
-LVD#W021=LVD#B002
-LVD#W022=LVD#B002
-LVD#W023=LVD#B002
+LVD#W035=LVD#B000
+LVD#W036=LVD#B000
+LVD#W037=LVD#B000
+LVD#W038=LVD#B000
+LVD#W039=LVD#B000
+LVD#W040=LVD#B002
+LVD#W044=LVD#B001
+LVD#W045=LVD#B001
+LVD#W046=LVD#B001
+LVD#W047=LVD#B001
+LVD#W048=LVD#B001
+LVD#W049=LVD#B003
 
 <=======================================================>
 

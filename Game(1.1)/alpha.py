@@ -52,13 +52,13 @@ class Alpha():
 		self.__Projectiles  = Projectiles()
 		self.__Player		= Player_Main(self.__iNode, self.__kNode)
 		self.__Sword		= Sword_Main(self.__iNode, self.__cLogic)
-		# self.__Wall 		= Wall_Main(self.__iNode, self.__cLogic)
 		self.__Bow			= Bow_Main(self.__iNode, self.__cLogic, self.__cNode, self.__kNode)
 
 		#from level Designer
 		self.__GUI	= GUI_Main(self.__cLogic, self.__iNode, self.__kNode, self.__cNode, self.__mainApp, None)
 		# self.__eGUI = self.__GUI.get_eGUI()
 		self.__siFILE = self.__GUI.get_siFILE()
+		# self.__cLogic.set_grid(self.__eGUI.get_grid())
 
 		#yes
 		self.__Entities.set_mainApp(self.__mainApp)
@@ -128,10 +128,10 @@ class Alpha():
 			self.__mainApp.destroy()
 			return True
 
-	def GamesetUP(self):
+	def GamesetUP(self, GC_OFF=False):
 		# #__Statics SETUP__#
 		print('temporary shutdwon at GameSetUP')
-		self.__siFILE.Read_File(self.__levelTHREE)
+		self.__siFILE.Read_File('E:\Github\Game_Repos_1\Game(1.1)\lvlDesigner\mapSaves\Multi-Collision_Test.txt')
 		self.__imgDICT = self.__siFILE.get_imgDICT()
 
 		for tag in self.__imgDICT.keys():
@@ -151,17 +151,17 @@ class Alpha():
 
 		#__ENEMY Setup__#
 		COLDICT = self.__cLogic.get_Col_Dict()
-		for item in range(len(self.__stalfosRoster)):
-			if self.__stalfosRoster[item] in COLDICT.keys():
-				r_Stal = COLDICT[self.__stalfosRoster[item]]
-				r_Stal.stalfos_setUP(self.__Sc_Width, self.__Sc_Height)
+		# for item in range(len(self.__stalfosRoster)):
+		# 	if self.__stalfosRoster[item] in COLDICT.keys():
+		# 		r_Stal = COLDICT[self.__stalfosRoster[item]]
+		# 		r_Stal.stalfos_setUP(self.__Sc_Width, self.__Sc_Height)
 				# r_Stal.Stalfos_Print()
 
 
 		#_Weapon SETUP_#
 
 		#_CLOCK SETUP_#
-		self.__tNode.GameClock()
+		self.__tNode.GameClock(GC_OFF)
 
 
 	#gameLoop def is for the classes use.
@@ -211,9 +211,9 @@ class Alpha():
 		#only one Player should be here (IGNORE MULTIPLAYER)
 		list1 = []
 		list1 = [self.__Player.get_Corners()]
-		for item in range(len(self.__stalfosRoster)):
-			c_Stal = self.__cLogic.tagToObj(self.__stalfosRoster[item]) #c_Stal == stalfos obj
-			list1.append(c_Stal.get_Corners())
+		# for item in range(len(self.__stalfosRoster)):
+		# 	c_Stal = self.__cLogic.tagToObj(self.__stalfosRoster[item]) #c_Stal == stalfos obj
+		# 	list1.append(c_Stal.get_Corners())
 
 		if self.__Sword.get_isActive() == True:
 			list1.append(self.__Sword.get_Corners())
@@ -287,18 +287,19 @@ class Alpha():
 
 	#this is a function call for test prints to make sure things work
 	def Testing_Debug(self):
-		self.find_all_Tags()
+		# self.find_all_Tags()
 		# self.debug_Col_Dict()
 		# print(Image_Node.Render, 'Render')
 		pass
 
 
 #puts the above class to action
+color = fg('light_cyan')
 Game = Alpha()
-print('----------------------------\n') #to make it easier to read in the command promt
+print('----------------------------\n'+color) #to make it easier to read in the command promt
 Game.set_MainCanvas()
 Game.tk_windowSETUP()
-Game.GamesetUP()
+Game.GamesetUP(True)
 Game.Testing_Debug()
 print('----------------------------')
 Game.gameLoop()

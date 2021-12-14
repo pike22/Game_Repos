@@ -162,15 +162,18 @@ class Player_Main(All_Entities):
 			if self.__isHit == False:
 				'''#_Actuall MATH_#'''
 				self.__Cur_Health -= OSA
-				if side == 'top':
-					Dir = 'up'
-				elif side == 'bottom':
-					Dir = 'down'
-				else:
-					Dir = side
-				new_Coords = self.__kNode.Knock_Back(self.__info.get_Coords(), self.__info.get_ID(), Dir)
-				self.__info.set_Coords(new_Coords)
-				self.__info.set_Corners(Image_Node.Render.bbox(self.__info.get_ID()))
+				print(side)
+				for newSide in side:
+					if newSide == 'top':
+						Dir = 'up'
+					elif newSide == 'bottom':
+						Dir = 'down'
+					else:
+						Dir = newSide
+					print(Dir)
+					new_Coords = self.__kNode.Knock_Back(self.__info.get_Coords(), self.__info.get_ID(), Dir)
+					self.__info.set_Coords(new_Coords)
+					self.__info.set_Corners(Image_Node.Render.bbox(self.__info.get_ID()))
 
 				'''#_Logic_#'''
 				self.__isHit 	= True
@@ -181,17 +184,28 @@ class Player_Main(All_Entities):
 			pass
 
 		elif OSC == 'Static':
-			if side == 'top':
-				Dir = 'up'
-			elif side == 'bottom':
-				Dir = 'down'
-			else:
-				Dir = side
-			# print(self.__info.get_Corners(), 'OLD CORNERS')
-			new_Coords = self.__kNode.Static_Hit(self.__info.get_Coords(), self.__info.get_ID(), Dir)
-			self.__info.set_Coords(new_Coords)
-			self.__info.set_Corners(Image_Node.Render.bbox(self.__info.get_ID()))
-			# print(self.__info.get_Corners(), 'NEW Corners')
+			lastSide = None
+			# print(side)
+			for newSide in side:
+				if newSide == 'top':
+					Dir = 'up'
+				elif newSide == 'bottom':
+					Dir = 'down'
+				else:
+					Dir = newSide
+				# print(Dir, 'direction')
+				# print(lastSide, 'last direction')
+				if Dir != lastSide:
+					new_Coords = self.__kNode.Static_Hit(self.__info.get_Coords(), self.__info.get_ID(), Dir)
+					self.__info.set_Coords(new_Coords)
+					self.__info.set_Corners(Image_Node.Render.bbox(self.__info.get_ID()))
+					lastSide = Dir
+				elif lastSide == None:
+					new_Coords = self.__kNode.Static_Hit(self.__info.get_Coords(), self.__info.get_ID(), Dir)
+					self.__info.set_Coords(new_Coords)
+					self.__info.set_Corners(Image_Node.Render.bbox(self.__info.get_ID()))
+					lastSide = Dir
+
 
 		else:
 			print('Error: P#108')

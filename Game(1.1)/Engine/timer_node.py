@@ -12,14 +12,15 @@ class Timer_Node():
 		self.__targTime = 0
 
 
-	def GameClock(self):
-		Timer_Node.GameTime += 1
-		if Timer_Node.GameTime == self.__Frame_Count:
-			self.__Seconds += 1
-			print(self.__Seconds, 'seconds')
-			self.__Frame_Count += 33
+	def GameClock(self, OFF=False):
+		if OFF == False:
+			Timer_Node.GameTime += 1
+			if Timer_Node.GameTime == self.__Frame_Count:
+				self.__Seconds += 1
+				print(self.__Seconds, 'seconds')
+				self.__Frame_Count += 33
 
-		self.__mainApp.after(int(self.__FPS), self.GameClock)
+			self.__mainApp.after(int(self.__FPS), self.GameClock)
 
 
 	"""#|--------------Getters--------------|#"""

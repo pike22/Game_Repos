@@ -30,6 +30,7 @@ class GUI_Events():
 		self.__isRotate  = False
 		self.__isMoving  = False
 		self.__isDrag 	 = False
+		self.__isIMG	 = False
 		self.__COORD 	 = []
 		self.__GRID 	 = []
 
@@ -105,6 +106,7 @@ class GUI_Events():
 			Image_Node.Render.delete(self.__CurIMG)
 			self.__mainApp.unbind(('<Motion>'))
 			self.__mainApp.unbind_all(('<MouseWheel>'))
+			Image_Node.Render.unbind(('<Button-1>'))
 
 
 	def Rotate(self, event, button_ID):
@@ -131,6 +133,7 @@ class GUI_Events():
 				Image_Node.Render.bind(('<Button-1>'), lambda event, arg=button_ID: self.Place_Image(event, arg))
 
 	def Place_Image(self, event, button_ID):
+		self.Del_Image(event)
 		if self.__ID_count <= 9:
 			ID = 'LVD#W00'+str(self.__ID_count)
 		elif self.__ID_count > 9 and self.__ID_count <= 99:
@@ -155,6 +158,24 @@ class GUI_Events():
 
 		self.__iNode.Img_Place(x, y, self.__tkIMG, LVD='yes', tag=[ID, self.__imgDICT[ID].get_group_ID()])
 
+	def FindIMG_Button(self):
+		if self.__isIMG == False:
+			print("!#_ON_#!")
+			self.__isIMG = True
+			self.__mainApp.bind_all("((<Button-1>))", self.Find_imgTag)
+		else:
+			print('!#_OFF_#!')
+			self.__isIMG = False
+			self.__mainApp.unbind_all("((<Button-1>))")
+
+	def Find_imgTag(self, event):
+		self.Find_Square(event)
+
+		x1, y1, x2, y2 = self.__GRID[self.__Cur_Square]
+		Canvas_ID = Image_Node.Render.find_overlapping(x1+5, y1+5, x2-5, y2-5)
+		ID == Image_Node.find_withtag(Canvas_ID)
+		print(ID)
+
 	def Map_Wipe(self):
 		item = len(self.__PLCI_Tag)-1
 		while self.__PLCI_Tag != []:
@@ -174,7 +195,7 @@ class GUI_Events():
 		self.Find_Square(event)
 
 		x1, y1, x2, y2 = self.__GRID[self.__Cur_Square]
-		Canvas_ID = Image_Node.Render.find_overlapping(x1, y1, x2, y2)
+		Canvas_ID = Image_Node.Render.find_overlapping(x1+5, y1+5, x2-5, y2-5)
 		ID = None
 		if self.__PLCI_Tag != []:
 			for item in range(len(self.__PLCI_Tag)-1, -1, -1):
@@ -218,6 +239,9 @@ class GUI_Events():
 
 	def get_buttonDICT(self):
 		return self.__buttonDICT
+
+	def get_grid(self):
+		return self.__GRID
 
 
 	"""#|--------------Setters--------------|#"""

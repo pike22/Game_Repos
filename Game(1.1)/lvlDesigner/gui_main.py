@@ -24,6 +24,7 @@ class GUI_Main():
 		#Button Vars
 		self.__Import = None
 		self.__delKEY = None
+		self.__FindIMG = None
 		self.__saveFILE = None
 		self.__lvlImport = None
 		self.__CCollision = None
@@ -57,10 +58,12 @@ class GUI_Main():
 		self.__delKEY = Button(self.__mainApp, text='Map Wipe', width=16, height=2, command=self.__eGUI.Map_Wipe)
 		self.__Import = Button(self.__mainApp, text='Import Image', width=16, height=2,
 											   command=lambda:self.__eGUI.open_imgFiles(self.__ImgList))
+		self.__FindIMG= Button(self.__mainApp, text='Find IMG', width=16, height=2, command=self.__eGUI.FindIMG_Button)
 
 		self.__Import.grid(row=1, column=2)
 		self.__delKEY.grid(row=2, column=3)
 		self.__delFILE.grid(row=3, column=2)
+		self.__FindIMG.grid(row=3, column=3)
 		self.__saveFILE.grid(row=1, column=3)
 		self.__lvlImport.grid(row=2, column=2)
 
@@ -71,10 +74,10 @@ class GUI_Main():
 		segment_x = int(1400/32)
 		segment_y = int(700/32)
 		for item in range(segment_x+1):
-			lineID = Image_Node.Render.create_line(self.__linex, 0, self.__linex, 700, tag='G#line')
+			# lineID = Image_Node.Render.create_line(self.__linex, 0, self.__linex, 700, tag='G#line')
 			self.__linex += self.__Key
 		for item in range(segment_y+1):
-			lineID = Image_Node.Render.create_line(0, self.__liney, 1400, self.__liney, tag='G#line')
+			# lineID = Image_Node.Render.create_line(0, self.__liney, 1400, self.__liney, tag='G#line')
 			self.__liney += self.__Key
 
 		for xPos in range(segment_x+1):

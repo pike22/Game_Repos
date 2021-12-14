@@ -1,0 +1,85 @@
+LVD#W000
+LVD#W001
+LVD#W002
+LVD#W003
+LVD#W004
+LVD#W005
+LVD#W006
+LVD#W007
+LVD#W008
+LVD#W009
+LVD#W010
+LVD#W011
+LVD#W012
+LVD#W013
+
+<=======================================================>
+
+LVD#W000=z_Pictures/Walls/corner01.png
+LVD#W001=z_Pictures/Walls/wall01.png
+LVD#W002=z_Pictures/Walls/wall01.png
+LVD#W003=z_Pictures/Walls/wall01.png
+LVD#W004=z_Pictures/Walls/wall01.png
+LVD#W005=z_Pictures/Walls/wall01.png
+LVD#W006=z_Pictures/Walls/wall01.png
+LVD#W007=z_Pictures/Walls/wall01.png
+LVD#W008=z_Pictures/Walls/wall01.png
+LVD#W009=z_Pictures/Walls/wall01.png
+LVD#W010=z_Pictures/Walls/wall01.png
+LVD#W011=z_Pictures/Walls/wall01.png
+LVD#W012=z_Pictures/Walls/wall01.png
+LVD#W013=z_Pictures/Walls/floor.png
+
+<=======================================================>
+
+LVD#W000=z0
+LVD#W001=z0
+LVD#W002=z270
+LVD#W003=z0
+LVD#W004=z270
+LVD#W005=z0
+LVD#W006=z0
+LVD#W007=z0
+LVD#W008=z0
+LVD#W009=z270
+LVD#W010=z270
+LVD#W011=z270
+LVD#W012=z270
+LVD#W013=z0
+
+<=======================================================>
+
+LVD#W000=z(288, 96)
+LVD#W001=z(256, 96)
+LVD#W002=z(288, 128)
+LVD#W003=z(224, 96)
+LVD#W004=z(288, 160)
+LVD#W005=z(64, 288)
+LVD#W006=z(96, 288)
+LVD#W007=z(128, 288)
+LVD#W008=z(160, 288)
+LVD#W009=z(192, 320)
+LVD#W010=z(192, 352)
+LVD#W011=z(192, 384)
+LVD#W012=z(192, 416)
+LVD#W013=z(352, 288)
+
+<=======================================================>
+
+LVD#W000=LVD#B000
+LVD#W001=LVD#B001
+LVD#W002=LVD#B001
+LVD#W003=LVD#B001
+LVD#W004=LVD#B001
+LVD#W005=LVD#B001
+LVD#W006=LVD#B001
+LVD#W007=LVD#B001
+LVD#W008=LVD#B001
+LVD#W009=LVD#B001
+LVD#W010=LVD#B001
+LVD#W011=LVD#B001
+LVD#W012=LVD#B001
+LVD#W013=LVD#B002
+
+<=======================================================>
+

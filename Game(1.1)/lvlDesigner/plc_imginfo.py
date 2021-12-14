@@ -32,8 +32,8 @@ class PLC_ImgInfo():
 	def get_button_ID(self):
 		return self.__button_ID
 
-	def get_Size(self):
-		return self.__Size
+	def get_size(self):
+		return self.__size
 
 	def get_Coords(self):
 		return self.__Coords

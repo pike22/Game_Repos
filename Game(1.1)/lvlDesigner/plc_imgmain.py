@@ -26,8 +26,8 @@ class PLC_ImgMain():
 	def get_button_ID(self):
 		return self.__info.get_button_ID()
 
-	def get_Size(self):
-		return self.__info.get_Size()
+	def get_size(self):
+		return self.__info.get_size()
 
 	def get_Coords(self):
 		return self.__info.get_Coords()
