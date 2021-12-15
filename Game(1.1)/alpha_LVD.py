@@ -15,8 +15,8 @@ import mouse
 class Alpha_LVD():
 	BGcolor = 'Grey'
 	def __init__(self, ):
-		self.__Sc_Width	 = 1400
-		self.__Sc_Height = 700
+		self.__Sc_Width	 = 1280
+		self.__Sc_Height = 800
 		self.__version	 = "Level Designer [ALPHAv0.5]"
 		self.__color 	 = 'Grey'
 

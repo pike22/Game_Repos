@@ -44,6 +44,7 @@ class Collision_Logic():
 		self.__hC, self.__wC = None, None
 
 		#rand var
+		self.__Cur_Square = None
 		self.__GRID = None
 		self.tempL  = []
 
@@ -151,6 +152,45 @@ class Collision_Logic():
 		self.__xM, self.__yM = mainOBJ.get_Coords()
 		self.__hM, self.__wM = mainOBJ.get_size()
 
+		#Here I want to remake the self.__CollideList to only have the mainOBJ and any objects
+		#directly above, below, right or left of the mainOBJ.
+		#This should fix the strange edge case
+		self.__mainSQ = self.Find_Square(self.__xM+(self.__hM/2), self.__yM+(self.__wM/2))
+		self.tempL = []
+		self.tempL.append(self.__mainOBJ)
+		if len(self.__CollideList) >= 3:
+			for obj in self.__CollideList:
+				if obj != self.__mainOBJ:
+					# objSQ = self.Find_Square(obj.get_Coords()[0]+(obj.get_size()[0]/2), obj.get_Coords()[1]+(obj.get_size()[1]/2))
+					# print(obj.get_Coords())
+					# print((self.__GRID[mainSQ+1][0], self.__GRID[mainSQ+1][1]))
+					if self.__mainSQ != None:
+						# print(  self.__GRID[self.__mainSQ+1][0], self.__GRID[self.__mainSQ+1][1],  'top\n',
+						# 		self.__GRID[self.__mainSQ-1][0], self.__GRID[self.__mainSQ-1][1],  'bottom\n',
+						# 		(self.__GRID[self.__mainSQ][0]-32), self.__GRID[self.__mainSQ][1], 'left\n',
+						# 		(self.__GRID[self.__mainSQ][0]+32), self.__GRID[self.__mainSQ][1], 'right\n')
+
+						if obj.get_Coords()[0] == self.__GRID[self.__mainSQ-1][0]:
+							if obj.get_Coords()[1] == self.__GRID[self.__mainSQ-1][1]:
+								# print(obj.get_ID(), 'bottom side')
+								self.tempL.append(obj)
+						if obj.get_Coords()[0] == self.__GRID[self.__mainSQ+1][0]:
+							if obj.get_Coords()[1] == self.__GRID[self.__mainSQ+1][1]:
+								# print(obj.get_ID(), 'top side')
+								self.tempL.append(obj)
+						if obj.get_Coords()[0] == (self.__GRID[self.__mainSQ][0]-32):
+							if obj.get_Coords()[1] == self.__GRID[self.__mainSQ][1]:
+								# print(obj.get_ID(), 'right side')
+								self.tempL.append(obj)
+						if obj.get_Coords()[0] == (self.__GRID[self.__mainSQ][0]+32):
+							if obj.get_Coords()[1] == self.__GRID[self.__mainSQ][1]:
+								# print(obj.get_ID(), 'left side')
+								self.tempL.append(obj)
+			# print(self.__CollideList)
+			self.__CollideList = self.tempL
+			# print(self.__CollideList)
+
+
 		#Clears the object variables
 		self.__objA = None
 		self.__objB = None
@@ -190,7 +230,7 @@ class Collision_Logic():
 				else:
 					self.__objD = None
 
-		self.objPRINTOUT()
+		# self.objPRINTOUT()
 		#checks which collision objects are used and "returns" the individual squares collision direction
 		self.__sideResult = []
 		self.__resultTAG  = []
@@ -263,34 +303,7 @@ class Collision_Logic():
 					self.__resultTAG.append(self.__objD.get_ID())
 
 
-		print('-----------------result---------------------\n', self.__sideResult, '\n', self.__resultTAG, '\n--------------------------------------------\n\n')
-		topC = 0
-		leftC = 0
-		rightC = 0
-		bottomC = 0
-		for side in self.__sideResult:
-			if side == 'top':
-				topC += 1
-			elif side == 'left':
-				leftC += 1
-			elif side == 'right':
-				rightC += 1
-			elif side == 'bottom':
-				bottomC += 1
-		sideSTR = str(topC) + str(leftC) + str(rightC) + str(bottomC)
-		print(sideSTR)
-		#this is a mainOBJ stuck in topright side corner
-		if sideSTR == '1000' or sideSTR == '2000':
-			self.__sideResult = ['top']
-		elif sideSTR == '0100' or sideSTR == '0200':
-			self.__sideResult = ['left']
-		elif sideSTR == '0010' or sideSTR == '0020':
-			self.__sideResult = ['right']
-		elif sideSTR == '0001' or sideSTR == '0002':
-			self.__sideResult = ['bottom']
-		else:
-			self.__sideResult = []
-
+		# print('-----------------result---------------------\n', self.__sideResult, '\n', self.__resultTAG, '\n--------------------------------------------\n\n')
 		return self.__sideResult
 
 
@@ -325,6 +338,14 @@ class Collision_Logic():
 			print(self.__hD, 'height objD')
 			print('--------------------------------------------')
 
+
+	def Find_Square(self, x, y):
+		#this is staple for when I need to know what square my mouse is in.
+		for item in range(len(self.__GRID)):
+			if x > self.__GRID[item][0] and y > self.__GRID[item][1]:
+				if x < self.__GRID[item][2] and y < self.__GRID[item][3]:
+					self.__Cur_Square = item
+					return self.__Cur_Square
 
 
 

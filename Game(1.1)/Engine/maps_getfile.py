@@ -4,6 +4,7 @@ class Maps_GetFile():
 		self.__levelONE   = 'E:\Github\Game_Repos_1\Game(1.1)\lvlDesigner\mapSaves\levelONE.txt'
 		self.__levelTWO   = 'E:\Github\Game_Repos_1\Game(1.1)\lvlDesigner\mapSaves\levelTWO.txt'
 		self.__levelTHREE = 'E:\Github\Game_Repos_1\Game(1.1)\lvlDesigner\mapSaves\levelTHREE.txt'
+		self.__levelFOUR  = 'E:\Github\Game_Repos_1\Game(1.1)\lvlDesigner\mapSaves\levelFOUR.txt'
 
 
 	"""#|--------------Getters--------------|#"""
@@ -17,8 +18,8 @@ class Maps_GetFile():
 	def get_levelTHREE(self):
 		return self.__levelTHREE
 
-	def get_levelNUMB(self):
-		return self.__levelNUMB
+	def get_levelFOUR(self):
+		return self.__levelFOUR
 
 	def get_levelNUMB(self):
 		return self.__levelNUMB

@@ -89,19 +89,22 @@ class Stalfos_Main(Enemy_Main):
 			self.__info.set_Corners(Image_Node.Render.bbox(self.__info.get_ID()))
 			self.__isMoving = True
 		elif self.__randNum == 1:
-			direction = "right"
+			direction = "up"
+			# direction = "right"
 			new_Coords = self.__kNode.kinetics(self.__info.get_Coords(), self.__info.get_ID(), direction)#, neg=False)
 			self.__info.set_Coords(new_Coords)
 			self.__info.set_Corners(Image_Node.Render.bbox(self.__info.get_ID()))
 			self.__isMoving = True
 		elif self.__randNum == 2:
-			direction = "down"
+			direction = "up"
+			# direction = "down"
 			new_Coords = self.__kNode.kinetics(self.__info.get_Coords(), self.__info.get_ID(), direction)#, neg=False)
 			self.__info.set_Coords(new_Coords)
 			self.__info.set_Corners(Image_Node.Render.bbox(self.__info.get_ID()))
 			self.__isMoving = True
 		elif self.__randNum == 3:
-			direction = "left"
+			direction = "up"
+			# direction = "left"
 			new_Coords = self.__kNode.kinetics(self.__info.get_Coords(), self.__info.get_ID(), direction)#, neg=False)
 			self.__info.set_Coords(new_Coords)
 			self.__info.set_Corners(Image_Node.Render.bbox(self.__info.get_ID()))
@@ -113,7 +116,7 @@ class Stalfos_Main(Enemy_Main):
 		#OSC == Other Side of Collision, it represents the other object that collided with player
 		#OSA == Other Side's Attack, represents the other objects needed parameters. Ex. dmg
 		#stal_key == The stalfos that is under collision
-	def my_Collision(self, OSC=None, OSA=None, DIR=None):
+	def my_Collision(self, OSC=None, OSA=None, side=None):
 		if self.__isHit == False:
 			if OSC == 'Weapon':
 				'''#_Actuall MATH_#'''
@@ -124,6 +127,27 @@ class Stalfos_Main(Enemy_Main):
 				self.__isHit 	= True
 				self.__saveTime = Timer_Node.GameTime
 				self.__isAlive  = self.isAlive()
+
+			elif OSC == 'Static':
+				lastSide = None
+				# print(side)
+				for newSide in side:
+					if newSide == 'top':
+						Dir = 'up'
+					elif newSide == 'bottom':
+						Dir = 'down'
+					else:
+						Dir = newSide
+					if Dir != lastSide:
+						new_Coords = self.__kNode.Static_Hit(self.__info.get_Coords(), self.__info.get_ID(), Dir)
+						self.__info.set_Coords(new_Coords)
+						self.__info.set_Corners(Image_Node.Render.bbox(self.__info.get_ID()))
+						lastSide = Dir
+					elif lastSide == None:
+						new_Coords = self.__kNode.Static_Hit(self.__info.get_Coords(), self.__info.get_ID(), Dir)
+						self.__info.set_Coords(new_Coords)
+						self.__info.set_Corners(Image_Node.Render.bbox(self.__info.get_ID()))
+						lastSide = Dir
 
 	def reset_hit(self):
 		if Timer_Node.GameTime == self.__saveTime+5:

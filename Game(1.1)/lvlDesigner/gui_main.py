@@ -71,13 +71,13 @@ class GUI_Main():
 		    frame.grid_propagate(0)
 
 	def gridSETUP(self):
-		segment_x = int(1400/32)
-		segment_y = int(700/32)
+		segment_x = int(1280/32)
+		segment_y = int(800/32)
 		for item in range(segment_x+1):
-			# lineID = Image_Node.Render.create_line(self.__linex, 0, self.__linex, 700, tag='G#line')
+			# lineID = Image_Node.Render.create_line(self.__linex, 0, self.__linex, 800, tag='G#line')
 			self.__linex += self.__Key
 		for item in range(segment_y+1):
-			# lineID = Image_Node.Render.create_line(0, self.__liney, 1400, self.__liney, tag='G#line')
+			# lineID = Image_Node.Render.create_line(0, self.__liney, 1280, self.__liney, tag='G#line')
 			self.__liney += self.__Key
 
 		for xPos in range(segment_x+1):

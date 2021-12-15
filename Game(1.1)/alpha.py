@@ -56,9 +56,10 @@ class Alpha():
 
 		#from level Designer
 		self.__GUI	= GUI_Main(self.__cLogic, self.__iNode, self.__kNode, self.__cNode, self.__mainApp, None)
-		# self.__eGUI = self.__GUI.get_eGUI()
+		self.__GUI.gridSETUP()
+		self.__eGUI = self.__GUI.get_eGUI()
 		self.__siFILE = self.__GUI.get_siFILE()
-		# self.__cLogic.set_grid(self.__eGUI.get_grid())
+		self.__cLogic.set_grid(self.__eGUI.get_grid())
 
 		#yes
 		self.__Entities.set_mainApp(self.__mainApp)
@@ -68,6 +69,7 @@ class Alpha():
 		self.__levelONE   = self.__MGF.get_levelONE()
 		self.__levelTWO   = self.__MGF.get_levelTWO()
 		self.__levelTHREE = self.__MGF.get_levelTHREE()
+		self.__levelFOUR  = self.__MGF.get_levelFOUR()
 
 
 
@@ -130,8 +132,8 @@ class Alpha():
 
 	def GamesetUP(self, GC_OFF=False):
 		# #__Statics SETUP__#
-		print('temporary shutdwon at GameSetUP')
-		self.__siFILE.Read_File('E:\Github\Game_Repos_1\Game(1.1)\lvlDesigner\mapSaves\Multi-Collision_Test.txt')
+		# print('temporary shutdwon at GameSetUP')
+		self.__siFILE.Read_File(self.__levelFOUR)
 		self.__imgDICT = self.__siFILE.get_imgDICT()
 
 		for tag in self.__imgDICT.keys():
@@ -151,10 +153,10 @@ class Alpha():
 
 		#__ENEMY Setup__#
 		COLDICT = self.__cLogic.get_Col_Dict()
-		# for item in range(len(self.__stalfosRoster)):
-		# 	if self.__stalfosRoster[item] in COLDICT.keys():
-		# 		r_Stal = COLDICT[self.__stalfosRoster[item]]
-		# 		r_Stal.stalfos_setUP(self.__Sc_Width, self.__Sc_Height)
+		for item in range(len(self.__stalfosRoster)):
+			if self.__stalfosRoster[item] in COLDICT.keys():
+				r_Stal = COLDICT[self.__stalfosRoster[item]]
+				r_Stal.stalfos_setUP(self.__Sc_Width, self.__Sc_Height)
 				# r_Stal.Stalfos_Print()
 
 
@@ -172,6 +174,7 @@ class Alpha():
 		if a == True:
 			return
 		# self.new_Player()
+		print('falling asleep!!!!!!!!!!!!')
 
 
 		"""#_loop Debug_#"""
@@ -198,7 +201,7 @@ class Alpha():
 		for item in range(len(self.__stalfosRoster)):
 			stalfos = Col_Dict[self.__stalfosRoster[item]]
 			if stalfos.get_isAlive() == True:
-				# stalfos.Movement_Controll()
+				stalfos.Movement_Controll()
 				stalfos.Stal_Attack()
 			else:
 				# print('dead? A#140')
@@ -211,9 +214,9 @@ class Alpha():
 		#only one Player should be here (IGNORE MULTIPLAYER)
 		list1 = []
 		list1 = [self.__Player.get_Corners()]
-		# for item in range(len(self.__stalfosRoster)):
-		# 	c_Stal = self.__cLogic.tagToObj(self.__stalfosRoster[item]) #c_Stal == stalfos obj
-		# 	list1.append(c_Stal.get_Corners())
+		for item in range(len(self.__stalfosRoster)):
+			c_Stal = self.__cLogic.tagToObj(self.__stalfosRoster[item]) #c_Stal == stalfos obj
+			list1.append(c_Stal.get_Corners())
 
 		if self.__Sword.get_isActive() == True:
 			list1.append(self.__Sword.get_Corners())
@@ -299,7 +302,7 @@ Game = Alpha()
 print('----------------------------\n'+color) #to make it easier to read in the command promt
 Game.set_MainCanvas()
 Game.tk_windowSETUP()
-Game.GamesetUP(True)
+Game.GamesetUP(False)
 Game.Testing_Debug()
 print('----------------------------')
 Game.gameLoop()

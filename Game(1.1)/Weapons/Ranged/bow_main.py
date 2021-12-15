@@ -51,26 +51,26 @@ class Bow_Main():
 			#this is for what direction the arrow flies
 			if direction == 'up':
 				newIMG = self.__iNode.Img_Rotate(self.__info.get_PILimg(), 90)
-				self.__info.set_TKimg(newIMG[0])
+				self.__info.set_TKimg(newIMG)
 				self.__iNode.Img_Place(x, y, self.__info.get_TKimg(), tag=[ID, group_ID])
 				self.__ammo.use(x, (y-width), 'up', dmgMod=self.__info.get_attackMOD())
 
 			elif direction == 'down':
 				newIMG = self.__iNode.Img_Rotate(self.__info.get_PILimg(), 270)
-				self.__info.set_TKimg(newIMG[0])
+				self.__info.set_TKimg(newIMG)
 				self.__iNode.Img_Place(x, y, self.__info.get_TKimg(), tag=[ID, group_ID])
 				self.__ammo.use(x, (y+width), 'down', dmgMod=self.__info.get_attackMOD())
 
 
 			elif direction == 'left':
 				newIMG = self.__iNode.Img_Rotate(self.__info.get_PILimg(), 180)
-				self.__info.set_TKimg(newIMG[0])
+				self.__info.set_TKimg(newIMG)
 				self.__iNode.Img_Place(x, y, self.__info.get_TKimg(), tag=[ID, group_ID])
 				self.__ammo.use((x-height), y, 'left', dmgMod=self.__info.get_attackMOD())
 
 			elif direction == 'right':
 				newIMG = self.__iNode.Img_Rotate(self.__info.get_PILimg(), 0)
-				self.__info.set_TKimg(newIMG[0])
+				self.__info.set_TKimg(newIMG)
 				self.__iNode.Img_Place(x, y, self.__info.get_TKimg(), tag=[ID, group_ID])
 				self.__ammo.use((x+height), y, 'right', dmgMod=self.__info.get_attackMOD())
 

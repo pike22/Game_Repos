@@ -65,7 +65,7 @@ class Image_Node(Node):
 			return self.__PlaceIMG
 
 
-	def Create_Canvas(self, mainApp, height, width, color='Blue'):
+	def Create_Canvas(self, mainApp, height, width, color='Grey'):
 		Image_Node.Render = Canvas(mainApp, height=height, width=width, bg=str(color))
 		Image_Node.Render.grid(row=0, column=0, rowspan=10)
 		Image_Node.Render.grid_propagate(0)
