@@ -17,6 +17,12 @@ class Stalfos_Main(Enemy_Main):
 		self.__info	  = Stalfos_Info(ID)
 		self.__rand   = random
 
+		#----Keyboard inputs----#
+		self.__key_up		= 'w'
+		self.__key_down		= 's'
+		self.__key_left		= 'a'
+		self.__key_right	= 'd'
+
 		#----Active Parameters----#
 		self.__GameTime	  = 0
 		self.__saveTime	  = 0
@@ -43,8 +49,8 @@ class Stalfos_Main(Enemy_Main):
 		self.__x = 0
 		self.__y = 0
 		x, y = self.__info.get_size()
-		self.__x = int(self.__rand.randint((25+x), Sc_Width-(25+x)))
-		self.__y = int(self.__rand.randint((25+y), Sc_Height-(25+y)))
+		self.__x = int(self.__rand.randint((32+x), Sc_Width-(32+x)))
+		self.__y = int(self.__rand.randint((32+y), Sc_Height-(32+y)))
 		img_coords = self.__iNode.Img_Place(x=self.__x, y=self.__y, image=self.__info.get_TKimg(), tag=[ID, self.__info.get_group_ID()])
 
 		#final set of information save to stalfos
@@ -83,28 +89,28 @@ class Stalfos_Main(Enemy_Main):
 
 		self.__kNode.set_Speed(5)
 		if self.__randNum == 0:
-			direction = "up"
+			direction = "left"
+			# direction = "up"
 			new_Coords = self.__kNode.kinetics(self.__info.get_Coords(), self.__info.get_ID(), direction)#, neg=False)
 			self.__info.set_Coords(new_Coords)
 			self.__info.set_Corners(Image_Node.Render.bbox(self.__info.get_ID()))
 			self.__isMoving = True
 		elif self.__randNum == 1:
-			direction = "up"
 			# direction = "right"
+			direction = 'left'
 			new_Coords = self.__kNode.kinetics(self.__info.get_Coords(), self.__info.get_ID(), direction)#, neg=False)
 			self.__info.set_Coords(new_Coords)
 			self.__info.set_Corners(Image_Node.Render.bbox(self.__info.get_ID()))
 			self.__isMoving = True
 		elif self.__randNum == 2:
-			direction = "up"
+			direction = "left"
 			# direction = "down"
 			new_Coords = self.__kNode.kinetics(self.__info.get_Coords(), self.__info.get_ID(), direction)#, neg=False)
 			self.__info.set_Coords(new_Coords)
 			self.__info.set_Corners(Image_Node.Render.bbox(self.__info.get_ID()))
 			self.__isMoving = True
 		elif self.__randNum == 3:
-			direction = "up"
-			# direction = "left"
+			direction = "left"
 			new_Coords = self.__kNode.kinetics(self.__info.get_Coords(), self.__info.get_ID(), direction)#, neg=False)
 			self.__info.set_Coords(new_Coords)
 			self.__info.set_Corners(Image_Node.Render.bbox(self.__info.get_ID()))

@@ -94,32 +94,32 @@ class Collision_Logic():
 	#use this: .find_overlapping
 	# only outputs the last assigned var.
 	def Is_Collision(self, item):
+		# print(item)
 		if item == 0:
-			self.__collision = []
-			self.__CollideList	 = []
+			self.__CollideList = []
+			self.__collision   = []
 
 
 		x1, y1, x2, y2 = self.__Corners[item]
+		# print(self.__Corners[item])
 		collision = Image_Node.Render.find_overlapping(x1, y1, x2, y2)
 
 
 		#this only shows what is colliding.
 		if len(collision) > 1:
-			self.__collision = []
-			for item in range(len(collision)):
-				# print('item:', item, 'CL#59')
-				tag = Image_Node.Render.gettags(collision[item])
-				# print(tag, 'tag CL#70')
-				if self.__collision == [] or len(self.__collision) == 1:
-					self.__collision.append(tag[0]) #item 0 is the entity_ID, 1 == group_ID
-				else:
-					self.__collision.append(tag[0])
+			self.__CollideList = []
+			self.__collision   = []
+			for count in range(len(collision)):
+				# print('item:', item, 'CL#113')
+				tag = Image_Node.Render.gettags(collision[count])
+				# print(tag, 'tag CL#115')
+				self.__collision.append(tag[0])
 			# print(self.__collision, 'Colliding') #print Tags of Entity Colliding
 
 			self.oldList = self.__collision
 			self.__collision = []
-			for item in range(len(self.oldList)-1, -1, -1):
-				tagOrId = self.oldList[item]
+			for count in range(len(self.oldList)-1, -1, -1):
+				tagOrId = self.oldList[count]
 				if tagOrId not in self.__wallRoster:
 					self.__collision.append(tagOrId)
 				elif tagOrId in self.__wallRoster and self.__collision != []:
@@ -127,15 +127,11 @@ class Collision_Logic():
 			print(self.__collision, 'new Colliding') #print Tags of Entity Colliding
 
 
-			for item in range(len(self.__collision)):
-				tagOrId = self.__collision[item]
+			for count in range(len(self.__collision)):
+				tagOrId = self.__collision[count]
 				obj = self.__Col_Dict[tagOrId]
+				self.__CollideList.append(obj)
 
-
-				if self.__CollideList == [] or len(self.__CollideList) == 1:
-					self.__CollideList.append(obj)
-				else:
-					self.__CollideList.append(obj)
 
 
 			self.__isCollision = True
@@ -143,7 +139,7 @@ class Collision_Logic():
 			return self.__CollideList
 		else:
 			self.__isCollision = False
-			return self.__CollideList
+			return []
 
 	#I want to use this to purly find where objects are in relation to others and push
 	#the opposite direction through so that I can do proper knockback/wall collision
@@ -172,20 +168,26 @@ class Collision_Logic():
 
 						if obj.get_Coords()[0] == self.__GRID[self.__mainSQ-1][0]:
 							if obj.get_Coords()[1] == self.__GRID[self.__mainSQ-1][1]:
-								# print(obj.get_ID(), 'bottom side')
+								print(obj.get_ID(), 'bottom side')
 								self.tempL.append(obj)
 						if obj.get_Coords()[0] == self.__GRID[self.__mainSQ+1][0]:
 							if obj.get_Coords()[1] == self.__GRID[self.__mainSQ+1][1]:
-								# print(obj.get_ID(), 'top side')
+								print(obj.get_ID(), 'top side')
 								self.tempL.append(obj)
 						if obj.get_Coords()[0] == (self.__GRID[self.__mainSQ][0]-32):
 							if obj.get_Coords()[1] == self.__GRID[self.__mainSQ][1]:
-								# print(obj.get_ID(), 'right side')
+								print(obj.get_ID(), 'right side')
 								self.tempL.append(obj)
 						if obj.get_Coords()[0] == (self.__GRID[self.__mainSQ][0]+32):
 							if obj.get_Coords()[1] == self.__GRID[self.__mainSQ][1]:
-								# print(obj.get_ID(), 'left side')
+								print(obj.get_ID(), 'left side')
 								self.tempL.append(obj)
+
+						if obj.get_Coords()[0] == self.__GRID[self.__mainSQ-1][0] and (obj.get_Coords()[0]+32) == self.__GRID[self.__mainSQ-1][0]:
+							if obj.get_Coords()[1] == self.__GRID[self.__mainSQ-1][1] and (obj.get_Coords()[1]+32) == self.__GRID[self.__mainSQ-1][1]:
+								print(obj.get_ID(), 'bottom side')
+								self.tempL.append(obj)
+
 			# print(self.__CollideList)
 			self.__CollideList = self.tempL
 			# print(self.__CollideList)
@@ -235,8 +237,8 @@ class Collision_Logic():
 		self.__sideResult = []
 		self.__resultTAG  = []
 		"""mainOBJ vs. objA"""
-		# print(self.__objB, 'ForT objA')
 		if self.__objA != None:
+			# print(self.__objA, ':objA', self.__objA.get_ID(), ':tagA')
 			if (self.__yM+self.__hM) <= self.__yA+(self.__hA*0.2):
 				self.__sideResult.append('top')
 				self.__resultTAG.append(self.__objA.get_ID())
@@ -252,8 +254,8 @@ class Collision_Logic():
 					self.__resultTAG.append(self.__objA.get_ID())
 
 		"""mainOBJ vs. objB"""
-		# print(self.__objB, 'ForT objB')
 		if self.__objB != None:
+			# print(self.__objB, ':objB', self.__objB.get_ID(), ':tagB')
 			if (self.__yM+self.__hM) <= self.__yB+(self.__hB*0.2):
 				self.__sideResult.append('top')
 				self.__resultTAG.append(self.__objB.get_ID())
@@ -269,25 +271,25 @@ class Collision_Logic():
 					self.__resultTAG.append(self.__objB.get_ID())
 
 		"""mainOBJ vs. objC"""
-		# print(self.__objC, 'ForT objC')
 		if self.__objC != None:
+			# print(self.__objC, ':objC', self.__objC.get_ID(), ':tagC')
 			if (self.__yM+self.__hM) <= self.__yC+(self.__hC*0.2):
 				self.__sideResult.append('top')
-				self.__resultTAG.append(self.__objC.get_ID())
+				self.__resultTAG.append(self.__objB.get_ID())
 			elif (self.__yC+self.__hC) <= self.__yM+(self.__hM*0.2):
 				self.__sideResult.append('bottom')
-				self.__resultTAG.append(self.__objC.get_ID())
+				self.__resultTAG.append(self.__objB.get_ID())
 			else:
 				if self.__xM > self.__xC:
 					self.__sideResult.append('right')
-					self.__resultTAG.append(self.__objC.get_ID())
+					self.__resultTAG.append(self.__objB.get_ID())
 				elif self.__xM < self.__xC:
 					self.__sideResult.append('left')
-					self.__resultTAG.append(self.__objC.get_ID())
+					self.__resultTAG.append(self.__objB.get_ID())
 
 		"""mainOBJ vs. objD"""
-		# print(self.__objD, 'ForT objD')
 		if self.__objD != None:
+			# print(self.__objD, ':objD', self.__objD.get_ID(), ':tagD')
 			if (self.__yM+self.__hM) <= self.__yD+(self.__hD*0.2):
 				self.__sideResult.append('top')
 				self.__resultTAG.append(self.__objD.get_ID())
@@ -302,8 +304,12 @@ class Collision_Logic():
 					self.__sideResult.append('left')
 					self.__resultTAG.append(self.__objD.get_ID())
 
-
-		# print('-----------------result---------------------\n', self.__sideResult, '\n', self.__resultTAG, '\n--------------------------------------------\n\n')
+		print(
+			'---------------Direction off of Wall---------------\n',
+			self.__sideResult, '\t:Given To', self.__mainOBJ.get_ID(), '\n',
+			self.__resultTAG,  '\t:Given By', '\n',
+			'---------------------------------------------------\n'
+			 )
 		return self.__sideResult
 
 

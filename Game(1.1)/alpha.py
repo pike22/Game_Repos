@@ -25,7 +25,7 @@ class Alpha():
 
 			#_Stalfos_#
 		self.__stalfosRoster = []
-		self.__stalfosCount  = 2
+		self.__stalfosCount  = 1
 
 
 		'''#_Weapon Parameters_#'''
@@ -174,7 +174,6 @@ class Alpha():
 		if a == True:
 			return
 		# self.new_Player()
-		print('falling asleep!!!!!!!!!!!!')
 
 
 		"""#_loop Debug_#"""
@@ -201,7 +200,7 @@ class Alpha():
 		for item in range(len(self.__stalfosRoster)):
 			stalfos = Col_Dict[self.__stalfosRoster[item]]
 			if stalfos.get_isAlive() == True:
-				stalfos.Movement_Controll()
+				# stalfos.Movement_Controll()
 				stalfos.Stal_Attack()
 			else:
 				# print('dead? A#140')
