@@ -19,8 +19,9 @@ class Collision_Node(Node):
 		self.__projRoster	 = None
 
 		#COllision Result save
-		self.__Result = None
-		self.__tempVar= None
+		self.__Result  = None
+		self.__tempVar = None
+		self.__wallHIT = None
 
 
 	def use_Collision(self, cornerList, totItemCount):
@@ -57,7 +58,7 @@ class Collision_Node(Node):
 									self.__Result[item].my_Collision(OSC='Static', side=side)
 							else:
 								if self.__Result[item-1].get_group_ID() in self.__enemyRoster:
-									self.__Result[item].my_Collision(OSC='Enemy', OSA=self.__Result[item-1].get_attack(), side=side)
+									self.__Result[item].my_Collision(OSC='Enemy', OSA=self.__Result[item-1].get_attack(), side=side, a=self.__staticRoster)
 
 					"""#__# STALFOS COL_LOGIC #__#"""
 					if self.__Result[item].get_ID() in self.__stalfosRoster:
@@ -68,14 +69,16 @@ class Collision_Node(Node):
 							if item == 0:
 								if self.__Result[item+1].get_group_ID() in self.__staticRoster:
 									self.__Result[item].my_Collision(OSC='Static', side=side)
-							elif item != len(self.__Result)-1:
-								if self.__Result[item+1].get_group_ID() in self.__weaponRoster:
-									# print(self.__Result[item+1], 'Collision Result')
-									self.__Result[item].my_Collision(OSC="Weapon", OSA=self.__Result[item+1].get_attack())
-								elif self.__Result[item+1].get_group_ID() in self.__projRoster:
-									# print(self.__Result[item+1], 'Collision Result')
-									self.__Result[item].my_Collision(OSC="Weapon", OSA=self.__Result[item+1].get_attack())
-									self.__Result[item+1].del_Proj()
+									self.__wallHIT = True
+									# print(self.__wallHIT)
+							elif item == 1:
+								if self.__Result[item-1].get_group_ID() in self.__weaponRoster:
+									self.__Result[item].my_Collision(OSC="Weapon", OSA=self.__Result[item-1].get_attack(), side=side, a=self.__staticRoster)
+								elif self.__Result[item-1].get_group_ID() in self.__projRoster:
+									self.__Result[item].my_Collision(OSC="Weapon", OSA=self.__Result[item-1].get_attack(), side=side, a=self.__staticRoster)
+									self.__Result[item-1].del_Proj()
+								elif self.__Result[item-1].get_group_ID() in self.__enemyRoster:
+									self.__Result[item].my_Collision(OSC='Friend', side=side)
 
 					"""#__# WEAPON COL_LOGIC #__#"""
 					if self.__Result[item] == self.__logic.tagToObj('W#S001'): #weapon will always be last
@@ -127,6 +130,9 @@ class Collision_Node(Node):
 	#
 	# def get_wallRoster(self):
 	# 	return self.__wallRoster
+
+	def get_wallHIT(self):
+		return self.__wallHIT
 
 
 

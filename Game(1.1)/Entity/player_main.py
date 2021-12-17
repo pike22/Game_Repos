@@ -10,12 +10,14 @@ from Engine import *
 import keyboard
 
 class Player_Main(All_Entities):
-	def __init__(self, iNode, kNode):
+	def __init__(self, cLogic, cNode, iNode, kNode):
 		#iNode == Image_Node
 		#cLogic == Collision_Logic
 
 		#----Class Calls----#
 		All_Entities.__init__(self)
+		self.__cLogic		= cLogic
+		self.__cNode		= cNode
 		self.__kNode		= kNode
 		self.__iNode	 	= iNode
 		self.__info	 		= Player_Info()
@@ -157,12 +159,11 @@ class Player_Main(All_Entities):
 
 		#OSC == Other Side of Collision, it represents the other object that collided with player
 		#OSA == Other Side's Attack, represents the other objects needed parameters. Ex. dmg
-	def my_Collision(self, OSC=None, OSA=None, side=None):
+	def my_Collision(self, OSC=None, OSA=None, side=None, a=None):
 		if OSC == 'Enemy':
 			if self.__isHit == False:
 				'''#_Actuall MATH_#'''
 				self.__Cur_Health -= OSA
-				print(side)
 				for newSide in side:
 					if newSide == 'top':
 						Dir = 'up'
@@ -170,11 +171,23 @@ class Player_Main(All_Entities):
 						Dir = 'down'
 					else:
 						Dir = newSide
-					print(Dir)
-					new_Coords = self.__kNode.Knock_Back(self.__info.get_Coords(), self.__info.get_ID(), Dir)
-					self.__info.set_Coords(new_Coords)
-					self.__info.set_Corners(Image_Node.Render.bbox(self.__info.get_ID()))
-
+					for time in range(50):
+						new_Coords = self.__kNode.Knock_Back(self.__info.get_Coords(), self.__info.get_ID(), Dir)
+						self.__info.set_Coords(new_Coords)
+						self.__info.set_Corners(Image_Node.Render.bbox(self.__info.get_ID()))
+						x1, y1, x2, y2 = Image_Node.Render.bbox(self.__info.get_ID())
+						# print(x1, y1, x2, y2)
+						# print(self.__cLogic.ForT_Collision(x1=x1, y1=y1, x2=x2, y2=y2), 'EHHH')
+						listYES = self.__cLogic.ForT_Collision(x1=x1, y1=y1, x2=x2, y2=y2)
+						if listYES != None:
+							# print(listYES, 'yes')
+							for obj in listYES:
+								if obj != None:
+									if obj.get_group_ID() in a:
+										# print('wallHIT')
+										Dir = self.__cLogic.Side_Calc(self.__cLogic.tagToObj(self.__info.get_ID()))
+										self.my_Collision(OSC='Static', side=Dir)
+										return
 				'''#_Logic_#'''
 				self.__isHit 	= True
 				self.__isAlive  = self.isAlive()

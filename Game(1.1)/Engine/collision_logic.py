@@ -86,10 +86,43 @@ class Collision_Logic():
 		self.__Corners = self.tempL + self.__LVD_Corners
 
 
-	def ForT_Collision(self, targOBJ):
-		x1, y1, x2, y2 = targOBJ.get_Corners()
+	def ForT_Collision(self, targOBJ=None, x1=None, y1=None, x2=None, y2=None):
+		if targOBJ != None:
+			x1, y1, x2, y2 = targOBJ.get_Corners()
 		collision = Image_Node.Render.find_overlapping(x1, y1, x2, y2)
 		# print(collision, 'ForT Collision')
+		if len(collision) > 1:
+			self.__CollideList = []
+			self.__collision   = []
+			for count in range(len(collision)):
+				# print('item:', item, 'CL#113')
+				tag = Image_Node.Render.gettags(collision[count])
+				# print(tag, 'tag CL#100')
+				self.__collision.append(tag[0])
+			# print(self.__collision, 'Colliding') #print Tags of Entity Colliding
+
+			self.oldList = self.__collision
+			self.__collision = []
+			for count in range(len(self.oldList)-1, -1, -1):
+				tagOrId = self.oldList[count]
+				if tagOrId not in self.__wallRoster:
+					self.__collision.append(tagOrId)
+				elif tagOrId in self.__wallRoster and self.__collision != []:
+					self.__collision.append(tagOrId)
+			# print(self.__collision, 'new Colliding') #print Tags of Entity Colliding
+
+
+			for count in range(len(self.__collision)):
+				tagOrId = self.__collision[count]
+				obj = self.__Col_Dict[tagOrId]
+				# print(obj.get_Coords(), tagOrId, 'objCoords')
+				self.__CollideList.append(obj)
+
+
+
+			self.__isCollision = True
+			# print(self.__CollideList, 'objList')
+			return self.__CollideList
 
 	#use this: .find_overlapping
 	# only outputs the last assigned var.
@@ -124,12 +157,13 @@ class Collision_Logic():
 					self.__collision.append(tagOrId)
 				elif tagOrId in self.__wallRoster and self.__collision != []:
 					self.__collision.append(tagOrId)
-			print(self.__collision, 'new Colliding') #print Tags of Entity Colliding
+			# print(self.__collision, 'new Colliding') #print Tags of Entity Colliding
 
 
 			for count in range(len(self.__collision)):
 				tagOrId = self.__collision[count]
 				obj = self.__Col_Dict[tagOrId]
+				# print(obj.get_Coords(), tagOrId, 'objCoords')
 				self.__CollideList.append(obj)
 
 
@@ -148,49 +182,55 @@ class Collision_Logic():
 		self.__xM, self.__yM = mainOBJ.get_Coords()
 		self.__hM, self.__wM = mainOBJ.get_size()
 
-		#Here I want to remake the self.__CollideList to only have the mainOBJ and any objects
-		#directly above, below, right or left of the mainOBJ.
-		#This should fix the strange edge case
-		self.__mainSQ = self.Find_Square(self.__xM+(self.__hM/2), self.__yM+(self.__wM/2))
+
+		self.__mainSQ = self.Find_Square(self.__xM+(self.__wM/2), self.__yM+(self.__hM/2))
 		self.tempL = []
 		self.tempL.append(self.__mainOBJ)
 		if len(self.__CollideList) >= 3:
 			for obj in self.__CollideList:
 				if obj != self.__mainOBJ:
-					# objSQ = self.Find_Square(obj.get_Coords()[0]+(obj.get_size()[0]/2), obj.get_Coords()[1]+(obj.get_size()[1]/2))
-					# print(obj.get_Coords())
-					# print((self.__GRID[mainSQ+1][0], self.__GRID[mainSQ+1][1]))
 					if self.__mainSQ != None:
-						# print(  self.__GRID[self.__mainSQ+1][0], self.__GRID[self.__mainSQ+1][1],  'top\n',
-						# 		self.__GRID[self.__mainSQ-1][0], self.__GRID[self.__mainSQ-1][1],  'bottom\n',
-						# 		(self.__GRID[self.__mainSQ][0]-32), self.__GRID[self.__mainSQ][1], 'left\n',
-						# 		(self.__GRID[self.__mainSQ][0]+32), self.__GRID[self.__mainSQ][1], 'right\n')
-
-						if obj.get_Coords()[0] == self.__GRID[self.__mainSQ-1][0]:
-							if obj.get_Coords()[1] == self.__GRID[self.__mainSQ-1][1]:
-								print(obj.get_ID(), 'bottom side')
+						if obj.get_Coords()[0] == self.__GRID[self.__mainSQ][0]:
+							if obj.get_Coords()[1] == (self.__GRID[self.__mainSQ][1]-32):
+								# print(obj.get_ID(), 'bottom side')
 								self.tempL.append(obj)
 						if obj.get_Coords()[0] == self.__GRID[self.__mainSQ+1][0]:
 							if obj.get_Coords()[1] == self.__GRID[self.__mainSQ+1][1]:
-								print(obj.get_ID(), 'top side')
+								# print(obj.get_ID(), 'top side')
 								self.tempL.append(obj)
 						if obj.get_Coords()[0] == (self.__GRID[self.__mainSQ][0]-32):
 							if obj.get_Coords()[1] == self.__GRID[self.__mainSQ][1]:
-								print(obj.get_ID(), 'right side')
+								# print(obj.get_ID(), 'right side')
 								self.tempL.append(obj)
 						if obj.get_Coords()[0] == (self.__GRID[self.__mainSQ][0]+32):
 							if obj.get_Coords()[1] == self.__GRID[self.__mainSQ][1]:
-								print(obj.get_ID(), 'left side')
+								# print(obj.get_ID(), 'left side')
 								self.tempL.append(obj)
+					else:
+						self.__mainSQ = self.Find_Square((self.__xM+(self.__wM/2)+1), (self.__yM+(self.__hM/2)+1))
+						if self.__mainSQ != None:
+							if obj.get_Coords()[0] == self.__GRID[self.__mainSQ][0]:
+								if obj.get_Coords()[1] == (self.__GRID[self.__mainSQ][1]-32):
+									# print(obj.get_ID(), 'bottom side2')
+									self.tempL.append(obj)
+							if obj.get_Coords()[0] == self.__GRID[self.__mainSQ+1][0]:
+								if obj.get_Coords()[1] == self.__GRID[self.__mainSQ+1][1]:
+									# print(obj.get_ID(), 'top side2')
+									self.tempL.append(obj)
+							if obj.get_Coords()[0] == (self.__GRID[self.__mainSQ][0]-32):
+								if obj.get_Coords()[1] == self.__GRID[self.__mainSQ][1]:
+									# print(obj.get_ID(), 'right side2')
+									self.tempL.append(obj)
+							if obj.get_Coords()[0] == (self.__GRID[self.__mainSQ][0]+32):
+								if obj.get_Coords()[1] == self.__GRID[self.__mainSQ][1]:
+									# print(obj.get_ID(), 'left side2')
+									self.tempL.append(obj)
 
-						if obj.get_Coords()[0] == self.__GRID[self.__mainSQ-1][0] and (obj.get_Coords()[0]+32) == self.__GRID[self.__mainSQ-1][0]:
-							if obj.get_Coords()[1] == self.__GRID[self.__mainSQ-1][1] and (obj.get_Coords()[1]+32) == self.__GRID[self.__mainSQ-1][1]:
-								print(obj.get_ID(), 'bottom side')
-								self.tempL.append(obj)
 
-			# print(self.__CollideList)
+			# print(self.__CollideList, 'list 1')
+			self.__CollideList = []
 			self.__CollideList = self.tempL
-			# print(self.__CollideList)
+			# print(self.__CollideList, 'list 2')
 
 
 		#Clears the object variables
@@ -304,12 +344,12 @@ class Collision_Logic():
 					self.__sideResult.append('left')
 					self.__resultTAG.append(self.__objD.get_ID())
 
-		print(
-			'---------------Direction off of Wall---------------\n',
-			self.__sideResult, '\t:Given To', self.__mainOBJ.get_ID(), '\n',
-			self.__resultTAG,  '\t:Given By', '\n',
-			'---------------------------------------------------\n'
-			 )
+		# print(
+		# 	'---------------Direction off of Wall---------------\n',
+		# 	self.__sideResult, '\t:Given To', self.__mainOBJ.get_ID(), '\n',
+		# 	self.__resultTAG,  '\t:Given By', '\n',
+		# 	'---------------------------------------------------\n'
+		# 	 )
 		return self.__sideResult
 
 
@@ -362,6 +402,9 @@ class Collision_Logic():
 
 	def get_isCollision(self):
 		return self.__isCollision
+
+	def get_CollideList(self):
+		return self.__CollideList
 
 	def reset_objList(self):
 		self.__CollideList = []

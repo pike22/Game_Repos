@@ -27,15 +27,16 @@ class Kinetics_Node(Node):
 	def Knock_Back(self, Cur_Coords, img_ID, dir):#eventually impliment directional based knock back
 		x, y = Cur_Coords
 		if dir == 'left':
-			x -= 50
+			x -= 1
 		elif dir == 'right':
-			x += 50
+			x += 1
 		elif dir == 'up':
-			y -= 50
+			y -= 1
 		elif dir == 'down':
-			y += 50
+			y += 1
 		else:
-			print('NO DIRECTIONS')
+			print('NO DIRECTIONS', dir)
+		Image_Node.Render.coords(img_ID, x, y)
 		return (x, y)
 
 	def Static_Hit(self, Cur_Coords, img_ID, dir):

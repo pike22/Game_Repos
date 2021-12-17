@@ -7,11 +7,12 @@ import keyboard #temporary
 import random
 
 class Stalfos_Main(Enemy_Main):
-	def __init__(self, iNode, clNode, kNode, ID):
+	def __init__(self, iNode, clNode, cNode, kNode, ID):
 		Enemy_Main.__init__(self)
 		#iNode == Image_Node
 		#clNode == Collision_Node
 		self.__cLogic = clNode
+		self.__cNode  = cNode
 		self.__kNode  = kNode
 		self.__iNode  = iNode
 		self.__info	  = Stalfos_Info(ID)
@@ -57,7 +58,7 @@ class Stalfos_Main(Enemy_Main):
 		Canvas_ID = Image_Node.Render.find_withtag(ID)[0] #finds my canvas ID numb.
 		Coords = img_coords
 		self.__info.set_Canvas_ID(Canvas_ID)
-		self.__info.Stalfos_Data(Coords=Coords, Speed=5, health=10, defense=5, attack=2) #check stalfos_info for, well info.
+		self.__info.Stalfos_Data(Coords=Coords, Speed=5, health=1000, defense=5, attack=2) #check stalfos_info for, well info.
 		self.__kNode.set_Speed(self.__info.get_Speed())
 		self.__info.set_Corners(Image_Node.Render.bbox(Canvas_ID))
 
@@ -89,22 +90,22 @@ class Stalfos_Main(Enemy_Main):
 
 		self.__kNode.set_Speed(5)
 		if self.__randNum == 0:
-			direction = "left"
-			# direction = "up"
+			# direction = "left"
+			direction = "up"
 			new_Coords = self.__kNode.kinetics(self.__info.get_Coords(), self.__info.get_ID(), direction)#, neg=False)
 			self.__info.set_Coords(new_Coords)
 			self.__info.set_Corners(Image_Node.Render.bbox(self.__info.get_ID()))
 			self.__isMoving = True
 		elif self.__randNum == 1:
-			# direction = "right"
-			direction = 'left'
+			direction = "right"
+			# direction = 'left'
 			new_Coords = self.__kNode.kinetics(self.__info.get_Coords(), self.__info.get_ID(), direction)#, neg=False)
 			self.__info.set_Coords(new_Coords)
 			self.__info.set_Corners(Image_Node.Render.bbox(self.__info.get_ID()))
 			self.__isMoving = True
 		elif self.__randNum == 2:
-			direction = "left"
-			# direction = "down"
+			# direction = "left"
+			direction = "down"
 			new_Coords = self.__kNode.kinetics(self.__info.get_Coords(), self.__info.get_ID(), direction)#, neg=False)
 			self.__info.set_Coords(new_Coords)
 			self.__info.set_Corners(Image_Node.Render.bbox(self.__info.get_ID()))
@@ -122,12 +123,39 @@ class Stalfos_Main(Enemy_Main):
 		#OSC == Other Side of Collision, it represents the other object that collided with player
 		#OSA == Other Side's Attack, represents the other objects needed parameters. Ex. dmg
 		#stal_key == The stalfos that is under collision
-	def my_Collision(self, OSC=None, OSA=None, side=None):
+	def my_Collision(self, OSC=None, OSA=None, side=None, a=None):
 		if self.__isHit == False:
 			if OSC == 'Weapon':
+				lastSide = None
+				Dir = None
 				'''#_Actuall MATH_#'''
 				self.__Cur_Health -= OSA
 				print(self.__Cur_Health, 'health')
+				for newSide in side:
+					if newSide == 'top':
+						Dir = 'up'
+					elif newSide == 'bottom':
+						Dir = 'down'
+					else:
+						Dir = newSide
+					for time in range(50):
+						new_Coords = self.__kNode.Knock_Back(self.__info.get_Coords(), self.__info.get_ID(), Dir)
+						self.__info.set_Coords(new_Coords)
+						self.__info.set_Corners(Image_Node.Render.bbox(self.__info.get_ID()))
+						x1, y1, x2, y2 = Image_Node.Render.bbox(self.__info.get_ID())
+						# print(x1, y1, x2, y2)
+						# print(self.__cLogic.ForT_Collision(x1=x1, y1=y1, x2=x2, y2=y2), 'EHHH')
+						listYES = self.__cLogic.ForT_Collision(x1=x1, y1=y1, x2=x2, y2=y2)
+						if listYES != None:
+							# print(listYES, 'yes')
+							for obj in listYES:
+								if obj != None:
+									if obj.get_group_ID() in a:
+										# print('wallHIT')
+										Dir = self.__cLogic.Side_Calc(self.__cLogic.tagToObj(self.__info.get_ID()))
+										self.my_Collision(OSC='Static', side=Dir)
+										return
+
 
 				'''#_Logic_#'''
 				self.__isHit 	= True
@@ -139,21 +167,41 @@ class Stalfos_Main(Enemy_Main):
 				# print(side)
 				for newSide in side:
 					if newSide == 'top':
+						thisisA = 'up'
+					elif newSide == 'bottom':
+						thisisA = 'down'
+					else:
+						thisisA = newSide
+					new_Coords = self.__kNode.Static_Hit(self.__info.get_Coords(), self.__info.get_ID(), thisisA)
+					self.__info.set_Coords(new_Coords)
+					self.__info.set_Corners(Image_Node.Render.bbox(self.__info.get_ID()))
+
+			elif OSC == 'Friend':
+				lastSide = None
+				for newSide in side:
+					if newSide == 'top':
 						Dir = 'up'
 					elif newSide == 'bottom':
 						Dir = 'down'
 					else:
 						Dir = newSide
-					if Dir != lastSide:
-						new_Coords = self.__kNode.Static_Hit(self.__info.get_Coords(), self.__info.get_ID(), Dir)
+					for time in range(50):
+						new_Coords = self.__kNode.Knock_Back(self.__info.get_Coords(), self.__info.get_ID(), Dir)
 						self.__info.set_Coords(new_Coords)
 						self.__info.set_Corners(Image_Node.Render.bbox(self.__info.get_ID()))
-						lastSide = Dir
-					elif lastSide == None:
-						new_Coords = self.__kNode.Static_Hit(self.__info.get_Coords(), self.__info.get_ID(), Dir)
-						self.__info.set_Coords(new_Coords)
-						self.__info.set_Corners(Image_Node.Render.bbox(self.__info.get_ID()))
-						lastSide = Dir
+						x1, y1, x2, y2 = Image_Node.Render.bbox(self.__info.get_ID())
+						# print(x1, y1, x2, y2)
+						# print(self.__cLogic.ForT_Collision(x1=x1, y1=y1, x2=x2, y2=y2), 'EHHH')
+						listYES = self.__cLogic.ForT_Collision(x1=x1, y1=y1, x2=x2, y2=y2)
+						if listYES != None:
+							# print(listYES, 'yes')
+							for obj in listYES:
+								if obj != None:
+									if obj.get_group_ID() in a:
+										# print('wallHIT')
+										Dir = self.__cLogic.Side_Calc(self.__cLogic.tagToObj(self.__info.get_ID()))
+										self.my_Collision(OSC='Static', side=Dir)
+										return
 
 	def reset_hit(self):
 		if Timer_Node.GameTime == self.__saveTime+5:

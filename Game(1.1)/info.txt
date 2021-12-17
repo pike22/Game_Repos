@@ -103,3 +103,15 @@ many. If you want to run the code run the alpha.py file.
 	clearing the stored value as often. Once all that was said and done the problem that started it all was there loud and proud.
 		END Note: I did a quick 30 minute rewrite on the bow and arrow classes and got it to work with multiple shots fired at once and it worked
 		just it doesn't work with my walls yes. Haven't found out why yet. (seconds later it was fixed, with a simple solution)
+
+
+ -12/17/21 (Collision Re-work/level Designer/more Collision Re-work)
+ 	The last month I have been able to get quite a bit of work completed. After re-working the arrow and bow I moved on to actually being able
+	to create and use maps. So I took about two weeks to make a functional level editor. I can save images for my maps place them in a grid.
+	Then I can save the information that holds what is needed for the map, I can read the save files and reconstruct the original map. I can
+	place and remove specific walls if I want or I can wipe the entire map clean. Once I got it all working properly I was then able to get it
+	to render on the main game screen and allow for some collision. This was when I had to give my collision system a massive upgrade. I can
+	now handle collision between up to 4 objects. While working on the collision I had to re-work my almost all of my lvlDesigner folder.
+	This was due to an inefficient method of saving images to classes.
+		Now I can handle: multiple objects in one collision, multiple different groups of collision at once, more interactions between players/enemies
+								full map design capabilities, and a smooth render of the maps I create w/ working collision. 

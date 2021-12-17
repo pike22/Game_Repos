@@ -10,8 +10,6 @@ import keyboard
 
 class Alpha():
 	def __init__(self):
-		# self.__Sc_Width	 = 992
-		# self.__Sc_Height = 608
 		self.__Sc_Width	 = 1280
 		self.__Sc_Height = 800
 		self.__version	 = "Stab Simulator [BETAv.1.1]"
@@ -50,7 +48,7 @@ class Alpha():
 		self.__kNode		= Kinetics_Node(self.__iNode)
 		self.__Entities		= All_Entities()
 		self.__Projectiles  = Projectiles()
-		self.__Player		= Player_Main(self.__iNode, self.__kNode)
+		self.__Player		= Player_Main(self.__cLogic, self.__cNode, self.__iNode, self.__kNode)
 		self.__Sword		= Sword_Main(self.__iNode, self.__cLogic)
 		self.__Bow			= Bow_Main(self.__iNode, self.__cLogic, self.__cNode, self.__kNode)
 
@@ -91,7 +89,7 @@ class Alpha():
 			elif item >= 10 and item < 100:
 				ID = "S#0" + str(item)
 			self.__stalfosRoster.append(ID)
-			stalMain = Stalfos_Main(self.__iNode, self.__cLogic, self.__kNode, ID=ID)
+			stalMain = Stalfos_Main(self.__iNode, self.__cLogic, self.__cNode, self.__kNode, ID=ID)
 			self.__cLogic.addColDict(tagOrId=ID, obj=stalMain)
 		self.__cNode.set_stalfosRoster(self.__stalfosRoster)
 		self.__cNode.set_enemyRoster(self.__enemyRoster)
@@ -197,8 +195,8 @@ class Alpha():
 
 			#_STALFOS_#
 		Col_Dict = self.__cLogic.get_Col_Dict()
-		for item in range(len(self.__stalfosRoster)):
-			stalfos = Col_Dict[self.__stalfosRoster[item]]
+		for tag in self.__stalfosRoster:
+			stalfos = Col_Dict[tag]
 			if stalfos.get_isAlive() == True:
 				# stalfos.Movement_Controll()
 				stalfos.Stal_Attack()
