@@ -64,10 +64,10 @@ class Alpha():
 		self.__Projectiles.set_Nodes(self.__iNode, self.__kNode, self.__cLogic)
 
 		#Level Location Imports
-		self.__levelONE   = self.__MGF.get_levelONE()
-		self.__levelTWO   = self.__MGF.get_levelTWO()
-		self.__levelTHREE = self.__MGF.get_levelTHREE()
-		self.__levelFOUR  = self.__MGF.get_levelFOUR()
+		# self.__levelONE   = self.__MGF.get_levelONE()
+		# self.__levelTWO   = self.__MGF.get_levelTWO()
+		# self.__levelTHREE = self.__MGF.get_levelTHREE()
+		# self.__levelFOUR  = self.__MGF.get_levelFOUR()
 
 
 
@@ -131,14 +131,14 @@ class Alpha():
 	def GamesetUP(self, GC_OFF=False):
 		# #__Statics SETUP__#
 		# print('temporary shutdwon at GameSetUP')
-		self.__siFILE.Read_File(self.__levelFOUR)
-		self.__imgDICT = self.__siFILE.get_imgDICT()
+		# self.__siFILE.Read_File(self.__levelFOUR)
+		# self.__imgDICT = self.__siFILE.get_imgDICT()
 
-		for tag in self.__imgDICT.keys():
-			self.__cLogic.addColDict(tagOrId=tag, obj=self.__imgDICT[tag])
-			self.__cLogic.add_Collision(LVD_Corner=self.__imgDICT[tag].get_Corners())
-			self.__wallRoster.append(tag)
-		self.__cNode.set_wallRoster(self.__wallRoster)
+		# for tag in self.__imgDICT.keys():
+		# 	self.__cLogic.addColDict(tagOrId=tag, obj=self.__imgDICT[tag])
+		# 	self.__cLogic.add_Collision(LVD_Corner=self.__imgDICT[tag].get_Corners())
+		# 	self.__wallRoster.append(tag)
+		# self.__cNode.set_wallRoster(self.__wallRoster)
 
 		#Bellow is Entity set up
 		self.__Player.player_setUP(x=96, y=160)

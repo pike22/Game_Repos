@@ -17,15 +17,18 @@ class GUI_Main():
 		self.__color  = color
 		self.__eGUI	  = GUI_Events(iNode, cLogic, kNode, mainApp, color, self.__Key)
 		self.__siFILES= SI_Files(iNode, mainApp, color, self.__eGUI, self.__Key)
+		self.__MMenu  = Menu_main(mainApp, color)
 
 		#Frame Vars
 		self.__ImgList= None
 
+		self.__DefultButtons = 'E:\Github\Game_Repos_1\Game(1.2)\lvlDesigner\ButtonLoadOut\Test1.txt'
 		#Button Vars
 		self.__Import = None
 		self.__delKEY = None
 		self.__FindIMG = None
 		self.__saveFILE = None
+		self.__saveLoadO = None
 		self.__lvlImport = None
 		self.__CCollision = None
 
@@ -36,6 +39,8 @@ class GUI_Main():
 		self.__PLCcoord  = [] #(x, y) this is for grid coords, may be more helpfull
 
 	def windowSETUP(self):
+
+
 		"""#__Frame Creation & Placement__#"""
 		self.__ImgList = LabelFrame(self.__mainApp, text="Imported", width=250, height=500, bg=self.__color)
 
@@ -46,15 +51,20 @@ class GUI_Main():
 
 		self.__siFILES.set_imgFrame(self.__ImgList)
 
+		"""#__Buttons from load__#"""
+		self.__siFILES.open_ImgButtons(self.__DefultButtons)
+
 		"""#__event Calls__#"""
 		# self.__mainApp.bind_all(('<Button-1>'), self.__eGUI.mousePosition)
 		self.__mainApp.bind_all(('<Button-3>'), self.__eGUI.Del_Image)
 
 		"""#__Button Creation & Placement__#"""
+		self.__saveLoadO = Button(self.__mainApp, text='Save Buttons', width=16, height=2, command=lambda:self.__siFILES.save_ImgButtons(self.__eGUI.get_buttonDICT()))
+		self.__openLoadO = Button(self.__mainApp, text='Button Set', width=16, height=2, command=self.__siFILES.changeLoadout)
 		self.__lvlImport = Button(self.__mainApp, text='Import LVL', width=16, height=2, command=self.__siFILES.Read_File)
-		self.__delFILE = Button(self.__mainApp, text='Delete File', width=16, height=2, command=self.__eGUI.Del_File)
 		self.__saveFILE = Button(self.__mainApp, text='Save', width=16, height=2,
 											   command=lambda:self.__siFILES.saveFILE(self.__eGUI.get_imgDICT()))
+		self.__delFILE = Button(self.__mainApp, text='Delete File', width=16, height=2, command=self.__eGUI.Del_File)
 		self.__delKEY = Button(self.__mainApp, text='Map Wipe', width=16, height=2, command=self.__eGUI.Map_Wipe)
 		self.__Import = Button(self.__mainApp, text='Import Image', width=16, height=2,
 											   command=lambda:self.__eGUI.open_imgFiles(self.__ImgList))
@@ -65,6 +75,8 @@ class GUI_Main():
 		self.__delFILE.grid(row=3, column=2)
 		self.__FindIMG.grid(row=3, column=3)
 		self.__saveFILE.grid(row=1, column=3)
+		self.__saveLoadO.grid(row=4, column=2)
+		self.__openLoadO.grid(row=4, column=3)
 		self.__lvlImport.grid(row=2, column=2)
 
 		for frame in [self.__Import, self.__delKEY, self.__saveFILE, self.__lvlImport]:

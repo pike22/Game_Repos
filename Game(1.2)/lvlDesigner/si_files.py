@@ -26,8 +26,9 @@ class SI_Files():
 		self.__saveLVL	  = None
 		self.__importLVL  = None
 
-		self.__mapFiles = 'E:\Github\Game_Repos_1\Game(1.1)\lvlDesigner\mapSaves'
-		self.__pngFiles = 'E:\Github\Game_Repos_1\Game(1.1)\z_Pictures\Walls'
+		self.__mapFiles = 'E:\Github\Game_Repos_1\Game(1.2)\lvlDesigner\mapSaves'
+		self.__loadFile = 'E:\Github\Game_Repos_1\Game(1.2)\lvlDesigner\ButtonLoadOut'
+		self.__pngFiles = 'E:\Github\Game_Repos_1\Game(1.2)\z_Pictures\Walls'
 
 		#WRITE FILE VARS
 		self.__buttonDICT = {} #this is for the buttons
@@ -42,6 +43,7 @@ class SI_Files():
 		self.__coordDICT	= {}
 		self.__fileDICT		= {}
 		self.__bID_DICT		= {}
+		self.__buttonID		= []
 		self.__bIDfile		= []
 		self.__IDfile		= []
 		self.__tkIMG		= None
@@ -87,12 +89,12 @@ class SI_Files():
 			# print(info)
 		self.__saveLVL.write('\n<=======================================================>\n\n')
 
-		for key in self.__imgDICT.keys():
-			button_ID = self.__imgDICT[key].get_button_ID()
-			info = str(key)+'='+str(button_ID) +'\n'
-			self.__saveLVL.write(info)
-			# print(info)
-		self.__saveLVL.write('\n<=======================================================>\n\n')
+		# for key in self.__imgDICT.keys():
+		# 	button_ID = self.__imgDICT[key].get_button_ID()
+		# 	info = str(key)+'='+str(button_ID) +'\n'
+		# 	self.__saveLVL.write(info)
+		# 	# print(info)
+		# self.__saveLVL.write('\n<=======================================================>\n\n')
 
 		self.__saveLVL.close() #DON'T FORGET ABOUT THIS
 
@@ -117,7 +119,7 @@ class SI_Files():
 			line = line.rstrip('\n')
 			# print(line)
 
-			ID = re.search("(^LVD#W.{3})", line)
+			ID = re.search("(^LVD#W.{4})", line)
 			if ID != None:
 				newID = ID.group(1)
 				if counting == 0:
@@ -142,12 +144,12 @@ class SI_Files():
 				if counting == 3:
 					self.__coordDICT[newID] = newCoords
 
-			B_ID = re.search("=(LVD#B.{3})", line)
-			if B_ID != None and seperator == None:
-				newB_ID = B_ID.group(1)
-				if counting == 4:
-					self.__bID_DICT[newID] = newB_ID
-					lastB_ID = newB_ID
+			# B_ID = re.search("=(LVD#B.{3})", line)
+			# if B_ID != None and seperator == None:
+			# 	newB_ID = B_ID.group(1)
+			# 	if counting == 4:
+			# 		self.__bID_DICT[newID] = newB_ID
+			# 		lastB_ID = newB_ID
 
 			seperator = re.search("(^<.*$)", line)
 			if seperator != None:
@@ -172,14 +174,14 @@ class SI_Files():
 		for tag in self.__IDfile:
 
 			#CREATES BUTTON FROM SAVE FILE
-			if lastB_ID != None:
-				if self.__bID_DICT[tag] != lastB_ID and self.__bID_DICT[tag] not in self.__bIDfile:
-					self.buttonFromFile(self.__fileDICT[tag], self.__imgFrame, button_ID=self.__bID_DICT[tag], MG=MG)
-					self.__bIDfile.append(self.__bID_DICT[tag])
-			else:
-				self.buttonFromFile(self.__fileDICT[tag], self.__imgFrame, button_ID=self.__bID_DICT[tag], MG=MG)
-				self.__bIDfile.append(self.__bID_DICT[tag])
-			lastB_ID = self.__bID_DICT[tag]
+			# if lastB_ID != None:
+			# 	if self.__bID_DICT[tag] != lastB_ID and self.__bID_DICT[tag] not in self.__bIDfile:
+			# 		self.buttonFromFile(self.__fileDICT[tag], self.__imgFrame, button_ID=self.__bID_DICT[tag])#, MG=MG)
+			# 		self.__bIDfile.append(self.__bID_DICT[tag])
+			# else:
+			# 	self.buttonFromFile(self.__fileDICT[tag], self.__imgFrame, button_ID=self.__bID_DICT[tag])#, MG=MG)
+			# 	self.__bIDfile.append(self.__bID_DICT[tag])
+			# lastB_ID = self.__bID_DICT[tag]
 
 			#PULLS IN IMAGE AND ROTATES IF NEEDED
 			image = self.__iNode.Img_Add(self.__fileDICT[tag])
@@ -200,7 +202,7 @@ class SI_Files():
 			self.__cornersDICT[tag] = (x, y, x+self.__Key, y+self.__Key)
 
 			#PLACES THE IMAGES
-			self.__imgDICT[tag] = PLC_ImgMain(tag, self.__bID_DICT[tag])
+			self.__imgDICT[tag] = PLC_ImgMain(tag, None)
 			self.__imgDICT[tag].Image_Info(self.__buttonDICT[self.__bID_DICT[tag]].get_fileLoc(),
 											self.__buttonDICT[self.__bID_DICT[tag]].get_Size(),
 											(x, y), self.__lastRotate)
@@ -210,13 +212,13 @@ class SI_Files():
 
 
 		#INFO TO GUI_EVENT
-		lastID  = re.search("^LVD#W(.{3})", self.__IDfile[len(self.__IDfile)-1])
+		lastID  = re.search("^LVD#W(.{4})", self.__IDfile[-1])
 		lastID2 = lastID.group(1)
 		self.__ID_count += int(lastID2)+1
 
-		lastBID  = re.search("^LVD#B(.{3})", self.__bIDfile[len(self.__bIDfile)-1])
-		lastBID2 = lastBID.group(1)
-		self.__bID_count += int(lastBID2)+1
+		# lastBID  = re.search("^LVD#B(.{4})", self.__bIDfile[len(self.__bIDfile)-1])
+		# lastBID2 = lastBID.group(1)
+		# self.__bID_count += int(lastBID2)+1
 
 		self.__eGUI.File_Images(self.__buttonDICT, self.__imgDICT, self.__PLCI_Tag, self.__PLCI_Tk, self.__bID_count, self.__ID_count)
 		self.__eGUI.set_RC_Info(self.__Row, self.__Column)
@@ -226,7 +228,9 @@ class SI_Files():
 		image = self.__iNode.Img_Add(fileLoc)
 		if MG == None:
 			B = Button(parent, image=image[2], bg=self.__color, activebackground=self.__color, command=lambda:self.__eGUI.Drag_Drop(button_ID))
-		self.__buttonDICT[button_ID] = Button_Main(button_ID)
+		else:
+			B = None
+		self.__buttonDICT[button_ID] = Button_Main(button_ID, B)
 		self.__buttonDICT[button_ID].Image_Info(fileLoc=fileLoc, tkIMG=image[2], pilIMG=image[0], size=image[1])
 
 		#Place Button
@@ -237,7 +241,108 @@ class SI_Files():
 			else:
 				self.__Column = 0
 				self.__Row	  +=1
+			self.__eGUI.set_RC_Info(column=self.__Column, row=self.__Row)
 		self.__eGUI.set_buttonDICT(self.__buttonDICT)
+
+	def save_ImgButtons(self, buttonDICT):
+		self.__buttonDICT = buttonDICT
+		filetype = [('Text Document', '*.txt'), ('All Files', '*.*')]
+		file = filedialog.asksaveasfile(title='Save Load Out', filetypes=filetype, defaultextension=filetype, initialdir=self.__loadFile)
+		if file == '':
+			print('No File Selected')
+			return
+		self.__saveButton = open(str(file.name), 'w')
+
+		for key in self.__buttonDICT.keys():
+			info = str(key)+'\n'
+			self.__saveButton.write(info)
+			# print(info)
+		self.__saveButton.write('\n<=======================================================>\n\n')
+
+		for key in self.__buttonDICT.keys():
+			fileLocation = self.__buttonDICT[key].get_fileLoc()
+			info = str(key)+'='+str(fileLocation) +'\n'
+			self.__saveButton.write(info)
+			# print(info)
+		self.__saveButton.write('\n<=======================================================>\n\n')
+
+
+		self.__saveButton.close() #DON'T FORGET ABOUT THIS
+
+	def changeLoadout(self, ):
+		#this clears the current buttons to make way for the new set.
+		for widget in self.__imgFrame.grid_slaves():
+			widget.destroy()
+		self.__buttonDICT.clear()
+		self.__Row = 0
+		self.__Column = 0
+		self.__bID_count = 0
+
+		filetypes = [(("TXT", "*.txt"), ("All Files", "*.*"))]
+		file = filedialog.askopenfilename(title='Level Import', filetypes=filetypes, initialdir=self.__loadFile)
+		if file == '':
+			print('No File Selected')
+			return
+
+		self.open_ImgButtons(file)
+
+
+
+
+
+	def open_ImgButtons(self, savedFile=None):
+		if savedFile == None:
+			filetypes = [(("TXT", "*.txt"), ("All Files", "*.*"))]
+			file = filedialog.askopenfilename(title='Level Import', filetypes=filetypes, initialdir=self.__loadFile)
+			if file == '':
+				print('No File Selected')
+				return
+			else:
+				self.__importButtons = open(file, 'r')
+		else:
+			self.__importButtons = open(savedFile, 'r')
+
+		counting = 0
+		self.__buttonID = []
+		self.__fileDICT = {}
+		for line in self.__importButtons:
+			line = line.rstrip('\n')
+			# print(line)
+
+			ID = re.search("(^LVD#B.{3})", line)
+			if ID != None:
+				newID = ID.group(1)
+				if counting == 0:
+					self.__buttonID.append(newID)
+			# print(self.__buttonID)
+
+
+			fileLoc = re.search("=(.*/.*/.*$)", line)
+			if fileLoc != None:
+				newFileLoc = fileLoc.group(1)
+				if counting == 1:
+					self.__fileDICT[newID] = newFileLoc
+			# print(self.__fileDICT)
+
+			seperator = re.search("(^<.*$)", line)
+			if seperator != None:
+				counting += 1
+
+
+		lastB_ID = None
+		for tag in self.__buttonID:
+
+			#CREATES BUTTON FROM SAVE FILE
+			self.buttonFromFile(self.__fileDICT[tag], self.__imgFrame, button_ID=tag)
+			self.__bIDfile.append(tag)
+
+		if self.__bIDfile != []:
+			lastBID  = re.search("^LVD#B(.{3})", self.__bIDfile[-1])
+			lastBID2 = lastBID.group(1)
+			self.__bID_count += int(lastBID2)+1
+
+			self.__eGUI.set_bIDcount(self.__bID_count)
+
 
 
 	"""#|--------------Getters--------------|#"""

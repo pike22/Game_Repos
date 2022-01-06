@@ -75,11 +75,12 @@ class GUI_Events():
 		else:
 			print('ERROR: To Manny Buttons')
 		self.__bID_count += 1
+		print(button_ID)
 
 		#Create Button
 		image = self.__iNode.Img_Add(file)
 		B = Button(parent, image=image[2], bg=self.__color, activebackground=self.__color, command=lambda:self.Drag_Drop(button_ID))
-		self.__buttonDICT[button_ID] = Button_Main(button_ID)
+		self.__buttonDICT[button_ID] = Button_Main(button_ID, B)
 		self.__buttonDICT[button_ID].Image_Info(fileLoc=file, tkIMG=image[2], pilIMG=image[0], size=image[1])
 
 		#Place Button
@@ -135,10 +136,12 @@ class GUI_Events():
 	def Place_Image(self, event, button_ID):
 		self.Del_Image(event)
 		if self.__ID_count <= 9:
-			ID = 'LVD#W00'+str(self.__ID_count)
+			ID = 'LVD#W000'+str(self.__ID_count)
 		elif self.__ID_count > 9 and self.__ID_count <= 99:
-			ID = 'LVD#W0'+str(self.__ID_count)
+			ID = 'LVD#W00'+str(self.__ID_count)
 		elif self.__ID_count > 99 and self.__ID_count <= 999:
+			ID = 'LVD#W0'+str(self.__ID_count)
+		elif self.__ID_count > 999 and self.__ID_count <= 9999:
 			ID = 'LVD#W'+str(self.__ID_count)
 		else: #add more elif's above if needed
 			print('ERROR: To Manny Walls')
@@ -259,6 +262,9 @@ class GUI_Events():
 	def set_RC_Info(self, row, column):
 		self.__Column = column
 		self.__Row 	  = row
+
+	def set_bIDcount(self, count):
+		self.__bID_count = count
 
 	def File_Images(self, buttonDICT, imgDict, PLCI_Tag, PLCI_Tk, bID_count, ID_count): #SUBJECT TO CHANGE
 		self.__buttonDICT = buttonDICT
