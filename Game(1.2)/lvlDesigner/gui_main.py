@@ -4,20 +4,24 @@ from tkinter import filedialog
 from PIL import ImageTk, Image #PIL = Pillow
 from .gui_events import GUI_Events
 from .si_files import SI_Files
+from .menu_main import Menu_Main
 
 
 class GUI_Main():
-	def __init__(self, cLogic, iNode, kNode, cNode, mainApp, color):
+	def __init__(self, cLogic, iNode, kNode, cNode, mainApp, color, mainMenu):
 		self.__Key = 32
 		self.__iNode  = iNode
 		self.__kNode  = kNode
 		self.__cNode  = cNode
 		self.__cLogic = cLogic
 		self.__mainApp= mainApp
+		self.__mainMenu=mainMenu
 		self.__color  = color
 		self.__eGUI	  = GUI_Events(iNode, cLogic, kNode, mainApp, color, self.__Key)
 		self.__siFILES= SI_Files(iNode, mainApp, color, self.__eGUI, self.__Key)
-		self.__MMenu  = Menu_main(mainApp, color)
+
+		self.__mainMenu.set_eGUI(self.__eGUI)
+		self.__mainMenu.set_siFILES(self.__siFILES)
 
 		#Frame Vars
 		self.__ImgList= None
@@ -74,10 +78,10 @@ class GUI_Main():
 		self.__delKEY.grid(row=2, column=3)
 		self.__delFILE.grid(row=3, column=2)
 		self.__FindIMG.grid(row=3, column=3)
-		self.__saveFILE.grid(row=1, column=3)
+		# self.__saveFILE.grid(row=1, column=3)
 		self.__saveLoadO.grid(row=4, column=2)
 		self.__openLoadO.grid(row=4, column=3)
-		self.__lvlImport.grid(row=2, column=2)
+		# self.__lvlImport.grid(row=2, column=2)
 
 		for frame in [self.__Import, self.__delKEY, self.__saveFILE, self.__lvlImport]:
 		    frame.grid_propagate(0)

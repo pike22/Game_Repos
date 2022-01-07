@@ -34,28 +34,38 @@ class SI_Files():
 		self.__buttonDICT = {} #this is for the buttons
 		self.__imgDICT	  = {} #this is for the images
 
-		#READ FILE VARS
+		'''#READ FILE VARS'''
+
+		#imageVARS
 		self.__PLCI_Tag = []
 		self.__PLCI_Tk  = []
 
+		self.__fileID 	= []
+
+		self.__tkIMG		= None
+		self.__isRotate		= False
+		self.__stepCount	= 0
+		self.__lastRotate 	= 0
+
+		#buttonVARS
+
+		'''OLD VARS'''
 		self.__rotationDICT = {}
-		self.__cornersDICT  = {}
+		self.__cornersDICT 	= {}
 		self.__coordDICT	= {}
 		self.__fileDICT		= {}
 		self.__bID_DICT		= {}
 		self.__buttonID		= []
 		self.__bIDfile		= []
-		self.__IDfile		= []
-		self.__tkIMG		= None
-		self.__isRotate		= False
-		self.__lastRotate 	= 0
+		# self.__IDfile		= []
+
 
 		#OTHER VARS
 		self.__ID_count  = 1
 		self.__bID_count = 1
 
 
-	def saveFILE(self, imgDICT):
+	def Save_File(self, imgDICT):
 		self.__imgDICT = imgDICT
 		filetype = [('Text Document', '*.txt'), ('All Files', '*.*')]
 		file = filedialog.asksaveasfile(title='Save Map', filetypes=filetype, defaultextension=filetype, initialdir=self.__mapFiles)
@@ -89,13 +99,6 @@ class SI_Files():
 			# print(info)
 		self.__saveLVL.write('\n<=======================================================>\n\n')
 
-		# for key in self.__imgDICT.keys():
-		# 	button_ID = self.__imgDICT[key].get_button_ID()
-		# 	info = str(key)+'='+str(button_ID) +'\n'
-		# 	self.__saveLVL.write(info)
-		# 	# print(info)
-		# self.__saveLVL.write('\n<=======================================================>\n\n')
-
 		self.__saveLVL.close() #DON'T FORGET ABOUT THIS
 
 
@@ -110,50 +113,50 @@ class SI_Files():
 		else:
 			self.__importLVL = open(mainGame, 'r')
 
-		tempLIST  = []
-		counting  = 0
-		lastB_ID  = None
-		seperator = None
-		newID	  = None
-		for line in self.__importLVL:
-			line = line.rstrip('\n')
-			# print(line)
+		self.Read_Line(self.__importLVL, self.Line_List)
+		self.Read_Line(self.__importLVL, self.Line_Dict)
 
-			ID = re.search("(^LVD#W.{4})", line)
-			if ID != None:
-				newID = ID.group(1)
-				if counting == 0:
-					self.__IDfile.append(newID)
-
-			fileLoc = re.search("=(.*/.*/.*$)", line)
-			if fileLoc != None:
-				newFileLoc = fileLoc.group(1)
-				if counting == 1:
-					self.__fileDICT[newID] = newFileLoc
-
-			rotation = re.search("=z(.*$)", line)
-			if rotation != None:
-				newRotation = rotation.group(1)
-				if counting == 2:
-					newRotation = int(newRotation)
-					self.__rotationDICT[newID] = newRotation
-
-			coords = re.search("=z(.*$)", line)
-			if coords != None and seperator == None:
-				newCoords = coords.group(1)
-				if counting == 3:
-					self.__coordDICT[newID] = newCoords
-
-			# B_ID = re.search("=(LVD#B.{3})", line)
-			# if B_ID != None and seperator == None:
-			# 	newB_ID = B_ID.group(1)
-			# 	if counting == 4:
-			# 		self.__bID_DICT[newID] = newB_ID
-			# 		lastB_ID = newB_ID
-
-			seperator = re.search("(^<.*$)", line)
-			if seperator != None:
-				counting += 1
+		# tempLIST  = []
+		# counting  = 0
+		# lastB_ID  = None
+		# seperator = None
+		# newID	  = None
+		# for line in self.__importLVL:
+		# 	line = line.rstrip('\n')
+		# 	# print(line)
+		#
+		# 	ID = re.search("(^LVD#W.{4})", line)
+		# 	if ID != None:
+		# 		newID = ID.group(1)
+		# 		if counting == 0:
+		# 			self.__IDfile.append(newID)
+		# 			# print('1000')
+		#
+		# 	fileLoc = re.search("=(.*/.*/.*$)", line)
+		# 	if fileLoc != None:
+		# 		newFileLoc = fileLoc.group(1)
+		# 		if counting == 1:
+		# 			self.__fileDICT[newID] = newFileLoc
+		# 			# print('0100')
+		#
+		# 	rotation = re.search("=z(.*$)", line)
+		# 	if rotation != None:
+		# 		newRotation = rotation.group(1)
+		# 		if counting == 2:
+		# 			newRotation = int(newRotation)
+		# 			self.__rotationDICT[newID] = newRotation
+		# 			# print('0010')
+		#
+		# 	coords = re.search("=z(.*$)", line)
+		# 	if coords != None and seperator == None:
+		# 		newCoords = coords.group(1)
+		# 		if counting == 3:
+		# 			self.__coordDICT[newID] = newCoords
+		# 			# print('0001')
+		#
+		# 	seperator = re.search("(^<.*$)", line)
+		# 	if seperator != None:
+		# 		counting += 1
 
 		# print(self.__IDfile)
 		# print("^ID's\n")
@@ -163,66 +166,52 @@ class SI_Files():
 		# print("^Files Rotation\n")
 		# print(self.__coordDICT)
 		# print("^Coords\n")
-		# print(self.__bID_DICT)
-		# print("^Button ID\n")
 
 		self.__importLVL.close()
-		self.INIT_lvlFile(mainGame)
-
-	def INIT_lvlFile(self, MG=None):
-		lastB_ID = None
-		for tag in self.__IDfile:
-
-			#CREATES BUTTON FROM SAVE FILE
-			# if lastB_ID != None:
-			# 	if self.__bID_DICT[tag] != lastB_ID and self.__bID_DICT[tag] not in self.__bIDfile:
-			# 		self.buttonFromFile(self.__fileDICT[tag], self.__imgFrame, button_ID=self.__bID_DICT[tag])#, MG=MG)
-			# 		self.__bIDfile.append(self.__bID_DICT[tag])
-			# else:
-			# 	self.buttonFromFile(self.__fileDICT[tag], self.__imgFrame, button_ID=self.__bID_DICT[tag])#, MG=MG)
-			# 	self.__bIDfile.append(self.__bID_DICT[tag])
-			# lastB_ID = self.__bID_DICT[tag]
-
-			#PULLS IN IMAGE AND ROTATES IF NEEDED
-			image = self.__iNode.Img_Add(self.__fileDICT[tag])
-			self.__lastRotate = self.__rotationDICT[tag]
-			tkIMG = self.__iNode.Img_Rotate(image[0], int(self.__lastRotate))
-
-			#COORDS & CORNERS FROM FILE
-			coord = self.__coordDICT[tag]
-			firstNumb = re.search("([0-9]*[^(,)])", coord)
-			if firstNumb != None:
-				new_firstNumb = firstNumb.group(1)
-			secondNumb = re.search(str(new_firstNumb)+", ([0-9]*[^(,)])", coord)
-			if secondNumb != None:
-				new_secondNumb = secondNumb.group(1)
-			x = int(new_firstNumb)
-			y = int(new_secondNumb)
-			self.__coordDICT[tag] = (x, y)
-			self.__cornersDICT[tag] = (x, y, x+self.__Key, y+self.__Key)
-
-			#PLACES THE IMAGES
-			self.__imgDICT[tag] = PLC_ImgMain(tag, None)
-			self.__imgDICT[tag].Image_Info(self.__buttonDICT[self.__bID_DICT[tag]].get_fileLoc(),
-											self.__buttonDICT[self.__bID_DICT[tag]].get_Size(),
-											(x, y), self.__lastRotate)
-			self.__iNode.Img_Place(x, y, tkIMG, LVD='yes', tag=[tag, self.__imgDICT[tag].get_group_ID()])
-			self.__PLCI_Tag.append(tag)
-			self.__PLCI_Tk.append(tkIMG)
-
-
-		#INFO TO GUI_EVENT
-		lastID  = re.search("^LVD#W(.{4})", self.__IDfile[-1])
-		lastID2 = lastID.group(1)
-		self.__ID_count += int(lastID2)+1
-
-		# lastBID  = re.search("^LVD#B(.{4})", self.__bIDfile[len(self.__bIDfile)-1])
-		# lastBID2 = lastBID.group(1)
-		# self.__bID_count += int(lastBID2)+1
-
-		self.__eGUI.File_Images(self.__buttonDICT, self.__imgDICT, self.__PLCI_Tag, self.__PLCI_Tk, self.__bID_count, self.__ID_count)
-		self.__eGUI.set_RC_Info(self.__Row, self.__Column)
-
+		# self.INIT_lvlFile(mainGame)
+	'''#old read_file prt. 2#''' '''
+	# def INIT_lvlFile(self, MG=None):
+	# 	lastB_ID = None
+	# 	for tag in self.__IDfile:
+	#
+	# 		#PULLS IN IMAGE AND ROTATES IF NEEDED
+	# 		image = self.__iNode.Img_Add(self.__fileDICT[tag])
+	# 		self.__lastRotate = self.__rotationDICT[tag]
+	# 		tkIMG = self.__iNode.Img_Rotate(image[0], int(self.__lastRotate))
+	#
+	# 		#COORDS & CORNERS FROM FILE
+	# 		coord = self.__coordDICT[tag]
+	# 		firstNumb = re.search("([0-9]*[^(,)])", coord)
+	# 		if firstNumb != None:
+	# 			new_firstNumb = firstNumb.group(1)
+	# 		secondNumb = re.search(str(new_firstNumb)+", ([0-9]*[^(,)])", coord)
+	# 		if secondNumb != None:
+	# 			new_secondNumb = secondNumb.group(1)
+	# 		x = int(new_firstNumb)
+	# 		y = int(new_secondNumb)
+	# 		self.__coordDICT[tag] = (x, y)
+	# 		self.__cornersDICT[tag] = (x, y, x+self.__Key, y+self.__Key)
+	#
+	# 		#PLACES THE IMAGES
+	# 		self.__imgDICT[tag] = PLC_ImgMain(tag, None)
+	# 		self.__imgDICT[tag].Image_Info(self.__fileDICT[tag], image[1], (x, y), self.__lastRotate)
+	# 		self.__iNode.Img_Place(x, y, tkIMG, LVD='yes', tag=[tag, self.__imgDICT[tag].get_group_ID()])
+	# 		self.__PLCI_Tag.append(tag)
+	# 		self.__PLCI_Tk.append(tkIMG)
+	#
+	#
+	# 	#INFO TO GUI_EVENT
+	# 	lastID  = re.search("^LVD#W(.{4})", self.__IDfile[-1])
+	# 	lastID2 = lastID.group(1)
+	# 	self.__ID_count += int(lastID2)+1
+	#
+	# 	# lastBID  = re.search("^LVD#B(.{4})", self.__bIDfile[len(self.__bIDfile)-1])
+	# 	# lastBID2 = lastBID.group(1)
+	# 	# self.__bID_count += int(lastBID2)+1
+	#
+	# 	self.__eGUI.File_Images(self.__buttonDICT, self.__imgDICT, self.__PLCI_Tag, self.__PLCI_Tk, self.__bID_count, self.__ID_count)
+	# 	self.__eGUI.set_RC_Info(self.__Row, self.__Column)
+	'''
 
 	def buttonFromFile(self, fileLoc, parent, button_ID, MG=None):
 		image = self.__iNode.Img_Add(fileLoc)
@@ -342,6 +331,61 @@ class SI_Files():
 			self.__bID_count += int(lastBID2)+1
 
 			self.__eGUI.set_bIDcount(self.__bID_count)
+
+	'''#ShortCut Functions#'''
+	def Line_List(self, curLine):
+		self.__fileID.append(curLine)
+		print(self.__fileID)
+
+	def Line_Dict(self, curLine, step):
+		if re.search("(^LVD#W.{4})", curLine) != None:
+			if step == 1:
+				if re.search("=(.*/.*/.*$)", curLine) != None:
+					self.__fileLOC[re.search("(^LVD#W.{4})", curLine).group(1)] = re.search("=(.*/.*/.*$)", curLine).group(1)
+			elif step == 2 or step == 3:
+				if re.search("=z(.*$)", curLine) != None:
+					self.__fileLOC[re.search("(^LVD#W.{4})", curLine).group(1)] = re.search("=z(.*$)", curLine).group(1)
+
+
+	def Read_Line(self, file, function):
+		for line in file:
+			line = line.rstrip('\n')
+			# print(line)
+
+			step = re.search("(^<.*$)", line)
+			if step != None:
+				self.__stepCount += 1
+				print('step:', self.__stepCount)
+				return
+			else:
+				if self.__stepCount == 1:
+					if line != '':
+						function(line)
+				elif self.__stepCount == 2 or self.__stepCount == 3:
+					if line != '':
+						function(line, self.__stepCount)
+				print(line)
+
+
+
+
+
+
+		# a = str(STRING)+'='
+		# # print(a)
+		# step = '<=======================================================>'
+		# # print(re.search(a, curLine), 'herez')
+		# if re.search(a, curLine) == None:
+		# 	Var = re.search(str(STRING), curLine)
+		# 	if Var != None:
+		# 		new_Var = Var.group(1)
+		# 		print(new_Var)
+		# 		if varType == 'ID':
+		# 			self.__fileID.append(new_Var)
+
+	def Save_Line(self, ):
+		pass
+
 
 
 

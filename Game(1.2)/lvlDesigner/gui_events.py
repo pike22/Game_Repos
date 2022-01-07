@@ -171,13 +171,14 @@ class GUI_Events():
 			self.__isIMG = False
 			self.__mainApp.unbind_all("((<Button-1>))")
 
-	def Find_imgTag(self, event):
-		self.Find_Square(event)
-
-		x1, y1, x2, y2 = self.__GRID[self.__Cur_Square]
-		Canvas_ID = Image_Node.Render.find_overlapping(x1+5, y1+5, x2-5, y2-5)
-		ID == Image_Node.find_withtag(Canvas_ID)
-		print(ID)
+	'''TO BE REMOVED'''
+	# def Find_imgTag(self, event):
+	# 	self.Find_Square(event)
+	#
+	# 	x1, y1, x2, y2 = self.__GRID[self.__Cur_Square]
+	# 	Canvas_ID = Image_Node.Render.find_overlapping(x1+5, y1+5, x2-5, y2-5)
+	# 	ID == Image_Node.find_withtag(Canvas_ID)
+	# 	print(ID)
 
 	def Map_Wipe(self):
 		item = len(self.__PLCI_Tag)-1

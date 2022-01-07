@@ -125,7 +125,7 @@ class Alpha():
 			print('<------------------------->')
 			print('<-----------END----------->')
 			print('<------------------------->')
-			self.__mainApp.destroy()
+			self.__mainApp.quit()
 			return True
 
 	def GamesetUP(self, GC_OFF=False):
@@ -295,8 +295,8 @@ class Alpha():
 
 #puts the above class to action
 color = fg('light_cyan')
-Game = Alpha()
 print('----------------------------\n'+color) #to make it easier to read in the command promt
+Game = Alpha()
 Game.set_MainCanvas()
 Game.tk_windowSETUP()
 Game.GamesetUP(False)

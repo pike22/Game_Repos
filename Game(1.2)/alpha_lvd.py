@@ -27,7 +27,8 @@ class Alpha_LVD():
 		self.__tNode	= Timer_Node(self.__mainApp)
 		self.__iNode	= Image_Node() #NOTHING TO NOTE
 		self.__kNode	= Kinetics_Node(self.__iNode)
-		self.__GUI		= GUI_Main(self.__cLogic, self.__iNode, self.__kNode, self.__cNode, self.__mainApp, self.__color)
+		self.__mainMenu = Menu_Main(self.__mainApp, self.__color)
+		self.__GUI		= GUI_Main(self.__cLogic, self.__iNode, self.__kNode, self.__cNode, self.__mainApp, 'Grey', self.__mainMenu)
 
 		"""Widget Names"""
 		#frames
@@ -45,13 +46,14 @@ class Alpha_LVD():
 	def tk_windowSETUP(self):
 		self.__mainApp.title(self.__version)
 		self.__mainApp.geometry(str(self.__Sc_Width+260) + 'x' + str(self.__Sc_Height))
+		self.__mainMenu.menu_setUP()
 
 	def set_MainCanvas(self): #Set Renders HERE
 		self.__iNode.Create_Canvas(self.__mainApp, self.__Sc_Height, self.__Sc_Width, color=self.__color)
 
 	def close_window(self): #putting this on HOLD
 		if keyboard.is_pressed('q') == True:
-			self.__mainApp.destroy()
+			self.__mainApp.quit()
 
 	def GUI_run(self):
 		self.__GUI.windowSETUP()
@@ -93,7 +95,7 @@ print('\n')
 LVD.GUI_run()
 LVD.windowLoop()
 LVD.get_mainAPP().mainloop()
-print('<----SETUP-MENU-WIDGET---->')
+print('\n')
 print('<------------------------->')
 print('<-----------END----------->')
 print('<------------------------->')
