@@ -26,10 +26,15 @@ class Menu_Main():
 
 	def file_menu(self, ):
 		self.__mainMenu.add_cascade(label='File', menu=self.__fileMenu)
-		self.__fileMenu.add_command(label='New File', )# command=COMMANDHERE)
+		self.__fileMenu.add_command(label='--Maps--', )
+		self.__fileMenu.add_command(label='New File' ,)# command="")
 		self.__fileMenu.add_command(label='Open File', command=self.__siFILES.Read_File)
 		self.__fileMenu.add_command(label='Save File', command=lambda:self.__siFILES.Save_File(self.__eGUI.get_imgDICT()))
-		self.__fileMenu.add_command(label='----')
+		self.__fileMenu.add_command(label='--Buttons--')
+		self.__fileMenu.add_command(label='New Button Set' ,)# command="")
+		self.__fileMenu.add_command(label='Open Button Set', command=self.__siFILES.Change_ButtonSet)
+		self.__fileMenu.add_command(label='Save Button Set', command=lambda:self.__siFILES.save_ImgButtons(self.__eGUI.get_buttonDICT()))
+		self.__fileMenu.add_command(label='-----')
 		self.__fileMenu.add_command(label='Exit', command=self.__mainApp.quit)
 
 	def edit_menu(self, ):

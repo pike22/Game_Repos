@@ -56,18 +56,18 @@ class GUI_Main():
 		self.__siFILES.set_imgFrame(self.__ImgList)
 
 		"""#__Buttons from load__#"""
-		self.__siFILES.open_ImgButtons(self.__DefultButtons)
+		self.__siFILES.Read_ButtonSet(self.__DefultButtons)
 
 		"""#__event Calls__#"""
 		# self.__mainApp.bind_all(('<Button-1>'), self.__eGUI.mousePosition)
 		self.__mainApp.bind_all(('<Button-3>'), self.__eGUI.Del_Image)
 
 		"""#__Button Creation & Placement__#"""
-		self.__saveLoadO = Button(self.__mainApp, text='Save Buttons', width=16, height=2, command=lambda:self.__siFILES.save_ImgButtons(self.__eGUI.get_buttonDICT()))
-		self.__openLoadO = Button(self.__mainApp, text='Button Set', width=16, height=2, command=self.__siFILES.changeLoadout)
-		self.__lvlImport = Button(self.__mainApp, text='Import LVL', width=16, height=2, command=self.__siFILES.Read_File)
-		self.__saveFILE = Button(self.__mainApp, text='Save', width=16, height=2,
-											   command=lambda:self.__siFILES.saveFILE(self.__eGUI.get_imgDICT()))
+		# self.__saveLoadO = Button(self.__mainApp, text='Save Buttons', width=16, height=2, command=lambda:self.__siFILES.save_ImgButtons(self.__eGUI.get_buttonDICT()))
+		# self.__openLoadO = Button(self.__mainApp, text='Button Set', width=16, height=2, command=self.__siFILES.changeLoadout)
+		# self.__lvlImport = Button(self.__mainApp, text='Import LVL', width=16, height=2, command=self.__siFILES.Read_File)
+		# self.__saveFILE = Button(self.__mainApp, text='Save', width=16, height=2,
+		# 									   command=lambda:self.__siFILES.saveFILE(self.__eGUI.get_imgDICT()))
 		self.__delFILE = Button(self.__mainApp, text='Delete File', width=16, height=2, command=self.__eGUI.Del_File)
 		self.__delKEY = Button(self.__mainApp, text='Map Wipe', width=16, height=2, command=self.__eGUI.Map_Wipe)
 		self.__Import = Button(self.__mainApp, text='Import Image', width=16, height=2,
@@ -79,11 +79,11 @@ class GUI_Main():
 		self.__delFILE.grid(row=3, column=2)
 		self.__FindIMG.grid(row=3, column=3)
 		# self.__saveFILE.grid(row=1, column=3)
-		self.__saveLoadO.grid(row=4, column=2)
-		self.__openLoadO.grid(row=4, column=3)
+		# self.__saveLoadO.grid(row=4, column=2)
+		# self.__openLoadO.grid(row=4, column=3)
 		# self.__lvlImport.grid(row=2, column=2)
 
-		for frame in [self.__Import, self.__delKEY, self.__saveFILE, self.__lvlImport]:
+		for frame in [self.__Import, self.__delKEY]:
 		    frame.grid_propagate(0)
 
 	def gridSETUP(self):
