@@ -64,17 +64,17 @@ class SI_Files():
 			self.__imgDICT = imgDICT
 			filetype = [('Text Document', '*.txt'), ('All Files', '*.*')]
 			file = filedialog.asksaveasfile(title='Save Map', filetypes=filetype, defaultextension=filetype, initialdir=self.__mapFiles)
-			if file == '':
+			if file == '' or file == None:
 				print('No File Selected')
 				return
 
 			self.__saveLVL = open(str(file.name), 'w')
 
 			self.__stepCount = 0
-			self.Save_Line(self.__saveLVL, self.Save_List)
-			self.Save_Line(self.__saveLVL, self.Save_Dict)
-			self.Save_Line(self.__saveLVL, self.Save_Dict)
-			self.Save_Line(self.__saveLVL, self.Save_Dict)
+			self.Save_Line(self.__saveLVL, self.Read_List, self.__fileID)
+			self.Save_Line(self.__saveLVL, self.Read_Dict, self.__imgDICT)
+			self.Save_Line(self.__saveLVL, self.Read_Dict, self.__imgDICT)
+			self.Save_Line(self.__saveLVL, self.Read_Dict, self.__imgDICT)
 
 			self.__saveLVL.close() #DON'T FORGET ABOUT THIS
 
@@ -123,10 +123,10 @@ class SI_Files():
 		self.__fileROT   = {}
 		self.__filePOS   = {}
 		#clear all list/dict used below
-		self.Read_Line(self.__importLVL, self.Line_List)
-		self.Read_Line(self.__importLVL, self.Line_Dict)
-		self.Read_Line(self.__importLVL, self.Line_Dict)
-		self.Read_Line(self.__importLVL, self.Line_Dict)
+		self.Read_Line(self.__importLVL, self.Read_List, self.__fileID)
+		self.Read_Line(self.__importLVL, self.Read_Dict, self.__fileID)
+		self.Read_Line(self.__importLVL, self.Read_Dict, self.__fileID)
+		self.Read_Line(self.__importLVL, self.Read_Dict, self.__fileID)
 
 		self.__importLVL.close()
 		self.INIT_lvlFile(mainGame)
@@ -160,9 +160,10 @@ class SI_Files():
 
 
 		#INFO TO GUI_EVENT
-		lastID  = re.search("^LVD#W(.{4})", self.__fileID[-1])
-		lastID2 = lastID.group(1)
-		self.__ID_count += int(lastID2)+1
+		if self.__fileID != []:
+			lastID  = re.search("^LVD#W(.{4})", self.__fileID[-1])
+			lastID2 = lastID.group(1)
+			self.__ID_count += int(lastID2)+1
 
 		# lastBID  = re.search("^LVD#B(.{4})", self.__bIDfile[len(self.__bIDfile)-1])
 		# lastBID2 = lastBID.group(1)
@@ -182,18 +183,22 @@ class SI_Files():
 			return
 		self.__saveButton = open(str(file.name), 'w')
 
-		for key in self.__buttonDICT.keys():
-			info = str(key)+'\n'
-			self.__saveButton.write(info)
-			# print(info)
-		self.__saveButton.write('\n<=======================================================>\n\n')
-
-		for key in self.__buttonDICT.keys():
-			fileLocation = self.__buttonDICT[key].get_fileLoc()
-			info = str(key)+'='+str(fileLocation) +'\n'
-			self.__saveButton.write(info)
-			# print(info)
-		self.__saveButton.write('\n<=======================================================>\n\n')
+		self.__stepCount = 0
+		self.Save_Line(self.__saveButton, self.Save_List, self.__buttonDICT)
+		self.Save_Line(self.__saveButton, self.Save_Dict, self.__buttonDICT)
+		#
+		# for key in self.__buttonDICT.keys():
+		# 	info = str(key)+'\n'
+		# 	self.__saveButton.write(info)
+		# 	# print(info)
+		# self.__saveButton.write('\n<=======================================================>\n\n')
+		#
+		# for key in self.__buttonDICT.keys():
+		# 	fileLocation = self.__buttonDICT[key].get_fileLoc()
+		# 	info = str(key)+'='+str(fileLocation) +'\n'
+		# 	self.__saveButton.write(info)
+		# 	# print(info)
+		# self.__saveButton.write('\n<=======================================================>\n\n')
 
 
 		self.__saveButton.close() #DON'T FORGET ABOUT THIS
@@ -215,8 +220,8 @@ class SI_Files():
 
 		self.Read_ButtonSet(file)
 		#this splits for easy use of the second half during boot up
-	def Read_ButtonSet(self, savedFile=None):
-		if savedFile == None:
+	def Read_ButtonSet(self, mainGame=None):
+		if mainGame == None:
 			filetypes = [(("TXT", "*.txt"), ("All Files", "*.*"))]
 			file = filedialog.askopenfilename(title='Button Import', filetypes=filetypes, initialdir=self.__loadFile)
 			if file == '':
@@ -225,14 +230,14 @@ class SI_Files():
 			else:
 				self.__importButtons = open(file, 'r')
 		else:
-			self.__importButtons = open(savedFile, 'r')
+			self.__importButtons = open(mainGame, 'r')
 
 		self.__stepCount = 0
 		self.__bfileID 	 = []
 		self.__bfileLOC  = {}
 		#clear all list/dict used below
-		self.Read_Line(self.__importButtons, self.Line_List, fileType='ButtonFile')
-		self.Read_Line(self.__importButtons, self.Line_Dict, fileType='ButtonFile')
+		self.Read_Line(self.__importButtons, self.Read_List, self.__bfileID)
+		self.Read_Line(self.__importButtons, self.Read_Dict, self.__bfileID)
 
 		self.__importButtons.close()
 
@@ -255,7 +260,7 @@ class SI_Files():
 	'''<========================================================================>
 	#*************************#ShortCut Functions#******************************#
 	<========================================================================>'''
-	def buttonFromFile(self, fileLoc, parent, button_ID, MG=None):
+	def buttonFromFile(self, fileLoc, parent, button_ID, mainGame=None):
 		image = self.__iNode.Img_Add(fileLoc)
 		if MG == None:
 			B = Button(parent, image=image[2], bg=self.__color, activebackground=self.__color, command=lambda:self.__eGUI.Drag_Drop(button_ID))
@@ -265,7 +270,7 @@ class SI_Files():
 		self.__buttonDICT[button_ID].Image_Info(fileLoc=fileLoc, tkIMG=image[2], pilIMG=image[0], size=image[1])
 
 		#Place Button
-		if MG == None:
+		if mainGame == None:
 			B.grid(row=self.__Row, column=self.__Column)
 			if self.__Column <= self.__ColumnMAX:
 				self.__Column += 1
@@ -275,18 +280,15 @@ class SI_Files():
 			self.__eGUI.set_RC_Info(column=self.__Column, row=self.__Row)
 		self.__eGUI.set_buttonDICT(self.__buttonDICT)
 
+	'''===================READ LINE FUNCTION==================='''
 	#fileType is defaulted in the func called before this one
-	def Line_List(self, curLine, fileType):
-		if fileType == 'MapFile':
-			self.__fileID.append(curLine)
-			# print(self.__fileID)
-		else:
-			self.__bfileID.append(curLine)
-			# print(self.__bfileID)
+	def Read_List(self, curLine, IDtype):
+		IDtype.append(curLine)
+		# print(IDtype)
 
 	#fileType is defaulted in the func called before this one
-	def Line_Dict(self, curLine, step, fileType):
-		if fileType == 'MapFile':
+	def Read_Dict(self, curLine, step, IDtype):
+		if IDtype == self.__imgDICT:
 			if re.search("(^LVD#W.{4})", curLine) != None:
 				if step == 1:
 					if re.search("=(.*/.*/.*$)", curLine) != None:
@@ -306,7 +308,7 @@ class SI_Files():
 					if re.search("=(.*/.*/.*$)", curLine) != None:
 						self.__bfileLOC[re.search("(^LVD#B.{3})", curLine).group(1)] = re.search("=(.*/.*/.*$)", curLine).group(1)
 
-	def Read_Line(self, file, function, fileType='MapFile'):
+	def Read_Line(self, file, function, IDtype):
 		for line in file:
 			line = line.rstrip('\n')
 			# print(line)
@@ -319,54 +321,57 @@ class SI_Files():
 			else:
 				if self.__stepCount == 0:
 					if line != '':
-						function(line, fileType=fileType)
+						function(line, IDtype)
 				elif self.__stepCount == 1 or self.__stepCount == 2 or self.__stepCount == 3:
 					if line != '':
-						function(line, self.__stepCount, fileType=fileType)
+						function(line, self.__stepCount, IDtype)
 				# print(line)
 
 	def Save_List(self, file, key):
+		print('saveLIST call')
 		info = str(key)+'\n'
 		file.write(info)
 		if key == self.list[-1]:
-			print('lastKEY')
+			print('lastKEY', key)
 			self.__stepCount += 1
 			return
 
 	def Save_Dict(self, file, key, dict, step):
+		print('saveDICT call', key)
 		#Location
 		if step == 1:
-			info = str(key)+'='+(dict[key].get_var())
+			info = str(key)+'='+(dict[key].get_fileLoc())+'\n'
 			file.write(info)
-			if key == dict.keys()[-1]:
-				print('lastKEY')
+			if key == self.list[-1]:
+				print('lastKEY', key)
 				self.__stepCount += 1
 				return
 		#Rotation
 		elif step == 2:
-			info = str(key)+'='+(dict[key].get_var())
+			info = str(key)+'=z'+(dict[key].get_rotation())+'\n'
 			file.write(info)
-			if key == dict.keys()[-1]:
+			if key == self.list[-1]:
 				print('lastKEY')
 				self.__stepCount += 1
 				return
 		#Position
 		elif step == 3:
-			info = str(key)+'='+(dict[key].get_var())
+			info = str(key)+'=z'+(dict[key].get_Coords())+'\n'
 			file.write(info)
-			if key == dict.keys()[-1]:
+			if key == self.list[-1]:
 				print('lastKEY')
 				self.__stepCount += 1
 				return
 
-	def Save_Line(self, file, function, fileType='MapFile'):
-		for key in self.__imgDICT.keys():
+	def Save_Line(self, file, function, dict):
+		for key in dict.keys():
 			self.list.append(key)
-		for key in self.__imgDICT.keys():
+		for key in dict.keys():
+			print('step:', self.__stepCount)
 			if self.__stepCount == 0:
 				function(file, key)
 			else:
-				function(file, key, self.__stepCount, fileType=fileType)
+				function(file, key, dict, self.__stepCount)
 		file.write('\n<=======================================================>\n\n')
 
 	"""#|--------------Getters--------------|#"""

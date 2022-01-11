@@ -13,7 +13,7 @@ class Button_Main():
 	#this is where a list of getters will go...
 	def get_widgID(self):
 		return self.__widgID
-		
+
 	def get_button_ID(self):
 		return self.__info.get_button_ID()
 

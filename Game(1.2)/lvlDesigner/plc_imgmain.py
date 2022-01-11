@@ -32,7 +32,7 @@ class PLC_ImgMain():
 	def get_Coords(self):
 		return self.__info.get_Coords()
 
-	def get_fileLOC(self):
+	def get_fileLoc(self):
 		return self.__info.get_fileLoc()
 
 	def get_Corners(self):
