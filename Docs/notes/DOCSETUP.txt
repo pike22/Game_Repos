@@ -1,0 +1,64 @@
+Step 1:
+	open command prompt and type in
+	>>>cd dir:\folder\location\Docs
+	Make a Docs folder if you haven't
+
+Step 2:
+	type >>>sphinx-quickstart
+	then follow prompts on screen
+	**Select "yes" to separating build and source
+
+Step 3:
+	Navigate to the conf.py file, this should be inside Docs\source folder.
+	uncomment the
+	 1	#import os
+	 2	#import sys
+	 3	#sys.path.insert(0, os.path.abspath('.'))
+	replace the '.' in line 3 with '../..' 
+
+    Below is if there are subfolders:
+	then copy line 3 to line 4
+	now amend each of the '../..' with '../directoryName/subFolderNAME'
+	repeat above with each subFolder.
+	#should look like This
+	 3	sys.path.insert(0, os.path.abspath('../..'))
+	 5	sys.path.insert(0, os.path.abspath('../directoryName/subFolderNAME'))
+	 6	sys.path.insert(0, os.path.abspath('../directoryName/subFolderNAME'))
+	#if the subFolder has more subFolders repeat the pattern above:
+	 7 sys.path.insert(0, os.path.apspath('../directoryName/subFolderNAME/sub2FolderName'))
+
+Step 4:
+	Inside of conf.py navigate to the extension = []
+	add 'sphinx.ext.napoleon' & 'sphinx.ext.autodoc'
+
+Step 5:
+	Now navigate to the index.rst file, same folder as the conf.py file.
+	Delete everything above the welcome to documentation comment
+	find the line:
+		..toctree::
+	and add the directoryName after the ::
+	resulting:
+		..toctree:: directoryName
+		   :maxdepth: 2
+		   :caption: Contents:
+
+step 6:
+	Make the necissary numpy strings to describe and comment about all the different
+	classes/functions for the entire directory. 
+
+
+Step 7:
+	In Command Prompt:
+		type >>>sphinx-apidoc -fo ./source dir:\project\directory
+	#This will create a .rst file for every module within the directory folder
+
+Step 8:
+	In index.rst file, add another toctree.
+		..toctree:: modules
+		   :maxdepth: 2
+		   :caption: Contents:
+
+Step 9:
+	now type:
+		>>>make html
+	#This will create the actuall website that will be for documentation. 

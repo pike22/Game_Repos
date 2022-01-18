@@ -1,0 +1,2 @@
+Current Game Version
+	v.0.1.2
