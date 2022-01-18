@@ -13,6 +13,10 @@ import keyboard
 import mouse
 
 class Alpha_LVD():
+	"""
+	This is the main class that is used to run the level designer.
+	Current version: v0.5.0
+	"""
 	BGcolor = 'Grey'
 	def __init__(self, ):
 		self.__Sc_Width	 = 1280
@@ -44,28 +48,47 @@ class Alpha_LVD():
 
 
 	def tk_windowSETUP(self):
+		"""
+		Sets up the tkinter window
+		"""
 		self.__mainApp.title(self.__version)
 		self.__mainApp.geometry(str(self.__Sc_Width+260) + 'x' + str(self.__Sc_Height))
 		self.__mainMenu.menu_setUP()
 
 	def set_MainCanvas(self): #Set Renders HERE
+		"""
+		Creates The  Canvas and sets it as Render
+
+		:meta private:
+		"""
 		self.__iNode.Create_Canvas(self.__mainApp, self.__Sc_Height, self.__Sc_Width, color=self.__color)
 
 	def close_window(self): #putting this on HOLD
+		"""
+		:meta private:
+		"""
 		if keyboard.is_pressed('q') == True:
 			self.__mainApp.quit()
 
 	def GUI_run(self):
+		"""
+		Calls other functions within the Alpha_LVD class
+		"""
 		self.__GUI.windowSETUP()
 		self.__GUI.gridSETUP()
 
-
 	def windowLoop(self):
+		"""
+		Creates the real time Game Loop for Alpha_LVD.
+
+		:meta private:
+		"""#if more is added, change private to public
+
 		#closes the window
 		self.close_window()
 
 		#-----------------------#
-		#more will be added soon#
+		#more might be added soon#
 		#-----------------------#
 
 
@@ -76,9 +99,15 @@ class Alpha_LVD():
 	"""#|--------------Getters--------------|#"""
 		#this is where a list of getters will go...
 	def get_mainAPP(self):
+		"""
+		:meta private:
+		"""
 		return self.__mainApp
 
 	def get_projWindow(self):
+		"""
+		:meta private:
+		"""
 		return self.__projWindow
 
 	"""#|--------------Setters--------------|#"""

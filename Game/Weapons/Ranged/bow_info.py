@@ -1,5 +1,8 @@
 
 class Bow_Info():
+	"""
+	:meta private:
+	"""
 	def __init__(self):
 		self.__file_Location = None
 		self.__Canvas_ID	= None

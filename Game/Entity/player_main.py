@@ -79,6 +79,9 @@ class Player_Main(All_Entities):
 		self.__Cur_Health = self.__info.get_health()
 
 	def __Player_Print(self):
+		"""
+		:meta private:
+		"""
 		#list of prints for start of program(players)
 		print('-----------------------------------')
 		print('Player Data:')
@@ -267,63 +270,114 @@ class Player_Main(All_Entities):
 	"""#|--------------Getters--------------|#"""
 		#this is where a list of getters will go...
 	def get_size(self):
+		"""
+		:meta private:
+		"""
 		return self.__info.get_size()
 
 	def get_Corners(self):
+		"""
+		:meta private:
+		"""
 		return self.__info.get_Corners()
 
 	def get_Coords(self):
+		"""
+		:meta private:
+		"""
 		return self.__info.get_Coords()
 
 	def get_ID(self):
+		"""
+		:meta private:
+		"""
 		return self.__info.get_ID()
 
 	def get_group_ID(self):
+		"""
+		:meta private:
+		"""
 		return self.__info.get_group_ID()
 
 	def get_isAlive(self):
+		"""
+		:meta private:
+		"""
 		return self.__isAlive
 
 	def get_isHit(self):
+		"""
+		:meta private:
+		"""
 		return self.__isHit
 
 	def get_isMoving(self):
+		"""
+		:meta private:
+		"""
 		return self.__isMoving
 
 	def get_isAttack(self):
+		"""
+		:meta private:
+		"""
 		return self.__isAttack
 
 		#_attack, health, defense_#
 	def get_attack(self):
+		"""
+		:meta private:
+		"""
 		return self.__info.get_attack()
 
 	def get_health(self):
+		"""
+		:meta private:
+		"""
 		return self.__info.get_health()
 
 	def get_defense(self):
+		"""
+		:meta private:
+		"""
 		return self.__info.get_defense()
 
 
 	"""#|--------------Setters--------------|#"""
 		#this is where a list of setters will go...
 	def set_Weapons(self, sword, bow):
+		"""
+		:meta private:
+		"""
 		self.__Sword = sword
 		self.__Bow	 = bow
 
 
 	def set_health(self, health):
+		"""
+		:meta private:
+		"""
 		self.__info.set_health(health)
 
 	def set_isAlive(self, isAlive):
+		"""
+		:meta private:
+		"""
 		self.__isAlive = isAlive
 
 	def set_ammo(self, ammo):
+		"""
+		:meta private:
+		"""
 		self.__Bow.set_ammo(ammo)
 
 
 	"""#|--------------Test Functions--------------|#"""
 
 	def test_Coords(self):
+		"""
+		:meta private:
+		"""
 		if keyboard.is_pressed('c') == True:
 			x, y = self.__info.get_Coords() #current coords
 			print(x, y, 'CURRENT CORDS')

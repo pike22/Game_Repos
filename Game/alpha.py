@@ -130,7 +130,7 @@ class Alpha():
 
 	def close_window(self):
 		"""
-		Sets up a quick hot key to close the program.
+		:meta private:
 		"""
 		if keyboard.is_pressed('q') == True:
 			print('<------------------------->')
@@ -182,6 +182,8 @@ class Alpha():
 	def gameLoop(self):
 		"""
 		The Constantly repeating loop that runs the majority of the game.
+
+		:meta private:
 		"""
 		#to kill the window
 		a = self.close_window()
@@ -287,6 +289,9 @@ class Alpha():
 
 	#|--------------Extra Functions--------------|#
 	def find_all_Tags(self):
+		"""
+		:meta private:
+		"""
 		listOfTags = Image_Node.Render.find_all()
 		# print(listOfTags, 'list of tags')
 		for item in listOfTags:
@@ -296,6 +301,9 @@ class Alpha():
 				print(color + "Item", item, 'Has tag:', tag)
 
 	def debug_Col_Dict(self):
+		"""
+		:meta private:
+		"""
 		if keyboard.is_pressed('t'):
 			self.__cLogic.print_Col_Dict()
 			self.__cLogic.del_Col_Dict(self.__Player.get_ID())
@@ -303,6 +311,9 @@ class Alpha():
 
 	#this is a function call for test prints to make sure things work
 	def Testing_Debug(self):
+		"""
+		:meta private:
+		"""
 		# self.find_all_Tags()
 		# self.debug_Col_Dict()
 		# print(Image_Node.Render, 'Render')

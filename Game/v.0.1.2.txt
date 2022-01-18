@@ -1,2 +1,6 @@
 Current Game Version
-	v.0.1.2
+	v.0.1.21
+
+
+ ** Last Update Note:
+	Half way through documentation

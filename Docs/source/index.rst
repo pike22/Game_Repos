@@ -11,8 +11,6 @@ Welcome to yes's documentation!
    :caption: Contents:
 
 .. toctree:: modules
-   :maxdepth: 2
-   :caption: Contents:
 
 
 

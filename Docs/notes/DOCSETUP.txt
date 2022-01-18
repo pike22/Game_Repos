@@ -1,6 +1,6 @@
 Step 1:
 	open command prompt and type in
-	>>>cd dir:\folder\location\Docs
+	>>>cd dir:\folderLocation\mainDir\Docs
 	Make a Docs folder if you haven't
 
 Step 2:
@@ -14,7 +14,7 @@ Step 3:
 	 1	#import os
 	 2	#import sys
 	 3	#sys.path.insert(0, os.path.abspath('.'))
-	replace the '.' in line 3 with '../..' 
+	replace the '.' in line 3 with '../..'
 
     Below is if there are subfolders:
 	then copy line 3 to line 4
@@ -24,7 +24,7 @@ Step 3:
 	 3	sys.path.insert(0, os.path.abspath('../..'))
 	 5	sys.path.insert(0, os.path.abspath('../directoryName/subFolderNAME'))
 	 6	sys.path.insert(0, os.path.abspath('../directoryName/subFolderNAME'))
-	#if the subFolder has more subFolders repeat the pattern above:
+	#if the subFolder has more subFolders repeat the pattern above: (may not be needed)
 	 7 sys.path.insert(0, os.path.apspath('../directoryName/subFolderNAME/sub2FolderName'))
 
 Step 4:
@@ -44,21 +44,20 @@ Step 5:
 
 step 6:
 	Make the necissary numpy strings to describe and comment about all the different
-	classes/functions for the entire directory. 
+	classes/functions for the entire directory.
 
 
 Step 7:
 	In Command Prompt:
-		type >>>sphinx-apidoc -fo ./source dir:\project\directory
 	#This will create a .rst file for every module within the directory folder
+	type >>>sphinx-apidoc -feo .\source dir:\project\directory
 
 Step 8:
-	In index.rst file, add another toctree.
-		..toctree:: modules
-		   :maxdepth: 2
-		   :caption: Contents:
+	pass
 
 Step 9:
 	now type:
-		>>>make html
-	#This will create the actuall website that will be for documentation. 
+		>>>cd E:\fLocation\mainDir\Game
+		>>>sphinx-build -qb html ..\Docs\source ..\Docs\build
+	#This will create the actual website that will be for documentation.
+	# -q makes it so that only an error will display to the command prompt

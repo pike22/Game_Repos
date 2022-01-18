@@ -52,29 +52,81 @@ class Collision_Logic():
 	#tagOrId == dictionary key
 	#object == The keys related class object
 	def addColDict(self, tagOrId, obj):
+		"""
+		Adds an object to the possible collisions dictionary
+
+		Parameters
+		----------
+		tagOrId : str
+			The tag to be used as the key in the Collision Dictionary.
+		obj
+			The tags class stored as the object in the Collision Dictionary.
+		"""
 		self.__Col_Dict[tagOrId] = obj
 
 	def delColDict(self, tagOrId):
+		"""
+		Deletes an object from the possible collisions dictionary.
+
+		Parameters
+		----------
+		tagOrId : str
+			The key and coresponding object to be deleted.
+		"""
 		del self.__Col_Dict[tagOrId]
 
 	def tagToObj(self, tagOrId):
+		"""
+		Takes the given tag and returns the object.
+
+		Parameters
+		----------
+		tagOrId : str
+			Given key to return coresponding object.
+		"""
 		#output == tag's object
 		output = self.__Col_Dict[tagOrId]
 		return output
 
 	def objToTag(self, obj):
+		"""
+		Takes the given object and return the key.
+
+		Parameters
+		----------
+		obj
+			Given object to return coresponding key.
+		"""
 		for key, object in self.__Col_Dict.items():
 			if obj == object:
 				return key
 
 	def listOfKeys(self):
-		return self.__Col_Dict.keys()
+		"""
+		Returns list of keys in the Collision Dictionary.
+		"""
+		for key in self.__Col_Dict.keys():
+			newList.append(key)
+		return newList
 
 	def printColDict(self):
+		"""
+		:meta private:
+		"""
 		print('Current Collision Dict', self.__Col_Dict)
 
 	'''#_COLLISON CALCULATION FUNCTIONS_#'''
 	def add_Collision(self, listofCorners=None, LVD_Corner=None):
+		"""
+		Combines lists of corners together to be tested for overlapping.
+
+		Parameters
+		----------
+		listofCorners
+			List of Corners to be tested for collision.
+		LVD_Corner
+			List of Corners to be tested for collision from the level designer.
+		"""
 		if listofCorners != None:
 			self.tempL = []
 			for item in range(len(listofCorners)):
@@ -87,6 +139,9 @@ class Collision_Logic():
 
 
 	def ForT_Collision(self, targOBJ=None, x1=None, y1=None, x2=None, y2=None):
+		"""
+		:meta private:
+		"""
 		if targOBJ != None:
 			x1, y1, x2, y2 = targOBJ.get_Corners()
 		collision = Image_Node.Render.find_overlapping(x1, y1, x2, y2)
@@ -127,6 +182,14 @@ class Collision_Logic():
 	#use this: .find_overlapping
 	# only outputs the last assigned var.
 	def Is_Collision(self, item):
+		"""
+		Is used to compile every entity on screen to see if any of them are collisiding.
+
+		Parameters
+		----------
+		item
+			the nth iteration of a loop
+		"""
 		# print(item)
 		if item == 0:
 			self.__CollideList = []
@@ -178,6 +241,14 @@ class Collision_Logic():
 	#I want to use this to purly find where objects are in relation to others and push
 	#the opposite direction through so that I can do proper knockback/wall collision
 	def Side_Calc(self, mainOBJ):
+		"""
+		This is used to determin what side the main object is acting on the secondary object.
+
+		Parameters
+		----------
+		mainOBJ
+			The object that is used as the base point and returns wich side of the other object the main one is overlapping with.
+		"""
 		self.__mainOBJ = mainOBJ
 		self.__xM, self.__yM = mainOBJ.get_Coords()
 		self.__hM, self.__wM = mainOBJ.get_size()
@@ -354,6 +425,9 @@ class Collision_Logic():
 
 
 	def objPRINTOUT(self):
+		"""
+		:meta private:
+		"""
 		print(self.__mainOBJ.get_ID(), 'ID')
 		print(self.__xM, 'coordx mainOBJ')
 		print(self.__yM, 'coordy mainOBJ')
@@ -386,6 +460,16 @@ class Collision_Logic():
 
 
 	def Find_Square(self, x, y):
+		"""
+		Finds the square that the mouse is in.
+
+		Parameters
+		----------
+		x : int
+			The x cord of my mouse.
+		y : int
+			The y cord of my mouse.
+		"""
 		#this is staple for when I need to know what square my mouse is in.
 		for item in range(len(self.__GRID)):
 			if x > self.__GRID[item][0] and y > self.__GRID[item][1]:
@@ -398,40 +482,76 @@ class Collision_Logic():
 	"""|--------------Getters--------------|#"""
 		#this is where a list of getters will go...
 	def get_Col_Dict(self):
+		"""
+		:meta private:
+		"""
 		return self.__Col_Dict
 
 	def get_isCollision(self):
+		"""
+		:meta private:
+		"""
 		return self.__isCollision
 
 	def get_CollideList(self):
+		"""
+		:meta private:
+		"""
 		return self.__CollideList
 
 	def reset_objList(self):
+		"""
+		:meta private:
+		"""
 		self.__CollideList = []
 
 
 	"""|--------------Setters--------------|#"""
 		#this is where a list of setters will go...
 	def set_playerRoster(self, Roster):
+		"""
+		:meta private:
+		"""
 		self.__playerRoster = Roster
 
 	def set_enemyRoster(self, Roster):
+		"""
+		:meta private:
+		"""
 		self.__enemyRoster = Roster
 
 	def set_stalfosRoster(self, Roster):
+		"""
+		:meta private:
+		"""
 		self.__stalfosRoster = Roster
 
 	def set_weaponRoster(self, Roster):
+		"""
+		:meta private:
+		"""
 		self.__weaponRoster = Roster
 
 	def set_projRoster(self, Roster):
+		"""
+		:meta private:
+		"""
 		self.__projRoster = Roster
 
 	def set_staticRoster(self, Roster):
+		"""
+		:meta private:
+		"""
 		self.__staticRoster = Roster
 
 	def set_wallRoster(self, Roster):
+		"""
+		:meta private:
+		"""
 		self.__wallRoster = Roster
 
 	def set_grid(self, grid):
+		"""
+		:meta private:
+		"""
 		self.__GRID = grid

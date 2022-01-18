@@ -11,7 +11,6 @@ Subpackages
    Game.Entity
    Game.Weapons
    Game.lvlDesigner
-   Game.z_Pictures
 
 Submodules
 ----------

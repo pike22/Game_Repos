@@ -118,45 +118,81 @@ class Bow_Main():
 	"""#|--------------Getters--------------|#"""
 		#this is where a list of getters will go...
 	def get_attackMOD(self):
+		"""
+		:meta private:
+		"""
 		return self.__info.get_AttackMOD()
 
 	def get_attack(self):
+		"""
+		:meta private:
+		"""
 		return self.__attack
 
 	def get_size(self):
+		"""
+		:meta private:
+		"""
 		return self.__info.get_size()
 
 	def get_isActive(self):
+		"""
+		:meta private:
+		"""
 		return self.__isActive
 
 	def get_Corners(self):
+		"""
+		:meta private:
+		"""
 		return self.__info.get_Corners()
 
 	def get_Coords(self):
+		"""
+		:meta private:
+		"""
 		return self.__info.get_Coords()
 
 	def get_ID(self):
+		"""
+		:meta private:
+		"""
 		return self.__info.get_ID()
 
 	def get_group_ID(self):
+		"""
+		:meta private:
+		"""
 		return self.__info.get_group_ID()
 
 	def get_itemCount(self):
+		"""
+		:meta private:
+		"""
 		return self.__itemCount
 
 
 	"""#|---------Projectile-Getters--------|#"""
 
 	def get_projCount(self):
+		"""
+		:meta private:
+		"""
 		return self.__projCount
 
 	def get_projID(self, numb=None):
+		"""
+		:meta private:
+		"""
 		if numb == None:
 			return self.__projID
 		else:
 			return self.__projID[numb]
 
 	def get_projActive(self, numb=None):
+		"""
+		:meta private:
+		"""
 		if numb == None:
 			if self.__projID == []:
 				return False
@@ -165,18 +201,27 @@ class Bow_Main():
 				return self.__cLogic.tagToObj(self.__projID[numb]).get_isActive()
 
 	def get_projCorners(self, numb=None):
+		"""
+		:meta private:
+		"""
 		if numb == None:
 			pass
 		else:
 			return self.__cLogic.tagToObj(self.__projID[numb]).get_Corners()
 
 	def get_projCoords(self, numb=None):
+		"""
+		:meta private:
+		"""
 		if numb == None:
 			pass
 		else:
 			return self.__cLogic.tagToObj(self.__projID[numb]).get_Coords()
 
 	def get_projClass(self, numb=None):
+		"""
+		:meta private:
+		"""
 		if numb == None:
 			pass
 		else:
@@ -186,7 +231,13 @@ class Bow_Main():
 	"""#|--------------Setters--------------|#"""
 		#this is where a list of setters will go...
 	def set_IsWeapon(self, Fort):
+		"""
+		:meta private:
+		"""
 		self.__isActive = Fort
 
 	def set_ammo(self, ammo):
+		"""
+		:meta private:
+		"""
 		self.__ammo = ammo
