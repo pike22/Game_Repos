@@ -3,7 +3,14 @@ from Engine.image_node import Image_Node
 from .sword_info import Sword_Info
 
 class Sword_Main():
-	"""The main class the does everything that is with a sword."""
+	"""
+	The main class the does everything that is with a sword.
+
+	Methods
+	-------
+	init(iNode, cLogic, cNode, kNode)
+		This is required when Sword_Main() is called		
+	"""
 	def __init__(self, iNode, cLogic):
 		self.__iNode	 = iNode
 		self.__cLogic = cLogic
@@ -16,12 +23,7 @@ class Sword_Main():
 
 	def sword_setUP(self):
 		"""
-		Blah blah blah.
-
-		Parameters
-		---------
-		name
-			A string to assign to the `name` instance attribute.
+		Sets up the basic information of the sword.
 		"""
 		#img setup
 		Img_info = self.__iNode.Img_Add('z_Pictures/notasword.png')
@@ -32,12 +34,14 @@ class Sword_Main():
 
 	def use_Sword(self, x, y, direction):
 		"""
-		Blah blah blah.
+		Displayes the weapon on screen as well as all of the parameters that go with it.
 
 		Parameters
 		---------
-		name
-			A string to assign to the `name` instance attribute.
+		direction : str
+			The direction that the attack happens.
+		x, y : int
+			The coords that the weapon will be placed at.
 		"""
 		ID = self.__info.get_ID()
 		group_ID = self.__info.get_group_ID()
@@ -72,12 +76,7 @@ class Sword_Main():
 
 	def Weapon_Active(self):
 		"""
-		Blah blah blah.
-
-		Parameters
-		---------
-		name
-			A string to assign to the `name` instance attribute.
+		Deactivates the weapon after a set amount of time.
 		"""
 		if Timer_Node.GameTime == (self.__saveTime+9):
 			Image_Node.Render.delete(self.__info.get_ID())
@@ -86,12 +85,7 @@ class Sword_Main():
 
 	def del_item(self):
 		"""
-		Blah blah blah.
-
-		Parameters
-		---------
-		name
-			A string to assign to the `name` instance attribute.
+		Delets the displayed weapon image on the tkinter window.
 		"""
 		Image_Node.Render.delete(self.__info.get_ID())
 		self.__isActive = False
@@ -100,12 +94,7 @@ class Sword_Main():
 
 	def Sword_Print(self):
 		"""
-		Blah blah blah.
-
-		Parameters
-		---------
-		name
-			A string to assign to the `name` instance attribute.
+		:meta private:
 		"""
 		#list of prints for start of program(players)
 		print('-----------------------------------')
@@ -117,6 +106,9 @@ class Sword_Main():
 
 		#this may not be needed, depends for now.
 	def my_Collision(self):
+		"""
+		:meta private:
+		"""
 		pass
 
 
@@ -124,37 +116,70 @@ class Sword_Main():
 	"""#|--------------Getters--------------|#"""
 		#this is where a list of getters will go...
 	def get_attack(self):
+		"""
+		:meta private:
+		"""
 		return self.__info.get_Attack_Dmg()
 
 	def get_size(self):
+		"""
+		:meta private:
+		"""
 		return self.__info.get_size()
 
 	def get_isActive(self):
+		"""
+		:meta private:
+		"""
 		return self.__isActive
 
 	def get_Coords(self):
+		"""
+		:meta private:
+		"""
 		return self.__info.get_Coords()
 
 	def get_Corners(self):
+		"""
+		:meta private:
+		"""
 		return self.__info.get_Corners()
 
 	def get_ID(self):
+		"""
+		:meta private:
+		"""
 		return self.__info.get_ID()
 
 	def get_PILimg(self):
+		"""
+		:meta private:
+		"""
 		return self.__info.get_PILimg()
 
 	def get_TKimg(self):
+		"""
+		:meta private:
+		"""
 		return self.__info.get_TKimg()
 
 	def get_group_ID(self):
+		"""
+		:meta private:
+		"""
 		return self.__info.get_group_ID()
 
 	def get_itemCount(self):
+		"""
+		:meta private:
+		"""
 		return self.__itemCount
 
 
 	"""#|--------------Setters--------------|#"""
 		#this is where a list of setters will go...
 	def set_IsWeapon(self, Fort):
+		"""
+		:meta private:
+		"""
 		self.__isActive = Fort

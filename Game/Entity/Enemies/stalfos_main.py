@@ -7,6 +7,14 @@ import keyboard #temporary
 import random
 
 class Stalfos_Main(Enemy_Main):
+	"""
+	This is where everything to do with Stalfos is handled.
+
+	Method
+	------
+	init(iNode, cNode, kNode, ID)
+		This is required when Stalfos_Main() is called
+	"""
 	def __init__(self, iNode, clNode, cNode, kNode, ID):
 		Enemy_Main.__init__(self)
 		#iNode == Image_Node
@@ -41,6 +49,20 @@ class Stalfos_Main(Enemy_Main):
 
 	#seting up player bellow
 	def stalfos_setUP(self, Sc_Width, Sc_Height):
+		"""
+		This is where basic set up of the stalfos entity is set up.
+
+		Attributes
+		----------
+		ID : str
+			Is pulled from the Stalfos_Info class
+		Img_info : list
+			Uses Image_Node.Img_Add() to get the Pil and tk image as well as size.
+		Canvas_ID
+			The tag that tkinter uses to identify which object is which.
+		Coords, img_coords : tuple int
+			The coordinants of the image on screen.
+		"""
 		#img setup
 		ID = self.__info.get_ID()
 		Img_info = self.__iNode.Img_Add('z_Pictures/bloodboy.png')
@@ -68,6 +90,9 @@ class Stalfos_Main(Enemy_Main):
 
 	#this is to go at the end.
 	def Stalfos_Print(self):
+		"""
+		:meta private:
+		"""
 		#list of prints for start of program(stalfos)
 		print('-----------------------------------')
 		print('Stalfos Data:')
@@ -83,6 +108,16 @@ class Stalfos_Main(Enemy_Main):
 		print('-----------------------------------\n')
 
 	def Movement_Controll(self):
+		"""
+		Stalfos movement is controlled here
+
+		Attributes
+		----------
+		direction : str
+			The direction that stalfos will travel
+		new_Coords : tuple int
+			The new coordinants of stalfos.
+		"""
 		if Timer_Node.GameTime == self.__var:
 			self.__randNum = int(self.__rand.randint(0, 3))
 			# print(self.__var, S#82)
@@ -118,42 +153,65 @@ class Stalfos_Main(Enemy_Main):
 			self.__isMoving = True
 
 	def Stal_Attack(self):
+		"""
+		:meta private:
+		"""
 		pass
 
 		#OSC == Other Side of Collision, it represents the other object that collided with player
 		#OSA == Other Side's Attack, represents the other objects needed parameters. Ex. dmg
 		#stal_key == The stalfos that is under collision
-	def my_Collision(self, OSC=None, OSA=None, side=None, a=None):
+	def my_Collision(self, OSC=None, OSA=None, side=None, staticsList=None):
+		"""
+		Handels what should happen to the player based on the collision.
+
+		Parameters
+		----------
+		OSC : 'Other Side Collision'
+			This holds the classification of what is colliding with the stalfos. EX: ('Friend', 'Static', or 'Weapon')
+		OSA : 'Other Side Attack'
+			This holds how much damage should be done when stalfos has come into contact with the OSC.
+		side : str
+			The direction that the collision came from.
+		staticsList : list
+			A list of static group_ID's that is used so that when knock back happens an Entity doesn't travel through a static object.
+
+		Attributes
+		----------
+		Direction : str
+			Direction that stalfos is hitting OSC. Dir == newSide
+		new_Coords : tuple int
+			The new coords after collision.
+		PossibleCL : list
+			The list of everything colliding with stalfos.
+		"""
 		if self.__isHit == False:
+			Direction = None
 			if OSC == 'Weapon':
-				lastSide = None
-				Dir = None
 				'''#_Actuall MATH_#'''
 				self.__Cur_Health -= OSA
 				print(self.__Cur_Health, 'health')
 				for newSide in side:
 					if newSide == 'top':
-						Dir = 'up'
+						Direction = 'up'
 					elif newSide == 'bottom':
-						Dir = 'down'
+						Direction = 'down'
 					else:
-						Dir = newSide
+						Direction = newSide
 					for time in range(50):
-						new_Coords = self.__kNode.Knock_Back(self.__info.get_Coords(), self.__info.get_ID(), Dir)
+						new_Coords = self.__kNode.Knock_Back(self.__info.get_Coords(), self.__info.get_ID(), Direction)
 						self.__info.set_Coords(new_Coords)
 						self.__info.set_Corners(Image_Node.Render.bbox(self.__info.get_ID()))
 						x1, y1, x2, y2 = Image_Node.Render.bbox(self.__info.get_ID())
-						# print(x1, y1, x2, y2)
-						# print(self.__cLogic.ForT_Collision(x1=x1, y1=y1, x2=x2, y2=y2), 'EHHH')
-						listYES = self.__cLogic.ForT_Collision(x1=x1, y1=y1, x2=x2, y2=y2)
-						if listYES != None:
-							# print(listYES, 'yes')
-							for obj in listYES:
+						PossibleCL = self.__cLogic.ForT_Collision(x1=x1, y1=y1, x2=x2, y2=y2)
+						if PossibleCL != None:
+							# print(PossibleCL, 'yes')
+							for obj in PossibleCL:
 								if obj != None:
 									if obj.get_group_ID() in a:
 										# print('wallHIT')
 										Dir = self.__cLogic.Side_Calc(self.__cLogic.tagToObj(self.__info.get_ID()))
-										self.my_Collision(OSC='Static', side=Dir)
+										self.my_Collision(OSC='Static', side=Direction)
 										return
 
 
@@ -163,53 +221,55 @@ class Stalfos_Main(Enemy_Main):
 				self.__isAlive  = self.isAlive()
 
 			elif OSC == 'Static':
-				lastSide = None
 				# print(side)
 				for newSide in side:
 					if newSide == 'top':
-						thisisA = 'up'
+						Direction = 'up'
 					elif newSide == 'bottom':
-						thisisA = 'down'
+						Direction = 'down'
 					else:
-						thisisA = newSide
-					new_Coords = self.__kNode.Static_Hit(self.__info.get_Coords(), self.__info.get_ID(), thisisA)
+						Direction = newSide
+					new_Coords = self.__kNode.Static_Hit(self.__info.get_Coords(), self.__info.get_ID(), Direction)
 					self.__info.set_Coords(new_Coords)
 					self.__info.set_Corners(Image_Node.Render.bbox(self.__info.get_ID()))
 
 			elif OSC == 'Friend':
-				lastSide = None
 				for newSide in side:
 					if newSide == 'top':
-						Dir = 'up'
+						Direction = 'up'
 					elif newSide == 'bottom':
-						Dir = 'down'
+						Direction = 'down'
 					else:
-						Dir = newSide
+						Direction = newSide
 					for time in range(50):
-						new_Coords = self.__kNode.Knock_Back(self.__info.get_Coords(), self.__info.get_ID(), Dir)
+						new_Coords = self.__kNode.Knock_Back(self.__info.get_Coords(), self.__info.get_ID(), Direction)
 						self.__info.set_Coords(new_Coords)
 						self.__info.set_Corners(Image_Node.Render.bbox(self.__info.get_ID()))
 						x1, y1, x2, y2 = Image_Node.Render.bbox(self.__info.get_ID())
-						# print(x1, y1, x2, y2)
-						# print(self.__cLogic.ForT_Collision(x1=x1, y1=y1, x2=x2, y2=y2), 'EHHH')
-						listYES = self.__cLogic.ForT_Collision(x1=x1, y1=y1, x2=x2, y2=y2)
-						if listYES != None:
-							# print(listYES, 'yes')
-							for obj in listYES:
+						PossibleCL = self.__cLogic.ForT_Collision(x1=x1, y1=y1, x2=x2, y2=y2)
+						if PossibleCL != None:
+							# print(PossibleCL, 'yes')
+							for obj in PossibleCL:
 								if obj != None:
 									if obj.get_group_ID() in a:
 										# print('wallHIT')
-										Dir = self.__cLogic.Side_Calc(self.__cLogic.tagToObj(self.__info.get_ID()))
-										self.my_Collision(OSC='Static', side=Dir)
+										Direction = self.__cLogic.Side_Calc(self.__cLogic.tagToObj(self.__info.get_ID()))
+										self.my_Collision(OSC='Static', side=Direction)
 										return
 
 	def reset_hit(self):
+		"""
+		This is a hit timer so that something can't be hit more than once in a set amount of time.
+		"""
 		if Timer_Node.GameTime == self.__saveTime+5:
 			self.__isHit = False
 			# print('Stalfos Can Get Hit')
 			# print(self.__Cur_Health, ':Stalfos Health')
 
 	def isAlive(self):
+		"""
+		Checks for if stalfos is still alive.
+		"""
 		if self.__isHit == True:
 			if self.__Cur_Health > 0:
 				# print("Alive")
@@ -219,47 +279,83 @@ class Stalfos_Main(Enemy_Main):
 				# print("Not Alive")
 				return False
 		else:
-			print('ERROR: S#105', '\tself.__isHit = False')
+			print('ERROR: S#282', '\tself.__isHit = False')
 
 
 	"""#|--------------Getters--------------|#"""
 		#this is where a list of getters will go...
 	def get_size(self):
+		"""
+		:meta private:
+		"""
 		return self.__info.get_size()
 
 	def get_Corners(self):
+		"""
+		:meta private:
+		"""
 		return self.__info.get_Corners()
 
 	def get_Coords(self):
+		"""
+		:meta private:
+		"""
 		return self.__info.get_Coords()
 
 	def get_ID(self):
+		"""
+		:meta private:
+		"""
 		return self.__info.get_ID()
 
 	def get_group_ID(self):
+		"""
+		:meta private:
+		"""
 		return self.__info.get_group_ID()
 
 	def get_isHit(self):
+		"""
+		:meta private:
+		"""
 		return self.__isHit
 
 	def get_isAlive(self):
+		"""
+		:meta private:
+		"""
 		return self.__isAlive
 
 	def get_isMoving(self):
+		"""
+		:meta private:
+		"""
 		return self.__isMoving
 
 		#_attack, health, defense_#
 	def get_attack(self):
+		"""
+		:meta private:
+		"""
 		return self.__info.get_attack()
 
 	def get_health(self):
+		"""
+		:meta private:
+		"""
 		return self.__info.get_health()
 
 	def get_defense(self):
+		"""
+		:meta private:
+		"""
 		return self.__info.get_defense()
 
 
 	"""#|--------------Setters--------------|#"""
 		#this is where a list of setters will go...
 	def set_Collision_Logic(self, Logic):
+		"""
+		:meta private:
+		"""
 		self.__cLogic = Logic

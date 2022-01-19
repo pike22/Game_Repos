@@ -4,6 +4,14 @@ from .bow_info import Bow_Info
 from .Projectiles import *
 
 class Bow_Main():
+	"""
+	The main class the does everything that is with a bow.
+
+	Methods
+	-------
+	init(iNode, cLogic, cNode, kNode)
+		This is required when Bow_Main() is called		
+	"""
 	def __init__(self, iNode, cLogic, cNode, kNode):
 		self.__iNode	 = iNode
 		self.__cLogic	 = cLogic
@@ -25,6 +33,9 @@ class Bow_Main():
 
 
 	def bow_setUP(self):
+		"""
+		Basic set up of the bow.
+		"""
 		#img setup
 		Img_info = self.__iNode.Img_Add('z_Pictures/bow_.png')
 		self.__info.Image_Data(Size=Img_info[1], PIL_img=Img_info[0], TK_img=Img_info[2], file_Location='z_Pictures/bow_.png')
@@ -33,6 +44,17 @@ class Bow_Main():
 		#self.output = self.Image.
 
 	def use_Bow(self, x, y, direction):
+		"""
+		Displayes the weapon on screen as well as all of the parameters that go with it. This also creates the corisponding Projectile
+		that is rendered then moves soon after. (Explained more in the Projectiles classes)
+
+		Parameters
+		---------
+		direction : str
+			The direction that the attack happens.
+		x, y : int
+			The coords that the weapon will be placed at.
+		"""
 		self.__info.set_Coords((x, y))
 		ID = self.__info.get_ID()
 		group_ID = self.__info.get_group_ID()
@@ -82,17 +104,31 @@ class Bow_Main():
 			self.__saveTime = Timer_Node.GameTime
 
 	def Weapon_Active(self):
+		"""
+		Deactivates the weapon after a set amount of time.
+		"""
 		if Timer_Node.GameTime == (self.__saveTime+9):
 			Image_Node.Render.delete(self.__info.get_ID())
 			self.__isActive = False
 			self.__itemCount -= 1
 
 	def proj_Active(self, numb=None):
+		"""
+		Checks if the projectile is active then calls the isActive().
+
+		Parameters
+		----------
+		numb : int
+			The number is pushed into a list to grab the corisponding projectile tag
+		"""
 		if numb != None:
 			if self.__cLogic.tagToObj(self.__projID[numb]).get_isActive() == True:
 				self.__cLogic.tagToObj(self.__projID[numb]).isActive()
 
 	def del_item(self):
+		"""
+		Delets the displayed weapon image on the tkinter window.
+		"""
 		Image_Node.Render.delete(self.__info.get_ID())
 		self.__isActive = False
 		# self.__Collision.del_Col_Dict(self.__ammo.get_ID())
@@ -101,6 +137,9 @@ class Bow_Main():
 
 
 	def Bow_Print(self):
+		"""
+		:meta private:
+		"""
 		#list of prints for start of program(players)
 		print('-----------------------------------')
 		print('Bow Data:')
@@ -111,6 +150,9 @@ class Bow_Main():
 
 		#this may not be needed, depends for now.
 	def my_Collision(self):
+		"""
+		:meta private:
+		"""
 		pass
 
 

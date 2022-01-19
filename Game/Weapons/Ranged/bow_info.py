@@ -1,7 +1,14 @@
 
 class Bow_Info():
 	"""
-	:meta private:
+	This is where all of the Swords data is saved.
+
+	Methods
+	-------
+	Image_Data(Size, PIL_img, TK_img, file_Location)
+		Saves the technical side of the player info.
+	Bow_Data(attack)
+		Saves the game side of the player info.
 	"""
 	def __init__(self):
 		self.__file_Location = None
@@ -18,58 +25,106 @@ class Bow_Info():
 
 
 	def Image_Data(self, Size, PIL_img, TK_img, file_Location):
+		"""
+		:meta private:
+		"""
 		self.__file_Location 	= file_Location
 		self.__imgPIL_ID		= PIL_img
 		self.__imgTK_ID			= TK_img
 		self.__img_size			= Size
 
 	def Bow_Data(self, attack): #add more here as needed.
+	"""
+	:meta private:
+	"""
 		self.__attack_damageMOD = attack
 
 
 	"""|--------------Getters--------------|#"""
 		#this is where a list of getters will go...
 	def get_attackMOD(self):
+		"""
+		:meta private:
+		"""
 		return self.__attack_damageMOD
 
 	def get_ID(self):
+		"""
+		:meta private:
+		"""
 		return self.__ID
 
 	def get_group_ID(self):
+		"""
+		:meta private:
+		"""
 		return self.__group_ID
 
 	def get_Corners(self):
+		"""
+		:meta private:
+		"""
 		return self.__Corners
 
 	def get_Coords(self):
+		"""
+		:meta private:
+		"""
 		return self.__Coords
 
 	def get_TKimg(self):
+		"""
+		:meta private:
+		"""
 		return self.__imgTK_ID
 
 	def get_PILimg(self):
+		"""
+		:meta private:
+		"""
 		return self.__imgPIL_ID
 
 	def get_ID(self):
+		"""
+		:meta private:
+		"""
 		return self.__ID
 
 	def get_size(self):
+		"""
+		:meta private:
+		"""
 		return self.__img_size
 
 	def get_group_ID(self):
+		"""
+		:meta private:
+		"""
 		return self.__group_ID
 
 
 	"""|--------------Setters--------------|#"""
 		#this is where a list of setters will go...
 	def set_Canvas_ID(self, ID):
+		"""
+		:meta private:
+		"""
 		self.__Canvas_ID = ID
 
 	def set_Corners(self, Corners):
+		"""
+		:meta private:
+		"""
 		self.__Corners = Corners
 
 	def set_Coords(self, coord):
+		"""
+		:meta private:
+		"""
 		self.__Coords = coord
 
 	def set_TKimg(self, tkImg):
+		"""
+		:meta private:
+		"""
 		self.__imgTK_ID = tkImg

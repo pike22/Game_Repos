@@ -3,11 +3,6 @@ from PIL import ImageTk, Image #PIL = Pillow
 # from .node import Node
 
 #__Render == Canvas
-"""
-image_node.py
-============================
-The image render/manipulation class.
-"""
 
 class Image_Node():
 	Render = None
@@ -58,7 +53,6 @@ class Image_Node():
 			The planned angle of rotation
 		LVD
 			Determin if mainGame or LVLDesigner is used
-			default=(False)
 		"""
 		# angle %= angle
 		if LVD == True:
@@ -82,10 +76,8 @@ class Image_Node():
 			Image to be placed
 		LVD
 			Determin if mainGame or LVLDesigner is used
-			default=('no')
 		tag : str
 			Tag to be attached to the target image.
-			default=(None)
 		"""
 		if LVD == 'no':
 			Canvas_ID = Image_Node.Render.create_image((x, y), image=image, anchor="nw")
@@ -126,7 +118,6 @@ class Image_Node():
 			width of the Canvas
 		color
 			Color of the Canvas
-			default=('Grey')
 		"""
 		Image_Node.Render = Canvas(mainApp, height=height, width=width, bg=str(color))
 		Image_Node.Render.grid(row=0, column=0, rowspan=10)

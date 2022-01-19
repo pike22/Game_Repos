@@ -2,6 +2,9 @@ import re
 from .image_node import Image_Node
 
 class Collision_Logic():
+	"""
+	The Logic side of collision is handled here. 
+	"""
 	def __init__(self, statics):
 		self.__LVD_Corners	= []
 		self.__CollideList	= []
@@ -105,6 +108,7 @@ class Collision_Logic():
 		"""
 		Returns list of keys in the Collision Dictionary.
 		"""
+		newList = []
 		for key in self.__Col_Dict.keys():
 			newList.append(key)
 		return newList
@@ -140,7 +144,14 @@ class Collision_Logic():
 
 	def ForT_Collision(self, targOBJ=None, x1=None, y1=None, x2=None, y2=None):
 		"""
-		:meta private:
+		A simple test function to see if a spacific set of coordinates are overlapping with anything else.
+
+		Parameters
+		----------
+		targOBJ : Class Object
+			This is used to find the corners of the specified object.
+		(x1, y1, x2, y2) : tuple int
+			Is used to find overlapping in spacific box when the class object isn't avalible.
 		"""
 		if targOBJ != None:
 			x1, y1, x2, y2 = targOBJ.get_Corners()

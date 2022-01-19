@@ -1,6 +1,10 @@
 #here will be the "Storage" container for Wall's information.
 
 class Wall_Info():
+	"""
+	IDK if this is still used.
+	**v0.1.21**
+	"""
 	def __init__(self):
 		#engine based Parameters.
 		self.__file_Location = None
@@ -38,46 +42,88 @@ class Wall_Info():
 		#this is where a list of getters will go...
 
 	def get_TKimg(self):
+		"""
+		:meta private:
+		"""
 		return self.__imgTK_ID
 
 	def get_Speed(self):
+		"""
+		:meta private:
+		"""
 		return self.__Wall_Speed
 
 	def get_Coords(self):
+		"""
+		:meta private:
+		"""
 		return self.__Coords
 
 	def get_size(self):
+		"""
+		:meta private:
+		"""
 		return self.__img_size
 
 	def get_Corners(self):
+		"""
+		:meta private:
+		"""
 		return self.__Corners
 
 	def get_ID(self):
+		"""
+		:meta private:
+		"""
 		return self.__ID
 
 	def get_group_ID(self):
+		"""
+		:meta private:
+		"""
 		return self.__group_ID
 
 		#_attack, health, defense_#
 	def get_attack(self):
+		"""
+		:meta private:
+		"""
 		return self.__base_attack
 
 	def get_health(self):
+		"""
+		:meta private:
+		"""
 		return self.__base_health
 
 	def get_defense(self):
+		"""
+		:meta private:
+		"""
 		return self.__base_defense
 
 
 	"""#|--------------Setters--------------|#"""
 	def set_Coords(self, Coords):
+		"""
+		:meta private:
+		"""
 		self.__Coords = Coords
 
 	def set_Canvas_ID(self, Canvas_ID):
+		"""
+		:meta private:
+		"""
 		self.__Canvas_ID = Canvas_ID
 
 	def set_ID(self, ID):
+		"""
+		:meta private:
+		"""
 		self.__ID = ID
 
 	def set_Corners(self, bbox):
+		"""
+		:meta private:
+		"""
 		self.__Corners = bbox

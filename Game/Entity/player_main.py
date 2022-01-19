@@ -12,6 +12,11 @@ import keyboard
 class Player_Main(All_Entities):
 	"""
 	The main module that handles everything to do with the player.
+
+	Modules
+	-------
+	init(cLogic, cNode, iNode, kNode)
+		This is required when Player_Main() is called
 	"""
 	def __init__(self, cLogic, cNode, iNode, kNode):
 		#iNode == Image_Node
@@ -57,15 +62,25 @@ class Player_Main(All_Entities):
 			The x position of the player
 		y : int
 			The y position of the player
+
+		Attributes
+		----------
+		ID : str
+			Is pulled from the Stalfos_Info class
+		Img_info : list
+			Uses Image_Node.Img_Add() to get the Pil and tk image as well as size.
+		Canvas_ID
+			The tag that tkinter uses to identify which object is which.
+		Coords, img_coords : tuple int
+			The coordinants of the image on screen.
 		"""
 		#img setup
 		ID = self.__info.get_ID()
-		group_ID = self.__info.get_group_ID()
 		Img_info = self.__iNode.Img_Add('z_Pictures/purpuloniousthefirst.png')
 		self.__info.Image_Data(Size=Img_info[1], PIL_img=Img_info[0], TK_img=Img_info[2], file_Location='z_Pictures/purpuloniousthefirst.png')
 
 		#placing the img
-		img_coords = self.__iNode.Img_Place(x, y, self.__info.get_TKimg(), tag=[ID, group_ID])
+		img_coords = self.__iNode.Img_Place(x, y, self.__info.get_TKimg(), tag=[ID, self.__info.get_group_ID()])
 
 		#final set of information save to player
 		Canvas_ID = Image_Node.Render.find_withtag(ID)[0] #finds my canvas ID numb.
@@ -98,7 +113,7 @@ class Player_Main(All_Entities):
 
 	def Movement_Controll(self):
 		"""
-		This controlls everything to do with the players movement
+		Controlls everything to do with the players movement
 		"""
 		if self.__isStatic == False:
 			self.__kNode.set_Speed(5)
@@ -136,6 +151,9 @@ class Player_Main(All_Entities):
 			print("Can't Move, BURH!!!!")
 
 	def Player_MAttack(self):#melee Attack
+		"""
+		Controlls the functionality of a melee attack.
+		"""
 		if keyboard.is_pressed(self.__melee) == True:
 			x, y = self.__info.get_Coords() #current coords
 			a, b = self.__Sword.get_size()
@@ -155,6 +173,9 @@ class Player_Main(All_Entities):
 			return self.__isAttack
 
 	def Player_RAttack(self):#ranged attack
+		"""
+		Controlls the Functionality of a ranged attack.
+		"""
 		if keyboard.is_pressed(self.__ranged) == True:
 			x, y = self.__info.get_Coords() #current coords
 			a, b = self.__Bow.get_size()
@@ -178,81 +199,113 @@ class Player_Main(All_Entities):
 
 		#OSC == Other Side of Collision, it represents the other object that collided with player
 		#OSA == Other Side's Attack, represents the other objects needed parameters. Ex. dmg
-	def my_Collision(self, OSC=None, OSA=None, side=None, a=None):
-		if OSC == 'Enemy':
-			if self.__isHit == False:
-				'''#_Actuall MATH_#'''
-				self.__Cur_Health -= OSA
+	def my_Collision(self, OSC=None, OSA=None, side=None, staticsList=None):
+		"""
+		Handels what should happen to the player based on the collision.
+
+		Parameters
+		----------
+		OSC : 'Other Side Collision'
+			This holds the classification of what is colliding with the player. EX: ('Enemy', 'Static', or 'Weapon')
+		OSA : 'Other Side Attack'
+			This holds how much damage should be done when player has come into contact with the OSC.
+		side : str
+			The direction that the collision came from.
+		staticsList : list
+			A list of static group_ID's that is used so that when knock back happens an Entity doesn't travel through a static object.
+
+		Attributes
+		----------
+		Direction : str
+			Direction that player is hitting OSC. Dir == newSide
+		lastSide : str
+			The last direction that was triggered.
+		new_Coords : tuple int
+			The new coords after collision.
+		PossibleCL : list
+			The list of everything colliding with player.
+		"""
+		if self.__isHit == False:
+			Direction = None
+			if OSC == 'Enemy':
+					'''#_Actuall MATH_#'''
+					self.__Cur_Health -= OSA
+					for newSide in side:
+						if newSide == 'top':
+							Direction = 'up'
+						elif newSide == 'bottom':
+							Direction = 'down'
+						else:
+							Direction = newSide
+						for time in range(50):
+							new_Coords = self.__kNode.Knock_Back(self.__info.get_Coords(), self.__info.get_ID(), Direction)
+							self.__info.set_Coords(new_Coords)
+							self.__info.set_Corners(Image_Node.Render.bbox(self.__info.get_ID()))
+							x1, y1, x2, y2 = Image_Node.Render.bbox(self.__info.get_ID())
+							PossibleCL = self.__cLogic.ForT_Collision(x1=x1, y1=y1, x2=x2, y2=y2)
+							if PossibleCL != None:
+								# print(PossibleCL, 'yes')
+								for obj in PossibleCL:
+									if obj != None:
+										if obj.get_group_ID() in a:
+											# print('wallHIT')
+											Direction = self.__cLogic.Side_Calc(self.__cLogic.tagToObj(self.__info.get_ID()))
+											self.my_Collision(OSC='Static', side=Direction)
+											return
+					'''#_Logic_#'''
+					self.__isHit 	= True
+					self.__isAlive  = self.isAlive()
+					self.__saveTime = Timer_Node.GameTime
+
+			elif OSC == 'Weapon':
+				pass
+
+			elif OSC == 'Static':
+				lastSide = None
+				# print(side)
 				for newSide in side:
 					if newSide == 'top':
-						Dir = 'up'
+						Direction = 'up'
 					elif newSide == 'bottom':
-						Dir = 'down'
+						Direction = 'down'
 					else:
-						Dir = newSide
-					for time in range(50):
-						new_Coords = self.__kNode.Knock_Back(self.__info.get_Coords(), self.__info.get_ID(), Dir)
+						Direction = newSide
+					# print(Dir, 'direction')
+					# print(lastSide, 'last direction')
+					if Dir != lastSide:
+						new_Coords = self.__kNode.Static_Hit(self.__info.get_Coords(), self.__info.get_ID(), Direction)
 						self.__info.set_Coords(new_Coords)
 						self.__info.set_Corners(Image_Node.Render.bbox(self.__info.get_ID()))
-						x1, y1, x2, y2 = Image_Node.Render.bbox(self.__info.get_ID())
-						# print(x1, y1, x2, y2)
-						# print(self.__cLogic.ForT_Collision(x1=x1, y1=y1, x2=x2, y2=y2), 'EHHH')
-						listYES = self.__cLogic.ForT_Collision(x1=x1, y1=y1, x2=x2, y2=y2)
-						if listYES != None:
-							# print(listYES, 'yes')
-							for obj in listYES:
-								if obj != None:
-									if obj.get_group_ID() in a:
-										# print('wallHIT')
-										Dir = self.__cLogic.Side_Calc(self.__cLogic.tagToObj(self.__info.get_ID()))
-										self.my_Collision(OSC='Static', side=Dir)
-										return
-				'''#_Logic_#'''
-				self.__isHit 	= True
-				self.__isAlive  = self.isAlive()
-				self.__saveTime = Timer_Node.GameTime
-
-		elif OSC == 'Weapon':
-			pass
-
-		elif OSC == 'Static':
-			lastSide = None
-			# print(side)
-			for newSide in side:
-				if newSide == 'top':
-					Dir = 'up'
-				elif newSide == 'bottom':
-					Dir = 'down'
-				else:
-					Dir = newSide
-				# print(Dir, 'direction')
-				# print(lastSide, 'last direction')
-				if Dir != lastSide:
-					new_Coords = self.__kNode.Static_Hit(self.__info.get_Coords(), self.__info.get_ID(), Dir)
-					self.__info.set_Coords(new_Coords)
-					self.__info.set_Corners(Image_Node.Render.bbox(self.__info.get_ID()))
-					lastSide = Dir
-				elif lastSide == None:
-					new_Coords = self.__kNode.Static_Hit(self.__info.get_Coords(), self.__info.get_ID(), Dir)
-					self.__info.set_Coords(new_Coords)
-					self.__info.set_Corners(Image_Node.Render.bbox(self.__info.get_ID()))
-					lastSide = Dir
+						lastSide = Direction
+					elif lastSide == None:
+						new_Coords = self.__kNode.Static_Hit(self.__info.get_Coords(), self.__info.get_ID(), Direction)
+						self.__info.set_Coords(new_Coords)
+						self.__info.set_Corners(Image_Node.Render.bbox(self.__info.get_ID()))
+						lastSide = Direction
 
 
-		else:
-			print('Error: P#108')
-			pass
+			else:
+				print('Error: P#283')
+				pass
 
 
 
 
+	#The below could be consolidated to all_entities.py to be used acrossed 'all entities'.
 	def reset_hit(self):
+		print('Consider the above comment, P#271')
+		"""
+		This is a hit timer so that something can't be hit more than once in a set amount of time.
+		"""
 		if Timer_Node.GameTime == self.__saveTime+5:
 			self.__isHit = False
 			print('Player Can Get Hit')
 			print(self.__Cur_Health, ':Player Health')
 
 	def isAlive(self):
+		"""
+		Checks for if Player is still alive.
+		"""
 		if self.__isHit == True:
 			if self.__Cur_Health > 0:
 				# print("Alive")
@@ -262,7 +315,7 @@ class Player_Main(All_Entities):
 				# print("Not Alive")
 				return False
 		elif self.__isHit == False:
-			print('ERROR: #193','\n\tself.__isHit = False' )
+			print('ERROR: #285','\n\tself.__isHit = False' )
 
 
 

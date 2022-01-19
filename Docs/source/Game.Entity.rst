@@ -16,7 +16,6 @@ Submodules
 .. toctree::
    :maxdepth: 4
 
-   Game.Entity.all_entities
    Game.Entity.player_info
    Game.Entity.player_main
 

@@ -2,6 +2,10 @@ from .wall_info import Wall_Info
 from Engine import Image_Node
 
 class Wall_Main():
+	"""
+	IDK if this is still used.
+	**v0.1.21**
+	"""
 	def __init__(self, iNode, cLogic):
 		#iNode == Image_Node
 		#cLogic == Collision_Logic
@@ -16,6 +20,9 @@ class Wall_Main():
 
 	#seting up Wall bellow
 	def wall_setUP(self, x, y):
+		"""
+		:meta private:
+		"""
 		#img setup
 		Img_info = self.__iNode.Img_Add('z_Pictures/MissingIMG.png')
 		self.__info.Image_Data(Size=Img_info[1], PIL_img=Img_info[0], TK_img=Img_info[2], file_Location='z_Pictures/MissingIMG.png')
@@ -33,6 +40,9 @@ class Wall_Main():
 		self.__info.set_Corners(Image_Node.Render.bbox(Canvas_ID))
 
 	def Wall_Print(self):
+		"""
+		:meta private:
+		"""
 		#list of prints for start of program(Walls)
 		print('-----------------------------------')
 		print('Wall Data:')
@@ -49,24 +59,42 @@ class Wall_Main():
 
 
 	def my_Collision(self):
+		"""
+		:meta private:
+		"""
 		pass
 
 
 	"""#|--------------Getters--------------|#"""
 		#this is where a list of getters will go...
 	def get_ID(self):
+		"""
+		:meta private:
+		"""
 		return self.__info.get_ID()
 
 	def get_group_ID(self):
+		"""
+		:meta private:
+		"""
 		return self.__info.get_group_ID()
 
 	def get_Coords(self):
+		"""
+		:meta private:
+		"""
 		return self.__info.get_Coords()
 
 	def get_Corners(self):
+		"""
+		:meta private:
+		"""
 		return self.__info.get_Corners()
 
 	def get_size(self):
+		"""
+		:meta private:
+		"""
 		return self.__info.get_size()
 
 	"""#|--------------Setters--------------|#"""

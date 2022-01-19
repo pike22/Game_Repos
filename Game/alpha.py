@@ -8,13 +8,11 @@ from Engine import *
 from Entity import *
 import keyboard
 
-"""
-alpha.py
-========================================
-This is the Main file that runs the game
-"""
 
 class Alpha():
+	"""
+	This is the Main file that runs the game. Current version: v0.1.21
+	"""
 	def __init__(self):
 		self.__Sc_Width	 = 1280
 		self.__Sc_Height = 800
@@ -272,22 +270,27 @@ class Alpha():
 
 
 
-	#|--------------Getters--------------|#
+	"""#|--------------Getters--------------|#"""
 		#this is where a list of getters will go...
 	def get_mainAPP(self):
+		"""
+		:meta private:
+		"""
 		return self.__mainApp
 
 
-	#|--------------Setters--------------|#
+	"""#|--------------Setters--------------|#"""
 		#this is where a list of setters will go...
 	def set_ForT(self, ForT):#ForT == False or True, ForT
-
+		"""
+		:meta private:
+		"""
 		self.__ForT = ForT
 
 
 
 
-	#|--------------Extra Functions--------------|#
+	"""#|--------------Extra Functions--------------|#"""
 	def find_all_Tags(self):
 		"""
 		:meta private:
