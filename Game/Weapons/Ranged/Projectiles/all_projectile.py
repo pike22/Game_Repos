@@ -2,12 +2,7 @@
 class Projectiles():
 	"""
 	Is the parrent class to the Projectiles and there for sets up the variables that would be the same acrossed all files in the
-	Projectiles folder.
-
-	Methods
-	-------
-	init(iNode, cLogic, cNode, kNode)
-		This is required when Projectiles() is called		
+	Projectiles folder.		
 	"""
 	def __init__(self):
 		self.__Image 	 = None

@@ -3,6 +3,14 @@ from .all_projectile import Projectiles
 from .arrow_info import Arrow_Info
 
 class Arrow_Main(Projectiles):
+	"""
+	Controlls everything to do with the arrow.
+
+	Methods
+	-------
+	init(iNode, cLogic, cNode, kNode, itemCount)
+		This is required when Arrow_Main() is called
+	"""
 	def __init__(self, iNode, cLogic, cNode, kNode, itemCount):
 		self.__info 	= Arrow_Info()
 		self.__iNode	= iNode
@@ -18,6 +26,9 @@ class Arrow_Main(Projectiles):
 		self.__count	 = 0
 
 	def Arrow_setUP(self):
+		"""
+		Basic arrow tkinter set up.
+		"""
 		#img setup
 		self.__info.set_ID(self.__ID)
 		Img_info = self.__iNode.Img_Add('z_Pictures/arrow_.png')
@@ -25,6 +36,18 @@ class Arrow_Main(Projectiles):
 
 
 	def use(self, x, y, direction, dmgMod):
+		"""
+		Controlls what happens when the arrow is *used*.
+
+		Parameters
+		----------
+		x, y : int
+			The coords where the arrow will be placed first.
+		direction : str
+			The direction that the arrows will fly.
+		dmgMod : int
+			The the additional damage that will be delt when the arrow hits its target.
+		"""
 		self.Arrow_setUP()
 		if direction == 'up':
 			# print('up')s
@@ -62,6 +85,9 @@ class Arrow_Main(Projectiles):
 		self.__Direction = direction
 
 	def isActive(self):
+		"""
+		Moves the arrow forward during the game loop.
+		"""
 		# print('hello"')
 		self.__kNode.set_Speed(15)
 		if self.__Direction == 'up':
@@ -82,6 +108,9 @@ class Arrow_Main(Projectiles):
 			self.__info.set_Corners(Image_Node.Render.bbox(self.__info.get_ID()))
 
 	def del_Proj(self):
+		"""
+		Delets the object when the arrow collides with anything.
+		"""
 		self.__isActive  = False
 		Image_Node.Render.delete(self.__info.get_canvasID())
 		self.__cLogic.delColDict(tagOrId=self.__ID)
@@ -90,27 +119,51 @@ class Arrow_Main(Projectiles):
 	"""#|--------------Getters--------------|#"""
 		#this is where a list of getters will go...
 	def get_Corners(self):
+		"""
+		:meta private:
+		"""
 		return self.__info.get_Corners()
 
 	def get_Coords(self):
+		"""
+		:meta private:
+		"""
 		return self.__info.get_Coords()
 
 	def get_size(self):
+		"""
+		:meta private:
+		"""
 		return self.__info.get_size()
 
 	def get_ID(self):
+		"""
+		:meta private:
+		"""
 		return self.__ID
 
 	def get_group_ID(self):
+		"""
+		:meta private:
+		"""
 		return self.__group_ID
 
 	def get_itemCount(self):
+		"""
+		:meta private:
+		"""
 		return self.__itemCount
 
 	def get_isActive(self):
+		"""
+		:meta private:
+		"""
 		return self.__isActive
 
 	def get_attack(self):
+		"""
+		:meta private:
+		"""
 		return self.__info.get_attack()
 
 

@@ -34,9 +34,9 @@ class Sword_Info():
 		self.__img_size			= Size
 
 	def Sword_Data(self, attack): #add more here as needed.
-	"""
-	:meta private:
-	"""
+		"""
+		:meta private:
+		"""
 		self.__attack_damage = attack
 
 

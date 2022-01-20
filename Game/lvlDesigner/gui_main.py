@@ -8,6 +8,14 @@ from .menu_main import Menu_Main
 
 
 class GUI_Main():
+	"""
+	Deals with base set up of the tkinter window of the level designer.
+
+	Methods
+	-------
+	init(cLogic, iNode, kNode, cNode, mainApp, color, mainMenu)
+		This is required when GUI_Main() is called
+	"""
 	def __init__(self, cLogic, iNode, kNode, cNode, mainApp, color, mainMenu):
 		self.__Key = 32
 		self.__iNode  = iNode
@@ -44,8 +52,9 @@ class GUI_Main():
 		self.__PLCcoord  = [] #(x, y) this is for grid coords, may be more helpfull
 
 	def windowSETUP(self):
-
-
+		"""
+		Sets up the canvas and frame widgets for the tkinter window.(Some buttons may be removed)
+		"""
 		"""#__Frame Creation & Placement__#"""
 		self.__ImgList = LabelFrame(self.__mainApp, text="Imported", width=250, height=500, bg=self.__color)
 
@@ -57,7 +66,7 @@ class GUI_Main():
 		self.__siFILES.set_imgFrame(self.__ImgList)
 
 		"""#__Buttons from load__#"""
-		self.__siFILES.Read_ButtonSet(self.__DefultButtons)
+		self.__siFILES.Button_Set(self.__DefultButtons)
 
 		"""#__event Calls__#"""
 		# self.__mainApp.bind_all(('<Button-1>'), self.__eGUI.mousePosition)
@@ -88,6 +97,9 @@ class GUI_Main():
 		    frame.grid_propagate(0)
 
 	def gridSETUP(self):
+		"""
+		This sets up the grid that is used to place map squares in an organized fashon.
+		"""
 		segment_x = int(1280/32)
 		segment_y = int(800/32)
 		for item in range(segment_x+1):
@@ -117,21 +129,33 @@ class GUI_Main():
 	"""#|--------------Getters--------------|#"""
 		#this is where a list of getters will go...
 	def get_PLCcorner(self, item=None):
+		"""
+		:meta private:
+		"""
 		if item == None:
 			return self.__PLCcorner
 		else:
 			return self.__PLCcorner[item]
 
 	def get_PLCcoord(self, item=None):
+		"""
+		:meta private:
+		"""
 		if item == None:
 			return self.__PLCcoord
 		else:
 			return self.__PLCcoord[item]
 
 	def get_eGUI(self):
+		"""
+		:meta private:
+		"""
 		return self.__eGUI
 
 	def get_siFILE(self):
+		"""
+		:meta private:
+		"""
 		return self.__siFILES
 
 

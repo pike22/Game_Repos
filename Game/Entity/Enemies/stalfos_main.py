@@ -8,10 +8,10 @@ import random
 
 class Stalfos_Main(Enemy_Main):
 	"""
-	This is where everything to do with Stalfos is handled.
+	Everything to do with Stalfos is handled here.
 
-	Method
-	------
+	Methods
+	-------
 	init(iNode, cNode, kNode, ID)
 		This is required when Stalfos_Main() is called
 	"""
@@ -180,8 +180,6 @@ class Stalfos_Main(Enemy_Main):
 		----------
 		Direction : str
 			Direction that stalfos is hitting OSC. Dir == newSide
-		new_Coords : tuple int
-			The new coords after collision.
 		PossibleCL : list
 			The list of everything colliding with stalfos.
 		"""

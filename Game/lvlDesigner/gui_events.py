@@ -81,13 +81,12 @@ class GUI_Events():
 			The seleced file.
 		button_ID : str
 			The tag that will be associated with the button.
-		newWidget
+		widget_ID
 			tkinters ID for the button created.
 
 		Methods
 		-------
-		Drag_Drop(button_ID)
-			the function called when the button is pressed
+		:ref:Drag_Drop(button_ID)
 		"""
 		filetypes = (("PNG", "*.png"), ("All Files", "*.*"))
 		file = filedialog.askopenfilename(title='Picture Import', filetypes=filetypes, initialdir=self.__pngFiles)
@@ -113,12 +112,12 @@ class GUI_Events():
 
 		#Create Button
 		image = self.__iNode.Img_Add(file)
-		newWidget = Button(parent, image=image[2], bg=self.__color, activebackground=self.__color, command=lambda:self.Drag_Drop(button_ID))
-		self.__buttonDICT[button_ID] = Button_Main(button_ID, newWidget)
+		widget_ID = Button(parent, image=image[2], bg=self.__color, activebackground=self.__color, command=lambda:self.Drag_Drop(button_ID))
+		self.__buttonDICT[button_ID] = Button_Main(button_ID, widget_ID)
 		self.__buttonDICT[button_ID].Image_Info(fileLoc=file, tkIMG=image[2], pilIMG=image[0], size=image[1])
 
 		#Place Button
-		newWidget.grid(row=self.__Row, column=self.__Column)
+		widget_ID.grid(row=self.__Row, column=self.__Column)
 		if self.__Column <= self.__ColumnMAX:
 			self.__Column += 1
 		else:
@@ -137,10 +136,8 @@ class GUI_Events():
 
 		Methods
 		-------
-		Move_Image(event, button_ID)
-			Allows the image to be moved.
-		Rotate_Image(event, button_ID)
-			Allows the image to be rotated.
+		:ref:Move_Image(event, button_ID)
+		:ref:Rotate_Image(event, button_ID)
 		"""
 		if self.__isDrag == False:
 			print("!#_ON_#!")
@@ -194,12 +191,9 @@ class GUI_Events():
 
 		Methods
 		-------
-		Place_Image(event, button_ID)
-			Used to place the image.
-		Find_Square(event)
-			Used to find the square the mouse is in.
-		Find_Widget()
-			Used to find the widget the mouse is in.
+		:ref:Place_Image(event, button_ID)
+		:ref:Find_Square(event)
+		:ref:Find_Widget()
 		"""
 		self.__isMoving = True
 		self.Find_Square(event)
@@ -223,12 +217,9 @@ class GUI_Events():
 
 		Methods
 		-------
-		PLC_ImgMain(ID, button_ID)
-			An instance of this class is created for the image that was just placed.
-		Image_Info(fileLoc, Size, Coords, Rotation)
-			The file side of the image is saved here.
-		Img_Place(x, y, tkIMG, LVD, tag)
-			The image is actually placed using iNode.
+		:ref:PLC_ImgMain(ID, button_ID)
+		:ref:Image_Info(fileLoc, Size, Coords, Rotation)
+		:ref:Img_Place(x, y, tkIMG, LVD, tag)
 		"""
 		self.Del_Image(event)
 		if self.__ID_count <= 9:
@@ -263,8 +254,7 @@ class GUI_Events():
 
 		Methods
 		-------
-		Find_imgTag(event)
-			actually finds the images tag
+		:ref:Find_imgTag(event)
 
 		:meta private:
 		"""

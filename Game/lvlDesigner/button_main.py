@@ -11,9 +11,9 @@ class Button_Main():
 	Image_Info(fileLoc, tkIMG, pilIMG, size)
 		Stores File based data to the button_info.py file.
 	"""
-	def __init__(self, button_ID, widget):
+	def __init__(self, button_ID, widget_ID):
 		self.__info = Button_Info(button_ID)
-		self.__widgID = widget
+		self.__widgID = widget_ID
 
 	def Image_Info(self, fileLoc, tkIMG, pilIMG, size):
 		"""

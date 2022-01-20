@@ -1,7 +1,6 @@
 Current Game Version
-	v.0.1.3
+	v.0.1.35
 
 
  ** Last Update Note:
-	7 files left before basic documentation is completed. After that I plan to have a proper naming
-	scheme for all variables, methods and parameters.
+	All files documentation compleated excluding one single method inside of si_files.py

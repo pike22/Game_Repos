@@ -34,9 +34,9 @@ class Bow_Info():
 		self.__img_size			= Size
 
 	def Bow_Data(self, attack): #add more here as needed.
-	"""
-	:meta private:
-	"""
+		"""
+		:meta private:
+		"""
 		self.__attack_damageMOD = attack
 
 
