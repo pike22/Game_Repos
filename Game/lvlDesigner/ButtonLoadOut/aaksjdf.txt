@@ -11,6 +11,7 @@ LVD#B009
 LVD#B010
 LVD#B011
 LVD#B012
+LVD#B014
 
 <=======================================================>
 
@@ -27,6 +28,7 @@ LVD#B009=z_Pictures/Walls/smallt.png
 LVD#B010=z_Pictures/Walls/4way.png
 LVD#B011=z_Pictures/Walls/EWall01.png
 LVD#B012=z_Pictures/Walls/cornerbig.png
+LVD#B014=z_Pictures/Walls/carpet.png
 
 <=======================================================>
 

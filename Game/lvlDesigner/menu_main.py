@@ -52,7 +52,7 @@ class Menu_Main():
 		"""
 		self.__mainMenu.add_cascade(label='File', menu=self.__fileMenu)
 		self.__fileMenu.add_command(label='--Maps--', )
-		self.__fileMenu.add_command(label='New File' ,)# command="")
+		self.__fileMenu.add_command(label='New File' , command=self.__Events.New_File)
 		self.__fileMenu.add_command(label='Open File', command=self.__siFILES.Read_File)
 		self.__fileMenu.add_command(label='Save File', command=lambda:self.__siFILES.Save_File(self.__eGUI.get_imgDICT()))
 		self.__fileMenu.add_command(label='--Buttons--')

@@ -79,9 +79,9 @@ class SI_Files():
 
 		Methods
 		-------
-		:ref:Save_Line(file, function, dict)`Save_Line`
-		:ref:Save_List(file, key)`Save_List`
-		:ref:Save_Dict(file, key, dict, step)`Save_Dict`
+		:ref:`Save_Line`
+		:ref:`Save_List`
+		:ref:`Save_Dict`
 		"""
 		self.__imgDICT = imgDICT
 		filetype = [('Text Document', '*.txt'), ('All Files', '*.*')]
@@ -93,41 +93,13 @@ class SI_Files():
 		self.__saveLVL = open(str(file.name), 'w')
 
 		self.__stepCount = 0
-		self.Save_Line(self.__saveLVL, self.Save_List, self.__fileID)
-		self.Save_Line(self.__saveLVL, self.Save_Dict, self.__imgDICT)
-		self.Save_Line(self.__saveLVL, self.Save_Dict, self.__imgDICT)
-		self.Save_Line(self.__saveLVL, self.Save_Dict, self.__imgDICT)
+		self.Save_Line(file=self.__saveLVL, function=self.Save_List, dict=self.__imgDICT)
+		self.Save_Line(file=self.__saveLVL, function=self.Save_Dict, dict=self.__imgDICT)
+		self.Save_Line(file=self.__saveLVL, function=self.Save_Dict, dict=self.__imgDICT)
+		self.Save_Line(file=self.__saveLVL, function=self.Save_Dict, dict=self.__imgDICT)
 
 		self.__saveLVL.close() #DON'T FORGET ABOUT THIS
-
-		# for key in self.__imgDICT.keys():
-		# 	info = str(key) +'\n'
-		# 	self.__saveLVL.write(info)
-		# 	# print(info)
-		# self.__saveLVL.write('\n<=======================================================>\n\n')
-		#
-		# for key in self.__imgDICT.keys():
-		# 	fileLocation = self.__imgDICT[key].get_fileLoc()
-		# 	info = str(key)+'='+str(fileLocation) +'\n'
-		# 	self.__saveLVL.write(info)
-		# 	# print(info)
-		# self.__saveLVL.write('\n<=======================================================>\n\n')
-		#
-		# for key in self.__imgDICT.keys():
-		# 	rotation = self.__imgDICT[key].get_rotation()
-		# 	info = str(key)+'=z'+str(rotation) +'\n'
-		# 	self.__saveLVL.write(info)
-		# 	# print(info)
-		# self.__saveLVL.write('\n<=======================================================>\n\n')
-		#
-		# for key in self.__imgDICT.keys():
-		# 	coords	= self.__imgDICT[key].get_Coords()
-		# 	info = str(key)+'=z'+str(coords) +'\n'
-		# 	self.__saveLVL.write(info)
-		# 	# print(info)
-		# self.__saveLVL.write('\n<=======================================================>\n\n')
-
-
+		
 	def Read_File(self, mainGame=None):
 		"""
 		Opens a txt file that will be read and then generated onto the canvas. *Used for Game and LVLDesigner*.
@@ -139,10 +111,10 @@ class SI_Files():
 
 		Methods
 		-------
-		:ref:Read_Line(file, function, dict)`Read_Line`
-		:ref:Read_List(file, key)`Read_List`
-		:ref:Read_Dict(file, key, dict, step)`Read_Dict`
-		:ref:INIT_lvlFile(mainGame)`INIT_lvlFile`
+		:ref:`Read_Line`
+		:ref:`Read_List`
+		:ref:`Read_Dict`
+		:ref:`INIT_lvlFile`
 		"""
 		filetypes = [(("TXT", "*.txt"), ("All Files", "*.*"))]
 		if mainGame == None:
@@ -160,10 +132,10 @@ class SI_Files():
 		self.__fileROT   = {}
 		self.__filePOS   = {}
 		#clear all list/dict used below
-		self.Read_Line(self.__importLVL, self.Read_List, self.__fileID)
-		self.Read_Line(self.__importLVL, self.Read_Dict, self.__fileID)
-		self.Read_Line(self.__importLVL, self.Read_Dict, self.__fileID)
-		self.Read_Line(self.__importLVL, self.Read_Dict, self.__fileID)
+		self.Read_Line(file=self.__importLVL, function=self.Read_List, listName=self.__fileID)
+		self.Read_Line(file=self.__importLVL, function=self.Read_Dict, fileTypes='LVD Maps')
+		self.Read_Line(file=self.__importLVL, function=self.Read_Dict, fileTypes='LVD Maps')
+		self.Read_Line(file=self.__importLVL, function=self.Read_Dict, fileTypes='LVD Maps')
 
 		self.__importLVL.close()
 		self.INIT_lvlFile(mainGame)
@@ -191,8 +163,11 @@ class SI_Files():
 		tag : str
 			String of the ID name for an image.
 		"""
+		print(self.__fileID)
+		print(self.__fileLOC)
+		print(self.__fileROT)
+		print(self.__filePOS)
 		for tag in self.__fileID:
-
 			#PULLS IN IMAGE AND ROTATES IF NEEDED
 			image = self.__iNode.Img_Add(self.__fileLOC[tag])
 			tkIMG = self.__iNode.Img_Rotate(image[0], int(self.__fileROT[tag]))
@@ -243,9 +218,9 @@ class SI_Files():
 
 		Methods
 		-------
-		:ref:Save_Line(file, function, dict)
-		:ref:Save_List(file, key)
-		:ref:Save_Dict(file, key, dict, step)
+		:ref:`Save_Line`
+		:ref:`Save_List`
+		:ref:`Save_Dict`
 		"""
 		self.__buttonDICT = buttonDICT
 		filetype = [('Text Document', '*.txt'), ('All Files', '*.*')]
@@ -260,22 +235,6 @@ class SI_Files():
 		self.Save_Line(self.__saveButton, self.Save_Dict, self.__buttonDICT)
 
 		self.__saveButton.close() #DON'T FORGET ABOUT THIS
-		#
-		# for key in self.__buttonDICT.keys():
-		# 	info = str(key)+'\n'
-		# 	self.__saveButton.write(info)
-		# 	# print(info)
-		# self.__saveButton.write('\n<=======================================================>\n\n')
-		#
-		# for key in self.__buttonDICT.keys():
-		# 	fileLocation = self.__buttonDICT[key].get_fileLoc()
-		# 	info = str(key)+'='+str(fileLocation) +'\n'
-		# 	self.__saveButton.write(info)
-		# 	# print(info)
-		# self.__saveButton.write('\n<=======================================================>\n\n')
-
-
-
 	def Clear_ButtonSet(self, Change=False): #make this a clean only, add parameter to switch between (clear only) and (clear then new)
 		"""
 		Clears the current button set. Unless Change is set to True, then it will call Button_Set()
@@ -305,9 +264,9 @@ class SI_Files():
 
 		Methods
 		-------
-		:ref:Read_Line()`Read_Line`
-		:ref:Read_List()`Read_List`
-		:ref:Read_Dict()`Read_Dict`
+		:ref:`Read_File`
+		:ref:`Read_List`
+		:ref:`Read_Dict`
 		"""
 		if DefaultBS == None:
 			filetypes = [(("TXT", "*.txt"), ("All Files", "*.*"))]
@@ -324,8 +283,8 @@ class SI_Files():
 		self.__bfileID 	 = []
 		self.__bfileLOC  = {}
 		#clear all list/dict used below
-		self.Read_Line(self.__importButtons, self.Read_List, self.__bfileID)
-		self.Read_Line(self.__importButtons, self.Read_Dict, self.__bfileID)
+		self.Read_Line(file=self.__importButtons, function=self.Read_List, listName=self.__bfileID)
+		self.Read_Line(file=self.__importButtons, function=self.Read_Dict, fileTypes='Button Sets')
 
 		self.__importButtons.close()
 
@@ -334,7 +293,7 @@ class SI_Files():
 			# print(tag, 'button')
 
 			#CREATES BUTTON FROM SAVE FILE
-			self.buttonFromFile(self.__bfileLOC[tag], self.__imgFrame, button_ID=tag)
+			self.Create_Button(self.__bfileLOC[tag], self.__imgFrame, button_ID=tag)
 			# print(self.__bfileLOC[tag])
 
 		if self.__bfileID != []:
@@ -348,7 +307,7 @@ class SI_Files():
 	'''<========================================================================>
 	#*************************#ShortCut Functions#******************************#
 	<========================================================================>'''
-	def buttonFromFile(self, fileLoc, parent, button_ID, mainGame=None):
+	def Create_Button(self, fileLoc, parent, button_ID, mainGame=None):
 		"""
 		Creates the buttons from the given info.
 
@@ -367,7 +326,7 @@ class SI_Files():
 		Attributes
 		----------
 		Image
-			The image created using :ref:Img_Add
+			The image created using :ref:`Img_Add`
 		widget_ID
 			Tkinter ID for the button.
 		button_ID : str
@@ -409,7 +368,7 @@ class SI_Files():
 		# print(IDtype)
 
 	#fileType is defaulted in the func called before this one
-	def Read_Dict(self, curLine, step, dictType):
+	def Read_Dict(self, curLine, step, Type):
 		"""
 		Reads the txt file's lines and puts its contents into a dictionary.
 
@@ -417,32 +376,32 @@ class SI_Files():
 		----------
 		curLine : str
 			The current line that is being read.
-		dictType
-			Which dictionary the *curLine* should be added to.
+		Type : str
+			To switch between if reading a button file or map file.
 		step : int
 			The numbered block of text that the reader is on.
 		"""
-		if dictType == self.__imgDICT:
+		if Type == 'LVD Maps':
 			if re.search("(^LVD#W.{4})", curLine) != None:
 				if step == 1:
 					if re.search("=(.*/.*/.*$)", curLine) != None:
 						self.__fileLOC[re.search("(^LVD#W.{4})", curLine).group(1)] = re.search("=(.*/.*/.*$)", curLine).group(1)
-						# print(self.__fileLOC)
+						print(self.__fileLOC)
 				elif step == 2:
 					if re.search("=z(.*$)", curLine) != None:
 						self.__fileROT[re.search("(^LVD#W.{4})", curLine).group(1)] = re.search("=z(.*$)", curLine).group(1)
-						# print(self.__fileROT)
+						print(self.__fileROT)
 				elif step == 3:
 					if re.search("=z(.*$)", curLine) != None:
 						self.__filePOS[re.search("(^LVD#W.{4})", curLine).group(1)] = re.search("=z(.*$)", curLine).group(1)
-						# print(self.__filePOS)
+						print(self.__filePOS)
 		else:
 			if re.search("(^LVD#B.{3})", curLine) != None:
 				if step == 1:
 					if re.search("=(.*/.*/.*$)", curLine) != None:
 						self.__bfileLOC[re.search("(^LVD#B.{3})", curLine).group(1)] = re.search("=(.*/.*/.*$)", curLine).group(1)
 
-	def Read_Line(self, file, function, type):
+	def Read_Line(self, file, function, fileTypes=None, listName=None):
 		"""
 		The Reader of the file. A for loop reads each line of the txt file and appropriately sets up the list and dictionaries.
 
@@ -452,8 +411,10 @@ class SI_Files():
 			The seleced file to be read.
 		function
 			Another class function will get passed through.
-		type
-			Determins what list to use or which dictionary set to use.
+		fileTypes
+			To determin if tkinter is reading a button file or a map file.
+		listName
+			The named list that the associated keys will be appended to.
 
 		Attributes
 		----------
@@ -472,10 +433,12 @@ class SI_Files():
 			else:
 				if self.__stepCount == 0:
 					if line != '':
-						function(line, type)
+						if listName != None:
+							function(line, listName)
 				elif self.__stepCount == 1 or self.__stepCount == 2 or self.__stepCount == 3:
 					if line != '':
-						function(line, self.__stepCount, type)
+						if fileTypes != None:
+							function(line, self.__stepCount, fileTypes)
 				# print(line)
 
 	def Save_List(self, file, key):
@@ -488,13 +451,7 @@ class SI_Files():
 			The text file that the info will be wirtten to.
 		key : str
 			The tag that will be saved to the text file.
-
-		Attributes
-		----------
-		info : str
-			where :noindex:*key* gets written to the file.
 		"""
-		print('saveLIST call')
 		info = str(key)+'\n'
 		file.write(info)
 		if key == self.list[-1]:
@@ -516,17 +473,12 @@ class SI_Files():
 		dict
 			The Dictionary that uses the :noindex:*key* to get info from a python class object.
 		step : int
-			A number to determin which section the :ref:Save_Line()`Save_Line` is on.
-
-		Attributes
-		----------
-		info : str
-			A string that holds the :noindex:*key* and the :noindex:*dict[key].get_info* to be written to file.
+			A number to determin which section the :ref:`Save_Line` is on.
 		"""
-		print('saveDICT call', key)
+		# print('saveDICT call', key)
 		#Location
 		if step == 1:
-			info = str(key)+'='+(dict[key].get_fileLoc())+'\n'
+			info = str(key)+'='+str(dict[key].get_fileLoc())+'\n'
 			file.write(info)
 			if key == self.list[-1]:
 				print('lastKEY', key)
@@ -534,7 +486,7 @@ class SI_Files():
 				return
 		#Rotation
 		elif step == 2:
-			info = str(key)+'=z'+(dict[key].get_rotation())+'\n'
+			info = str(key)+'=z'+str(dict[key].get_rotation())+'\n'
 			file.write(info)
 			if key == self.list[-1]:
 				print('lastKEY')
@@ -542,7 +494,7 @@ class SI_Files():
 				return
 		#Position
 		elif step == 3:
-			info = str(key)+'=z'+(dict[key].get_Coords())+'\n'
+			info = str(key)+'=z'+str(dict[key].get_Coords())+'\n'
 			file.write(info)
 			if key == self.list[-1]:
 				print('lastKEY')
@@ -565,7 +517,7 @@ class SI_Files():
 		for key in dict.keys():
 			self.list.append(key)
 		for key in dict.keys():
-			print('step:', self.__stepCount)
+			# print('step:', self.__stepCount)
 			if self.__stepCount == 0:
 				function(file, key)
 			else:

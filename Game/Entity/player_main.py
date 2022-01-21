@@ -13,7 +13,7 @@ class Player_Main(All_Entities):
 	"""
 	The main module that handles everything to do with the player.
 
-	Modules
+	Methods
 	-------
 	init(cLogic, cNode, iNode, kNode)
 		This is required when Player_Main() is called

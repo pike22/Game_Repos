@@ -5,3 +5,10 @@ Game.Engine.image\_node module
    :members:
    :undoc-members:
    :show-inheritance:
+
+.. _Img_Add:
+
+Img_Add()
+~~~~~~~~~
+
+Reference `Img_Add`_.

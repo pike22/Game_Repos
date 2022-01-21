@@ -1,8 +1,8 @@
 
 class Button_Info():
 	"""
-	Method
-	------
+	Methods
+	-------
 	init(button_ID)
 		This is required when Button_Info() is called
 	Image_Data(fileLoc, tkIMG, pilIMG, size)

@@ -1,6 +1,8 @@
 Current Game Version
-	v.0.1.35
+	v.0.2.02
 
 
  ** Last Update Note:
-	All files documentation compleated excluding one single method inside of si_files.py
+	Documentation completed. quick links don't work but I won't waste more time on it. Si_files has
+	working read and write functions again. The lines saved due to the change is unnoticeable because
+	of the shear number of lines added to everything because of the documentation. 

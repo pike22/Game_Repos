@@ -11,9 +11,10 @@ class Menu_Events():
 		"""
 		Creates a new file to be edited for both maps, button loadouts or anything needed.
 		"""
-		filetypes = [(("TXT", "*.txt"), ("All Files", "*.*"))]
-		file = filedialog.askopenfilename(title='Level Import', filetypes=filetypes, initialdir=self.__mapFiles)
-		if file == '':
-			print('No File Selected')
-			return
-		self.__newFile = open(file, 'w')
+		print("\n\n\nnewline\n\n\n")
+		# filetypes = [(("TXT", "*.txt"), ("All Files", "*.*"))]
+		# file = filedialog.askopenfilename(title='Level Import', filetypes=filetypes, initialdir=self.__mapFiles)
+		# if file == '':
+		# 	print('No File Selected')
+		# 	return
+		# self.__newFile = open(file, 'w')

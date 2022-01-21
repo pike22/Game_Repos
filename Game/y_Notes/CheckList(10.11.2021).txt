@@ -1,5 +1,5 @@
 Created (10.11.2021)
-Updated (10.29.2021)
+Updated (01.21.2022)
 Check List:
 	1. Collision identification 					[DONE]
 	2. Parameter Functionality 					[Done]
@@ -16,4 +16,4 @@ Check List:
 		- Make a new subfolder for this as well as take some
 		  time to think through what I want and how I want
 		  to make this because it has a lot of GUI that I
-		  have to think about.
+		  have to think about. 					[DONE]
