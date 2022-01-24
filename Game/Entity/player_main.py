@@ -86,7 +86,7 @@ class Player_Main(All_Entities):
 		Canvas_ID = Image_Node.Render.find_withtag(ID)[0] #finds my canvas ID numb.
 		Coords = img_coords
 		self.__info.set_Canvas_ID(Canvas_ID)
-		self.__info.Player_Data(Coords=Coords, Speed=7, health=100, defense=5, attack=0) #check player_info for well info.
+		self.__info.Player_Data(Coords=Coords, Speed=7, health=10, defense=5, attack=0) #check player_info for well info.
 		self.__kNode.set_Speed(self.__info.get_Speed())
 		self.__info.set_Corners(Image_Node.Render.bbox(Canvas_ID))
 
@@ -116,7 +116,7 @@ class Player_Main(All_Entities):
 		Controlls everything to do with the players movement
 		"""
 		if self.__isStatic == False:
-			self.__kNode.set_Speed(5)
+			self.__kNode.set_Speed(self.__info.get_Speed())
 			if keyboard.is_pressed(self.__key_up):
 				self.__Direction = 'up'
 				new_Coords = self.__kNode.kinetics(self.__info.get_Coords(), self.__info.get_ID(), self.__Direction)#, neg=False)
@@ -247,7 +247,7 @@ class Player_Main(All_Entities):
 								# print(PossibleCL, 'yes')
 								for obj in PossibleCL:
 									if obj != None:
-										if obj.get_group_ID() in a:
+										if obj.get_group_ID() in staticsList:
 											# print('wallHIT')
 											Direction = self.__cLogic.Side_Calc(self.__cLogic.tagToObj(self.__info.get_ID()))
 											self.my_Collision(OSC='Static', side=Direction)
@@ -272,7 +272,7 @@ class Player_Main(All_Entities):
 						Direction = newSide
 					# print(Dir, 'direction')
 					# print(lastSide, 'last direction')
-					if Dir != lastSide:
+					if Direction != lastSide:
 						new_Coords = self.__kNode.Static_Hit(self.__info.get_Coords(), self.__info.get_ID(), Direction)
 						self.__info.set_Coords(new_Coords)
 						self.__info.set_Corners(Image_Node.Render.bbox(self.__info.get_ID()))
@@ -293,7 +293,7 @@ class Player_Main(All_Entities):
 
 	#The below could be consolidated to all_entities.py to be used acrossed 'all entities'.
 	def reset_hit(self):
-		print('Consider the above comment, P#271')
+		print('Consider the above comment, P#294')
 		"""
 		This is a hit timer so that something can't be hit more than once in a set amount of time.
 		"""

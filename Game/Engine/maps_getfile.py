@@ -4,7 +4,7 @@ class Maps_GetFile():
 	:meta private:
 	"""
 	def __init__(self):
-		self.__levelONE   = 'E:\Github\Game_Repos_1\Game\lvlDesigner\mapSaves\_test2.txt'
+		self.__levelONE   = 'E:\Github\Game_Repos_1\Game\lvlDesigner\mapSaves\levelONE.txt'
 		self.__levelTWO   = 'E:\Github\Game_Repos_1\Game\lvlDesigner\mapSaves\levelTWO.txt'
 		self.__levelTHREE = 'E:\Github\Game_Repos_1\Game\lvlDesigner\mapSaves\levelTHREE.txt'
 		self.__levelFOUR  = 'E:\Github\Game_Repos_1\Game\lvlDesigner\mapSaves\levelFOUR.txt'

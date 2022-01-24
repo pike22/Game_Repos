@@ -1,8 +1,6 @@
 Current Game Version
-	v.0.2.02
+	v.0.2.4
 
 
  ** Last Update Note:
-	Documentation completed. quick links don't work but I won't waste more time on it. Si_files has
-	working read and write functions again. The lines saved due to the change is unnoticeable because
-	of the shear number of lines added to everything because of the documentation. 
+	The creation of CPU_Stalfos, literally just Stolfos but orange and will eventually track the player.

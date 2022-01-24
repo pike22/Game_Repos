@@ -99,7 +99,7 @@ class SI_Files():
 		self.Save_Line(file=self.__saveLVL, function=self.Save_Dict, dict=self.__imgDICT)
 
 		self.__saveLVL.close() #DON'T FORGET ABOUT THIS
-		
+
 	def Read_File(self, mainGame=None):
 		"""
 		Opens a txt file that will be read and then generated onto the canvas. *Used for Game and LVLDesigner*.
@@ -163,10 +163,10 @@ class SI_Files():
 		tag : str
 			String of the ID name for an image.
 		"""
-		print(self.__fileID)
-		print(self.__fileLOC)
-		print(self.__fileROT)
-		print(self.__filePOS)
+		# print(self.__fileID)
+		# print(self.__fileLOC)
+		# print(self.__fileROT)
+		# print(self.__filePOS)
 		for tag in self.__fileID:
 			#PULLS IN IMAGE AND ROTATES IF NEEDED
 			image = self.__iNode.Img_Add(self.__fileLOC[tag])
@@ -378,7 +378,7 @@ class SI_Files():
 			The current line that is being read.
 		Type : str
 			To switch between if reading a button file or map file.
-		step : int
+		step : ints
 			The numbered block of text that the reader is on.
 		"""
 		if Type == 'LVD Maps':
@@ -386,15 +386,15 @@ class SI_Files():
 				if step == 1:
 					if re.search("=(.*/.*/.*$)", curLine) != None:
 						self.__fileLOC[re.search("(^LVD#W.{4})", curLine).group(1)] = re.search("=(.*/.*/.*$)", curLine).group(1)
-						print(self.__fileLOC)
+						# print(self.__fileLOC)
 				elif step == 2:
 					if re.search("=z(.*$)", curLine) != None:
 						self.__fileROT[re.search("(^LVD#W.{4})", curLine).group(1)] = re.search("=z(.*$)", curLine).group(1)
-						print(self.__fileROT)
+						# print(self.__fileROT)
 				elif step == 3:
 					if re.search("=z(.*$)", curLine) != None:
 						self.__filePOS[re.search("(^LVD#W.{4})", curLine).group(1)] = re.search("=z(.*$)", curLine).group(1)
-						print(self.__filePOS)
+						# print(self.__filePOS)
 		else:
 			if re.search("(^LVD#B.{3})", curLine) != None:
 				if step == 1:

@@ -3,7 +3,7 @@ from .image_node import Image_Node
 
 class Collision_Logic():
 	"""
-	The Logic side of collision is handled here. 
+	The Logic side of collision is handled here.
 	"""
 	def __init__(self, statics):
 		self.__LVD_Corners	= []
@@ -21,6 +21,7 @@ class Collision_Logic():
 
 		#Roster Vars
 		self.__stalfosRoster = None
+		self.__cpstalfosRost = None
 		self.__playerRoster  = None
 		self.__staticRoster	 = None
 		self.__weaponRoster	 = None
@@ -145,12 +146,13 @@ class Collision_Logic():
 	def ForT_Collision(self, targOBJ=None, x1=None, y1=None, x2=None, y2=None):
 		"""
 		A simple test function to see if a spacific set of coordinates are overlapping with anything else.
+		Returns a list of objects that collide with the given corners.
 
 		Parameters
 		----------
 		targOBJ : Class Object
 			This is used to find the corners of the specified object.
-		(x1, y1, x2, y2) : tuple int
+		x1, y1, x2, y2 : tuple int
 			Is used to find overlapping in spacific box when the class object isn't avalible.
 		"""
 		if targOBJ != None:
@@ -183,8 +185,6 @@ class Collision_Logic():
 				obj = self.__Col_Dict[tagOrId]
 				# print(obj.get_Coords(), tagOrId, 'objCoords')
 				self.__CollideList.append(obj)
-
-
 
 			self.__isCollision = True
 			# print(self.__CollideList, 'objList')
@@ -530,6 +530,12 @@ class Collision_Logic():
 		:meta private:
 		"""
 		self.__enemyRoster = Roster
+
+	def set_cpstalfosRost(self, Roster):
+		"""
+		:meta private:
+		"""
+		self.__cpstalfosRost = Roster
 
 	def set_stalfosRoster(self, Roster):
 		"""

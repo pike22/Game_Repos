@@ -7,6 +7,7 @@ from Weapons import *
 from Engine import *
 from Entity import *
 import keyboard
+import re
 
 
 class Alpha():
@@ -22,10 +23,11 @@ class Alpha():
 		self.__playerRoster = []
 
 		#_Enemy Variables_# #include a list of tags for each enemy
-		self.__enemyRoster	= ["#stalfos", ]
+		self.__enemyRoster	= ["#stalfos", "#CPUstalfos"]
 
 			#_Stalfos_#
 		self.__stalfosRoster = []
+		self.__cpstalfosRost = []
 		self.__stalfosCount  = 1
 
 
@@ -67,10 +69,10 @@ class Alpha():
 		self.__Projectiles.set_Nodes(self.__iNode, self.__kNode, self.__cLogic)
 
 		#Level Location Imports
-		# self.__levelONE   = self.__MGF.get_levelONE()
-		# self.__levelTWO   = self.__MGF.get_levelTWO()
-		# self.__levelTHREE = self.__MGF.get_levelTHREE()
-		# self.__levelFOUR  = self.__MGF.get_levelFOUR()
+		self.__levelONE   = self.__MGF.get_levelONE()
+		self.__levelTWO   = self.__MGF.get_levelTWO()
+		self.__levelTHREE = self.__MGF.get_levelTHREE()
+		self.__levelFOUR  = self.__MGF.get_levelFOUR()
 
 
 
@@ -95,6 +97,18 @@ class Alpha():
 			stalMain = Stalfos_Main(self.__iNode, self.__cLogic, self.__cNode, self.__kNode, ID=ID)
 			self.__cLogic.addColDict(tagOrId=ID, obj=stalMain)
 		self.__cNode.set_stalfosRoster(self.__stalfosRoster)
+
+		for item in range(self.__stalfosCount):
+			if item < 10:
+				ID = "CS#00"+str(item)
+			elif item >= 10 and item < 100:
+				ID = "CS#0"+str(item)
+			else:
+				print('To manny!!')
+			self.__cpstalfosRost.append(ID)
+			cpuStalMain = CPU_Stalfos_Main(self.__iNode, self.__cLogic, self.__cNode, self.__kNode, ID=ID)
+			self.__cLogic.addColDict(tagOrId=ID, obj=cpuStalMain)
+		self.__cNode.set_cpstalfosRost(self.__cpstalfosRost)
 		self.__cNode.set_enemyRoster(self.__enemyRoster)
 
 		  #----ITEMS----#
@@ -142,15 +156,14 @@ class Alpha():
 		On game starup creates player, enemy and more.
 		"""
 		# #__Statics SETUP__#
-		# print('temporary shutdwon at GameSetUP')
-		# self.__siFILE.Read_File(self.__levelONE)
-		# self.__imgDICT = self.__siFILE.get_imgDICT()
-		#
-		# for tag in self.__imgDICT.keys():
-		# 	self.__cLogic.addColDict(tagOrId=tag, obj=self.__imgDICT[tag])
-		# 	self.__cLogic.add_Collision(LVD_Corner=self.__imgDICT[tag].get_Corners())
-		# 	self.__wallRoster.append(tag)
-		# self.__cNode.set_wallRoster(self.__wallRoster)
+		self.__siFILE.Read_File(self.__levelTWO)
+		self.__imgDICT = self.__siFILE.get_imgDICT()
+
+		for tag in self.__imgDICT.keys():
+			self.__cLogic.addColDict(tagOrId=tag, obj=self.__imgDICT[tag])
+			self.__cLogic.add_Collision(LVD_Corner=self.__imgDICT[tag].get_Corners())
+			self.__wallRoster.append(tag)
+		self.__cNode.set_wallRoster(self.__wallRoster)
 
 		#Bellow is Entity set up
 		self.__Player.player_setUP(x=96, y=160)
@@ -165,9 +178,18 @@ class Alpha():
 		COLDICT = self.__cLogic.get_Col_Dict()
 		for item in range(len(self.__stalfosRoster)):
 			if self.__stalfosRoster[item] in COLDICT.keys():
-				r_Stal = COLDICT[self.__stalfosRoster[item]]
-				r_Stal.stalfos_setUP(self.__Sc_Width, self.__Sc_Height)
-				# r_Stal.Stalfos_Print()
+				if re.search("(^S#.{3})", self.__stalfosRoster[item]) != None:
+					dum_Stal = COLDICT[re.search("(^S#.{3})", self.__stalfosRoster[item]).group(1)]
+					dum_Stal.stalfos_setUP(self.__Sc_Width, self.__Sc_Height)
+					# dum_Stal.Stalfos_Print()
+
+		COLDICT = self.__cLogic.get_Col_Dict()
+		for item in range(len(self.__cpstalfosRost)):
+			if self.__cpstalfosRost[item] in COLDICT.keys():
+				if re.search("(^CS#.{3})", self.__cpstalfosRost[item]) != None:
+					cpu_Stal = COLDICT[re.search("(^CS#.{3})", self.__cpstalfosRost[item]).group(1)]
+					cpu_Stal.CPU_Stalfos_setUP(self.__Sc_Width, self.__Sc_Height)
+					# cpu_Stal.CPU_Stalfos_Print()
 
 
 		#_Weapon SETUP_#
@@ -214,8 +236,17 @@ class Alpha():
 		for tag in self.__stalfosRoster:
 			stalfos = Col_Dict[tag]
 			if stalfos.get_isAlive() == True:
-				# stalfos.Movement_Controll()
-				stalfos.Stal_Attack()
+				stalfos.Movement_Controll()
+				# stalfos.Stal_Attack()
+			else:
+				# print('dead? A#140')
+				pass
+
+		Col_Dict = self.__cLogic.get_Col_Dict()
+		for tag in self.__cpstalfosRost:
+			stalfos = Col_Dict[tag]
+			if stalfos.get_isAlive() == True:
+				stalfos.Movement_Controll(self.__Player.get_Coords())
 			else:
 				# print('dead? A#140')
 				pass
@@ -229,6 +260,9 @@ class Alpha():
 		for item in range(len(self.__stalfosRoster)):
 			c_Stal = self.__cLogic.tagToObj(self.__stalfosRoster[item]) #c_Stal == stalfos obj
 			list1.append(c_Stal.get_Corners())
+		for item in range(len(self.__cpstalfosRost)):
+			cpu_Stal = self.__cLogic.tagToObj(self.__cpstalfosRost[item])
+			list1.append(cpu_Stal.get_Corners())
 
 		if self.__Sword.get_isActive() == True:
 			list1.append(self.__Sword.get_Corners())
@@ -260,6 +294,13 @@ class Alpha():
 		Col_Dict = self.__cLogic.get_Col_Dict()
 		for item in range(len(self.__stalfosRoster)):
 			result = Col_Dict[self.__stalfosRoster[item]]
+			if result.get_isHit() == True:
+				print('got hit')
+				result.reset_hit()
+
+		Col_Dict = self.__cLogic.get_Col_Dict()
+		for item in range(len(self.__cpstalfosRost)):
+			result = Col_Dict[self.__cpstalfosRost[item]]
 			if result.get_isHit() == True:
 				print('got hit')
 				result.reset_hit()
@@ -329,7 +370,7 @@ Game = Alpha()
 Game.set_MainCanvas()
 Game.tk_windowSETUP()
 Game.GamesetUP(False)
-Game.Testing_Debug()
+# Game.Testing_Debug()
 print('----------------------------')
 Game.gameLoop()
 Game.get_mainAPP().mainloop()

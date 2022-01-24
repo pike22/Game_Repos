@@ -14,6 +14,7 @@ class Collision_Node(Node):
 
 		#different obj needed for collision node
 		self.__stalfosRoster = None
+		self.__cpstalfosRost = None
 		self.__playerRoster  = None
 		self.__staticRoster	 = None
 		self.__weaponRoster	 = None
@@ -77,6 +78,25 @@ class Collision_Node(Node):
 
 					"""#__# STALFOS COL_LOGIC #__#"""
 					if self.__Result[item].get_ID() in self.__stalfosRoster:
+						side = self.__logic.Side_Calc(self.__Result[item])
+						# print('stalfos direction:', side)
+						# print(len(self.__Result))
+						if len(self.__Result) >= 2:
+							if item == 0:
+								if self.__Result[item+1].get_group_ID() in self.__staticRoster:
+									self.__Result[item].my_Collision(OSC='Static', side=side)
+									self.__wallHIT = True
+									# print(self.__wallHIT)
+							elif item == 1:
+								if self.__Result[item-1].get_group_ID() in self.__weaponRoster:
+									self.__Result[item].my_Collision(OSC="Weapon", OSA=self.__Result[item-1].get_attack(), side=side, staticsList=self.__staticRoster)
+								elif self.__Result[item-1].get_group_ID() in self.__projRoster:
+									self.__Result[item].my_Collision(OSC="Weapon", OSA=self.__Result[item-1].get_attack(), side=side, staticsList=self.__staticRoster)
+									self.__Result[item-1].del_Proj()
+								elif self.__Result[item-1].get_group_ID() in self.__enemyRoster:
+									self.__Result[item].my_Collision(OSC='Friend', side=side)
+
+					if self.__Result[item].get_ID() in self.__cpstalfosRost:
 						side = self.__logic.Side_Calc(self.__Result[item])
 						# print('stalfos direction:', side)
 						# print(len(self.__Result))
@@ -197,6 +217,13 @@ class Collision_Node(Node):
 		"""
 		self.__stalfosRoster = Roster
 		self.__logic.set_stalfosRoster(Roster)
+
+	def set_cpstalfosRost(self, Roster):
+		"""
+		:meta private:
+		"""
+		self.__cpstalfosRost = Roster
+		self.__logic.set_cpstalfosRost(Roster)
 
 	def set_weaponRoster(self, Roster):
 		"""

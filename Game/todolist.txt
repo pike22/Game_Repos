@@ -1,0 +1,5 @@
+Update Date(01/24/2022)
+
+1:	Make the enemy random place avoid placing over walls.
+2: Make 2 more enemies, one that moves towards the player, another that can fire a projectile at the player
+3: learn how to art.

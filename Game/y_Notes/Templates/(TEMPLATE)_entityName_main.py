@@ -6,8 +6,8 @@ class entityName_Main():
 		#clNode == Collision_Node
 
 		#----Class Calls----#
-		self.__Kinetics		= kNode
-		self.__Image	 	= iNode
+		self.__kNode		= kNode
+		self.__iNode	 	= iNode
 		self.__info	 		= entityName_Info()
 
 
@@ -16,18 +16,18 @@ class entityName_Main():
 		#img setup
 		ID = self.__info.get_ID()
 		group_ID = self.__info.get_group_ID()
-		Img_info = self.__Image.Img_Add('z_Pictures/picName.png')
+		Img_info = self.__iNode.Img_Add('z_Pictures/picName.png')
 		self.__info.Image_Data(Size=Img_info[1], PIL_img=Img_info[0], TK_img=Img_info[2], file_Location='z_Pictures/picName.png')
 
 		#placing the img
-		img_coords = self.__Image.Img_Place(x, y, self.__info.get_TKimg(), tag=ID)
+		img_coords = self.__iNode.Img_Place(x, y, self.__info.get_TKimg(), tag=ID)
 
 		#final set of information save to entityName
 		Canvas_ID = Image_Node.Render.find_withtag(ID)[0] #finds my canvas ID numb.
 		Current_Coords = img_coords[Canvas_ID-1]
 		self.__info.set_Canvas_ID(Canvas_ID)
 		self.__info.entityName_Data(Cur_Coords=Current_Coords, Speed=0, health=0, defense=0, attack=0) #check entityName_info for well info.
-		self.__Kinetics.set_Speed(self.__info.get_Speed())
+		self.__kNode.set_Speed(self.__info.get_Speed())
 		Image_Node.Render.addtag_withtag(group_ID, Canvas_ID)
 		self.__info.set_Corners(Image_Node.Render.bbox(Canvas_ID))
 

@@ -75,7 +75,7 @@ class Alpha_LVD():
 		Calls other functions within the Alpha_LVD class
 		"""
 		self.__GUI.windowSETUP()
-		self.__GUI.gridSETUP()
+		self.__GUI.gridSETUP(True)
 
 	def windowLoop(self):
 		"""
