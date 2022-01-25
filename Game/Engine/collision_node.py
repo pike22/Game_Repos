@@ -94,7 +94,7 @@ class Collision_Node(Node):
 									self.__Result[item].my_Collision(OSC="Weapon", OSA=self.__Result[item-1].get_attack(), side=side, staticsList=self.__staticRoster)
 									self.__Result[item-1].del_Proj()
 								elif self.__Result[item-1].get_group_ID() in self.__enemyRoster:
-									self.__Result[item].my_Collision(OSC='Friend', side=side)
+									self.__Result[item].my_Collision(OSC='Friend', side=side, staticsList=self.__staticRoster)
 
 					if self.__Result[item].get_ID() in self.__cpstalfosRost:
 						side = self.__logic.Side_Calc(self.__Result[item])
@@ -113,7 +113,7 @@ class Collision_Node(Node):
 									self.__Result[item].my_Collision(OSC="Weapon", OSA=self.__Result[item-1].get_attack(), side=side, staticsList=self.__staticRoster)
 									self.__Result[item-1].del_Proj()
 								elif self.__Result[item-1].get_group_ID() in self.__enemyRoster:
-									self.__Result[item].my_Collision(OSC='Friend', side=side)
+									self.__Result[item].my_Collision(OSC='Friend', side=side, staticsList=self.__staticRoster)
 
 					"""#__# WEAPON COL_LOGIC #__#"""
 					if self.__Result[item] == self.__logic.tagToObj('W#S001'): #weapon will always be last

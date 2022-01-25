@@ -59,6 +59,10 @@ class CPU_Stalfos_Main(Enemy_Main):
 		Image_Node.Render.addtag_withtag(group_ID, Canvas_ID)
 		self.__info.set_Corners(Image_Node.Render.bbox(Canvas_ID))
 
+		#Acitve Parameters
+		self.__Cur_Health = self.__info.get_health()
+
+
 	def CPU_Stalfos_Print(self):
 		#list of prints for start of program(CPU_Stalfoss)
 		print('-----------------------------------')
@@ -76,11 +80,12 @@ class CPU_Stalfos_Main(Enemy_Main):
 
 
 	def Movement_Controll(self, playerLoc):
-		print(self.__info.get_Speed())
+		# print(self.__info.get_Speed())
 		self.__kNode.set_Speed(5)
 		my_x, my_y = self.__info.get_Coords()
 		pl_x, pl_y = playerLoc
-		direction = None
+		print((my_x, my_y), 'cpu_Stal')
+		print((pl_x, pl_y), 'Player')
 		if my_x > pl_x:
 			print('left')
 			direction = 'left'
@@ -88,20 +93,23 @@ class CPU_Stalfos_Main(Enemy_Main):
 			self.__info.set_Coords(new_Coords)
 			self.__info.set_Corners(Image_Node.Render.bbox(self.__info.get_ID()))
 			self.__isMoving = True
-		elif my_x < pl_x:
+		if my_x < pl_x:
 			print('right')
+			direction = 'right'
 			new_Coords = self.__kNode.kinetics(self.__info.get_Coords(), self.__info.get_ID(), direction)#, neg=False)
 			self.__info.set_Coords(new_Coords)
 			self.__info.set_Corners(Image_Node.Render.bbox(self.__info.get_ID()))
 			self.__isMoving = True
-		elif my_y > pl_y:
+		if my_y > pl_y:
 			print('up')
+			direction = 'up'
 			new_Coords = self.__kNode.kinetics(self.__info.get_Coords(), self.__info.get_ID(), direction)#, neg=False)
 			self.__info.set_Coords(new_Coords)
 			self.__info.set_Corners(Image_Node.Render.bbox(self.__info.get_ID()))
 			self.__isMoving = True
-		elif my_y < pl_x:
+		if my_y < pl_y:
 			print('down')
+			direction = 'down'
 			new_Coords = self.__kNode.kinetics(self.__info.get_Coords(), self.__info.get_ID(), direction)#, neg=False)
 			self.__info.set_Coords(new_Coords)
 			self.__info.set_Corners(Image_Node.Render.bbox(self.__info.get_ID()))
